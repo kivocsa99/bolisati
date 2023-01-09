@@ -34,7 +34,7 @@ mixin _$MedicalOrderModel {
   GenderModel? get gender => throw _privateConstructorUsedError;
   int? get price => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  String? get birth_date => throw _privateConstructorUsedError;
+  String? get birthdate => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
   String? get start_date => throw _privateConstructorUsedError;
   String? get end_date => throw _privateConstructorUsedError;
@@ -79,7 +79,7 @@ abstract class $MedicalOrderModelCopyWith<$Res> {
       GenderModel? gender,
       int? price,
       String? name,
-      String? birth_date,
+      String? birthdate,
       int? age,
       String? start_date,
       String? end_date,
@@ -132,7 +132,7 @@ class _$MedicalOrderModelCopyWithImpl<$Res, $Val extends MedicalOrderModel>
     Object? gender = freezed,
     Object? price = freezed,
     Object? name = freezed,
-    Object? birth_date = freezed,
+    Object? birthdate = freezed,
     Object? age = freezed,
     Object? start_date = freezed,
     Object? end_date = freezed,
@@ -206,9 +206,9 @@ class _$MedicalOrderModelCopyWithImpl<$Res, $Val extends MedicalOrderModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      birth_date: freezed == birth_date
-          ? _value.birth_date
-          : birth_date // ignore: cast_nullable_to_non_nullable
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
               as String?,
       age: freezed == age
           ? _value.age
@@ -382,7 +382,7 @@ abstract class _$$_MedicalOrderModelCopyWith<$Res>
       GenderModel? gender,
       int? price,
       String? name,
-      String? birth_date,
+      String? birthdate,
       int? age,
       String? start_date,
       String? end_date,
@@ -440,7 +440,7 @@ class __$$_MedicalOrderModelCopyWithImpl<$Res>
     Object? gender = freezed,
     Object? price = freezed,
     Object? name = freezed,
-    Object? birth_date = freezed,
+    Object? birthdate = freezed,
     Object? age = freezed,
     Object? start_date = freezed,
     Object? end_date = freezed,
@@ -514,9 +514,9 @@ class __$$_MedicalOrderModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      birth_date: freezed == birth_date
-          ? _value.birth_date
-          : birth_date // ignore: cast_nullable_to_non_nullable
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
               as String?,
       age: freezed == age
           ? _value.age
@@ -600,7 +600,7 @@ class _$_MedicalOrderModel implements _MedicalOrderModel {
       this.gender,
       this.price,
       this.name,
-      this.birth_date,
+      this.birthdate,
       this.age,
       this.start_date,
       this.end_date,
@@ -651,7 +651,7 @@ class _$_MedicalOrderModel implements _MedicalOrderModel {
   @override
   final String? name;
   @override
-  final String? birth_date;
+  final String? birthdate;
   @override
   final int? age;
   @override
@@ -701,7 +701,7 @@ class _$_MedicalOrderModel implements _MedicalOrderModel {
 
   @override
   String toString() {
-    return 'MedicalOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, medical_insurance_id: $medical_insurance_id, marital_status_id: $marital_status_id, medical_insurance_type_id: $medical_insurance_type_id, gender_id: $gender_id, medical_order_status_id: $medical_order_status_id, age_form: $age_form, age_to: $age_to, medical_insurance_type: $medical_insurance_type, gender: $gender, price: $price, name: $name, birth_date: $birth_date, age: $age, start_date: $start_date, end_date: $end_date, total: $total, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, insurance_offer: $insurance_offer, status: $status, addons: $addons, files: $files, marital_status: $marital_status, type: $type)';
+    return 'MedicalOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, medical_insurance_id: $medical_insurance_id, marital_status_id: $marital_status_id, medical_insurance_type_id: $medical_insurance_type_id, gender_id: $gender_id, medical_order_status_id: $medical_order_status_id, age_form: $age_form, age_to: $age_to, medical_insurance_type: $medical_insurance_type, gender: $gender, price: $price, name: $name, birthdate: $birthdate, age: $age, start_date: $start_date, end_date: $end_date, total: $total, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, insurance_offer: $insurance_offer, status: $status, addons: $addons, files: $files, marital_status: $marital_status, type: $type)';
   }
 
   @override
@@ -734,8 +734,8 @@ class _$_MedicalOrderModel implements _MedicalOrderModel {
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.birth_date, birth_date) ||
-                other.birth_date == birth_date) &&
+            (identical(other.birthdate, birthdate) ||
+                other.birthdate == birthdate) &&
             (identical(other.age, age) || other.age == age) &&
             (identical(other.start_date, start_date) ||
                 other.start_date == start_date) &&
@@ -779,7 +779,7 @@ class _$_MedicalOrderModel implements _MedicalOrderModel {
         gender,
         price,
         name,
-        birth_date,
+        birthdate,
         age,
         start_date,
         end_date,
@@ -828,7 +828,7 @@ abstract class _MedicalOrderModel implements MedicalOrderModel {
       final GenderModel? gender,
       final int? price,
       final String? name,
-      final String? birth_date,
+      final String? birthdate,
       final int? age,
       final String? start_date,
       final String? end_date,
@@ -877,7 +877,7 @@ abstract class _MedicalOrderModel implements MedicalOrderModel {
   @override
   String? get name;
   @override
-  String? get birth_date;
+  String? get birthdate;
   @override
   int? get age;
   @override

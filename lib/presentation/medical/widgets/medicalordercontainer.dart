@@ -1,5 +1,5 @@
 import 'package:bolisati/constants.dart';
-import 'package:bolisati/domain/api/motor/model/motormodel.dart';
+import 'package:bolisati/domain/api/medical/model/medicalmodel.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,12 +9,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MedicalOrderOffersContainer extends HookConsumerWidget {
-  final List<MotorOffersModel>? offers;
+  final List<MedicalOffersModel>? offers;
   const MedicalOrderOffersContainer({super.key, this.offers});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Box car = Hive.box("car");
+    final Box medical = Hive.box("medical");
     final selectedindex = useState(-1);
     return SizedBox(
         width: double.infinity,
@@ -34,14 +34,14 @@ class MedicalOrderOffersContainer extends HookConsumerWidget {
                 height: MediaQuery.of(context).size.height / 2,
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    MotorOffersModel e = offers![index];
+                    MedicalOffersModel e = offers![index];
 
                     return Column(
                       children: [
                         GestureDetector(
                           onTap: () async {
                             selectedindex.value = index;
-                            await car.put("motorid", e.id);
+                            await medical.put("medicalid", e.id);
                           },
                           child: Container(
                             width: 350,
@@ -67,10 +67,10 @@ class MedicalOrderOffersContainer extends HookConsumerWidget {
                                       Container(
                                         width: 40,
                                         height: 40,
-                                        color: carcontainer,
+                                        color: medicalcontainer,
                                         child: const Icon(
-                                          FontAwesomeIcons.car,
-                                          color: carcolor,
+                                          FontAwesomeIcons.houseMedical,
+                                          color: medicalcolor,
                                         ),
                                       ),
                                       const SizedBox(
@@ -113,7 +113,7 @@ class MedicalOrderOffersContainer extends HookConsumerWidget {
                                   right: 0,
                                   top: 10,
                                   child: Text(
-                                    "${e.price_from.toString()}JOD/mo",
+                                    "${e.price.toString()} JOD",
                                     style: const TextStyle(color: Colors.blue),
                                   ),
                                 ),

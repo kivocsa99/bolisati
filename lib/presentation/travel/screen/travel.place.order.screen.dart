@@ -247,6 +247,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                             travelplaceorderProvider)
                                                         .execute(
                                                             TravelPlaceOrderUseCaseInput(
+                                                              
                                                           travelOrder:
                                                               order.value,
                                                           token: token,
@@ -269,6 +270,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                     .read(
                                                                         travelattachfileProvider)
                                                                     .execute(TravelAttachFileUseCaseInput(
+
                                                                         token:
                                                                             token,
                                                                         orderid: orderdone
@@ -290,11 +292,11 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                       const SnackBar(
                                                                           content:
                                                                               Text("Your Order Have Been Placed")));
-                                                              // await context
-                                                              //     .router
-                                                              //     .replaceAll([
-                                                              //   const HomeScreen()
-                                                              // ]);
+                                                              await context
+                                                                  .router
+                                                                  .replaceAll([
+                                                                const HomeScreen()
+                                                              ]);
                                                             }));
                                                   },
                                                   offerModel: offersModel,

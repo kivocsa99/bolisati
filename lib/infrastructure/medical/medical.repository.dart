@@ -1,8 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:bolisati/domain/api/medical/contracts/i.medical.repository.dart';
+import 'package:bolisati/domain/api/medical/model/medicalmodel.dart';
+import 'package:bolisati/domain/api/medical/model/medicalorderdone.dart';
+import 'package:bolisati/domain/api/orders/medicalorders/medicalordermodel.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -20,13 +22,14 @@ class MedicalRepository implements IMedicalRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/Medical/AttachFile?api_token=$apitoken",
           data: formData);
-
+      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
-        return result.data["api_token"];
+        return result.data["FileURL"];
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
+      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -53,13 +56,21 @@ class MedicalRepository implements IMedicalRepository {
       final result = await dio.get(
         "https://bolisati.bitsblend.org/api/V1/Medical/GetOffers?age=$age&gender_id=$genderid&medical_insurance_type_id=$insuranceType&api_token=$token",
       );
-
+      print(result.realUri);
+      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
-        return result.data["OrderDetails"];
+        Map<String, dynamic> map = result.data;
+
+        List<dynamic> data = map["Offers"];
+
+        List<MedicalOffersModel> offers =
+            data.map((e) => MedicalOffersModel.fromJson(e)).toList();
+        return offers;
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
+      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -79,23 +90,19 @@ class MedicalRepository implements IMedicalRepository {
 
 //place order check with ali
   @override
-  Future<Either<ApiFailures, dynamic>> placeOrder({
-    String? token,
-    int? insuranceid,
-    int? maritalstatus,
-    String? name,
-    String? birthday,
-    String? startdate,
-    String? enddate,
-  }) async {
+  Future<Either<ApiFailures, dynamic>> placeOrder(
+      {String? token,
+      String? addons,
+      MedicalOrderModel? medicalOrderModel}) async {
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-        "https://bolisati.bitsblend.org/api/V1/Medical/PlaceOrder?medical_insurance_id=$insuranceid&marital_status_id=$maritalstatus&name=$name&birthdate=$birthday&start_date=$startdate&end_date=$enddate?api_token=$token",
-      );
+          "https://bolisati.bitsblend.org/api/V1/Medical/PlaceOrder?medical_insurance_id=${medicalOrderModel!.medical_insurance_id}&marital_status_id=${medicalOrderModel.marital_status_id}&name=${medicalOrderModel.name}&birthdate=${medicalOrderModel.birthdate}&start_date=${medicalOrderModel.start_date}&end_date=${medicalOrderModel.end_date}$addons&api_token=$token");
 
       if (result.data["AZSVR"] == "SUCCESS") {
-        return result.data["api_token"];
+        MedicalOrderDoneModel model =
+            MedicalOrderDoneModel.fromJson(result.data["OrderDetails"]);
+        return model;
       } else {
         return const ApiFailures.internalError();
       }

@@ -33,7 +33,7 @@ class MedicalOrderModel with _$MedicalOrderModel {
     GenderModel? gender,
     int? price,
     String? name,
-    String? birth_date,
+    String? birthdate,
     int? age,
     String? start_date,
     String? end_date,
