@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class NameField extends StatelessWidget {
-  const NameField({super.key});
+class NameField extends HookWidget {
+  final TextEditingController? controller;
+  final ValueChanged<String?>? onchanged;
+  final GlobalKey<FormState>? formkey;
+  final String? Function(String?)? validator;
+
+  const NameField(
+      {super.key,
+      this.controller,
+      this.onchanged,
+      this.formkey,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Container(
-        color: Colors.white,
+    return Container(
+      color: Colors.white,
+      child: Form(
+        key: formkey,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 40.0, right: 40, bottom: 15, top: 70),
+              const EdgeInsets.only(left: 50.0, right: 50, bottom: 0, top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -33,14 +44,15 @@ class NameField extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
               const SizedBox(
                 height: 20,
               ),
               SizedBox(
-                height: 50,
-                width: 297,
+                height: 100,
+                width: double.infinity,
                 child: TextFormField(
+                  onChanged: onchanged,
+                  validator: validator,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     focusedErrorBorder: const UnderlineInputBorder(
@@ -58,11 +70,8 @@ class NameField extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.text,
                 ),
-              ),
-              const SizedBox(
-                height: 50,
               ),
             ],
           ),

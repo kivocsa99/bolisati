@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "546229024880",
+    "project_id": "bolisati-2e747",
+    "storage_bucket": "bolisati-2e747.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546229024880:android:fe7c394542ddf57b341cb5",
+        "android_client_info": {
+          "package_name": "com.bolisati.bolisati"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546229024880-r922j12dbucr8rter5jgvhlko1tkpa9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bolisati.bolisati",
+            "certificate_hash": "8a80055ddfba1c5cbe4d00eb3a373e9163b48af6"
+          }
+        },
+        {
+          "client_id": "546229024880-rfb524n8ffmvjke0nk6mpm5i5ql983fn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1WkD2wr5-UcAb9tuscWWeNry8mZ2qQc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546229024880-rfb524n8ffmvjke0nk6mpm5i5ql983fn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "546229024880-niurejkbg72qh86heoc0plpj9q01dvnp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bolisati.bolisati"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

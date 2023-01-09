@@ -1,18 +1,31 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class PhoneNumberField extends StatelessWidget {
-  const PhoneNumberField({super.key});
+class PhoneNumberField extends HookWidget {
+  final TextEditingController? controller;
+  final ValueChanged<String?>? onchanged;
+  final ValueChanged<String?>? onsubmit;
+
+  final GlobalKey<FormState>? formkey;
+  final String? Function(String?)? validator;
+
+  const PhoneNumberField(
+      {super.key,
+      this.controller,
+      this.onchanged,
+      this.onsubmit,
+      this.formkey,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Container(
-        color: Colors.white,
+    return Container(
+      color: Colors.white,
+      child: Form(
+        key: formkey,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 40.0, right: 40, bottom: 15, top: 70),
+              const EdgeInsets.only(left: 50.0, right: 50.0, bottom: 0, top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -23,44 +36,25 @@ class PhoneNumberField extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                children: const [
-                  Text(
-                    "Don't have an account?",
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "Signup",
-                    style: TextStyle(fontSize: 14, color: Colors.blue),
-                  ),
-                ],
-              ),
               const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Container(
-                  width: 130,
-                  height: 27,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 2.0, right: 2.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        Icon(Icons.flag),
-                        Text(
-                          "Jordan + 962",
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        Icon(Icons.arrow_drop_down)
-                      ],
-                    ),
+              Container(
+                width: 130,
+                height: 27,
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 2.0, right: 2.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Icon(Icons.flag),
+                      Text(
+                        "Jordan + 962",
+                        style: TextStyle(fontSize: 10),
+                      ),
+                      Icon(Icons.arrow_drop_down)
+                    ],
                   ),
                 ),
               ),
@@ -68,10 +62,14 @@ class PhoneNumberField extends StatelessWidget {
                 height: 20,
               ),
               SizedBox(
-                height: 50,
-                width: 297,
+                height: 100,
+                width: double.infinity,
                 child: TextFormField(
-                  textAlign: TextAlign.center,
+                  onFieldSubmitted: onsubmit,
+                  validator: validator,
+                  onChanged: onchanged,
+                  controller: controller,
+                  textAlign: TextAlign.start,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     focusedErrorBorder: const UnderlineInputBorder(
@@ -92,9 +90,6 @@ class PhoneNumberField extends StatelessWidget {
                   ),
                   keyboardType: TextInputType.phone,
                 ),
-              ),
-              const SizedBox(
-                height: 50,
               ),
             ],
           ),
