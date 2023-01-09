@@ -56,8 +56,7 @@ class MedicalRepository implements IMedicalRepository {
       final result = await dio.get(
         "https://bolisati.bitsblend.org/api/V1/Medical/GetOffers?age=$age&gender_id=$genderid&medical_insurance_type_id=$insuranceType&api_token=$token",
       );
-      print(result.realUri);
-      print(result.data);
+
       if (result.data["AZSVR"] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
 

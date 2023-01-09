@@ -21,6 +21,23 @@ RetirementOrderModel _$RetirementOrderModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RetirementOrderModel {
   int? get id => throw _privateConstructorUsedError;
+  int? get customer_user_id => throw _privateConstructorUsedError;
+  int? get company_id => throw _privateConstructorUsedError;
+  String? get retirement_type_id => throw _privateConstructorUsedError;
+  int? get retirement_order_status_id => throw _privateConstructorUsedError;
+  int? get retirement_type => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
+  int? get birthdate => throw _privateConstructorUsedError;
+  int? get retirement_age => throw _privateConstructorUsedError;
+  int? get monthly_fee => throw _privateConstructorUsedError;
+  int? get fixed_fee => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  int? get total_without_addons => throw _privateConstructorUsedError;
+  int? get total => throw _privateConstructorUsedError;
+  List<OrderAddonsModel>? get addons => throw _privateConstructorUsedError;
+  String? get created_at => throw _privateConstructorUsedError;
+  String? get updated_at => throw _privateConstructorUsedError;
+  String? get deleted_at => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +51,25 @@ abstract class $RetirementOrderModelCopyWith<$Res> {
           $Res Function(RetirementOrderModel) then) =
       _$RetirementOrderModelCopyWithImpl<$Res, RetirementOrderModel>;
   @useResult
-  $Res call({int? id});
+  $Res call(
+      {int? id,
+      int? customer_user_id,
+      int? company_id,
+      String? retirement_type_id,
+      int? retirement_order_status_id,
+      int? retirement_type,
+      int? age,
+      int? birthdate,
+      int? retirement_age,
+      int? monthly_fee,
+      int? fixed_fee,
+      String? name,
+      int? total_without_addons,
+      int? total,
+      List<OrderAddonsModel>? addons,
+      String? created_at,
+      String? updated_at,
+      String? deleted_at});
 }
 
 /// @nodoc
@@ -52,12 +87,97 @@ class _$RetirementOrderModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = freezed,
+    Object? customer_user_id = freezed,
+    Object? company_id = freezed,
+    Object? retirement_type_id = freezed,
+    Object? retirement_order_status_id = freezed,
+    Object? retirement_type = freezed,
+    Object? age = freezed,
+    Object? birthdate = freezed,
+    Object? retirement_age = freezed,
+    Object? monthly_fee = freezed,
+    Object? fixed_fee = freezed,
+    Object? name = freezed,
+    Object? total_without_addons = freezed,
+    Object? total = freezed,
+    Object? addons = freezed,
+    Object? created_at = freezed,
+    Object? updated_at = freezed,
+    Object? deleted_at = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      customer_user_id: freezed == customer_user_id
+          ? _value.customer_user_id
+          : customer_user_id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      company_id: freezed == company_id
+          ? _value.company_id
+          : company_id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retirement_type_id: freezed == retirement_type_id
+          ? _value.retirement_type_id
+          : retirement_type_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      retirement_order_status_id: freezed == retirement_order_status_id
+          ? _value.retirement_order_status_id
+          : retirement_order_status_id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retirement_type: freezed == retirement_type
+          ? _value.retirement_type
+          : retirement_type // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retirement_age: freezed == retirement_age
+          ? _value.retirement_age
+          : retirement_age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      monthly_fee: freezed == monthly_fee
+          ? _value.monthly_fee
+          : monthly_fee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      fixed_fee: freezed == fixed_fee
+          ? _value.fixed_fee
+          : fixed_fee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      total_without_addons: freezed == total_without_addons
+          ? _value.total_without_addons
+          : total_without_addons // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
+      addons: freezed == addons
+          ? _value.addons
+          : addons // ignore: cast_nullable_to_non_nullable
+              as List<OrderAddonsModel>?,
+      created_at: freezed == created_at
+          ? _value.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updated_at: freezed == updated_at
+          ? _value.updated_at
+          : updated_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleted_at: freezed == deleted_at
+          ? _value.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -70,7 +190,25 @@ abstract class _$$_RetirementOrderModelCopyWith<$Res>
       __$$_RetirementOrderModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id});
+  $Res call(
+      {int? id,
+      int? customer_user_id,
+      int? company_id,
+      String? retirement_type_id,
+      int? retirement_order_status_id,
+      int? retirement_type,
+      int? age,
+      int? birthdate,
+      int? retirement_age,
+      int? monthly_fee,
+      int? fixed_fee,
+      String? name,
+      int? total_without_addons,
+      int? total,
+      List<OrderAddonsModel>? addons,
+      String? created_at,
+      String? updated_at,
+      String? deleted_at});
 }
 
 /// @nodoc
@@ -85,12 +223,97 @@ class __$$_RetirementOrderModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? customer_user_id = freezed,
+    Object? company_id = freezed,
+    Object? retirement_type_id = freezed,
+    Object? retirement_order_status_id = freezed,
+    Object? retirement_type = freezed,
+    Object? age = freezed,
+    Object? birthdate = freezed,
+    Object? retirement_age = freezed,
+    Object? monthly_fee = freezed,
+    Object? fixed_fee = freezed,
+    Object? name = freezed,
+    Object? total_without_addons = freezed,
+    Object? total = freezed,
+    Object? addons = freezed,
+    Object? created_at = freezed,
+    Object? updated_at = freezed,
+    Object? deleted_at = freezed,
   }) {
     return _then(_$_RetirementOrderModel(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      customer_user_id: freezed == customer_user_id
+          ? _value.customer_user_id
+          : customer_user_id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      company_id: freezed == company_id
+          ? _value.company_id
+          : company_id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retirement_type_id: freezed == retirement_type_id
+          ? _value.retirement_type_id
+          : retirement_type_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      retirement_order_status_id: freezed == retirement_order_status_id
+          ? _value.retirement_order_status_id
+          : retirement_order_status_id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retirement_type: freezed == retirement_type
+          ? _value.retirement_type
+          : retirement_type // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retirement_age: freezed == retirement_age
+          ? _value.retirement_age
+          : retirement_age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      monthly_fee: freezed == monthly_fee
+          ? _value.monthly_fee
+          : monthly_fee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      fixed_fee: freezed == fixed_fee
+          ? _value.fixed_fee
+          : fixed_fee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      total_without_addons: freezed == total_without_addons
+          ? _value.total_without_addons
+          : total_without_addons // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
+      addons: freezed == addons
+          ? _value._addons
+          : addons // ignore: cast_nullable_to_non_nullable
+              as List<OrderAddonsModel>?,
+      created_at: freezed == created_at
+          ? _value.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updated_at: freezed == updated_at
+          ? _value.updated_at
+          : updated_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleted_at: freezed == deleted_at
+          ? _value.deleted_at
+          : deleted_at // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -98,17 +321,78 @@ class __$$_RetirementOrderModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_RetirementOrderModel implements _RetirementOrderModel {
-  const _$_RetirementOrderModel({this.id});
+  const _$_RetirementOrderModel(
+      {this.id,
+      this.customer_user_id,
+      this.company_id,
+      this.retirement_type_id,
+      this.retirement_order_status_id,
+      this.retirement_type,
+      this.age,
+      this.birthdate,
+      this.retirement_age,
+      this.monthly_fee,
+      this.fixed_fee,
+      this.name,
+      this.total_without_addons,
+      this.total,
+      final List<OrderAddonsModel>? addons,
+      this.created_at,
+      this.updated_at,
+      this.deleted_at})
+      : _addons = addons;
 
   factory _$_RetirementOrderModel.fromJson(Map<String, dynamic> json) =>
       _$$_RetirementOrderModelFromJson(json);
 
   @override
   final int? id;
+  @override
+  final int? customer_user_id;
+  @override
+  final int? company_id;
+  @override
+  final String? retirement_type_id;
+  @override
+  final int? retirement_order_status_id;
+  @override
+  final int? retirement_type;
+  @override
+  final int? age;
+  @override
+  final int? birthdate;
+  @override
+  final int? retirement_age;
+  @override
+  final int? monthly_fee;
+  @override
+  final int? fixed_fee;
+  @override
+  final String? name;
+  @override
+  final int? total_without_addons;
+  @override
+  final int? total;
+  final List<OrderAddonsModel>? _addons;
+  @override
+  List<OrderAddonsModel>? get addons {
+    final value = _addons;
+    if (value == null) return null;
+    if (_addons is EqualUnmodifiableListView) return _addons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final String? created_at;
+  @override
+  final String? updated_at;
+  @override
+  final String? deleted_at;
 
   @override
   String toString() {
-    return 'RetirementOrderModel(id: $id)';
+    return 'RetirementOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, retirement_type_id: $retirement_type_id, retirement_order_status_id: $retirement_order_status_id, retirement_type: $retirement_type, age: $age, birthdate: $birthdate, retirement_age: $retirement_age, monthly_fee: $monthly_fee, fixed_fee: $fixed_fee, name: $name, total_without_addons: $total_without_addons, total: $total, addons: $addons, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -116,12 +400,63 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RetirementOrderModel &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.customer_user_id, customer_user_id) ||
+                other.customer_user_id == customer_user_id) &&
+            (identical(other.company_id, company_id) ||
+                other.company_id == company_id) &&
+            (identical(other.retirement_type_id, retirement_type_id) ||
+                other.retirement_type_id == retirement_type_id) &&
+            (identical(other.retirement_order_status_id,
+                    retirement_order_status_id) ||
+                other.retirement_order_status_id ==
+                    retirement_order_status_id) &&
+            (identical(other.retirement_type, retirement_type) ||
+                other.retirement_type == retirement_type) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.birthdate, birthdate) ||
+                other.birthdate == birthdate) &&
+            (identical(other.retirement_age, retirement_age) ||
+                other.retirement_age == retirement_age) &&
+            (identical(other.monthly_fee, monthly_fee) ||
+                other.monthly_fee == monthly_fee) &&
+            (identical(other.fixed_fee, fixed_fee) ||
+                other.fixed_fee == fixed_fee) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.total_without_addons, total_without_addons) ||
+                other.total_without_addons == total_without_addons) &&
+            (identical(other.total, total) || other.total == total) &&
+            const DeepCollectionEquality().equals(other._addons, _addons) &&
+            (identical(other.created_at, created_at) ||
+                other.created_at == created_at) &&
+            (identical(other.updated_at, updated_at) ||
+                other.updated_at == updated_at) &&
+            (identical(other.deleted_at, deleted_at) ||
+                other.deleted_at == deleted_at));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      customer_user_id,
+      company_id,
+      retirement_type_id,
+      retirement_order_status_id,
+      retirement_type,
+      age,
+      birthdate,
+      retirement_age,
+      monthly_fee,
+      fixed_fee,
+      name,
+      total_without_addons,
+      total,
+      const DeepCollectionEquality().hash(_addons),
+      created_at,
+      updated_at,
+      deleted_at);
 
   @JsonKey(ignore: true)
   @override
@@ -139,14 +474,65 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
 }
 
 abstract class _RetirementOrderModel implements RetirementOrderModel {
-  const factory _RetirementOrderModel({final int? id}) =
-      _$_RetirementOrderModel;
+  const factory _RetirementOrderModel(
+      {final int? id,
+      final int? customer_user_id,
+      final int? company_id,
+      final String? retirement_type_id,
+      final int? retirement_order_status_id,
+      final int? retirement_type,
+      final int? age,
+      final int? birthdate,
+      final int? retirement_age,
+      final int? monthly_fee,
+      final int? fixed_fee,
+      final String? name,
+      final int? total_without_addons,
+      final int? total,
+      final List<OrderAddonsModel>? addons,
+      final String? created_at,
+      final String? updated_at,
+      final String? deleted_at}) = _$_RetirementOrderModel;
 
   factory _RetirementOrderModel.fromJson(Map<String, dynamic> json) =
       _$_RetirementOrderModel.fromJson;
 
   @override
   int? get id;
+  @override
+  int? get customer_user_id;
+  @override
+  int? get company_id;
+  @override
+  String? get retirement_type_id;
+  @override
+  int? get retirement_order_status_id;
+  @override
+  int? get retirement_type;
+  @override
+  int? get age;
+  @override
+  int? get birthdate;
+  @override
+  int? get retirement_age;
+  @override
+  int? get monthly_fee;
+  @override
+  int? get fixed_fee;
+  @override
+  String? get name;
+  @override
+  int? get total_without_addons;
+  @override
+  int? get total;
+  @override
+  List<OrderAddonsModel>? get addons;
+  @override
+  String? get created_at;
+  @override
+  String? get updated_at;
+  @override
+  String? get deleted_at;
   @override
   @JsonKey(ignore: true)
   _$$_RetirementOrderModelCopyWith<_$_RetirementOrderModel> get copyWith =>

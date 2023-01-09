@@ -136,3 +136,29 @@ List<StepperData> travelstepperdata = [
         child: const Icon(Icons.looks_3, color: Colors.white),
       )),
 ];
+List<StepperData> retirementstepperdata = [
+  StepperData(
+      title: StepperText(
+        "personal Information",
+      ),
+      subtitle: StepperText("please fill your personal info.",
+          textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
+      iconWidget: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        child: const Icon(Icons.looks_one, color: Colors.white),
+      )),
+  StepperData(
+      title: StepperText("Upload ID picturs"),
+      subtitle: StepperText("Select and Upload ID pic",
+          textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
+      iconWidget: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        child: const Icon(Icons.looks_3, color: Colors.white),
+      )),
+];

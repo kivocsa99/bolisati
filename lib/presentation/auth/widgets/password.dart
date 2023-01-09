@@ -80,7 +80,7 @@ class PasswordField extends HookWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.text,
                 ),
               ),
             ],

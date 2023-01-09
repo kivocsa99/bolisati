@@ -68,6 +68,20 @@ class HomeScreen extends HookConsumerWidget {
                         const SizedBox(
                           height: 20,
                         ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 30),
+                            child: GestureDetector(
+                              onTap: () => context.router
+                                  .push(const InsuranceListScreen()),
+                              child: const Text(
+                                "View All",
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(30),
                           child: Row(

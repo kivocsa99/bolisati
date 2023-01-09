@@ -106,6 +106,10 @@ Future<void> main() async {
   await Hive.openBox("car");
   await Hive.openBox("medical");
   await Hive.openBox("travel");
+  await Hive.openBox("retirement");
+  await Hive.openBox("pet");
+  await Hive.openBox("domestic");
+  await Hive.openBox("educational");
 
   runApp(ProviderScope(
     child: MyApp(),
