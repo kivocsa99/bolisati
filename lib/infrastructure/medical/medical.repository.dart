@@ -9,16 +9,17 @@ import 'package:fpdart/fpdart.dart';
 class MedicalRepository implements IMedicalRepository {
   @override
   Future<Either<ApiFailures, dynamic>> attachFile(
-      {List<File>? file, int? orderid, String? apitoken}) async {
+      {File? file, int? orderid, String? apitoken}) async {
     var dio = Dio();
     dio.options.headers = {'Content-Type': "application/json"};
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      FormData formData = FormData.fromMap({
+        "order_id": orderid,
+        "file": await MultipartFile.fromFile(file!.path, filename: file.path),
+      });
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/Medical/AttachFile?api_token=$apitoken",
-          data: jsonEncode({
-            "order_id": orderid,
-            "file": file,
-          }));
+          data: formData);
 
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["api_token"];

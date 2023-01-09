@@ -1,9 +1,9 @@
 import 'dart:io';
 
 class MedicalAttachFileUseCaseInput {
-  final List<File>? files;
+  final File? file;
   final int? orderid;
   final String? token;
 
-  MedicalAttachFileUseCaseInput({this.files,this.orderid, this.token});
+  MedicalAttachFileUseCaseInput({this.file, this.orderid, this.token});
 }

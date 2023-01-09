@@ -7,8 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'attach.file.use.case.input.dart';
 
-final travelattachfileProvider = Provider((ref) => TrvelAttachFileUseCase(
-    travelRepository: ref.watch(travelrepoprovider)));
+final travelattachfileProvider = Provider((ref) =>
+    TrvelAttachFileUseCase(travelRepository: ref.watch(travelrepoprovider)));
 
 class TrvelAttachFileUseCase
     implements IUseCase<TravelAttachFileUseCaseInput, dynamic> {
@@ -23,7 +23,7 @@ class TrvelAttachFileUseCase
     return await _travelRepository!.attachFile(
       apitoken: input.token!,
       file: input.file!,
-      orderid: input.hashCode,
+      orderid: input.orderid!,
     );
   }
 }

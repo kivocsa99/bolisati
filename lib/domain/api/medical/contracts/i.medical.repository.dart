@@ -18,5 +18,5 @@ abstract class IMedicalRepository {
     String? enddate,
   });
   Future<Either<ApiFailures, dynamic>> attachFile(
-      {List<File>? file, int? orderid, String? apitoken});
+      {File? file, int? orderid, String? apitoken});
 }

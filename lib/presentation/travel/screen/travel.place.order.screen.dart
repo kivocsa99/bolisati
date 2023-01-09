@@ -165,6 +165,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                               valueListenable: setting.listenable(),
                               builder: (context, Box box, child) {
                                 final token = box.get("apitoken");
+                                print(token);
                                 return GestureDetector(
                                   onTap: () async {
                                     if (index.value == 0) {

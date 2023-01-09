@@ -27,6 +27,7 @@ class TravelRepository implements ITravelRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/Travel/AttachFile?api_token=$apitoken",
           data: formData);
+      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["FileURL"];
       } else {
@@ -107,7 +108,7 @@ class TravelRepository implements ITravelRepository {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
           """https://bolisati.bitsblend.org/api/V1/Travel/PlaceOrder?travel_insurance_id=${travelOrder.travel_insurance_id}&name=${travelOrder.name}&destination=${travelOrder.destination}&birthdate=${travelOrder.birthdate}&start_date=${travelOrder.start_date}&end_date=${travelOrder.end_date}&api_token=$token""");
-
+      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         //change this
         TravelOrderDoneModel model =

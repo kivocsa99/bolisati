@@ -23,8 +23,8 @@ class MedicalAttachFileUseCase
       MedicalAttachFileUseCaseInput input) async {
     return await _medicalRepository!.attachFile(
       apitoken: input.token,
-      file: input.files,
-      orderid: input.hashCode,
+      file: input.file,
+      orderid: input.orderid,
     );
   }
 }
