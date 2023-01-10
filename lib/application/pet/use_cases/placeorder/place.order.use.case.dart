@@ -1,28 +1,24 @@
 import 'package:bolisati/application/core/use_cases/i.use_case.dart';
-import 'package:bolisati/application/medical/use_cases/placeorder/place.order.use.case.input.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.input.dart';
-import 'package:bolisati/application/provider/motor.repository.provider.dart';
+import 'package:bolisati/application/pet/use_cases/placeorder/place.order.use.case.input.dart';
+import 'package:bolisati/application/provider/pet.repository.provider.dart';
 import 'package:bolisati/domain/api/failures/api.failures.dart';
-import 'package:bolisati/domain/api/motor/contracts/i.motor.repository.dart';
+import 'package:bolisati/domain/api/pet/contracts/i.pet.repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../domain/api/medical/contracts/i.medical.repository.dart';
+final petplaceOrderProvider = Provider(
+    (ref) => PetPlaceOrderUseCase(petRepository: ref.watch(petrepoprovider)));
 
-final motorplaceOrderProvider = Provider((ref) =>
-    MotorPlaceOrderUseCase(motorRepository: ref.watch(motorrepoprovider)));
+class PetPlaceOrderUseCase
+    implements IUseCase<PetPlaceOrderUseCaseInput, dynamic> {
+  final IPetRepository? _petRepository;
 
-class MotorPlaceOrderUseCase
-    implements IUseCase<MotorPlaceOrderUseCaseInput, dynamic> {
-  final IMotorRepository? _motorRepository;
-
-  MotorPlaceOrderUseCase({IMotorRepository? motorRepository})
-      : _motorRepository = motorRepository;
+  PetPlaceOrderUseCase({IPetRepository? petRepository})
+      : _petRepository = petRepository;
 
   @override
   Future<Either<ApiFailures, dynamic>> execute(
-      MotorPlaceOrderUseCaseInput input) async {
-    return _motorRepository!
-        .placeOrder(addons:input.addons,token: input.token, motororder: input.motorOrder!);
+      PetPlaceOrderUseCaseInput input) async {
+    return _petRepository!.placeOrder(token: input.token, model: input.model!);
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/presentation/widgets/vertical_insurance_type_container.dart';
