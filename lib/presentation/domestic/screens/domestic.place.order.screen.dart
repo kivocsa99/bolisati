@@ -2,19 +2,16 @@ import 'dart:io';
 
 import 'package:another_stepper/another_stepper.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.input.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.input.dart';
+import 'package:bolisati/application/domestic/use_cases/attachfile/attach.file.use.case.dart';
+import 'package:bolisati/application/domestic/use_cases/attachfile/attach.file.use.case.input.dart';
+import 'package:bolisati/application/domestic/use_cases/placeorder/place.order.use.case.dart';
+import 'package:bolisati/application/domestic/use_cases/placeorder/place.order.use.case.input.dart';
+import 'package:bolisati/application/provider/domestic.repository.provider.dart';
 import 'package:bolisati/constants.dart';
-import 'package:bolisati/domain/api/motor/model/motororderdonemodel.dart';
-import 'package:bolisati/domain/api/orders/motororders/motorordermodel.dart';
-import 'package:bolisati/domain/api/travel/model/travelmodel.dart';
-import 'package:bolisati/presentation/vehicle/widgets/bottomsheetcontainer.dart';
-import 'package:bolisati/presentation/vehicle/widgets/carpersonalidcontainer.dart';
-import 'package:bolisati/presentation/vehicle/widgets/ordersofferscontainer.dart';
+import 'package:bolisati/domain/api/domestic/model/domesticdonemodel.dart';
+import 'package:bolisati/domain/api/domestic/model/domesticoffermodel.dart';
+import 'package:bolisati/presentation/domestic/widgets/domesticbottomsheet.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
-import 'package:bolisati/router/app_route.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -23,11 +20,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../application/motor/getoffers/get.offers.use.case.dart';
-import '../../../application/motor/getoffers/get.offers.use.case.input.dart';
-import '../../../domain/api/motor/model/motormodel.dart';
-
+import '../../../router/app_route.gr.dart';
 import '../widgets/domesticinformationcontainer.dart';
+import '../widgets/domesticoffercontainer.dart';
 import '../widgets/domesticuploadcontainer.dart';
 
 class DomesticPlaceOrderScreen extends HookConsumerWidget {
@@ -35,32 +30,23 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final order = useState(const MotorOrderModel());
-    final carformkey = useState(GlobalKey<FormState>());
+    final order = useState(const DomesticDoneModel());
+    final domesticformkey = useState(GlobalKey<FormState>());
     final index = useState(0);
-    final offers = useState<List<MotorOffersModel>>([]);
+    final offers = useState<List<DomesticOfferModel>>([]);
     final Box setting = Hive.box("setting");
-    final Box car = Hive.box("domestic");
+    final Box domestic = Hive.box("domestic");
     final nameController = useTextEditingController();
-    final yearController = useTextEditingController();
-    final brandController = useTextEditingController();
-    final modelController = useTextEditingController();
-    final valueController = useTextEditingController();
+    final domesticController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
-    final frontimage = useState("");
-    final leftimage = useState("");
-    final rightimage = useState("");
-    final backimage = useState("");
+    final nationalidcontroller = useTextEditingController();
+
     final idback = useState("");
     final idfront = useState("");
     final registerback = useState("");
     final registerfront = useState("");
     List<String> images = [
-      frontimage.value,
-      backimage.value,
-      leftimage.value,
-      rightimage.value,
       idback.value,
       idfront.value,
       registerback.value,
@@ -68,34 +54,26 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
     ];
     List<Widget> cases = [
       DomesticInformationContainer(
+        workerinsurancecontroller: nationalidcontroller,
+        workerinsurance: (value) =>
+            order.value = order.value.copyWith(national_id_number: value),
         startdatecontroller: startController,
         enddatecontroller: endController,
-        yearcontroller: yearController,
-        carbrandcontroller: brandController,
-        carmodelcontroller: modelController,
-        valuecontroller: valueController,
+        workername: domesticController,
+        workernameonchanged: (value) =>
+            order.value = order.value.copyWith(worker_name: value),
         namecontroller: nameController,
         name: (value) {
           order.value = order.value.copyWith(name: value);
         },
-        fueltype: (value) =>
-            order.value = order.value.copyWith(fuel_type: value),
-        value: (value) {
-          var myInt = int.parse(value!);
-          order.value = order.value.copyWith(estimated_car_price: myInt);
-        },
-        perviosaccidents: (value) {
-          order.value = order.value
-              .copyWith(previous_accidents: value == "False" ? 1 : 0);
-        },
-        formkey: carformkey.value,
+        formkey: domesticformkey.value,
         key: const Key("1"),
       ),
-      OrderOffersContainer(
+      DomesticOrderOffersContainer(
         offers: offers.value,
         key: Key("2"),
       ),
-      CarIdContainer(
+      DomesticIdContainer(
         image0: File(registerfront.value),
         image1: File(registerback.value),
         image2: File(idfront.value),
@@ -143,7 +121,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                             description:
                                 "Protect your vehicle\nin case of accidents.",
                             icon: const Icon(
-                              FontAwesomeIcons.car,
+                              FontAwesomeIcons.briefcase,
                               color: carcolor,
                             ),
                             function: () => context.router.pop(),
@@ -165,7 +143,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                     scrollPhysics:
                                         const BouncingScrollPhysics(),
                                     activeIndex: index.value,
-                                    stepperList: motorstepperData,
+                                    stepperList: domesticstepperdata,
                                     stepperDirection: Axis.horizontal,
                                     inverted: false,
                                   ),
@@ -211,20 +189,13 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                         return GestureDetector(
                                           onTap: () async {
                                             if (index.value == 0) {
-                                              if (carformkey.value.currentState!
+                                              if (domesticformkey
+                                                  .value.currentState!
                                                   .validate()) {
                                                 await ref
                                                     .read(
-                                                        motorgetOffersProvider)
-                                                    .execute(
-                                                        MotorGetOffersUseCaseInput(
-                                                      estimatedcarprice: order
-                                                          .value
-                                                          .estimated_car_price,
-                                                      token: token,
-                                                      vehiclemodelid:
-                                                          car.get("carmodel"),
-                                                    ))
+                                                        getoffersProvider(token)
+                                                            .future)
                                                     .then((value) => value.fold(
                                                             (l) => ScaffoldMessenger
                                                                     .of(context)
@@ -246,30 +217,14 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                         }));
                                               }
                                             } else if (index.value == 1 &&
-                                                car.get("motorid") != null) {
+                                                domestic.get("domesticid") !=
+                                                    null) {
                                               final isLaseIndex = index.value ==
                                                   cases.length - 1;
                                               index.value = isLaseIndex
                                                   ? 0
                                                   : index.value + 1;
                                             } else if (index.value == 2) {
-                                              if (frontimage.value != "" &&
-                                                  backimage.value != "" &&
-                                                  leftimage.value != "" &&
-                                                  rightimage.value != "") {
-                                                final isLaseIndex =
-                                                    index.value ==
-                                                        cases.length - 1;
-                                                index.value = isLaseIndex
-                                                    ? 0
-                                                    : index.value + 1;
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        content: Text(
-                                                            "please Upload all of the pictures")));
-                                              }
-                                            } else if (index.value == 3) {
                                               if (registerfront.value != "" &&
                                                   registerback.value != "" &&
                                                   idback.value != "" &&
@@ -279,32 +234,22 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                     (() {
                                                   order.value = order.value
                                                       .copyWith(
-                                                          car_year: car
-                                                              .get("caryear"));
-
+                                                          total: domestic.get(
+                                                              "domesticid"));
+                                                  order.value = order.value.copyWith(
+                                                      start_date: domestic.get(
+                                                          "domesticsstartdate"));
                                                   order.value = order.value
                                                       .copyWith(
-                                                          start_date: car.get(
-                                                              "carsstartdate"));
-                                                  order.value = order.value
-                                                      .copyWith(
-                                                          end_date: car.get(
-                                                              "carenddate"));
-                                                  order.value = order.value
-                                                      .copyWith(
-                                                          motor_insurance_id:
-                                                              car.get(
-                                                                  "motorid"));
-                                                  order.value = order.value
-                                                      .copyWith(
-                                                          vehicle_model_id: car
-                                                              .get("carmodel"));
+                                                          end_date: domestic.get(
+                                                              "domesticenddate"));
                                                 }));
-                                                final MotorOffersModel
+                                                final DomesticOfferModel
                                                     offersModel = offers.value
                                                         .firstWhere((element) =>
                                                             element.id ==
-                                                            car.get("motorid"));
+                                                            domestic.get(
+                                                                "domesticid"));
 
                                                 showModalBottomSheet(
                                                   isScrollControlled: true,
@@ -315,31 +260,34 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                     return StatefulBuilder(
                                                       builder:
                                                           (context, setState) {
-                                                        return MyWidget(
+                                                        return DomesticBottomSheet(
+                                                          offerModel:
+                                                              offersModel,
                                                           function: () {
+                                                            print("hello");
+                                                            print(order.value);
+
                                                             ref
                                                                 .read(
-                                                                    motorplaceOrderProvider)
-                                                                .execute(MotorPlaceOrderUseCaseInput(
-                                                                    motorOrder:
-                                                                        order
-                                                                            .value,
-                                                                    token:
-                                                                        token,
-                                                                    addons:
-                                                                        car.get("addon") ??
-                                                                            ""))
+                                                                    domesticplaceOrderProvider)
+                                                                .execute(
+                                                                    DomesticPlaceOrderUseCaseInput(
+                                                                  model: order
+                                                                      .value,
+                                                                  token: token,
+                                                                ))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(SnackBar(content: Text(l.toString()))),
+                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                            content:
+                                                                                Text(l.toString()))),
                                                                         (r) async {
-                                                                      MotorOrderDoneModel
+                                                                      DomesticDoneModel
                                                                           orderdone =
                                                                           r;
                                                                       for (var element
                                                                           in images) {
-                                                                        ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
+                                                                        ref.read(domesticattachplaceOrderProvider).execute(DomesticAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
                                                                             (l) =>
                                                                                 print(l),
                                                                             (r) => print(r)));
@@ -358,8 +306,6 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                                       ]);
                                                                     }));
                                                           },
-                                                          offerModel:
-                                                              offersModel,
                                                         );
                                                       },
                                                     );
@@ -379,7 +325,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                             height: 60,
                                             child: Center(
                                                 child: Text(
-                                              index.value != 3
+                                              index.value != 2
                                                   ? "Next"
                                                   : "Confirm",
                                               style: const TextStyle(

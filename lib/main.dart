@@ -102,7 +102,7 @@ Future<void> main() async {
     await setupFlutterNotifications();
   }
   await Hive.initFlutter();
-  await Hive.openBox("setting");
+  final user = await Hive.openBox("setting");
   final car = await Hive.openBox("car");
   final medical = await Hive.openBox("medical");
   final travel = await Hive.openBox("travel");
@@ -117,7 +117,7 @@ Future<void> main() async {
   await travel.clear();
   await domestic.clear();
   await retire.clear();
-
+  print(user.values);
   runApp(ProviderScope(
     child: MyApp(),
   ));

@@ -21,9 +21,8 @@ class DomesticPlaceOrderUseCase
   Future<Either<ApiFailures, dynamic>> execute(
       DomesticPlaceOrderUseCaseInput input) async {
     return await _domesticRepository!.placeOrder(
-      token: input.token,
-      addons: input.addons,
-      model: input.model,
+      token: input.token!,
+      model: input.model!,
     );
   }
 }

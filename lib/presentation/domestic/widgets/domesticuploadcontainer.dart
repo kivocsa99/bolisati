@@ -46,7 +46,7 @@ class DomesticIdContainer extends HookConsumerWidget {
                     ? Container(
                         alignment: Alignment.center,
                         child: Image.asset(
-                          "assets/license.png",
+                          "assets/id.png",
                           width: 150,
                           height: 150,
                           fit: BoxFit.fill,
