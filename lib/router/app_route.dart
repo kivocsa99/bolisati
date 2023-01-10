@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/main.dart';
+import 'package:bolisati/presentation/domestic/screens/domestic.place.order.screen.dart';
 import 'package:bolisati/presentation/homescreen.dart';
 import 'package:bolisati/presentation/insuranceslist_screen.dart';
 import 'package:bolisati/presentation/landing/screens/landing.dart';
@@ -28,6 +29,10 @@ import 'package:bolisati/router/guard.dart';
       durationInMilliseconds: 500),
   CustomRoute(
       page: MedicalPlaceOrderScreen,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
+      durationInMilliseconds: 500),
+        CustomRoute(
+      page: DomesticPlaceOrderScreen,
       transitionsBuilder: TransitionsBuilders.slideBottom,
       durationInMilliseconds: 500),
   CustomRoute(
