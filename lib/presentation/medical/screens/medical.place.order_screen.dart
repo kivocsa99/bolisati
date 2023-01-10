@@ -279,8 +279,9 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                 .execute(
                                                                     MedicalPlaceOrderUseCaseInput(
                                                                   addons: medical
-                                                                      .get(
-                                                                          "addon"),
+                                                                          .get(
+                                                                              "addon") ??
+                                                                      "",
                                                                   medicalOrderModel:
                                                                       order
                                                                           .value,
@@ -315,11 +316,11 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                               context)
                                                                           .showSnackBar(
                                                                               const SnackBar(content: Text("Your Order Have Been Placed")));
-                                                                      await context
-                                                                          .router
-                                                                          .replaceAll([
-                                                                        const HomeScreen()
-                                                                      ]);
+                                                                      // await context
+                                                                      //     .router
+                                                                      //     .replaceAll([
+                                                                      //   const HomeScreen()
+                                                                      // ]);
                                                                     }));
                                                           },
                                                           medicalorder:

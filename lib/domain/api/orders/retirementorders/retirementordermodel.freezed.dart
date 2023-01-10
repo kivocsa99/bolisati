@@ -27,7 +27,7 @@ mixin _$RetirementOrderModel {
   int? get retirement_order_status_id => throw _privateConstructorUsedError;
   int? get retirement_type => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
-  int? get birthdate => throw _privateConstructorUsedError;
+  String? get birthdate => throw _privateConstructorUsedError;
   int? get retirement_age => throw _privateConstructorUsedError;
   int? get monthly_fee => throw _privateConstructorUsedError;
   int? get fixed_fee => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $RetirementOrderModelCopyWith<$Res> {
       int? retirement_order_status_id,
       int? retirement_type,
       int? age,
-      int? birthdate,
+      String? birthdate,
       int? retirement_age,
       int? monthly_fee,
       int? fixed_fee,
@@ -137,7 +137,7 @@ class _$RetirementOrderModelCopyWithImpl<$Res,
       birthdate: freezed == birthdate
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       retirement_age: freezed == retirement_age
           ? _value.retirement_age
           : retirement_age // ignore: cast_nullable_to_non_nullable
@@ -198,7 +198,7 @@ abstract class _$$_RetirementOrderModelCopyWith<$Res>
       int? retirement_order_status_id,
       int? retirement_type,
       int? age,
-      int? birthdate,
+      String? birthdate,
       int? retirement_age,
       int? monthly_fee,
       int? fixed_fee,
@@ -273,7 +273,7 @@ class __$$_RetirementOrderModelCopyWithImpl<$Res>
       birthdate: freezed == birthdate
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       retirement_age: freezed == retirement_age
           ? _value.retirement_age
           : retirement_age // ignore: cast_nullable_to_non_nullable
@@ -360,7 +360,7 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
   @override
   final int? age;
   @override
-  final int? birthdate;
+  final String? birthdate;
   @override
   final int? retirement_age;
   @override
@@ -482,7 +482,7 @@ abstract class _RetirementOrderModel implements RetirementOrderModel {
       final int? retirement_order_status_id,
       final int? retirement_type,
       final int? age,
-      final int? birthdate,
+      final String? birthdate,
       final int? retirement_age,
       final int? monthly_fee,
       final int? fixed_fee,
@@ -512,7 +512,7 @@ abstract class _RetirementOrderModel implements RetirementOrderModel {
   @override
   int? get age;
   @override
-  int? get birthdate;
+  String? get birthdate;
   @override
   int? get retirement_age;
   @override

@@ -5,12 +5,10 @@ import 'package:bolisati/domain/api/orders/retirementorders/retirementordermodel
 
 class RetirmentPlaceOrderUseCaseInput {
   final String? token;
-  final String? addons;
   final RetirementOrderModel? retirementOrderModel;
 
   RetirmentPlaceOrderUseCaseInput({
     this.token,
-    this.addons,
     this.retirementOrderModel,
   });
 }

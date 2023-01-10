@@ -8,7 +8,8 @@ import 'package:fpdart/fpdart.dart';
 //ask ali about data type
 abstract class IRetirmentRepository {
   Future<Either<ApiFailures, dynamic>> placeOrder(
-      {required String token,required String addons,required RetirementOrderModel retirementOrderModel});
+      {required String token,
+      required RetirementOrderModel retirementOrderModel});
   Future<Either<ApiFailures, dynamic>> attachFile(
-      {required File file,required int orderid,required String apitoken});
+      {required File file, required int orderid, required String apitoken});
 }

@@ -52,22 +52,28 @@ class RetirmentRepository implements IRetirmentRepository {
   }
   //done
 
-  
-
 //done
 
   @override
-  Future<Either<ApiFailures, dynamic>> placeOrder(
-      {required RetirementOrderModel retirementOrderModel,
-      required String? token,
-      required String? addons}) async {
+  Future<Either<ApiFailures, dynamic>> placeOrder({
+    required RetirementOrderModel retirementOrderModel,
+    required String? token,
+  }) async {
     var dio = Dio();
     dio.options.headers = {"Content-Type": "application/json"};
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
-      final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Retirement/PlaceOrder?retirement_type_id=${int.parse(retirementOrderModel.retirement_type_id!)}&name=${retirementOrderModel.name}&birthdate=${retirementOrderModel.birthdate}&monthly_fee=${retirementOrderModel.monthly_fee}&retirement_age=${retirementOrderModel.age}&api_token=$token""");
+      int type =
+          retirementOrderModel.retirement_type_id == "Monthly Fee" ? 1 : 2;
+      String fee = retirementOrderModel.retirement_type_id == "Monthly Fee"
+          ? "monthly_fee"
+          : "full_fee";
+      print(type);
+      print(fee);
 
+      final result = await dio.get(
+          """https://bolisati.bitsblend.org/api/V1/Retirement/PlaceOrder?retirement_type_id=$type&name=${retirementOrderModel.name}&birthdate=${retirementOrderModel.birthdate}&$fee=${retirementOrderModel.monthly_fee}&retirement_age=${retirementOrderModel.age}&api_token=$token""");
+      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         RetirmentDoneModel model =
             RetirmentDoneModel.fromJson(result.data["OrderDetails"]);
@@ -76,6 +82,7 @@ class RetirmentRepository implements IRetirmentRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
+      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -92,6 +99,4 @@ class RetirmentRepository implements IRetirmentRepository {
     });
     return result.map((r) => r).run();
   }
-
-
 }

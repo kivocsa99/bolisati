@@ -59,44 +59,50 @@ class MedicalInformationContainer extends HookWidget {
                 width: double.infinity,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomField(
                     initial: "Gender",
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2 + 10,
                   ),
-                  Gender(
-                    width: 100,
-                    onchanged: gender,
+                  Expanded(
+                    child: Gender(
+                      width: 100,
+                      onchanged: gender,
+                    ),
                   ),
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomField(
                     initial: "Insurance Type",
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2 + 10,
                   ),
-                  Insurance(
-                    width: 100,
-                    onchanged: insurance,
+                  Expanded(
+                    child: Insurance(
+                      width: 100,
+                      onchanged: insurance,
+                    ),
                   ),
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomField(
                     initial: "Marital Status",
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2 + 10,
                   ),
-                  Marital(
-                    width: 100,
-                    onchanged: maritalstatus,
+                  Expanded(
+                    child: Marital(
+                      width: 100,
+                      onchanged: maritalstatus,
+                    ),
                   ),
                 ],
               ),
@@ -338,6 +344,7 @@ class StartEndDate extends HookWidget {
                   medical.put("enddate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
                   endcontroller!.text = _selecteddate.value.toString();
+                  print(medical.get("enddate"));
                 }
               }
             },

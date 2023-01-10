@@ -8,14 +8,15 @@ part 'retirementordermodel.g.dart';
 
 @freezed
 class RetirementOrderModel with _$RetirementOrderModel {
-  const factory RetirementOrderModel({ int? id,
+  const factory RetirementOrderModel({
+    int? id,
     int? customer_user_id,
     int? company_id,
     String? retirement_type_id,
     int? retirement_order_status_id,
     int? retirement_type,
     int? age,
-    int? birthdate,
+    String? birthdate,
     int? retirement_age,
     int? monthly_fee,
     int? fixed_fee,
@@ -25,7 +26,8 @@ class RetirementOrderModel with _$RetirementOrderModel {
     List<OrderAddonsModel>? addons,
     String? created_at,
     String? updated_at,
-    String? deleted_at,}) = _RetirementOrderModel;
+    String? deleted_at,
+  }) = _RetirementOrderModel;
   factory RetirementOrderModel.fromJson(Map<String, dynamic> json) =>
       _$RetirementOrderModelFromJson(json);
 }

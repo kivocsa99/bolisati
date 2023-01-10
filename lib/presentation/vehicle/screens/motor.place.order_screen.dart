@@ -360,8 +360,9 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                                             .value,
                                                                     token:
                                                                         token,
-                                                                    addons: car.get(
-                                                                        "addon")))
+                                                                    addons:
+                                                                        car.get("addon") ??
+                                                                            ""))
                                                                 .then((value) =>
                                                                     value.fold(
                                                                         (l) => ScaffoldMessenger.of(context)

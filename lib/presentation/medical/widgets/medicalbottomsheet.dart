@@ -86,7 +86,7 @@ class _MedicalBottomSheetState extends State<MedicalBottomSheet> {
                                 }
 
                                 medical.put("addon", loc);
-
+                                print(loc);
                                 setState(() {});
                               }),
                           Text(

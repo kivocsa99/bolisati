@@ -103,13 +103,20 @@ Future<void> main() async {
   }
   await Hive.initFlutter();
   await Hive.openBox("setting");
-  await Hive.openBox("car");
-  await Hive.openBox("medical");
-  await Hive.openBox("travel");
-  await Hive.openBox("retirement");
-  await Hive.openBox("pet");
-  await Hive.openBox("domestic");
-  await Hive.openBox("educational");
+  final car = await Hive.openBox("car");
+  final medical = await Hive.openBox("medical");
+  final travel = await Hive.openBox("travel");
+  final retire = await Hive.openBox("retirement");
+  final pet = await Hive.openBox("pet");
+  final domestic = await Hive.openBox("domestic");
+  final education = await Hive.openBox("educational");
+  await car.clear();
+  await medical.clear();
+  await education.clear();
+  await pet.clear();
+  await travel.clear();
+  await domestic.clear();
+  await retire.clear();
 
   runApp(ProviderScope(
     child: MyApp(),

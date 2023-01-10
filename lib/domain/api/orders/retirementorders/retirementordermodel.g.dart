@@ -16,7 +16,7 @@ _$_RetirementOrderModel _$$_RetirementOrderModelFromJson(
       retirement_order_status_id: json['retirement_order_status_id'] as int?,
       retirement_type: json['retirement_type'] as int?,
       age: json['age'] as int?,
-      birthdate: json['birthdate'] as int?,
+      birthdate: json['birthdate'] as String?,
       retirement_age: json['retirement_age'] as int?,
       monthly_fee: json['monthly_fee'] as int?,
       fixed_fee: json['fixed_fee'] as int?,

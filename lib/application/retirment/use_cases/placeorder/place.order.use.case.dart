@@ -24,7 +24,6 @@ class RetirmentPlaceOrderUseCase
       RetirmentPlaceOrderUseCaseInput input) async {
     return await _retirmentRepository!.placeOrder(
       token: input.token!,
-      addons: input.addons!,
       retirementOrderModel: input.retirementOrderModel!,
     );
   }
