@@ -140,12 +140,11 @@ class PetRepository implements IPetRepository {
       final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
         final result = await dio.get(
             "https://bolisati.bitsblend.org/api/V1/Api/Pet/GetCountries?api_token=$apitoken");
-        // print(result.data["Cars"] as List<CarModel>);
+        print(result.realUri);
         Map<String, dynamic> map = result.data;
         List<dynamic> data = map["Countries"];
         List<PetCountryModel> cars =
             data.map((e) => PetCountryModel.fromJson(e)).toList();
-        // List<CarModel> cars = result.data["Cars"];
         return cars;
       }, (error, stackTrace) {
         print(error);

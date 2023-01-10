@@ -59,7 +59,7 @@ class PersonalRepository implements IPersonalRepository {
   Future<Either<ApiFailures, dynamic>> getOffers(
       {required String? token,
       required int? age,
-      required String? personaltypeid,
+      required int? personaltypeid,
       required int? amount}) async {
     var dio = Dio();
     dio.options.headers = {'Content-Type': "application/json"};

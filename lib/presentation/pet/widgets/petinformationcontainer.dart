@@ -1,14 +1,18 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bolisati/application/motor/placeorder/place.order.use.case.dart';
 import 'package:bolisati/application/provider/motor.repository.provider.dart';
+import 'package:bolisati/application/provider/pet.repository.provider.dart';
 import 'package:bolisati/domain/api/orders/motororders/cars/carmodel.dart';
+import 'package:bolisati/domain/api/pet/model/petcountrymodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class CarInformationContainer extends HookWidget {
+class PetInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
   final TextEditingController? namecontroller;
   final TextEditingController? yearcontroller;
@@ -16,17 +20,17 @@ class CarInformationContainer extends HookWidget {
   final TextEditingController? enddatecontroller;
   final TextEditingController? carbrandcontroller;
   final TextEditingController? carmodelcontroller;
-  final TextEditingController? fueltypecontroller;
+  final TextEditingController? PetTypecontroller;
   final TextEditingController? valuecontroller;
   final TextEditingController? prevcontroller;
 
-  final ValueChanged<String?>? fueltype;
+  final ValueChanged<String?>? pettype;
   final ValueChanged<String?>? value;
   final ValueChanged<String?>? perviosaccidents;
 
   final VoidCallback? caryearfunction;
   final GlobalKey<FormState>? formkey;
-  const CarInformationContainer(
+  const PetInformationContainer(
       {super.key,
       this.caryearfunction,
       this.formkey,
@@ -37,10 +41,10 @@ class CarInformationContainer extends HookWidget {
       this.valuecontroller,
       this.enddatecontroller,
       this.startdatecontroller,
-      this.fueltypecontroller,
+      this.PetTypecontroller,
       this.prevcontroller,
       this.namecontroller,
-      this.fueltype,
+      this.pettype,
       this.value,
       this.perviosaccidents});
 
@@ -72,14 +76,13 @@ class CarInformationContainer extends HookWidget {
               Row(
                 children: [
                   CustomField(
-                    onchanged: fueltype,
-                    initial: "Fuel Type",
+                    initial: "Pet Type",
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2,
                   ),
-                  FuelType(
+                  PetType(
                     width: 100,
-                    onchanged: perviosaccidents,
+                    onchanged: pettype,
                   ),
                 ],
               ),
@@ -128,13 +131,13 @@ class CarInformationContainer extends HookWidget {
   }
 }
 
-class FuelType extends HookWidget {
+class PetType extends HookWidget {
   final ValueChanged<String?>? onchanged;
   final String? Function(String?)? validator;
   final String? label;
   final double? width;
   final TextEditingController? controller;
-  const FuelType(
+  const PetType(
       {super.key,
       this.width,
       this.onchanged,
@@ -163,7 +166,7 @@ class FuelType extends HookWidget {
           iconEnabledColor: Colors.grey,
           value: dropDownValue.value,
           onChanged: onchanged,
-          items: ["N/A", "electric", "fuel", "hybrid"]
+          items: ["N/A", "Cat", "Dog", "Other"]
               .map<DropdownMenuItem<String>>(
                   (String _value) => DropdownMenuItem<String>(
                       value: _value,
@@ -290,7 +293,7 @@ class YearPicker extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("car");
+    final Box car = Hive.box("pet");
 
     final _selectedYear = useState("");
     return Padding(
@@ -373,7 +376,7 @@ class StartEndDate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("car");
+    final Box car = Hive.box("pet");
 
     final _selecteddate = useState("");
     return Padding(
@@ -415,12 +418,12 @@ class StartEndDate extends HookWidget {
               if (pickedYear != null) {
                 _selecteddate.value = DateFormat("M/d/y").format(pickedYear);
                 if (label == "Start Date") {
-                  car.put("carsstartdate",
-                      DateFormat("yyyy-MM-dd").format(pickedYear));
+                  car.put("startdate",
+                      DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
                   startcontroller!.text = _selecteddate.value.toString();
                 } else {
-                  car.put("carenddate",
-                      DateFormat("yyyy-MM-dd").format(pickedYear));
+                  car.put("enddate",
+                      DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
                   endcontroller!.text = _selecteddate.value.toString();
                 }
               }
@@ -463,134 +466,67 @@ class CarBrand extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final car = Hive.box("car");
+    final pet = Hive.box("pet");
 
-    final _selectedcar = useState("");
-    final _selectedmodel = useState("");
+    final selectedcountry = useState("");
     final Box setting = Hive.box("setting");
 
     return Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                ),
-              ),
-              height: 80,
-              width: width,
-              child: ValueListenableBuilder(
-                valueListenable: setting.listenable(),
-                builder: (context, Box box, child) {
-                  final apitoken = box.get("apitoken");
-                  final carprovider =
-                      ref.watch(getcarsProvider(apitoken).future);
-                  return TextFormField(
-                    readOnly: true,
-                    validator:
-                        RequiredValidator(errorText: "This Field is Required"),
-                    onTap: () async {
-                      final value =
-                          await ref.read(getcarsProvider(apitoken).future);
-                      value.fold(
-                          (l) => ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      "${l.toString()} please contact us"))),
-                          (r) {
-                        List<CarModel> cars = r;
-
-                        print(r);
-                        FocusScope.of(context).unfocus();
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SimpleDialog(
-                              title: const Text('Select Car Brand'),
-                              children: cars.map((e) {
-                                return SimpleDialogOption(
-                                  onPressed: () async {
-                                    _selectedcar.value = e.name.toString();
-                                    brandcontroller!.text =
-                                        _selectedcar.value.toString();
-                                    car.put("carbrand", e.id);
-                                    await context.router.pop();
-                                    return showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SimpleDialog(
-                                          title: const Text('Select Car Model'),
-                                          children: e.models!
-                                              .map((e) => SimpleDialogOption(
-                                                    onPressed: () {
-                                                      _selectedmodel.value =
-                                                          e.name!;
-                                                      modelcontroller!.text =
-                                                          _selectedmodel.value
-                                                              .toString();
-                                                      car.put("carmodel", e.id);
-                                                      context.router.pop();
-                                                    },
-                                                    child: Text(e!.name!),
-                                                  ))
-                                              .toList(),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Text(e.name!),
-                                );
-                              }).toList(),
-                            );
-                          },
-                        );
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusedErrorBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      errorBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      contentPadding:
-                          const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                      filled: true,
-                      fillColor: Colors.blue[350],
-                      labelText: "Car Brand",
-                      hintStyle: const TextStyle(
-                        color: Colors.black26,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    controller: brandcontroller,
-                  );
-                },
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey,
+                width: 2,
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                ),
-              ),
-              height: 80,
-              width: width,
-              child: TextFormField(
+          ),
+          height: 80,
+          width: width,
+          child: ValueListenableBuilder(
+            valueListenable: setting.listenable(),
+            builder: (context, Box box, child) {
+              final apitoken = box.get("apitoken");
+              return TextFormField(
                 readOnly: true,
                 validator:
                     RequiredValidator(errorText: "This Field is Required"),
+                onTap: () async {
+                  final value =
+                      await ref.read(getcountryProvider(apitoken).future);
+                  value.fold(
+                      (l) => ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content:
+                                  Text("${l.toString()} please contact us"))),
+                      (r) {
+                    List<PetCountryModel> cars = r;
+
+                    print(r);
+                    FocusScope.of(context).unfocus();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SimpleDialog(
+                          title: const Text('Select Car Brand'),
+                          children: cars.map((e) {
+                            return SimpleDialogOption(
+                              onPressed: () async {
+                                selectedcountry.value = e.name.toString();
+                                brandcontroller!.text =
+                                    selectedcountry.value.toString();
+                                pet.put("country", e.id);
+                                await context.router.pop();
+                              },
+                              child: Text(e.name!),
+                            );
+                          }).toList(),
+                        );
+                      },
+                    );
+                  });
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   focusedErrorBorder: const UnderlineInputBorder(
@@ -601,17 +537,17 @@ class CarBrand extends HookConsumerWidget {
                       const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                   filled: true,
                   fillColor: Colors.blue[350],
-                  labelText: "Car Model",
+                  labelText: "Pet country",
                   hintStyle: const TextStyle(
                     color: Colors.black26,
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                controller: modelcontroller,
-              ),
-            )
-          ],
+                controller: brandcontroller,
+              );
+            },
+          ),
         ));
   }
 }

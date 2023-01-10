@@ -69,11 +69,11 @@ class InsuranceListScreen extends HookWidget {
               VerticalInsurance(
                 containercolor: carcontainer,
                 iconcolor: carcolor,
-                icon: const Icon(FontAwesomeIcons.car),
-                insuranceName: "Vehicle",
+                icon: const Icon(FontAwesomeIcons.cat),
+                insuranceName: "Pet",
                 insuranceDescreption: "",
                 price: "",
-                function: () {},
+                function: () => context.router.push(PetPlaceOrderScreen()),
               ),
               const SizedBox(
                 height: 10,
@@ -81,7 +81,7 @@ class InsuranceListScreen extends HookWidget {
               VerticalInsurance(
                 containercolor: carcontainer,
                 iconcolor: carcolor,
-                icon: Icon(FontAwesomeIcons.car),
+                icon: Icon(FontAwesomeIcons.briefcase),
                 insuranceName: "Domestic",
                 insuranceDescreption: "",
                 price: "",
