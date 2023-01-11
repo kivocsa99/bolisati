@@ -11,6 +11,7 @@ abstract class IPetRepository {
   Future<Either<ApiFailures, dynamic>> getOffers({String? token});
   //place order
   Future<Either<ApiFailures, dynamic>> placeOrder({
+    required String? addons,
     required PetOrderDoneModel model,
     required String? token,
   });

@@ -14,17 +14,20 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-EducationalOffersModel _$EducationalOffersModelFromJson(
+EducationalChildDoneModel _$EducationalChildDoneModelFromJson(
     Map<String, dynamic> json) {
   return _EducationalOffersModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$EducationalOffersModel {
+mixin _$EducationalChildDoneModel {
   int? get id => throw _privateConstructorUsedError;
-  int? get company_id => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
-  int? get active => throw _privateConstructorUsedError;
+  String? get educational_order_id => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get birthdate => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
+  String? get national_id_number => throw _privateConstructorUsedError;
+  int? get gender_id => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -33,21 +36,24 @@ mixin _$EducationalOffersModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $EducationalOffersModelCopyWith<EducationalOffersModel> get copyWith =>
+  $EducationalChildDoneModelCopyWith<EducationalChildDoneModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EducationalOffersModelCopyWith<$Res> {
-  factory $EducationalOffersModelCopyWith(EducationalOffersModel value,
-          $Res Function(EducationalOffersModel) then) =
-      _$EducationalOffersModelCopyWithImpl<$Res, EducationalOffersModel>;
+abstract class $EducationalChildDoneModelCopyWith<$Res> {
+  factory $EducationalChildDoneModelCopyWith(EducationalChildDoneModel value,
+          $Res Function(EducationalChildDoneModel) then) =
+      _$EducationalChildDoneModelCopyWithImpl<$Res, EducationalChildDoneModel>;
   @useResult
   $Res call(
       {int? id,
-      int? company_id,
-      int? price,
-      int? active,
+      String? educational_order_id,
+      String? name,
+      String? birthdate,
+      int? age,
+      String? national_id_number,
+      int? gender_id,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -58,10 +64,10 @@ abstract class $EducationalOffersModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$EducationalOffersModelCopyWithImpl<$Res,
-        $Val extends EducationalOffersModel>
-    implements $EducationalOffersModelCopyWith<$Res> {
-  _$EducationalOffersModelCopyWithImpl(this._value, this._then);
+class _$EducationalChildDoneModelCopyWithImpl<$Res,
+        $Val extends EducationalChildDoneModel>
+    implements $EducationalChildDoneModelCopyWith<$Res> {
+  _$EducationalChildDoneModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -72,9 +78,12 @@ class _$EducationalOffersModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = freezed,
-    Object? company_id = freezed,
-    Object? price = freezed,
-    Object? active = freezed,
+    Object? educational_order_id = freezed,
+    Object? name = freezed,
+    Object? birthdate = freezed,
+    Object? age = freezed,
+    Object? national_id_number = freezed,
+    Object? gender_id = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -86,17 +95,29 @@ class _$EducationalOffersModelCopyWithImpl<$Res,
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      company_id: freezed == company_id
-          ? _value.company_id
-          : company_id // ignore: cast_nullable_to_non_nullable
+      educational_order_id: freezed == educational_order_id
+          ? _value.educational_order_id
+          : educational_order_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
               as int?,
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as int?,
-      active: freezed == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
+      national_id_number: freezed == national_id_number
+          ? _value.national_id_number
+          : national_id_number // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender_id: freezed == gender_id
+          ? _value.gender_id
+          : gender_id // ignore: cast_nullable_to_non_nullable
               as int?,
       created_at: freezed == created_at
           ? _value.created_at
@@ -136,7 +157,7 @@ class _$EducationalOffersModelCopyWithImpl<$Res,
 
 /// @nodoc
 abstract class _$$_EducationalOffersModelCopyWith<$Res>
-    implements $EducationalOffersModelCopyWith<$Res> {
+    implements $EducationalChildDoneModelCopyWith<$Res> {
   factory _$$_EducationalOffersModelCopyWith(_$_EducationalOffersModel value,
           $Res Function(_$_EducationalOffersModel) then) =
       __$$_EducationalOffersModelCopyWithImpl<$Res>;
@@ -144,9 +165,12 @@ abstract class _$$_EducationalOffersModelCopyWith<$Res>
   @useResult
   $Res call(
       {int? id,
-      int? company_id,
-      int? price,
-      int? active,
+      String? educational_order_id,
+      String? name,
+      String? birthdate,
+      int? age,
+      String? national_id_number,
+      int? gender_id,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -159,7 +183,7 @@ abstract class _$$_EducationalOffersModelCopyWith<$Res>
 
 /// @nodoc
 class __$$_EducationalOffersModelCopyWithImpl<$Res>
-    extends _$EducationalOffersModelCopyWithImpl<$Res,
+    extends _$EducationalChildDoneModelCopyWithImpl<$Res,
         _$_EducationalOffersModel>
     implements _$$_EducationalOffersModelCopyWith<$Res> {
   __$$_EducationalOffersModelCopyWithImpl(_$_EducationalOffersModel _value,
@@ -170,9 +194,12 @@ class __$$_EducationalOffersModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? company_id = freezed,
-    Object? price = freezed,
-    Object? active = freezed,
+    Object? educational_order_id = freezed,
+    Object? name = freezed,
+    Object? birthdate = freezed,
+    Object? age = freezed,
+    Object? national_id_number = freezed,
+    Object? gender_id = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -184,17 +211,29 @@ class __$$_EducationalOffersModelCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      company_id: freezed == company_id
-          ? _value.company_id
-          : company_id // ignore: cast_nullable_to_non_nullable
+      educational_order_id: freezed == educational_order_id
+          ? _value.educational_order_id
+          : educational_order_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
               as int?,
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as int?,
-      active: freezed == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
+      national_id_number: freezed == national_id_number
+          ? _value.national_id_number
+          : national_id_number // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender_id: freezed == gender_id
+          ? _value.gender_id
+          : gender_id // ignore: cast_nullable_to_non_nullable
               as int?,
       created_at: freezed == created_at
           ? _value.created_at
@@ -225,9 +264,12 @@ class __$$_EducationalOffersModelCopyWithImpl<$Res>
 class _$_EducationalOffersModel implements _EducationalOffersModel {
   const _$_EducationalOffersModel(
       {this.id,
-      this.company_id,
-      this.price,
-      this.active,
+      this.educational_order_id,
+      this.name,
+      this.birthdate,
+      this.age,
+      this.national_id_number,
+      this.gender_id,
       this.created_at,
       this.updated_at,
       this.deleted_at,
@@ -241,11 +283,17 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
   @override
   final int? id;
   @override
-  final int? company_id;
+  final String? educational_order_id;
   @override
-  final int? price;
+  final String? name;
   @override
-  final int? active;
+  final String? birthdate;
+  @override
+  final int? age;
+  @override
+  final String? national_id_number;
+  @override
+  final int? gender_id;
   @override
   final String? created_at;
   @override
@@ -267,7 +315,7 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
 
   @override
   String toString() {
-    return 'EducationalOffersModel(id: $id, company_id: $company_id, price: $price, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons, company: $company)';
+    return 'EducationalChildDoneModel(id: $id, educational_order_id: $educational_order_id, name: $name, birthdate: $birthdate, age: $age, national_id_number: $national_id_number, gender_id: $gender_id, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons, company: $company)';
   }
 
   @override
@@ -276,10 +324,16 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
         (other.runtimeType == runtimeType &&
             other is _$_EducationalOffersModel &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.company_id, company_id) ||
-                other.company_id == company_id) &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.active, active) || other.active == active) &&
+            (identical(other.educational_order_id, educational_order_id) ||
+                other.educational_order_id == educational_order_id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.birthdate, birthdate) ||
+                other.birthdate == birthdate) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.national_id_number, national_id_number) ||
+                other.national_id_number == national_id_number) &&
+            (identical(other.gender_id, gender_id) ||
+                other.gender_id == gender_id) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
             (identical(other.updated_at, updated_at) ||
@@ -295,9 +349,12 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      company_id,
-      price,
-      active,
+      educational_order_id,
+      name,
+      birthdate,
+      age,
+      national_id_number,
+      gender_id,
       created_at,
       updated_at,
       deleted_at,
@@ -319,12 +376,15 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
   }
 }
 
-abstract class _EducationalOffersModel implements EducationalOffersModel {
+abstract class _EducationalOffersModel implements EducationalChildDoneModel {
   const factory _EducationalOffersModel(
       {final int? id,
-      final int? company_id,
-      final int? price,
-      final int? active,
+      final String? educational_order_id,
+      final String? name,
+      final String? birthdate,
+      final int? age,
+      final String? national_id_number,
+      final int? gender_id,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at,
@@ -337,11 +397,17 @@ abstract class _EducationalOffersModel implements EducationalOffersModel {
   @override
   int? get id;
   @override
-  int? get company_id;
+  String? get educational_order_id;
   @override
-  int? get price;
+  String? get name;
   @override
-  int? get active;
+  String? get birthdate;
+  @override
+  int? get age;
+  @override
+  String? get national_id_number;
+  @override
+  int? get gender_id;
   @override
   String? get created_at;
   @override

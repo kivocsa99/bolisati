@@ -19,6 +19,7 @@ class PetPlaceOrderUseCase
   @override
   Future<Either<ApiFailures, dynamic>> execute(
       PetPlaceOrderUseCaseInput input) async {
-    return _petRepository!.placeOrder(token: input.token, model: input.model!);
+    return _petRepository!.placeOrder(
+        addons: input.addons, token: input.token, model: input.model!);
   }
 }

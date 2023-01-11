@@ -14,13 +14,14 @@ abstract class IApiAuthFacade {
   });
 
   Future<void> signOut(BuildContext context);
-  
+
   Future<Either<ApiFailures, dynamic>> updateuser({
-    required String phone,
-    required String password,
+    required String urlvalue,
+    required String value,
+    required String token,
   });
-  
-  Future<Either<ApiFailures, dynamic>> otpVerfication({
+
+  Future<Either<ApiFailures, Unit>> otpVerfication({
     required String phone,
   });
 }

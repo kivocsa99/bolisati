@@ -1,28 +1,31 @@
 import 'package:bolisati/application/core/use_cases/i.use_case.dart';
 import 'package:bolisati/application/medical/use_cases/placeorder/place.order.use.case.input.dart';
 import 'package:bolisati/application/motor/placeorder/place.order.use.case.input.dart';
+import 'package:bolisati/application/personal/placeorder/place.order.use.case.input.dart';
 import 'package:bolisati/application/provider/motor.repository.provider.dart';
+import 'package:bolisati/application/provider/personal.repository.provider.dart';
 import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:bolisati/domain/api/motor/contracts/i.motor.repository.dart';
+import 'package:bolisati/domain/api/personal/contracts/i.personal.repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../domain/api/medical/contracts/i.medical.repository.dart';
 
-final motorplaceOrderProvider = Provider((ref) =>
-    MotorPlaceOrderUseCase(motorRepository: ref.watch(motorrepoprovider)));
+final personalplaceOrderProvider = Provider((ref) => PersonalPlaceOrderUseCase(
+    motorRepository: ref.watch(personalrepoprovider)));
 
-class MotorPlaceOrderUseCase
-    implements IUseCase<MotorPlaceOrderUseCaseInput, dynamic> {
-  final IMotorRepository? _motorRepository;
+class PersonalPlaceOrderUseCase
+    implements IUseCase<PersonalPlaceOrderUseCaseInput, dynamic> {
+  final IPersonalRepository? _motorRepository;
 
-  MotorPlaceOrderUseCase({IMotorRepository? motorRepository})
+  PersonalPlaceOrderUseCase({IPersonalRepository? motorRepository})
       : _motorRepository = motorRepository;
 
   @override
   Future<Either<ApiFailures, dynamic>> execute(
-      MotorPlaceOrderUseCaseInput input) async {
-    return _motorRepository!
-        .placeOrder(addons:input.addons,token: input.token, motororder: input.motorOrder!);
+      PersonalPlaceOrderUseCaseInput input) async {
+    return _motorRepository!.placeOrder(
+        addons: input.addons, token: input.token, model: input.model!);
   }
 }

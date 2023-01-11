@@ -4,6 +4,7 @@ import 'package:bolisati/constants.dart';
 import 'package:bolisati/presentation/widgets/horizantal_insurance_type_container.dart';
 import 'package:bolisati/presentation/widgets/vertical_insurance_type_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,6 +14,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/api/orders/user.orders.model.dart';
+import '../../main.dart';
 import 'horizantal_user_insurance_container.dart';
 
 class MainScreen extends HookConsumerWidget {
@@ -33,6 +35,17 @@ class MainScreen extends HookConsumerWidget {
     } else {
       message.value = 'Good Evening';
     }
+    useEffect(
+      () {
+        FirebaseMessaging.onMessage.listen((event) {
+          showFlutterNotification(event);
+        });
+
+        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+          print('A new onMessageOpenedApp event was published!');
+        });
+      },
+    );
 
     return ValueListenableBuilder(
       valueListenable: setting.listenable(),

@@ -46,7 +46,7 @@ class PetPicturesContainer extends HookConsumerWidget {
                     ? Container(
                         alignment: Alignment.center,
                         child: Image.asset(
-                          "assets/license.png",
+                          "assets/id.png",
                           width: 150,
                           height: 150,
                           fit: BoxFit.fill,
@@ -64,45 +64,6 @@ class PetPicturesContainer extends HookConsumerWidget {
                               ),
                               Image.file(
                                 image1!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              )
-                            ]),
-                      ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: -120,
-            child: GestureDetector(
-              onTap: function1,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
-                child: image3 == null || image3!.path == ""
-                    ? Container(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/id.png",
-                          width: 150,
-                          height: 150,
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                    : SizedBox(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.file(
-                                image2!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              ),
-                              Image.file(
-                                image3!,
                                 height: 150,
                                 width: 150,
                                 fit: BoxFit.fill,

@@ -3,6 +3,7 @@ import 'package:bolisati/domain/api/orders/user.orders.model.dart';
 import 'package:bolisati/presentation/widgets/horizantal_insurance_type_container.dart';
 import 'package:bolisati/presentation/widgets/horizantal_user_insurance_container.dart';
 import 'package:bolisati/presentation/widgets/vertical_insurance_type_container.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,9 +11,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../application/provider/user.repository.provider.dart';
-import '../constants.dart';
-import '../router/app_route.gr.dart';
+import '../../application/provider/user.repository.provider.dart';
+import '../../constants.dart';
+import '../../main.dart';
+import '../../router/app_route.gr.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
@@ -32,6 +34,17 @@ class HomeScreen extends HookConsumerWidget {
     } else {
       message.value = 'Good Evening';
     }
+    useEffect(
+      () {
+        FirebaseMessaging.onMessage.listen((event) {
+          showFlutterNotification(event);
+        });
+
+        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+          print('A new onMessageOpenedApp event was published!');
+        });
+      },
+    );
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -43,6 +56,21 @@ class HomeScreen extends HookConsumerWidget {
               final name = box.get("name");
               final userOrderProvider = ref.watch(GetorderProvider(apitoken));
               return Stack(children: [
+                Positioned(
+                  right: 10,
+                  top: 30,
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(FontAwesomeIcons.bell)),
+                      IconButton(
+                          onPressed: () =>
+                              context.router.push(const ProfileScreen()),
+                          icon: const Icon(FontAwesomeIcons.user)),
+                    ],
+                  ),
+                ),
                 Positioned(
                   top: 100,
                   left: 0,

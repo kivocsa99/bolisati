@@ -56,6 +56,54 @@ class _TravelBottomSheetState extends State<TravelBottomSheet> {
             const SizedBox(
               height: 10,
             ),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  AddonsModel addonsModel = widget.offerModel!.addons![index];
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Checkbox(
+                              value: checked[index],
+                              onChanged: (value) {
+                                checked[index] = value;
+                                int x = checked
+                                    .where((element) => element == true)
+                                    .toList()
+                                    .length;
+
+                                String loc = "";
+                                List<String> locs = widget.offerModel!.addons!
+                                    .map((element) =>
+                                        "&addons[]=${element.id.toString()}")
+                                    .toList();
+                                for (int q = 0; q < x; q++) {
+                                  loc = loc + locs[q];
+                                }
+
+                                travel.put("addon", loc);
+
+                                setState(() {});
+                              }),
+                          Text(
+                            addonsModel.addon!.name!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "${addonsModel.price} JOD",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  );
+                },
+                itemCount: widget.offerModel!.addons!.length,
+              ),
+            ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,

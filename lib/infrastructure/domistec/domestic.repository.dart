@@ -89,11 +89,13 @@ class DomesticRepository implements IDomesticRepository {
 //place order check with ali
   @override
   Future<Either<ApiFailures, dynamic>> placeOrder(
-      {required String token, required DomesticDoneModel model}) async {
+      {required String token,
+      required String? addons,
+      required DomesticDoneModel model}) async {
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          "https://bolisati.bitsblend.org/api/V1/DomesticWorker/PlaceOrder?domestic_worker_insurance_id=${model.total}&name=${model.name}&start_date=${model.start_date}&end_date=${model.end_date}&national_id_number=${int.parse(model.national_id_number!)}&worker_name=${model.worker_name}&api_token=$token");
+          "https://bolisati.bitsblend.org/api/V1/DomesticWorker/PlaceOrder?domestic_worker_insurance_id=${model.total}&name=${model.name}&start_date=${model.start_date}&end_date=${model.end_date}&national_id_number=${int.parse(model.national_id_number!)}&worker_name=${model.worker_name}$addons&api_token=$token");
       print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         DomesticDoneModel model =

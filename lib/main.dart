@@ -1,17 +1,19 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bolisati/application/auth/ali_api/use_cases/update/update_use_case.dart';
+import 'package:bolisati/application/auth/ali_api/use_cases/update/update_use_case.input.dart';
 import 'package:bolisati/router/app_route.gr.dart';
 import 'package:bolisati/router/guard.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
+
 import 'firebase_options.dart';
 import 'router/app_route.gr.dart' as app_router;
 
@@ -95,7 +97,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  await messaging.requestPermission(
+    alert: true,
+    announcement: true,
+    badge: true,
+    sound: true,
+  );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
@@ -110,6 +118,8 @@ Future<void> main() async {
   final pet = await Hive.openBox("pet");
   final domestic = await Hive.openBox("domestic");
   final education = await Hive.openBox("educational");
+  final personal = await Hive.openBox("personal");
+
   await car.clear();
   await medical.clear();
   await education.clear();
@@ -117,7 +127,15 @@ Future<void> main() async {
   await travel.clear();
   await domestic.clear();
   await retire.clear();
+  await personal.clear();
+  var token = await FirebaseMessaging.instance.getToken();
   print(user.values);
+  await user.put("fcmtoken", token);
+
+  FirebaseMessaging.instance.onTokenRefresh.listen((value) async {
+    token = value;
+    return await user.put("fcmtoken", value);
+  });
   runApp(ProviderScope(
     child: MyApp(),
   ));
@@ -150,11 +168,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends HookWidget {
+class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Box user = Hive.box("setting");
     final offset = useState(const Offset(2, 0));
     final changeOffset = useMemoized(() async => await Future.delayed(
         const Duration(milliseconds: 300),
@@ -175,8 +194,24 @@ class HomePage extends HookWidget {
                   duration: const Duration(milliseconds: 1000),
                   offset: offset.value,
                   onEnd: () {
-                    context.router
-                        .replaceAll([LandingScreen(constraints: dimentions)]);
+                    if (user.get("firsttime") != null) {
+                      print(user.get("name"));
+                      ref
+                          .read(updateuserprovider)
+                          .execute(UpdateUserInput(
+                            urlvalue: "fcm_token",
+                            token: user.get("apitoken"),
+                            value: user.get("fcmtoken"),
+                          ))
+                          .then((value) => value.fold(
+                              (l) => ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(l.toString()))),
+                              (r) async => await context.router.replaceAll(
+                                  [LandingScreen(constraints: dimentions)])));
+                    } else {
+                      context.router
+                          .replaceAll([LandingScreen(constraints: dimentions)]);
+                    }
                   },
                   child: Image.asset("assets/logo.png"),
                 ),

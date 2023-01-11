@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/presentation/auth/widgets/email.dart';
 import 'package:bolisati/presentation/auth/widgets/name.dart';
 import 'package:bolisati/presentation/auth/widgets/otp.dart';
@@ -10,6 +11,8 @@ import 'package:bolisati/presentation/widgets/animated_form.dart';
 import 'package:bolisati/presentation/widgets/animated_landing_container.dart';
 import 'package:bolisati/presentation/widgets/animated_logo.dart';
 import 'package:bolisati/presentation/widgets/animated_video.dart';
+import 'package:bolisati/router/app_route.gr.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -28,7 +31,7 @@ class LandingScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    late Box setting;
+    final Box setting = Hive.box("setting");
     MediaQuery.of(context).removePadding(removeTop: true);
     final passswordController = useTextEditingController();
     final otpcontroller = useTextEditingController();
@@ -37,7 +40,6 @@ class LandingScreen extends HookConsumerWidget {
     final phoneformkey = useState(GlobalKey<FormState>());
     final emailformkey = useState(GlobalKey<FormState>());
     final passformkey = useState(GlobalKey<FormState>());
-
     final islogodone = useState(false);
     final isstarted = useState(false);
     final islogostarted = useState(false);
@@ -62,8 +64,7 @@ class LandingScreen extends HookConsumerWidget {
               min: 10, max: 10, errorText: "Please Provide a 10 digit phone")
         ]),
         formkey: phoneformkey.value,
-        onchanged: (value) =>
-            user.value = user.value.copyWith(phone: "+962$value"),
+        onchanged: (value) => user.value = user.value.copyWith(phone: value),
         key: const Key("0"),
       ),
       OtpVerfication(
@@ -111,8 +112,7 @@ class LandingScreen extends HookConsumerWidget {
     ];
 
     final index = useState(0);
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: SizedBox(
         height: constraints!.maxHeight,
@@ -128,7 +128,7 @@ class LandingScreen extends HookConsumerWidget {
                 isLoginFormStarted.value = true;
               },
               function: () async {
-                print("hello");
+                context.router.push(const LoginScreen());
               },
             ),
             AnimatedVideo(
@@ -152,12 +152,33 @@ class LandingScreen extends HookConsumerWidget {
               function: () async {
                 if (index.value == 0 &&
                     phoneformkey.value.currentState!.validate()) {
-                  final isLaseIndex = index.value == registercases.length - 1;
-                  index.value = isLaseIndex ? 0 : index.value + 1;
+                  await FirebaseAuth.instance.verifyPhoneNumber(
+                      phoneNumber: "+962${user.value.phone!.substring(1)}",
+                      verificationCompleted: (verificationCompleted) {},
+                      verificationFailed: (verificationFailed) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(verificationFailed.toString())));
+                      },
+                      codeSent: (value, codeSent) {
+                        setting.put("firebase", value);
+                        final isLaseIndex =
+                            index.value == registercases.length - 1;
+                        index.value = isLaseIndex ? 0 : index.value + 1;
+                      },
+                      codeAutoRetrievalTimeout: (codeAutoRetrievalTimeout) {});
                 } else if (index.value == 1 &&
                     otpformkey.value.currentState!.validate()) {
-                  final isLaseIndex = index.value == registercases.length - 1;
-                  index.value = isLaseIndex ? 0 : index.value + 1;
+                  final phone = PhoneAuthProvider.credential(
+                      verificationId: setting.get("firebase"),
+                      smsCode: otpcontroller.text);
+                  try {
+                    await FirebaseAuth.instance.signInWithCredential(phone);
+                    final isLaseIndex = index.value == registercases.length - 1;
+                    index.value = isLaseIndex ? 0 : index.value + 1;
+                  } catch (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(error.toString())));
+                  }
                 } else if (index.value == 2 &&
                     nameformkey.value.currentState!.validate()) {
                   final isLaseIndex = index.value == registercases.length - 1;
@@ -168,7 +189,6 @@ class LandingScreen extends HookConsumerWidget {
                   index.value = isLaseIndex ? 0 : index.value + 1;
                 } else if (index.value == 4 &&
                     passformkey.value.currentState!.validate()) {
-                  setting = Hive.box('setting');
                   await setting.put("name", user.value.name);
                   await ref
                       .read(signUpWithEmailAndPasswordUseCaseProvider)
@@ -205,6 +225,6 @@ class LandingScreen extends HookConsumerWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 }

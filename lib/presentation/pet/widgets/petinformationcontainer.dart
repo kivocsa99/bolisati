@@ -20,19 +20,20 @@ class PetInformationContainer extends HookWidget {
   final TextEditingController? enddatecontroller;
   final TextEditingController? carbrandcontroller;
   final TextEditingController? carmodelcontroller;
-  final TextEditingController? PetTypecontroller;
   final TextEditingController? valuecontroller;
   final TextEditingController? prevcontroller;
+  final TextEditingController? pettypecontroller;
 
   final ValueChanged<String?>? pettype;
   final ValueChanged<String?>? value;
-  final ValueChanged<String?>? perviosaccidents;
+  final ValueChanged<String?>? gender;
 
   final VoidCallback? caryearfunction;
   final GlobalKey<FormState>? formkey;
   const PetInformationContainer(
       {super.key,
       this.caryearfunction,
+      this.pettypecontroller,
       this.formkey,
       this.name,
       this.yearcontroller,
@@ -41,12 +42,11 @@ class PetInformationContainer extends HookWidget {
       this.valuecontroller,
       this.enddatecontroller,
       this.startdatecontroller,
-      this.PetTypecontroller,
       this.prevcontroller,
       this.namecontroller,
       this.pettype,
       this.value,
-      this.perviosaccidents});
+      this.gender});
 
   @override
   Widget build(BuildContext context) {
@@ -80,33 +80,27 @@ class PetInformationContainer extends HookWidget {
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2,
                   ),
-                  PetType(
-                    width: 100,
-                    onchanged: pettype,
+                  Expanded(
+                    child: PetType(
+                      width: 100,
+                      onchanged: pettype,
+                    ),
                   ),
                 ],
-              ),
-              CustomField(
-                controller: valuecontroller,
-                type: TextInputType.number,
-                readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
-                onchanged: value,
-                label: "Value",
-                width: double.infinity,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CustomField(
-                    initial: "Previous Accidents",
+                    initial: "Pet Gender",
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2 + 10,
                   ),
-                  Carraccident(
-                    width: 100,
-                    onchanged: perviosaccidents,
+                  Expanded(
+                    child: Gender(
+                      width: 100,
+                      onchanged: gender,
+                    ),
                   ),
                 ],
               ),
@@ -150,15 +144,7 @@ class PetType extends HookWidget {
     final dropDownValue = useState("N/A");
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.grey,
-              width: 2,
-            ),
-          ),
-        ),
+      child: SizedBox(
         height: 80,
         width: width,
         child: DropdownButtonFormField<String>(
@@ -180,12 +166,12 @@ class PetType extends HookWidget {
   }
 }
 
-class Carraccident extends HookWidget {
+class Gender extends HookWidget {
   final ValueChanged<String?>? onchanged;
   final String? Function(String?)? validator;
   final String? label;
   final double? width;
-  const Carraccident(
+  const Gender(
       {super.key, this.width, this.onchanged, this.label, this.validator});
 
   @override
@@ -193,7 +179,7 @@ class Carraccident extends HookWidget {
     final dropDownValue = useState("N/A");
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Container(
+      child: SizedBox(
         height: 80,
         width: width,
         child: DropdownButtonFormField<String>(
@@ -202,7 +188,7 @@ class Carraccident extends HookWidget {
           iconEnabledColor: Colors.grey,
           value: dropDownValue.value,
           onChanged: onchanged,
-          items: ["N/A", "True", "False"]
+          items: ["N/A", "Male", "Female"]
               .map<DropdownMenuItem<String>>(
                   (String _value) => DropdownMenuItem<String>(
                       value: _value,
@@ -293,7 +279,7 @@ class YearPicker extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("pet");
+    final Box pet = Hive.box("pet");
 
     final _selectedYear = useState("");
     return Padding(
@@ -317,7 +303,7 @@ class YearPicker extends HookWidget {
               final pickedYear = await showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
-                firstDate: DateTime(1970),
+                firstDate: DateTime(1900),
                 lastDate: DateTime.now().add(const Duration(days: 356)),
                 builder: (context, child) {
                   return Theme(
@@ -333,8 +319,13 @@ class YearPicker extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selectedYear.value = DateFormat.y().format(pickedYear);
-                car.put("caryear", _selectedYear.value);
+                String picked = DateFormat.y().format(pickedYear);
+                String now = DateFormat.y().format(DateTime.now());
+                int result = int.parse(now) - int.parse(picked);
+                _selectedYear.value =
+                    DateFormat("yyyy-MM-dd").format(pickedYear);
+                pet.put("birthdate", _selectedYear.value);
+                pet.put("age", result);
                 controller!.text = _selectedYear.value.toString();
               }
             },
@@ -348,7 +339,7 @@ class YearPicker extends HookWidget {
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               filled: true,
               fillColor: Colors.blue[350],
-              labelText: "Car Year",
+              labelText: "Birth Date",
               hintStyle: const TextStyle(
                 color: Colors.black26,
                 fontSize: 18,
@@ -509,7 +500,7 @@ class CarBrand extends HookConsumerWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return SimpleDialog(
-                          title: const Text('Select Car Brand'),
+                          title: const Text('Select Pet Country'),
                           children: cars.map((e) {
                             return SimpleDialogOption(
                               onPressed: () async {

@@ -27,7 +27,7 @@ mixin _$PersonalOfferModel {
   int? get age_from => throw _privateConstructorUsedError;
   int? get age_to => throw _privateConstructorUsedError;
   int? get personal_accident_type_id => throw _privateConstructorUsedError;
-  double? get rate => throw _privateConstructorUsedError;
+  num? get rate => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -54,7 +54,7 @@ abstract class $PersonalOfferModelCopyWith<$Res> {
       int? age_from,
       int? age_to,
       int? personal_accident_type_id,
-      double? rate,
+      num? rate,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -123,7 +123,7 @@ class _$PersonalOfferModelCopyWithImpl<$Res, $Val extends PersonalOfferModel>
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ abstract class _$$_PersonalOfferModelCopyWith<$Res>
       int? age_from,
       int? age_to,
       int? personal_accident_type_id,
-      double? rate,
+      num? rate,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -244,7 +244,7 @@ class __$$_PersonalOfferModelCopyWithImpl<$Res>
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -306,7 +306,7 @@ class _$_PersonalOfferModel implements _PersonalOfferModel {
   @override
   final int? personal_accident_type_id;
   @override
-  final double? rate;
+  final num? rate;
   @override
   final String? created_at;
   @override
@@ -400,7 +400,7 @@ abstract class _PersonalOfferModel implements PersonalOfferModel {
       final int? age_from,
       final int? age_to,
       final int? personal_accident_type_id,
-      final double? rate,
+      final num? rate,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at,
@@ -425,7 +425,7 @@ abstract class _PersonalOfferModel implements PersonalOfferModel {
   @override
   int? get personal_accident_type_id;
   @override
-  double? get rate;
+  num? get rate;
   @override
   String? get created_at;
   @override

@@ -117,9 +117,9 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Vehicle",
+                            name: "Domestic Worker",
                             description:
-                                "Protect your vehicle\nin case of accidents.",
+                                "Protect your workers\nin case of accidents.",
                             icon: const Icon(
                               FontAwesomeIcons.briefcase,
                               color: carcolor,
@@ -137,6 +137,9 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                             child: SingleChildScrollView(
                                 child: Column(
                               children: [
+                                  const SizedBox(
+                                  height: 10,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: AnotherStepper(
@@ -264,23 +267,21 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                           offerModel:
                                                               offersModel,
                                                           function: () {
-                                                            print("hello");
-                                                            print(order.value);
-
                                                             ref
                                                                 .read(
                                                                     domesticplaceOrderProvider)
-                                                                .execute(
-                                                                    DomesticPlaceOrderUseCaseInput(
-                                                                  model: order
-                                                                      .value,
-                                                                  token: token,
-                                                                ))
+                                                                .execute(DomesticPlaceOrderUseCaseInput(
+                                                                    model: order
+                                                                        .value,
+                                                                    token:
+                                                                        token,
+                                                                    addons:
+                                                                        domestic.get("addon") ??
+                                                                            ""))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                            content:
-                                                                                Text(l.toString()))),
+                                                                        (l) => ScaffoldMessenger.of(context)
+                                                                            .showSnackBar(SnackBar(content: Text(l.toString()))),
                                                                         (r) async {
                                                                       DomesticDoneModel
                                                                           orderdone =

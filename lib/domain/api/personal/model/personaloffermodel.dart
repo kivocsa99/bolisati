@@ -19,7 +19,7 @@ class PersonalOfferModel with _$PersonalOfferModel {
     int? age_from,
     int? age_to,
     int? personal_accident_type_id,
-    double? rate,
+    num? rate,
     String? created_at,
     String? updated_at,
     String? deleted_at,

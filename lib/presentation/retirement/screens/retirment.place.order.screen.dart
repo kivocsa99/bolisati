@@ -9,7 +9,6 @@ import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/orders/retirementorders/retirementordermodel.dart';
 
 import 'package:bolisati/domain/api/retirment/model/retirmentdonemodel.dart';
-import 'package:bolisati/presentation/retirement/widgets/retirmentbottomsheet.dart';
 import 'package:bolisati/presentation/retirement/widgets/retirmentuploadpage.dart';
 
 import 'package:flutter/material.dart';
@@ -124,6 +123,9 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                             child: SingleChildScrollView(
                                 child: Column(
                               children: [
+                                  const SizedBox(
+                                  height: 10,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: AnotherStepper(
@@ -204,8 +206,46 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                               order.value,
                                                           token: token))
                                                   .then((value) => value.fold(
-                                                      (l) => print(l),
-                                                      (r) => print(r)));
+                                                          (l) => ScaffoldMessenger
+                                                                  .of(context)
+                                                              .showSnackBar(SnackBar(
+                                                                  content: Text(
+                                                                      l.toString()))),
+                                                          (r) async {
+                                                        RetirmentDoneModel
+                                                            orderdone = r;
+                                                        for (var element
+                                                            in images) {
+                                                          ref
+                                                              .read(
+                                                                  retirmentattachplaceOrderProvider)
+                                                              .execute(RetirmentAttachFileUseCaseInput(
+                                                                  token: token,
+                                                                  orderid:
+                                                                      orderdone
+                                                                          .id,
+                                                                  file: File(
+                                                                      element)))
+                                                              .then((value) =>
+                                                                  value.fold(
+                                                                      (l) =>
+                                                                          print(
+                                                                              l),
+                                                                      (r) => print(
+                                                                          r)));
+                                                        }
+                                                        context.router.pop();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                const SnackBar(
+                                                                    content: Text(
+                                                                        "Your Order Have Been Placed")));
+                                                        await context.router
+                                                            .replaceAll([
+                                                          const HomeScreen()
+                                                        ]);
+                                                      }));
                                             }
                                           },
                                           child: Container(

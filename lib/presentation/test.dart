@@ -21,12 +21,5 @@ class Test extends HookConsumerWidget {
 }
 //----------------
 //sign in method
-     // ref
-          //     .read(signInWithEmailAndPasswordUseCaseProvider)
-          //     .execute(SignInWithEmailAndPasswordUseCaseInput(
-          //         email: "0788203782", password: "fahmi12345"))
-          //     .then((value) => value.fold((l) => print(l), (r) {
-          //           UserModel user = r;
-          //           print("-------------$user");
-          //         }));
+   
 //-----------------    

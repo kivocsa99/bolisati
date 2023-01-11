@@ -1,9 +1,10 @@
 import 'package:bolisati/domain/api/orders/motororders/motorordermodel.dart';
+import 'package:bolisati/domain/api/personal/model/personalofferdonemodel.dart';
 
-class MotorPlaceOrderUseCaseInput {
+class PersonalPlaceOrderUseCaseInput {
   final String? token;
-  final MotorOrderModel? motorOrder;
+  final PersonalOfferDoneModel? model;
   final String? addons;
 
-  MotorPlaceOrderUseCaseInput({this.motorOrder, this.token,this.addons});
+  PersonalPlaceOrderUseCaseInput({this.model, this.token, this.addons});
 }

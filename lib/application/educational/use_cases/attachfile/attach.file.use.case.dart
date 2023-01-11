@@ -1,4 +1,6 @@
 import 'package:bolisati/application/core/use_cases/i.use_case.dart';
+import 'package:bolisati/application/provider/educational.repository.provvider.dart';
+import 'package:bolisati/domain/api/educational/contracts/i.educational.repository.dart';
 import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,19 +11,19 @@ import 'attach.file.use.case.input.dart';
 
 final educationalattachplaceOrderProvider = Provider((ref) =>
     EducationalAttachFileUseCase(
-        medicalRepository: ref.watch(medicalrepoProvider)));
+        educationalRepository: ref.watch(educationalrepoprovider)));
 
 class EducationalAttachFileUseCase
     implements IUseCase<EducationalAttachFileUseCaseInput, dynamic> {
-  final IMedicalRepository? _medicalRepository;
+  final IEducationalRepository? _educationalRepository;
 
-  EducationalAttachFileUseCase({IMedicalRepository? medicalRepository})
-      : _medicalRepository = medicalRepository;
+  EducationalAttachFileUseCase({IEducationalRepository? educationalRepository})
+      : _educationalRepository = educationalRepository;
 
   @override
   Future<Either<ApiFailures, dynamic>> execute(
       EducationalAttachFileUseCaseInput input) async {
-    return await _medicalRepository!.attachFile(
+    return await _educationalRepository!.attachFile(
       apitoken: input.token,
       file: input.file,
       orderid: input.orderid,

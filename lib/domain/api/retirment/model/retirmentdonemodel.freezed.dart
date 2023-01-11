@@ -21,13 +21,18 @@ RetirmentDoneModel _$RetirmentDoneModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RetirmentDoneModel {
   int? get id => throw _privateConstructorUsedError;
+  int? get customer_user_id => throw _privateConstructorUsedError;
   int? get company_id => throw _privateConstructorUsedError;
-  int? get age_form => throw _privateConstructorUsedError;
-  int? get age_to => throw _privateConstructorUsedError;
-  int? get medical_insurance_type_id => throw _privateConstructorUsedError;
-  int? get gender_id => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
-  int? get active => throw _privateConstructorUsedError;
+  String? get aretirement_type_idge_to => throw _privateConstructorUsedError;
+  int? get retirement_order_status_id => throw _privateConstructorUsedError;
+  String? get retirement_type => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get birthdate => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
+  String? get retirement_age => throw _privateConstructorUsedError;
+  String? get monthly_fee => throw _privateConstructorUsedError;
+  int? get fixed_fee => throw _privateConstructorUsedError;
+  int? get total => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -48,13 +53,18 @@ abstract class $RetirmentDoneModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
+      int? customer_user_id,
       int? company_id,
-      int? age_form,
-      int? age_to,
-      int? medical_insurance_type_id,
-      int? gender_id,
-      int? price,
-      int? active,
+      String? aretirement_type_idge_to,
+      int? retirement_order_status_id,
+      String? retirement_type,
+      String? name,
+      String? birthdate,
+      int? age,
+      String? retirement_age,
+      String? monthly_fee,
+      int? fixed_fee,
+      int? total,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -78,13 +88,18 @@ class _$RetirmentDoneModelCopyWithImpl<$Res, $Val extends RetirmentDoneModel>
   @override
   $Res call({
     Object? id = freezed,
+    Object? customer_user_id = freezed,
     Object? company_id = freezed,
-    Object? age_form = freezed,
-    Object? age_to = freezed,
-    Object? medical_insurance_type_id = freezed,
-    Object? gender_id = freezed,
-    Object? price = freezed,
-    Object? active = freezed,
+    Object? aretirement_type_idge_to = freezed,
+    Object? retirement_order_status_id = freezed,
+    Object? retirement_type = freezed,
+    Object? name = freezed,
+    Object? birthdate = freezed,
+    Object? age = freezed,
+    Object? retirement_age = freezed,
+    Object? monthly_fee = freezed,
+    Object? fixed_fee = freezed,
+    Object? total = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -96,33 +111,53 @@ class _$RetirmentDoneModelCopyWithImpl<$Res, $Val extends RetirmentDoneModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      customer_user_id: freezed == customer_user_id
+          ? _value.customer_user_id
+          : customer_user_id // ignore: cast_nullable_to_non_nullable
+              as int?,
       company_id: freezed == company_id
           ? _value.company_id
           : company_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      age_form: freezed == age_form
-          ? _value.age_form
-          : age_form // ignore: cast_nullable_to_non_nullable
+      aretirement_type_idge_to: freezed == aretirement_type_idge_to
+          ? _value.aretirement_type_idge_to
+          : aretirement_type_idge_to // ignore: cast_nullable_to_non_nullable
+              as String?,
+      retirement_order_status_id: freezed == retirement_order_status_id
+          ? _value.retirement_order_status_id
+          : retirement_order_status_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      age_to: freezed == age_to
-          ? _value.age_to
-          : age_to // ignore: cast_nullable_to_non_nullable
+      retirement_type: freezed == retirement_type
+          ? _value.retirement_type
+          : retirement_type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
               as int?,
-      medical_insurance_type_id: freezed == medical_insurance_type_id
-          ? _value.medical_insurance_type_id
-          : medical_insurance_type_id // ignore: cast_nullable_to_non_nullable
+      retirement_age: freezed == retirement_age
+          ? _value.retirement_age
+          : retirement_age // ignore: cast_nullable_to_non_nullable
+              as String?,
+      monthly_fee: freezed == monthly_fee
+          ? _value.monthly_fee
+          : monthly_fee // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fixed_fee: freezed == fixed_fee
+          ? _value.fixed_fee
+          : fixed_fee // ignore: cast_nullable_to_non_nullable
               as int?,
-      gender_id: freezed == gender_id
-          ? _value.gender_id
-          : gender_id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as int?,
-      active: freezed == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int?,
       created_at: freezed == created_at
           ? _value.created_at
@@ -170,13 +205,18 @@ abstract class _$$_RetirmentDoneModelCopyWith<$Res>
   @useResult
   $Res call(
       {int? id,
+      int? customer_user_id,
       int? company_id,
-      int? age_form,
-      int? age_to,
-      int? medical_insurance_type_id,
-      int? gender_id,
-      int? price,
-      int? active,
+      String? aretirement_type_idge_to,
+      int? retirement_order_status_id,
+      String? retirement_type,
+      String? name,
+      String? birthdate,
+      int? age,
+      String? retirement_age,
+      String? monthly_fee,
+      int? fixed_fee,
+      int? total,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -199,13 +239,18 @@ class __$$_RetirmentDoneModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? customer_user_id = freezed,
     Object? company_id = freezed,
-    Object? age_form = freezed,
-    Object? age_to = freezed,
-    Object? medical_insurance_type_id = freezed,
-    Object? gender_id = freezed,
-    Object? price = freezed,
-    Object? active = freezed,
+    Object? aretirement_type_idge_to = freezed,
+    Object? retirement_order_status_id = freezed,
+    Object? retirement_type = freezed,
+    Object? name = freezed,
+    Object? birthdate = freezed,
+    Object? age = freezed,
+    Object? retirement_age = freezed,
+    Object? monthly_fee = freezed,
+    Object? fixed_fee = freezed,
+    Object? total = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -217,33 +262,53 @@ class __$$_RetirmentDoneModelCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      customer_user_id: freezed == customer_user_id
+          ? _value.customer_user_id
+          : customer_user_id // ignore: cast_nullable_to_non_nullable
+              as int?,
       company_id: freezed == company_id
           ? _value.company_id
           : company_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      age_form: freezed == age_form
-          ? _value.age_form
-          : age_form // ignore: cast_nullable_to_non_nullable
+      aretirement_type_idge_to: freezed == aretirement_type_idge_to
+          ? _value.aretirement_type_idge_to
+          : aretirement_type_idge_to // ignore: cast_nullable_to_non_nullable
+              as String?,
+      retirement_order_status_id: freezed == retirement_order_status_id
+          ? _value.retirement_order_status_id
+          : retirement_order_status_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      age_to: freezed == age_to
-          ? _value.age_to
-          : age_to // ignore: cast_nullable_to_non_nullable
+      retirement_type: freezed == retirement_type
+          ? _value.retirement_type
+          : retirement_type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
               as int?,
-      medical_insurance_type_id: freezed == medical_insurance_type_id
-          ? _value.medical_insurance_type_id
-          : medical_insurance_type_id // ignore: cast_nullable_to_non_nullable
+      retirement_age: freezed == retirement_age
+          ? _value.retirement_age
+          : retirement_age // ignore: cast_nullable_to_non_nullable
+              as String?,
+      monthly_fee: freezed == monthly_fee
+          ? _value.monthly_fee
+          : monthly_fee // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fixed_fee: freezed == fixed_fee
+          ? _value.fixed_fee
+          : fixed_fee // ignore: cast_nullable_to_non_nullable
               as int?,
-      gender_id: freezed == gender_id
-          ? _value.gender_id
-          : gender_id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      price: freezed == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as int?,
-      active: freezed == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int?,
       created_at: freezed == created_at
           ? _value.created_at
@@ -274,13 +339,18 @@ class __$$_RetirmentDoneModelCopyWithImpl<$Res>
 class _$_RetirmentDoneModel implements _RetirmentDoneModel {
   const _$_RetirmentDoneModel(
       {this.id,
+      this.customer_user_id,
       this.company_id,
-      this.age_form,
-      this.age_to,
-      this.medical_insurance_type_id,
-      this.gender_id,
-      this.price,
-      this.active,
+      this.aretirement_type_idge_to,
+      this.retirement_order_status_id,
+      this.retirement_type,
+      this.name,
+      this.birthdate,
+      this.age,
+      this.retirement_age,
+      this.monthly_fee,
+      this.fixed_fee,
+      this.total,
       this.created_at,
       this.updated_at,
       this.deleted_at,
@@ -294,19 +364,29 @@ class _$_RetirmentDoneModel implements _RetirmentDoneModel {
   @override
   final int? id;
   @override
+  final int? customer_user_id;
+  @override
   final int? company_id;
   @override
-  final int? age_form;
+  final String? aretirement_type_idge_to;
   @override
-  final int? age_to;
+  final int? retirement_order_status_id;
   @override
-  final int? medical_insurance_type_id;
+  final String? retirement_type;
   @override
-  final int? gender_id;
+  final String? name;
   @override
-  final int? price;
+  final String? birthdate;
   @override
-  final int? active;
+  final int? age;
+  @override
+  final String? retirement_age;
+  @override
+  final String? monthly_fee;
+  @override
+  final int? fixed_fee;
+  @override
+  final int? total;
   @override
   final String? created_at;
   @override
@@ -328,7 +408,7 @@ class _$_RetirmentDoneModel implements _RetirmentDoneModel {
 
   @override
   String toString() {
-    return 'RetirmentDoneModel(id: $id, company_id: $company_id, age_form: $age_form, age_to: $age_to, medical_insurance_type_id: $medical_insurance_type_id, gender_id: $gender_id, price: $price, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons, company: $company)';
+    return 'RetirmentDoneModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, aretirement_type_idge_to: $aretirement_type_idge_to, retirement_order_status_id: $retirement_order_status_id, retirement_type: $retirement_type, name: $name, birthdate: $birthdate, age: $age, retirement_age: $retirement_age, monthly_fee: $monthly_fee, fixed_fee: $fixed_fee, total: $total, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons, company: $company)';
   }
 
   @override
@@ -337,18 +417,30 @@ class _$_RetirmentDoneModel implements _RetirmentDoneModel {
         (other.runtimeType == runtimeType &&
             other is _$_RetirmentDoneModel &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.customer_user_id, customer_user_id) ||
+                other.customer_user_id == customer_user_id) &&
             (identical(other.company_id, company_id) ||
                 other.company_id == company_id) &&
-            (identical(other.age_form, age_form) ||
-                other.age_form == age_form) &&
-            (identical(other.age_to, age_to) || other.age_to == age_to) &&
-            (identical(other.medical_insurance_type_id,
-                    medical_insurance_type_id) ||
-                other.medical_insurance_type_id == medical_insurance_type_id) &&
-            (identical(other.gender_id, gender_id) ||
-                other.gender_id == gender_id) &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.active, active) || other.active == active) &&
+            (identical(
+                    other.aretirement_type_idge_to, aretirement_type_idge_to) ||
+                other.aretirement_type_idge_to == aretirement_type_idge_to) &&
+            (identical(other.retirement_order_status_id,
+                    retirement_order_status_id) ||
+                other.retirement_order_status_id ==
+                    retirement_order_status_id) &&
+            (identical(other.retirement_type, retirement_type) ||
+                other.retirement_type == retirement_type) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.birthdate, birthdate) ||
+                other.birthdate == birthdate) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.retirement_age, retirement_age) ||
+                other.retirement_age == retirement_age) &&
+            (identical(other.monthly_fee, monthly_fee) ||
+                other.monthly_fee == monthly_fee) &&
+            (identical(other.fixed_fee, fixed_fee) ||
+                other.fixed_fee == fixed_fee) &&
+            (identical(other.total, total) || other.total == total) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
             (identical(other.updated_at, updated_at) ||
@@ -364,13 +456,18 @@ class _$_RetirmentDoneModel implements _RetirmentDoneModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      customer_user_id,
       company_id,
-      age_form,
-      age_to,
-      medical_insurance_type_id,
-      gender_id,
-      price,
-      active,
+      aretirement_type_idge_to,
+      retirement_order_status_id,
+      retirement_type,
+      name,
+      birthdate,
+      age,
+      retirement_age,
+      monthly_fee,
+      fixed_fee,
+      total,
       created_at,
       updated_at,
       deleted_at,
@@ -395,13 +492,18 @@ class _$_RetirmentDoneModel implements _RetirmentDoneModel {
 abstract class _RetirmentDoneModel implements RetirmentDoneModel {
   const factory _RetirmentDoneModel(
       {final int? id,
+      final int? customer_user_id,
       final int? company_id,
-      final int? age_form,
-      final int? age_to,
-      final int? medical_insurance_type_id,
-      final int? gender_id,
-      final int? price,
-      final int? active,
+      final String? aretirement_type_idge_to,
+      final int? retirement_order_status_id,
+      final String? retirement_type,
+      final String? name,
+      final String? birthdate,
+      final int? age,
+      final String? retirement_age,
+      final String? monthly_fee,
+      final int? fixed_fee,
+      final int? total,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at,
@@ -414,19 +516,29 @@ abstract class _RetirmentDoneModel implements RetirmentDoneModel {
   @override
   int? get id;
   @override
+  int? get customer_user_id;
+  @override
   int? get company_id;
   @override
-  int? get age_form;
+  String? get aretirement_type_idge_to;
   @override
-  int? get age_to;
+  int? get retirement_order_status_id;
   @override
-  int? get medical_insurance_type_id;
+  String? get retirement_type;
   @override
-  int? get gender_id;
+  String? get name;
   @override
-  int? get price;
+  String? get birthdate;
   @override
-  int? get active;
+  int? get age;
+  @override
+  String? get retirement_age;
+  @override
+  String? get monthly_fee;
+  @override
+  int? get fixed_fee;
+  @override
+  int? get total;
   @override
   String? get created_at;
   @override

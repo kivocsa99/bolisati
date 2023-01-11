@@ -2,6 +2,8 @@ import 'package:bolisati/domain/api/domestic/model/domesticoffermodel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../../domain/api/addons/model/addonsmodel.dart';
+
 class DomesticBottomSheet extends StatefulWidget {
   final DomesticOfferModel? offerModel;
   final VoidCallback? function;
@@ -15,6 +17,7 @@ class _DomesticBottomSheetState extends State<DomesticBottomSheet> {
   final List<bool?> checked = List.generate(20, (index) => false);
   @override
   Widget build(BuildContext context) {
+    final Box domestic = Hive.box("domestic");
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2,
       child: Padding(
@@ -46,6 +49,54 @@ class _DomesticBottomSheetState extends State<DomesticBottomSheet> {
             ),
             const SizedBox(
               height: 10,
+            ),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  AddonsModel addonsModel = widget.offerModel!.addons![index];
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Checkbox(
+                              value: checked[index],
+                              onChanged: (value) {
+                                checked[index] = value;
+                                int x = checked
+                                    .where((element) => element == true)
+                                    .toList()
+                                    .length;
+
+                                String loc = "";
+                                List<String> locs = widget.offerModel!.addons!
+                                    .map((element) =>
+                                        "&addons[]=${element.id.toString()}")
+                                    .toList();
+                                for (int q = 0; q < x; q++) {
+                                  loc = loc + locs[q];
+                                }
+
+                                domestic.put("addon", loc);
+
+                                setState(() {});
+                              }),
+                          Text(
+                            addonsModel.addon!.name!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "${addonsModel.price} JOD",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  );
+                },
+                itemCount: widget.offerModel!.addons!.length,
+              ),
             ),
             Expanded(
               child: Align(

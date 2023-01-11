@@ -29,7 +29,7 @@ class PersonalRepository implements IPersonalRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/PersonalAccident/AttachFile?api_token=$apitoken",
           data: formData);
-
+      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["FileURL"];
       } else {
@@ -103,20 +103,20 @@ class PersonalRepository implements IPersonalRepository {
 //done
 
   @override
-  Future<Either<ApiFailures, dynamic>> placeOrder({
-    required PersonalOfferDoneModel model,
-    required String? token,
-  }) async {
+  Future<Either<ApiFailures, dynamic>> placeOrder(
+      {required PersonalOfferDoneModel model,
+      required String? token,
+      required String? addons}) async {
     var dio = Dio();
     dio.options.headers = {"Content-Type": "application/json"};
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/PersonalAccident/PlaceOrder?personal_accident_insurance_id=${int.parse(model.personal_accident_insurance_id!)}&personal_accident_occupation_id=${int.parse(model.personal_accident_occupation_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&insurance_amount=${model.total}&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/PersonalAccident/PlaceOrder?personal_accident_insurance_id=${int.parse(model.personal_accident_insurance_id!)}&personal_accident_occupation_id=${int.parse(model.personal_accident_occupation_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&insurance_amount=${model.insurance_amount}$addons&api_token=$token""");
 
       if (result.data["AZSVR"] == "SUCCESS") {
-        PetOrderDoneModel model =
-            PetOrderDoneModel.fromJson(result.data["OrderDetails"]);
+        PersonalOfferDoneModel model =
+            PersonalOfferDoneModel.fromJson(result.data["OrderDetails"]);
         return model;
       } else {
         return const ApiFailures.internalError();
@@ -147,8 +147,9 @@ class PersonalRepository implements IPersonalRepository {
       var dio = Dio();
       final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
         final result = await dio.get(
-            "https://bolisati.bitsblend.org/api/V1/Api/GetCountries?api_token=$apitoken");
+            "https://bolisati.bitsblend.org/api/V1/PersonalAccident/GetOccupations?api_token=$apitoken");
         // print(result.data["Cars"] as List<CarModel>);
+        print(result.data);
         Map<String, dynamic> map = result.data;
         List<dynamic> data = map["Occupations"];
         List<PersonalOccupationModel> cars =

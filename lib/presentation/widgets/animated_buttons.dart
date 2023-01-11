@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../router/app_route.gr.dart';
 
 class AnimatedButtons extends HookWidget {
   final bool? isgettingui;
@@ -19,7 +22,8 @@ class AnimatedButtons extends HookWidget {
               IconButton(
                   onPressed: () {}, icon: const Icon(FontAwesomeIcons.bell)),
               IconButton(
-                  onPressed: () {}, icon: const Icon(FontAwesomeIcons.user)),
+                  onPressed: () => context.router.push(const ProfileScreen()),
+                  icon: const Icon(FontAwesomeIcons.user)),
             ],
           )),
     );

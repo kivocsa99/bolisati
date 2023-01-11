@@ -22,6 +22,6 @@ class TravelPlaceOrderUseCase
   Future<Either<ApiFailures, dynamic>> execute(
       TravelPlaceOrderUseCaseInput input) async {
     return _travelRepository!
-        .placeOrder(token: input.token, travelOrder: input.travelOrder!);
+        .placeOrder(addons: input.addons,token: input.token, travelOrder: input.travelOrder!);
   }
 }

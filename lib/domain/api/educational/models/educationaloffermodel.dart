@@ -10,18 +10,21 @@ part 'educationaloffermodel.freezed.dart';
 part 'educationaloffermodel.g.dart';
 
 @freezed
-class EducationalOffersModel with _$EducationalOffersModel {
-  const factory EducationalOffersModel({
+class EducationalChildDoneModel with _$EducationalChildDoneModel {
+  const factory EducationalChildDoneModel({
     int? id,
-    int? company_id,
-    int? price,
-    int? active,
+    String? educational_order_id,
+    String? name,
+    String? birthdate,
+    int? age,
+    String? national_id_number,
+    int? gender_id,
     String? created_at,
     String? updated_at,
     String? deleted_at,
     List<AddonsModel>? addons,
     CompanyModel? company,
   }) = _EducationalOffersModel;
-  factory EducationalOffersModel.fromJson(Map<String, dynamic> json) =>
-      _$EducationalOffersModelFromJson(json);
+  factory EducationalChildDoneModel.fromJson(Map<String, dynamic> json) =>
+      _$EducationalChildDoneModelFromJson(json);
 }

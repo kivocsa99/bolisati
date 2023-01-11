@@ -24,14 +24,12 @@ class PetRepository implements IPetRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/Pet/AttachFile?api_token=$apitoken",
           data: formData);
-
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["FileURL"];
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -98,13 +96,14 @@ class PetRepository implements IPetRepository {
   Future<Either<ApiFailures, dynamic>> placeOrder({
     required PetOrderDoneModel model,
     required String? token,
+    required String? addons
   }) async {
     var dio = Dio();
     dio.options.headers = {"Content-Type": "application/json"};
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Pet/PlaceOrder?pet_insurance_id=${int.parse(model.pet_insurance_id!)}&pet_type_id=${int.parse(model.pet_type_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&gender_id=${int.parse(model.genderid!)}&country_id=${int.parse(model.country_id!)}&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/Pet/PlaceOrder?pet_insurance_id=${int.parse(model.pet_insurance_id!)}&pet_type_id=${int.parse(model.pet_type_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&gender_id=${int.parse(model.genderid!)}&country_id=${int.parse(model.country_id!)}$addons&api_token=$token""");
 
       if (result.data["AZSVR"] == "SUCCESS") {
         PetOrderDoneModel model =
@@ -139,7 +138,7 @@ class PetRepository implements IPetRepository {
       var dio = Dio();
       final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
         final result = await dio.get(
-            "https://bolisati.bitsblend.org/api/V1/Api/Pet/GetCountries?api_token=$apitoken");
+            "https://bolisati.bitsblend.org/api/V1/Pet/GetCountries?api_token=$apitoken");
         print(result.realUri);
         Map<String, dynamic> map = result.data;
         List<dynamic> data = map["Countries"];

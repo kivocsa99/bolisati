@@ -13,6 +13,7 @@ abstract class IPersonalRepository {
       required int? amount});
   //place order
   Future<Either<ApiFailures, dynamic>> placeOrder({
+    required String? addons,
     required PersonalOfferDoneModel model,
     required String? token,
   });

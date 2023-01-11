@@ -14,7 +14,7 @@ final personalattachfileProvider = Provider((ref) =>
     PersonalAttachFileUseCase(personalRepository: ref.watch(personalrepoprovider)));
 
 class PersonalAttachFileUseCase
-    implements IUseCase<MotorAttachFileUseCaseInput, dynamic> {
+    implements IUseCase<PersonalAttachFileUseCaseInput, dynamic> {
   final IPersonalRepository? _personalRepository;
 
   PersonalAttachFileUseCase({IPersonalRepository? personalRepository})
@@ -22,7 +22,7 @@ class PersonalAttachFileUseCase
 
   @override
   Future<Either<ApiFailures, dynamic>> execute(
-      MotorAttachFileUseCaseInput input) async {
+      PersonalAttachFileUseCaseInput input) async {
     return await _personalRepository!.attachFile(
       apitoken: input.token!,
       file: input.file!,

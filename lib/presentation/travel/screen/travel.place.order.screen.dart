@@ -245,21 +245,18 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                     ref
                                                         .read(
                                                             travelplaceorderProvider)
-                                                        .execute(
-                                                            TravelPlaceOrderUseCaseInput(
-                                                              
-                                                          travelOrder:
-                                                              order.value,
-                                                          token: token,
-                                                        ))
-                                                        .then((value) =>
-                                                            value.fold(
+                                                        .execute(TravelPlaceOrderUseCaseInput(
+                                                            travelOrder:
+                                                                order.value,
+                                                            token: token,
+                                                            addons: travel.get(
+                                                                    "addon") ??
+                                                                ""))
+                                                        .then((value) => value.fold(
                                                                 (l) => ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
-                                                                        SnackBar(
-                                                                            content:
-                                                                                Text(l.toString()))),
+                                                                        SnackBar(content: Text(l.toString()))),
                                                                 (r) async {
                                                               TravelOrderDoneModel
                                                                   orderdone = r;
@@ -270,7 +267,6 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                     .read(
                                                                         travelattachfileProvider)
                                                                     .execute(TravelAttachFileUseCaseInput(
-
                                                                         token:
                                                                             token,
                                                                         orderid: orderdone

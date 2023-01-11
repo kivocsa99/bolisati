@@ -10,9 +10,12 @@ _$_EducationalOffersModel _$$_EducationalOffersModelFromJson(
         Map<String, dynamic> json) =>
     _$_EducationalOffersModel(
       id: json['id'] as int?,
-      company_id: json['company_id'] as int?,
-      price: json['price'] as int?,
-      active: json['active'] as int?,
+      educational_order_id: json['educational_order_id'] as String?,
+      name: json['name'] as String?,
+      birthdate: json['birthdate'] as String?,
+      age: json['age'] as int?,
+      national_id_number: json['national_id_number'] as String?,
+      gender_id: json['gender_id'] as int?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,
@@ -28,9 +31,12 @@ Map<String, dynamic> _$$_EducationalOffersModelToJson(
         _$_EducationalOffersModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'company_id': instance.company_id,
-      'price': instance.price,
-      'active': instance.active,
+      'educational_order_id': instance.educational_order_id,
+      'name': instance.name,
+      'birthdate': instance.birthdate,
+      'age': instance.age,
+      'national_id_number': instance.national_id_number,
+      'gender_id': instance.gender_id,
       'created_at': instance.created_at,
       'updated_at': instance.updated_at,
       'deleted_at': instance.deleted_at,

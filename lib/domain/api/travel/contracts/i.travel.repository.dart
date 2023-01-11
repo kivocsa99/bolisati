@@ -8,6 +8,7 @@ abstract class ITravelRepository {
   Future<Either<ApiFailures, dynamic>> getOffers(
       {String? token, int? regionid, int? period, int? age});
   Future<Either<ApiFailures, dynamic>> placeOrder({
+    required String? addons,
     required TravelOrderModel travelOrder,
     required String? token,
   });

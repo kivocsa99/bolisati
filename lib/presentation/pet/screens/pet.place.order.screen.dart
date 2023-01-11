@@ -2,15 +2,19 @@ import 'dart:io';
 
 import 'package:another_stepper/another_stepper.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.input.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.input.dart';
+import 'package:bolisati/application/pet/use_cases/attachfile/attach.file.use.case.dart';
+import 'package:bolisati/application/pet/use_cases/attachfile/attach.file.use.case.input.dart';
+import 'package:bolisati/application/pet/use_cases/placeorder/place.order.use.case.dart';
+import 'package:bolisati/application/pet/use_cases/placeorder/place.order.use.case.input.dart';
+import 'package:bolisati/application/provider/pet.repository.provider.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/motor/model/motororderdonemodel.dart';
-import 'package:bolisati/domain/api/orders/motororders/motorordermodel.dart';
-import 'package:bolisati/domain/api/travel/model/travelmodel.dart';
+import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
+import 'package:bolisati/domain/api/pet/model/petorderdonemodel.dart';
+import 'package:bolisati/presentation/pet/widgets/petbottomsheet.dart';
 import 'package:bolisati/presentation/pet/widgets/petinformationcontainer.dart';
+import 'package:bolisati/presentation/pet/widgets/petordercontainer.dart';
+import 'package:bolisati/presentation/pet/widgets/petuploadpictures.dart';
 import 'package:bolisati/presentation/vehicle/widgets/bottomsheetcontainer.dart';
 import 'package:bolisati/presentation/vehicle/widgets/carpersonalidcontainer.dart';
 import 'package:bolisati/presentation/vehicle/widgets/ordersofferscontainer.dart';
@@ -24,8 +28,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../application/motor/getoffers/get.offers.use.case.dart';
-import '../../../application/motor/getoffers/get.offers.use.case.input.dart';
 import '../../../domain/api/motor/model/motormodel.dart';
 import '../../vehicle/widgets/carpicturescontainer.dart';
 
@@ -34,17 +36,17 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final order = useState(const MotorOrderModel());
+    final order = useState(const PetOrderDoneModel());
     final carformkey = useState(GlobalKey<FormState>());
     final index = useState(0);
-    final offers = useState<List<MotorOffersModel>>([]);
+    final offers = useState<List<PetOffersModel>>([]);
     final Box setting = Hive.box("setting");
-    final Box car = Hive.box("car");
+    final Box pet = Hive.box("pet");
     final nameController = useTextEditingController();
     final yearController = useTextEditingController();
     final brandController = useTextEditingController();
     final modelController = useTextEditingController();
-    final valueController = useTextEditingController();
+    final PetTypecontroller = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
     final frontimage = useState("");
@@ -56,94 +58,47 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
     final registerback = useState("");
     final registerfront = useState("");
     List<String> images = [
-      frontimage.value,
-      backimage.value,
-      leftimage.value,
-      rightimage.value,
-      idback.value,
-      idfront.value,
       registerback.value,
       registerfront.value,
     ];
     List<Widget> cases = [
       PetInformationContainer(
+        gender: (value) {
+          order.value =
+              order.value.copyWith(genderid: value == "Male" ? "1" : "2");
+        },
+        pettype: (value) {
+          order.value = order.value.copyWith(
+              pet_type_id: value == "Cat"
+                  ? "1"
+                  : value == "Dog"
+                      ? "2"
+                      : "3");
+        },
         startdatecontroller: startController,
         enddatecontroller: endController,
         yearcontroller: yearController,
         carbrandcontroller: brandController,
         carmodelcontroller: modelController,
-        valuecontroller: valueController,
         namecontroller: nameController,
         name: (value) {
           order.value = order.value.copyWith(name: value);
         },
-        value: (value) {
-          var myInt = int.parse(value!);
-          order.value = order.value.copyWith(estimated_car_price: myInt);
-        },
-        perviosaccidents: (value) {
-          order.value = order.value
-              .copyWith(previous_accidents: value == "False" ? 1 : 0);
-        },
         formkey: carformkey.value,
         key: const Key("1"),
       ),
-      OrderOffersContainer(
+      PetOrderContainer(
         offers: offers.value,
         key: Key("2"),
       ),
-      CarPictiresContainer(
-        image0: File(frontimage.value),
-        function0: () async {
-          final picture =
-              await ImagePicker().pickImage(source: ImageSource.gallery);
-          if (picture != null) {
-            frontimage.value = picture.path;
-          }
-        },
-        image1: File(rightimage.value),
-        function1: () async {
-          final picture =
-              await ImagePicker().pickImage(source: ImageSource.gallery);
-          if (picture != null) {
-            rightimage.value = picture.path;
-          }
-        },
-        image2: File(leftimage.value),
-        function2: () async {
-          final picture =
-              await ImagePicker().pickImage(source: ImageSource.gallery);
-          if (picture != null) {
-            leftimage.value = picture.path;
-          }
-        },
-        image3: File(backimage.value),
-        function3: () async {
-          final picture =
-              await ImagePicker().pickImage(source: ImageSource.gallery);
-          if (picture != null) {
-            backimage.value = picture.path;
-          }
-        },
-        key: const Key("3"),
-      ),
-      CarIdContainer(
+      PetPicturesContainer(
         image0: File(registerfront.value),
         image1: File(registerback.value),
-        image2: File(idfront.value),
-        image3: File(idback.value),
         function0: () async {
           final pictures = await ImagePicker().pickMultiImage();
           if (pictures.isNotEmpty && pictures.length == 2) {
             registerback.value = pictures[0].path;
             registerfront.value = pictures[1].path;
-          }
-        },
-        function1: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            idfront.value = pictures[0].path;
-            idback.value = pictures[1].path;
           }
         },
         key: const Key("4"),
@@ -191,6 +146,9 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                             child: SingleChildScrollView(
                                 child: Column(
                               children: [
+                                  const SizedBox(
+                                  height: 10,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: AnotherStepper(
@@ -247,16 +205,8 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                   .validate()) {
                                                 await ref
                                                     .read(
-                                                        motorgetOffersProvider)
-                                                    .execute(
-                                                        MotorGetOffersUseCaseInput(
-                                                      estimatedcarprice: order
-                                                          .value
-                                                          .estimated_car_price,
-                                                      token: token,
-                                                      vehiclemodelid:
-                                                          car.get("carmodel"),
-                                                    ))
+                                                        getoffersProvider(token)
+                                                            .future)
                                                     .then((value) => value.fold(
                                                             (l) => ScaffoldMessenger
                                                                     .of(context)
@@ -278,65 +228,48 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                         }));
                                               }
                                             } else if (index.value == 1 &&
-                                                car.get("motorid") != null) {
+                                                pet.get("petid") != null) {
                                               final isLaseIndex = index.value ==
                                                   cases.length - 1;
                                               index.value = isLaseIndex
                                                   ? 0
                                                   : index.value + 1;
                                             } else if (index.value == 2) {
-                                              if (frontimage.value != "" &&
-                                                  backimage.value != "" &&
-                                                  leftimage.value != "" &&
-                                                  rightimage.value != "") {
-                                                final isLaseIndex =
-                                                    index.value ==
-                                                        cases.length - 1;
-                                                index.value = isLaseIndex
-                                                    ? 0
-                                                    : index.value + 1;
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        content: Text(
-                                                            "please Upload all of the pictures")));
-                                              }
-                                            } else if (index.value == 3) {
                                               if (registerfront.value != "" &&
-                                                  registerback.value != "" &&
-                                                  idback.value != "" &&
-                                                  idfront.value != "") {
+                                                  registerback.value != "") {
                                                 await Future.delayed(
                                                     const Duration(seconds: 1),
                                                     (() {
                                                   order.value = order.value
                                                       .copyWith(
-                                                          car_year: car
-                                                              .get("caryear"));
-
+                                                          pet_insurance_id: pet
+                                                              .get("petid")
+                                                              .toString());
                                                   order.value = order.value
                                                       .copyWith(
-                                                          start_date: car.get(
-                                                              "carsstartdate"));
+                                                          birthdate: pet.get(
+                                                              "birthdate"));
                                                   order.value = order.value
                                                       .copyWith(
-                                                          end_date: car.get(
-                                                              "carenddate"));
+                                                          start_date: pet.get(
+                                                              "startdate"));
                                                   order.value = order.value
                                                       .copyWith(
-                                                          motor_insurance_id:
-                                                              car.get(
-                                                                  "motorid"));
+                                                          end_date: pet
+                                                              .get("enddate"));
                                                   order.value = order.value
                                                       .copyWith(
-                                                          vehicle_model_id: car
-                                                              .get("carmodel"));
+                                                          country_id: pet
+                                                              .get("country")
+                                                              .toString());
                                                 }));
-                                                final MotorOffersModel
+                                                print(order.value);
+
+                                                final PetOffersModel
                                                     offersModel = offers.value
                                                         .firstWhere((element) =>
                                                             element.id ==
-                                                            car.get("motorid"));
+                                                            pet.get("petid"));
 
                                                 showModalBottomSheet(
                                                   isScrollControlled: true,
@@ -347,31 +280,30 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                     return StatefulBuilder(
                                                       builder:
                                                           (context, setState) {
-                                                        return MyWidget(
+                                                        return PetBottomSheet(
                                                           function: () {
                                                             ref
                                                                 .read(
-                                                                    motorplaceOrderProvider)
-                                                                .execute(MotorPlaceOrderUseCaseInput(
-                                                                    motorOrder:
-                                                                        order
-                                                                            .value,
+                                                                    petplaceOrderProvider)
+                                                                .execute(PetPlaceOrderUseCaseInput(
+                                                                    model: order
+                                                                        .value,
                                                                     token:
                                                                         token,
                                                                     addons:
-                                                                        car.get("addon") ??
+                                                                        pet.get("addon") ??
                                                                             ""))
                                                                 .then((value) =>
                                                                     value.fold(
                                                                         (l) => ScaffoldMessenger.of(context)
                                                                             .showSnackBar(SnackBar(content: Text(l.toString()))),
                                                                         (r) async {
-                                                                      MotorOrderDoneModel
+                                                                      PetOrderDoneModel
                                                                           orderdone =
                                                                           r;
                                                                       for (var element
                                                                           in images) {
-                                                                        ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
+                                                                        ref.read(petattachfileProvider).execute(PetAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
                                                                             (l) =>
                                                                                 print(l),
                                                                             (r) => print(r)));

@@ -72,7 +72,7 @@ class RetirmentRepository implements IRetirmentRepository {
       print(fee);
 
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Retirement/PlaceOrder?retirement_type_id=$type&name=${retirementOrderModel.name}&birthdate=${retirementOrderModel.birthdate}&$fee=${retirementOrderModel.monthly_fee}&retirement_age=${retirementOrderModel.age}&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/Retirement/PlaceOrder?retirement_type_id=$type&name=${retirementOrderModel.name}&birthdate=${retirementOrderModel.birthdate}&$fee=${retirementOrderModel.monthly_fee}&retirement_age=${retirementOrderModel.retirement_age}&api_token=$token""");
       print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         RetirmentDoneModel model =

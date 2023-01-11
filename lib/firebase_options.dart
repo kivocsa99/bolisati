@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC1WkD2wr5-UcAb9tuscWWeNry8mZ2qQc4',
-    appId: '1:546229024880:android:fe7c394542ddf57b341cb5',
-    messagingSenderId: '546229024880',
-    projectId: 'bolisati-2e747',
-    storageBucket: 'bolisati-2e747.appspot.com',
+    apiKey: 'AIzaSyCs1OKxXe3AOBy2LpqqJvqntPsWn4KtuNs',
+    appId: '1:235197211765:android:7334cbed61b66a4651043c',
+    messagingSenderId: '235197211765',
+    projectId: 'bolisati-c4593',
+    storageBucket: 'bolisati-c4593.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCupsots6JeJzFWZgD5AD2LSi5rdr3sQcc',
-    appId: '1:546229024880:ios:513fb7e7f430c391341cb5',
-    messagingSenderId: '546229024880',
-    projectId: 'bolisati-2e747',
-    storageBucket: 'bolisati-2e747.appspot.com',
-    iosClientId: '546229024880-niurejkbg72qh86heoc0plpj9q01dvnp.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCQiJK7rxYpwWwLyFj6UBAgYzy56cQjtsA',
+    appId: '1:235197211765:ios:9ac4fb7817bda59e51043c',
+    messagingSenderId: '235197211765',
+    projectId: 'bolisati-c4593',
+    storageBucket: 'bolisati-c4593.appspot.com',
+    iosClientId: '235197211765-ke6ou4mqn25dpq99js0sa1ks20aps851.apps.googleusercontent.com',
     iosBundleId: 'com.bolisati.bolisati',
   );
 }

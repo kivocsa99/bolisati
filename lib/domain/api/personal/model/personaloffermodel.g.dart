@@ -16,7 +16,7 @@ _$_PersonalOfferModel _$$_PersonalOfferModelFromJson(
       age_from: json['age_from'] as int?,
       age_to: json['age_to'] as int?,
       personal_accident_type_id: json['personal_accident_type_id'] as int?,
-      rate: (json['rate'] as num?)?.toDouble(),
+      rate: json['rate'] as num?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,

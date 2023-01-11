@@ -101,13 +101,14 @@ class TravelRepository implements ITravelRepository {
   Future<Either<ApiFailures, dynamic>> placeOrder({
     required TravelOrderModel travelOrder,
     required String? token,
+    required String? addons
   }) async {
     var dio = Dio();
     dio.options.headers = {"Content-Type": "application/json"};
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Travel/PlaceOrder?travel_insurance_id=${travelOrder.travel_insurance_id}&name=${travelOrder.name}&destination=${travelOrder.destination}&birthdate=${travelOrder.birthdate}&start_date=${travelOrder.start_date}&end_date=${travelOrder.end_date}&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/Travel/PlaceOrder?travel_insurance_id=${travelOrder.travel_insurance_id}&name=${travelOrder.name}&destination=${travelOrder.destination}&birthdate=${travelOrder.birthdate}&start_date=${travelOrder.start_date}&end_date=${travelOrder.end_date}$addons&api_token=$token""");
       print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         //change this

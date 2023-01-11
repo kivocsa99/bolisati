@@ -26,9 +26,16 @@ class ApiAuthFacade implements IApiAuthFacade {
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/Users/GetToken?phone=$email&password=$password");
       if (result.data["AZSVR"] == "SUCCESS") {
+        UserModel user = UserModel.fromJson(result.data["User"]);
         setting = Hive.box('setting');
         await setting.put("login", true);
         await setting.put('apitoken', result.data["api_token"]);
+        await setting.put("name", user.name);
+        await setting.put("email", user.email);
+        await setting.put("password", password);
+        await setting.put("phone", user.phone);
+        await setting.put("firsttime", false);
+
         return result.data["api_token"];
       } else {
         return const ApiFailures.authFailed();
@@ -68,6 +75,12 @@ class ApiAuthFacade implements IApiAuthFacade {
       if (result.data["AZSVR"] == "SUCCESS") {
         setting = Hive.box('setting');
         await setting.put("login", true);
+        await setting.put("name", user.name);
+        await setting.put("email", user.email);
+        await setting.put("password", password);
+        await setting.put("phone", user.phone);
+        await setting.put("firsttime", false);
+
         await setting.put('apitoken', result.data["api_token"]);
 
         return result.data["api_token"];
@@ -95,53 +108,55 @@ class ApiAuthFacade implements IApiAuthFacade {
   }
 
   @override
-  Future<Either<ApiFailures, dynamic>> otpVerfication(
+  Future<Either<ApiFailures, Unit>> otpVerfication(
       {required String phone}) async {
-    final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
-      final response = await _auth.verifyPhoneNumber(
-          phoneNumber: phone,
-          verificationCompleted: (verificationCompleted) async {
-            return;
-          },
+    try {
+      await _auth.verifyPhoneNumber(
+          verificationCompleted: (verificationCompleted) {},
           verificationFailed: (verificationFailed) {},
           codeSent: (value, codeSent) {},
           codeAutoRetrievalTimeout: (codeAutoRetrievalTimeout) {});
-      return response;
-    }, (error, stackTrace) {
-      if (error is FirebaseAuthException) {
-        // switch (error.code) {
-        //   case  :
-        //     return const ApiFailures.connnectionTimeOut();
-        //   case DioErrorType.cancel:
-        //     return const ApiFailures.cancel();
-        //   case DioErrorType.response:
-        //     return const ApiFailures.noResponse();
-        //   default:
-        return const ApiFailures.noResponse();
-        // }
+      return right(unit);
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case inValidEmail:
+          return left(const ApiFailures.authFailed());
+        case servererror:
+          return left(const ApiFailures.internalError());
+        default:
+          return left(const ApiFailures.noResponse());
       }
-      return const ApiFailures.internalError();
-    });
-    return result.map((r) => r).run();
+    }
   }
 
+//ask ali for api token
   @override
-  Future<Either<ApiFailures, dynamic>> updateuser(
-      {required String phone,
-      required String password,
-      String? email,
-      String? name,
-      String? token}) async {
+  Future<Either<ApiFailures, dynamic>> updateuser({
+    required String urlvalue,
+    required String value,
+    required String token,
+  }) async {
+    late Box setting;
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          "https://bolisati.bitsblend.org/api/V1/Users/Update?name=$name&api_token=$token&email=$email&phone=$phone&password=$password");
+          "https://bolisati.bitsblend.org/api/V1/Users/Update?$urlvalue=$value&api_token=$token");
+      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
-        return result.data["UserData"];
+        setting = Hive.box('setting');
+
+        UserModel user = UserModel.fromJson(result.data["UserData"]);
+        await setting.put("name", user.name);
+        await setting.put("email", user.email);
+        await setting.put("phone", user.phone);
+
+        return user;
       } else {
+        print(result.realUri);
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
+      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:

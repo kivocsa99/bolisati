@@ -1,5 +1,6 @@
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/motor/model/motormodel.dart';
+import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,7 +10,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PetOrderContainer extends HookConsumerWidget {
-  final List<MotorOffersModel>? offers;
+  final List<PetOffersModel>? offers;
   const PetOrderContainer({super.key, this.offers});
 
   @override
@@ -34,7 +35,7 @@ class PetOrderContainer extends HookConsumerWidget {
                 height: MediaQuery.of(context).size.height / 2,
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    MotorOffersModel e = offers![index];
+                    PetOffersModel e = offers![index];
 
                     return Column(
                       children: [
@@ -113,7 +114,7 @@ class PetOrderContainer extends HookConsumerWidget {
                                   right: 0,
                                   top: 10,
                                   child: Text(
-                                    "${e.price_from.toString()}JOD/mo",
+                                    "${e.price.toString()}JOD/mo",
                                     style: const TextStyle(color: Colors.blue),
                                   ),
                                 ),
