@@ -6,18 +6,12 @@ import 'package:bolisati/application/educational/use_cases/placeorder/place.orde
 import 'package:bolisati/application/educational/use_cases/placeorder/place.order.use.case.input.dart';
 import 'package:bolisati/application/motor/attachfile/attach.file.use.case.dart';
 import 'package:bolisati/application/motor/attachfile/attach.file.use.case.input.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.input.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/educational/models/ducationaldoneoffermodel.dart';
 import 'package:bolisati/domain/api/motor/model/motororderdonemodel.dart';
-import 'package:bolisati/domain/api/orders/motororders/motorordermodel.dart';
-import 'package:bolisati/domain/api/travel/model/travelmodel.dart';
 import 'package:bolisati/presentation/educational/widgets/educationalinformationcontainer.dart';
 import 'package:bolisati/presentation/educational/widgets/educationaluploadpictures.dart';
 import 'package:bolisati/presentation/vehicle/widgets/bottomsheetcontainer.dart';
-import 'package:bolisati/presentation/vehicle/widgets/carpersonalidcontainer.dart';
-import 'package:bolisati/presentation/vehicle/widgets/ordersofferscontainer.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +21,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../application/motor/getoffers/get.offers.use.case.dart';
-import '../../../application/motor/getoffers/get.offers.use.case.input.dart';
-import '../../../domain/api/motor/model/motormodel.dart';
 
 class EducationalPlaceOrderScreen extends HookConsumerWidget {
   const EducationalPlaceOrderScreen({super.key});
@@ -49,27 +39,29 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
     final valueController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
-    final frontimage = useState("");
-    final leftimage = useState("");
-    final rightimage = useState("");
-    final backimage = useState("");
-    final idback = useState("");
-    final idfront = useState("");
+    final monthlyController = useTextEditingController();
+
     final registerback = useState("");
     final registerfront = useState("");
+    final Box educational = Hive.box("educational");
     List<String> images = [
-      idback.value,
-      idfront.value,
       registerback.value,
       registerfront.value,
     ];
     List<Widget> cases = [
       EducationalInformationContainer(
+        insurance: (value) async {
+          order.value = order.value.copyWith(educational_type_id: value);
+          await educational.put("type", value == "Monthly Fee" ? 1 : 2);
+        },
+        monthly: (value) =>
+            order.value = order.value.copyWith(monthly_fee: value),
+        yearly: (value) =>
+            order.value = order.value.copyWith(monthly_fee: value),
+        monthlyconotroller: monthlyController,
         startdatecontroller: startController,
         enddatecontroller: endController,
         yearcontroller: yearController,
-        carbrandcontroller: brandController,
-        carmodelcontroller: modelController,
         valuecontroller: valueController,
         namecontroller: nameController,
         name: (value) {
@@ -81,20 +73,11 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
       EducationalIdContainer(
         image0: File(registerfront.value),
         image1: File(registerback.value),
-        image2: File(idfront.value),
-        image3: File(idback.value),
         function0: () async {
           final pictures = await ImagePicker().pickMultiImage();
           if (pictures.isNotEmpty && pictures.length == 2) {
             registerback.value = pictures[0].path;
             registerfront.value = pictures[1].path;
-          }
-        },
-        function1: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            idfront.value = pictures[0].path;
-            idback.value = pictures[1].path;
           }
         },
         key: const Key("4"),
@@ -122,11 +105,10 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Vehicle",
-                            description:
-                                "Protect your vehicle\nin case of accidents.",
+                            name: "Educational",
+                            description: "Protect your Academic Life.",
                             icon: const Icon(
-                              FontAwesomeIcons.car,
+                              FontAwesomeIcons.book,
                               color: carcolor,
                             ),
                             function: () => context.router.pop(),
@@ -198,36 +180,56 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                           onTap: () async {
                                             if (index.value == 0) {
                                               if (carformkey.value.currentState!
-                                                  .validate()) {}
+                                                  .validate()) {
+                                                order.value = order.value
+                                                    .copyWith(
+                                                        birthdate: educational
+                                                            .get("birthdate"));
+                                                order.value = order.value
+                                                    .copyWith(
+                                                        age: educational
+                                                            .get("age"));
+                                                print(order.value);
+                                                ref
+                                                    .read(
+                                                        educationalplaceOrderProvider)
+                                                    .execute(
+                                                        EducationalPlaceOrderUseCaseInput(
+                                                      model: order.value,
+                                                      token: token,
+                                                    ))
+                                                    .then((value) => value.fold(
+                                                            (l) => ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    SnackBar(
+                                                                        content:
+                                                                            Text(l.toString()))),
+                                                            (r) async {
+                                                          EducationalDoneModel
+                                                              orderdone = r;
+
+                                                          final isLaseIndex =
+                                                              index.value ==
+                                                                  cases.length -
+                                                                      1;
+                                                          index.value =
+                                                              isLaseIndex
+                                                                  ? 0
+                                                                  : index.value +
+                                                                      1;
+                                                        }));
+                                              }
                                             } else if (index.value == 1 &&
-                                                car.get("motorid") != null) {
+                                                car.get("type") != null) {
                                               final isLaseIndex = index.value ==
                                                   cases.length - 1;
                                               index.value = isLaseIndex
                                                   ? 0
                                                   : index.value + 1;
-                                            } else if (index.value == 2) {
-                                              if (frontimage.value != "" &&
-                                                  backimage.value != "" &&
-                                                  leftimage.value != "" &&
-                                                  rightimage.value != "") {
-                                                final isLaseIndex =
-                                                    index.value ==
-                                                        cases.length - 1;
-                                                index.value = isLaseIndex
-                                                    ? 0
-                                                    : index.value + 1;
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        content: Text(
-                                                            "please Upload all of the pictures")));
-                                              }
                                             } else if (index.value == 3) {
                                               if (registerfront.value != "" &&
-                                                  registerback.value != "" &&
-                                                  idback.value != "" &&
-                                                  idfront.value != "") {
+                                                  registerback.value != "") {
                                                 await Future.delayed(
                                                     const Duration(seconds: 1),
                                                     (() {}));

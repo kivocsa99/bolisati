@@ -23,7 +23,7 @@ class EducationalRepository implements IEducationalRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/Educational/AttachFile?api_token=$apitoken",
           data: formData);
-      print(result.data); 
+      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["FileURL"];
       } else {
@@ -87,20 +87,26 @@ class EducationalRepository implements IEducationalRepository {
 //place order check with ali
   @override
   Future<Either<ApiFailures, dynamic>> placeOrder(
-      {required String token,required String? addons, required EducationalDoneModel model}) async {
+      {required String token,
+      required String? addons,
+      required EducationalDoneModel model}) async {
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      int type = model.educational_type_id == "Monthly Fee" ? 1 : 2;
+      String fee = type == 1 ? "monthly_fee" : "university_fee";
+      print(model);
       final result = await dio.get(
-          "https://bolisati.bitsblend.org/api/V1/Educational/PlaceOrder?educational_type_id=${model.educational_type_id}&name=${model.name}&birthdate=${model.birthdate}&monthly_fee=${model.monthly_fee}$addons&api_token=$token");
+          "https://bolisati.bitsblend.org/api/V1/Educational/PlaceOrder?educational_type_id=$type&name=${model.name}&birthdate=${model.birthdate}&$fee=${int.parse(model.monthly_fee!)}&api_token=$token");
       print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
-        MedicalOrderDoneModel model =
-            MedicalOrderDoneModel.fromJson(result.data["OrderDetails"]);
+        EducationalDoneModel model =
+            EducationalDoneModel.fromJson(result.data["OrderDetails"]);
         return model;
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
+      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:

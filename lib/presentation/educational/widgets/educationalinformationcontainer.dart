@@ -16,11 +16,16 @@ class EducationalInformationContainer extends HookWidget {
   final TextEditingController? enddatecontroller;
   final TextEditingController? carbrandcontroller;
   final TextEditingController? carmodelcontroller;
-  final TextEditingController? fueltypecontroller;
   final TextEditingController? valuecontroller;
+  final TextEditingController? monthlyconotroller;
+  final TextEditingController? fullfeecontroller;
+
   final TextEditingController? prevcontroller;
 
-  final ValueChanged<String?>? fueltype;
+  final ValueChanged<String?>? insurance;
+  final ValueChanged<String?>? monthly;
+  final ValueChanged<String?>? yearly;
+
   final ValueChanged<String?>? value;
   final ValueChanged<String?>? perviosaccidents;
 
@@ -31,21 +36,25 @@ class EducationalInformationContainer extends HookWidget {
       this.caryearfunction,
       this.formkey,
       this.name,
+      this.monthly,
+      this.yearly,
       this.yearcontroller,
+      this.fullfeecontroller,
       this.carbrandcontroller,
       this.carmodelcontroller,
       this.valuecontroller,
+      this.monthlyconotroller,
       this.enddatecontroller,
       this.startdatecontroller,
-      this.fueltypecontroller,
       this.prevcontroller,
       this.namecontroller,
-      this.fueltype,
+      this.insurance,
       this.value,
       this.perviosaccidents});
 
   @override
   Widget build(BuildContext context) {
+    final Box educational = Hive.box("educational");
     return SizedBox(
       child: Form(
           key: formkey,
@@ -61,128 +70,60 @@ class EducationalInformationContainer extends HookWidget {
                 label: "Full Name",
                 width: double.infinity,
               ),
-              CarBrand(
-                modelcontroller: carmodelcontroller,
-                brandcontroller: carbrandcontroller,
-                width: double.infinity,
-              ),
               YearPicker(
                 controller: yearcontroller,
               ),
               Row(
                 children: [
                   CustomField(
-                    onchanged: fueltype,
-                    initial: "Fuel Type",
+                    initial: "Insurance Type",
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2,
                   ),
-                  FuelType(
-                    width: 100,
-                    onchanged: perviosaccidents,
+                  Expanded(
+                    child: Insurance(
+                      width: 100,
+                      onchanged: insurance,
+                    ),
                   ),
                 ],
               ),
-              CustomField(
-                controller: valuecontroller,
-                type: TextInputType.number,
-                readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
-                onchanged: value,
-                label: "Value",
-                width: double.infinity,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomField(
-                    initial: "Previous Accidents",
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2 + 10,
-                  ),
-                  Carraccident(
-                    width: 100,
-                    onchanged: perviosaccidents,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  StartEndDate(
-                    startcontroller: startdatecontroller,
-                    label: "Start Date",
-                    width: 150,
-                  ),
-                  StartEndDate(
-                    endcontroller: enddatecontroller,
-                    label: "End Date",
-                    width: 150,
-                  ),
-                ],
-              ),
+              educational.get("type") == 1
+                  ? CustomField(
+                      controller: monthlyconotroller,
+                      type: TextInputType.number,
+                      readonly: false,
+                      validator: RequiredValidator(
+                          errorText: "This Field is Required"),
+                      onchanged: monthly,
+                      label: "Monthly Fee",
+                      width: double.infinity,
+                    )
+                  : const SizedBox.shrink(),
+              educational.get("type") == 2
+                  ? CustomField(
+                      controller: fullfeecontroller,
+                      type: TextInputType.number,
+                      readonly: false,
+                      validator: RequiredValidator(
+                          errorText: "This Field is Required"),
+                      onchanged: yearly,
+                      label: "Full Fee",
+                      width: double.infinity,
+                    )
+                  : const SizedBox.shrink(),
             ],
           )),
     );
   }
 }
 
-class FuelType extends HookWidget {
+class Insurance extends HookWidget {
   final ValueChanged<String?>? onchanged;
   final String? Function(String?)? validator;
   final String? label;
   final double? width;
-  final TextEditingController? controller;
-  const FuelType(
-      {super.key,
-      this.width,
-      this.onchanged,
-      this.controller,
-      this.label,
-      this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.grey,
-              width: 2,
-            ),
-          ),
-        ),
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["N/A", "electric", "fuel", "hybrid"]
-              .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
-                      child: Text(
-                        _value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class Carraccident extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  const Carraccident(
+  const Insurance(
       {super.key, this.width, this.onchanged, this.label, this.validator});
 
   @override
@@ -190,7 +131,7 @@ class Carraccident extends HookWidget {
     final dropDownValue = useState("N/A");
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Container(
+      child: SizedBox(
         height: 80,
         width: width,
         child: DropdownButtonFormField<String>(
@@ -199,7 +140,7 @@ class Carraccident extends HookWidget {
           iconEnabledColor: Colors.grey,
           value: dropDownValue.value,
           onChanged: onchanged,
-          items: ["N/A", "True", "False"]
+          items: ["N/A", "Monthly Fee", "Full Fee"]
               .map<DropdownMenuItem<String>>(
                   (String _value) => DropdownMenuItem<String>(
                       value: _value,
@@ -290,7 +231,7 @@ class YearPicker extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("car");
+    final Box educational = Hive.box("educational");
 
     final _selectedYear = useState("");
     return Padding(
@@ -314,7 +255,7 @@ class YearPicker extends HookWidget {
               final pickedYear = await showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
-                firstDate: DateTime(1970),
+                firstDate: DateTime(1900),
                 lastDate: DateTime.now().add(const Duration(days: 356)),
                 builder: (context, child) {
                   return Theme(
@@ -330,8 +271,13 @@ class YearPicker extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selectedYear.value = DateFormat.y().format(pickedYear);
-                car.put("caryear", _selectedYear.value);
+                String picked = DateFormat.y().format(pickedYear);
+                String now = DateFormat.y().format(DateTime.now());
+                int result = int.parse(now) - int.parse(picked);
+                _selectedYear.value =
+                    DateFormat("yyyy-MM-dd").format(pickedYear);
+                educational.put("birthdate", _selectedYear.value);
+                educational.put("age", result);
                 controller!.text = _selectedYear.value.toString();
               }
             },
@@ -345,7 +291,7 @@ class YearPicker extends HookWidget {
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               filled: true,
               fillColor: Colors.blue[350],
-              labelText: "Car Year",
+              labelText: "Birth Date",
               hintStyle: const TextStyle(
                 color: Colors.black26,
                 fontSize: 18,
@@ -353,96 +299,6 @@ class YearPicker extends HookWidget {
               ),
             ),
             controller: controller,
-          ),
-        ));
-  }
-}
-
-class StartEndDate extends HookWidget {
-  final double? width;
-  final String? label;
-  final TextEditingController? startcontroller;
-  final TextEditingController? endcontroller;
-
-  const StartEndDate(
-      {super.key,
-      this.width,
-      this.startcontroller,
-      this.label,
-      this.endcontroller});
-
-  @override
-  Widget build(BuildContext context) {
-    final Box car = Hive.box("car");
-
-    final _selecteddate = useState("");
-    return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.grey,
-                width: 2,
-              ),
-            ),
-          ),
-          height: 80,
-          width: width,
-          child: TextFormField(
-            readOnly: true,
-            validator: RequiredValidator(errorText: "This Field is Required"),
-            onTap: () async {
-              FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 740)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                _selecteddate.value = DateFormat("M/d/y").format(pickedYear);
-                if (label == "Start Date") {
-                  car.put("carsstartdate",
-                      DateFormat("yyyy-MM-dd").format(pickedYear));
-                  startcontroller!.text = _selecteddate.value.toString();
-                } else {
-                  car.put("carenddate",
-                      DateFormat("yyyy-MM-dd").format(pickedYear));
-                  endcontroller!.text = _selecteddate.value.toString();
-                }
-              }
-            },
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              focusedErrorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-              errorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-              filled: true,
-              fillColor: Colors.blue[350],
-              labelText: label,
-              hintStyle: const TextStyle(
-                color: Colors.black26,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            controller: label == "Start Date" ? startcontroller : endcontroller,
           ),
         ));
   }
