@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -72,7 +73,7 @@ class PasswordField extends HookWidget {
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     filled: true,
                     fillColor: Colors.blue[350],
-                    labelText: "Password",
+                    labelText: "password".tr(),
                     icon: const Icon(Icons.key),
                     hintStyle: const TextStyle(
                       color: Colors.black26,

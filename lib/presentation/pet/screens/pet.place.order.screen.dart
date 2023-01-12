@@ -8,18 +8,15 @@ import 'package:bolisati/application/pet/use_cases/placeorder/place.order.use.ca
 import 'package:bolisati/application/pet/use_cases/placeorder/place.order.use.case.input.dart';
 import 'package:bolisati/application/provider/pet.repository.provider.dart';
 import 'package:bolisati/constants.dart';
-import 'package:bolisati/domain/api/motor/model/motororderdonemodel.dart';
 import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
 import 'package:bolisati/domain/api/pet/model/petorderdonemodel.dart';
 import 'package:bolisati/presentation/pet/widgets/petbottomsheet.dart';
 import 'package:bolisati/presentation/pet/widgets/petinformationcontainer.dart';
 import 'package:bolisati/presentation/pet/widgets/petordercontainer.dart';
 import 'package:bolisati/presentation/pet/widgets/petuploadpictures.dart';
-import 'package:bolisati/presentation/vehicle/widgets/bottomsheetcontainer.dart';
-import 'package:bolisati/presentation/vehicle/widgets/carpersonalidcontainer.dart';
-import 'package:bolisati/presentation/vehicle/widgets/ordersofferscontainer.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -27,9 +24,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../domain/api/motor/model/motormodel.dart';
-import '../../vehicle/widgets/carpicturescontainer.dart';
 
 class PetPlaceOrderScreen extends HookConsumerWidget {
   const PetPlaceOrderScreen({super.key});
@@ -46,15 +40,9 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
     final yearController = useTextEditingController();
     final brandController = useTextEditingController();
     final modelController = useTextEditingController();
-    final PetTypecontroller = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
-    final frontimage = useState("");
-    final leftimage = useState("");
-    final rightimage = useState("");
-    final backimage = useState("");
-    final idback = useState("");
-    final idfront = useState("");
+ 
     final registerback = useState("");
     final registerfront = useState("");
     List<String> images = [
@@ -89,7 +77,7 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
       ),
       PetOrderContainer(
         offers: offers.value,
-        key: Key("2"),
+        key: const Key("2"),
       ),
       PetPicturesContainer(
         image0: File(registerfront.value),
@@ -126,9 +114,8 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Pet",
-                            description:
-                                "Protect your Pet\nin case of accidents.",
+                            name: "pet".tr(),
+                            description: "petdes".tr(),
                             icon: const Icon(
                               FontAwesomeIcons.cat,
                               color: carcolor,
@@ -146,7 +133,7 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                             child: SingleChildScrollView(
                                 child: Column(
                               children: [
-                                  const SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Padding(
@@ -186,10 +173,11 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                             : Colors.black,
                                         width: 175,
                                         height: 60,
-                                        child: const Center(
+                                        child: Center(
                                             child: Text(
-                                          "Back",
-                                          style: TextStyle(color: Colors.white),
+                                          "back".tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -210,10 +198,10 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                     .then((value) => value.fold(
                                                             (l) => ScaffoldMessenger
                                                                     .of(context)
-                                                                .showSnackBar(
-                                                                    SnackBar(
-                                                                        content:
-                                                                            Text(l.toString()))),
+                                                                .showSnackBar(SnackBar(
+                                                                    content: const Text(
+                                                                            "contact")
+                                                                        .tr())),
                                                             (r) {
                                                           offers.value = r;
                                                           final isLaseIndex =
@@ -263,7 +251,6 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                               .get("country")
                                                               .toString());
                                                 }));
-                                                print(order.value);
 
                                                 final PetOffersModel
                                                     offersModel = offers.value
@@ -295,31 +282,25 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                                             ""))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(SnackBar(content: Text(l.toString()))),
+                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                            content:
+                                                                                const Text("contact").tr())),
                                                                         (r) async {
                                                                       PetOrderDoneModel
                                                                           orderdone =
                                                                           r;
                                                                       for (var element
                                                                           in images) {
-                                                                        ref.read(petattachfileProvider).execute(PetAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
-                                                                            (l) =>
-                                                                                print(l),
-                                                                            (r) => print(r)));
+                                                                        ref.read(petattachfileProvider).execute(PetAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                                (r) async {
+                                                                              context.router.pop();
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                              await context.router.replaceAll([
+                                                                                const HomeScreen()
+                                                                              ]);
+                                                                            }));
                                                                       }
-                                                                      context
-                                                                          .router
-                                                                          .pop();
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                              const SnackBar(content: Text("Your Order Have Been Placed")));
-                                                                      await context
-                                                                          .router
-                                                                          .replaceAll([
-                                                                        const HomeScreen()
-                                                                      ]);
                                                                     }));
                                                           },
                                                           offerModel:
@@ -332,9 +313,9 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          "please Upload all of the pictures")));
+                                                          "picupload".tr())));
                                             }
                                           },
                                           child: Container(
@@ -344,8 +325,8 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "Next"
-                                                  : "Confirm",
+                                                  ? "next".tr()
+                                                  : "confirm".tr(),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             )),

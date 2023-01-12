@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'motorinsuranceoffermodel.dart';
 
 // **************************************************************************
@@ -11,8 +13,8 @@ _$_MotorInsuranceOfferModel _$$_MotorInsuranceOfferModelFromJson(
     _$_MotorInsuranceOfferModel(
       id: json['id'] as int?,
       company_id: json['company_id'] as int?,
-      price_from: json['price_from'] as int?,
-      price_to: json['price_to'] as int?,
+      price_from: json['price_from'] as num?,
+      price_to: json['price_to'] as num?,
       fixed: json['fixed'] as int?,
       precentage: json['precentage'] as int?,
       active: json['active'] as int?,

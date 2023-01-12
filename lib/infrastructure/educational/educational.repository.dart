@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bolisati/domain/api/educational/contracts/i.educational.repository.dart';
 import 'package:bolisati/domain/api/failures/api.failures.dart';
-import 'package:bolisati/domain/api/medical/model/medicalorderdone.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -23,14 +22,12 @@ class EducationalRepository implements IEducationalRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/Educational/AttachFile?api_token=$apitoken",
           data: formData);
-      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["FileURL"];
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -57,7 +54,6 @@ class EducationalRepository implements IEducationalRepository {
       final result = await dio.get(
         "https://bolisati.bitsblend.org/api/V1/Educational/AddChild?educational_order_id=${int.parse(model.educational_order_id!)}&name=${model.name}&birthdate=${model.birthdate}&national_id_number=${int.parse(model.educational_order_id!)}&gender_id=${model.gender_id}&api_token=$token",
       );
-
       if (result.data["AZSVR"] == "SUCCESS") {
         EducationalChildDoneModel model =
             EducationalChildDoneModel.fromJson(result.data["ChildDetails"]);
@@ -66,7 +62,6 @@ class EducationalRepository implements IEducationalRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -94,10 +89,8 @@ class EducationalRepository implements IEducationalRepository {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       int type = model.educational_type_id == "Monthly Fee" ? 1 : 2;
       String fee = type == 1 ? "monthly_fee" : "university_fee";
-      print(model);
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/Educational/PlaceOrder?educational_type_id=$type&name=${model.name}&birthdate=${model.birthdate}&$fee=${int.parse(model.monthly_fee!)}&api_token=$token");
-      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         EducationalDoneModel model =
             EducationalDoneModel.fromJson(result.data["OrderDetails"]);
@@ -106,7 +99,6 @@ class EducationalRepository implements IEducationalRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:

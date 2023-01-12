@@ -1,9 +1,12 @@
+// ignore_for_file: body_might_complete_normally_nullable
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/user.repository.provider.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/presentation/widgets/horizantal_insurance_type_container.dart';
 import 'package:bolisati/presentation/widgets/vertical_insurance_type_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -11,7 +14,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../domain/api/orders/user.orders.model.dart';
 import '../../main.dart';
@@ -29,21 +31,19 @@ class MainScreen extends HookConsumerWidget {
 
     int hour = int.parse(currentHour);
     if (hour >= 5 && hour < 12) {
-      message.value = 'Good Morning';
+      message.value = 'morning'.tr();
     } else if (hour >= 12 && hour <= 17) {
-      message.value = 'Good Afternoon';
+      message.value = 'evening'.tr();
     } else {
-      message.value = 'Good Evening';
+      message.value = 'evening'.tr();
     }
     useEffect(
       () {
         FirebaseMessaging.onMessage.listen((event) {
-          showFlutterNotification(event);
+          return showFlutterNotification(event);
         });
 
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-          print('A new onMessageOpenedApp event was published!');
-        });
+        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
       },
     );
 
@@ -70,7 +70,7 @@ class MainScreen extends HookConsumerWidget {
                   alignment: Alignment.topLeft,
                   child: Padding(
                       padding: const EdgeInsets.only(left: 30),
-                      child: Text(message.value))),
+                      child: Text(message.value).tr())),
               const SizedBox(
                 height: 20,
               ),
@@ -81,9 +81,9 @@ class MainScreen extends HookConsumerWidget {
                   child: GestureDetector(
                     onTap: () =>
                         context.router.push(const InsuranceListScreen()),
-                    child: const Text(
-                      "View All",
-                      style: TextStyle(color: Colors.blue),
+                    child: Text(
+                      "view".tr(),
+                      style: const TextStyle(color: Colors.blue),
                     ),
                   ),
                 ),
@@ -102,10 +102,8 @@ class MainScreen extends HookConsumerWidget {
                         FontAwesomeIcons.car,
                         color: carcolor,
                       ),
-                      insuranceName: "Vehicle",
-                      insuranceDescreption:
-                          "Protect your vehicle\nin case of accidents.",
-                      price: "from 8JOD/mo",
+                      insuranceName: "vehicle".tr(),
+                      insuranceDescreption: "vehicledes".tr(),
                     ),
                     HorizantalInsurance(
                       containercolor: medicalcontainer,
@@ -116,10 +114,8 @@ class MainScreen extends HookConsumerWidget {
                         FontAwesomeIcons.houseMedical,
                         color: medicalcolor,
                       ),
-                      insuranceName: "Medical",
-                      insuranceDescreption:
-                          "Find the best fit\nfor your medical needs.",
-                      price: "from 8JOD/mo",
+                      insuranceName: "medical".tr(),
+                      insuranceDescreption: "medicaldes".tr(),
                     ),
                   ],
                 ),
@@ -128,15 +124,13 @@ class MainScreen extends HookConsumerWidget {
                 function: () {
                   context.router.push(const TravelPlaceOrderScreen());
                 },
-                insuranceName: "Travel",
-                insuranceDescreption:
-                    "Protect your self abroad in\ncase of accidents.",
+                insuranceName: "travel".tr(),
+                insuranceDescreption: "traveldes".tr(),
                 containercolor: travelcontainer,
                 icon: const Icon(
                   FontAwesomeIcons.plane,
                   color: travelcolor,
                 ),
-                price: "from 8JOD/mo",
               ),
               const SizedBox(
                 height: 20,
@@ -146,20 +140,20 @@ class MainScreen extends HookConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Your insurances",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Text(
+                      "insuranceall".tr(),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     GestureDetector(
                       onTap: () {},
                       child: const Text(
-                        "View All",
+                        "view",
                         style: TextStyle(
                             fontSize: 12,
                             color: Color(0xFF1E90FF),
                             decoration: TextDecoration.underline),
-                      ),
+                      ).tr(),
                     ),
                   ],
                 ),
@@ -170,9 +164,9 @@ class MainScreen extends HookConsumerWidget {
               userOrderProvider.when(
                   data: (orders) {
                     return orders.fold(
-                      (l) => Text(
-                        " ${l.toString()} plese contact us",
-                      ),
+                      (l) => const Text(
+                        "contact",
+                      ).tr(),
                       (r) {
                         UserOrdersModel orders = r;
                         return ListView.builder(
@@ -190,8 +184,6 @@ class MainScreen extends HookConsumerWidget {
                                           .vehicle_make!.name,
                                       insuranceDescreption:
                                           "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MotorOrders!.first.end_date!))}",
-                                      price:
-                                          "${orders.MotorOrders!.first.price_from.toString()}JOD/mo",
                                       containercolor: carcontainer,
                                       function: () {},
                                       icon: const Icon(
@@ -216,8 +208,6 @@ class MainScreen extends HookConsumerWidget {
                                           orders.MedicalOrders!.first.name,
                                       insuranceDescreption:
                                           "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MedicalOrders!.first.end_date!))}",
-                                      price:
-                                          "${orders.MedicalOrders!.first.price.toString()}JOD/mo",
                                       containercolor: medicalcontainer,
                                       function: () {},
                                       icon: const Icon(
@@ -242,8 +232,6 @@ class MainScreen extends HookConsumerWidget {
                                           orders.TravelOrders!.first.name,
                                       insuranceDescreption:
                                           "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.TravelOrders!.first.end_date!))}",
-                                      price:
-                                          "${orders.TravelOrders!.first.price.toString()}JOD/mo",
                                       containercolor: travelcontainer,
                                       function: () {},
                                       icon: const Icon(

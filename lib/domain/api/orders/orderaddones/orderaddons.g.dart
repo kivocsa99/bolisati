@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'orderaddons.dart';
 
 // **************************************************************************
@@ -11,7 +13,7 @@ _$_OrderAddonsModel _$$_OrderAddonsModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       belongable_type: json['belongable_type'] as String?,
       name: json['name'] as String?,
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,

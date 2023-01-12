@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'personaloffermodel.dart';
 
 // **************************************************************************
@@ -11,7 +13,7 @@ _$_PersonalOfferModel _$$_PersonalOfferModelFromJson(
     _$_PersonalOfferModel(
       id: json['id'] as int?,
       company_id: json['company_id'] as int?,
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       active: json['active'] as int?,
       age_from: json['age_from'] as int?,
       age_to: json['age_to'] as int?,

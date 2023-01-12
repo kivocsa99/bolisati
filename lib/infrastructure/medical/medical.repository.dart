@@ -22,14 +22,12 @@ class MedicalRepository implements IMedicalRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/Medical/AttachFile?api_token=$apitoken",
           data: formData);
-      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["FileURL"];
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -69,7 +67,6 @@ class MedicalRepository implements IMedicalRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -97,7 +94,6 @@ class MedicalRepository implements IMedicalRepository {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/Medical/PlaceOrder?medical_insurance_id=${medicalOrderModel!.medical_insurance_id}&marital_status_id=${medicalOrderModel.marital_status_id}&name=${medicalOrderModel.name}&birthdate=${medicalOrderModel.birthdate}&start_date=${medicalOrderModel.start_date}&end_date=${medicalOrderModel.end_date}$addons&api_token=$token");
-      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         MedicalOrderDoneModel model =
             MedicalOrderDoneModel.fromJson(result.data["OrderDetails"]);

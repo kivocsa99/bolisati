@@ -1,4 +1,5 @@
 import 'package:bolisati/domain/api/domestic/model/domesticoffermodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -106,10 +107,10 @@ class _DomesticBottomSheetState extends State<DomesticBottomSheet> {
                   child: Container(
                     color: Colors.black,
                     height: 60,
-                    child: const Center(
+                    child: Center(
                         child: Text(
-                      "Place Order",
-                      style: TextStyle(color: Colors.white),
+                      "placeorder".tr(),
+                      style: const TextStyle(color: Colors.white),
                     )),
                   ),
                 ),

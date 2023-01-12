@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'travelinsuranceoffermodel.dart';
 
 // **************************************************************************
@@ -16,7 +18,7 @@ _$_TravelInsuranceOfferModel _$$_TravelInsuranceOfferModelFromJson(
       period_to: json['period_to'] as int?,
       age_from: json['age_from'] as int?,
       age_to: json['age_to'] as int?,
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       active: json['active'] as int?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,

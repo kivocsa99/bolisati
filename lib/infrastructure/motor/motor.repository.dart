@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
@@ -34,7 +33,6 @@ class MotorRepository implements IMotorRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -62,7 +60,6 @@ class MotorRepository implements IMotorRepository {
       final result = await dio.get(
         "https://bolisati.bitsblend.org/api/V1/Motor/GetOffers?vehicle_model_id=$vehiclemodelid&estimated_car_price=$estimatedcarprice&api_token=$token",
       );
-      print(result.data);
 
       Map<String, dynamic> map = result.data;
 
@@ -70,14 +67,12 @@ class MotorRepository implements IMotorRepository {
 
       List<MotorOffersModel> offers =
           data.map((e) => MotorOffersModel.fromJson(e)).toList();
-      print(offers);
       if (result.data["AZSVR"] == "SUCCESS") {
         return offers;
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -117,7 +112,6 @@ class MotorRepository implements IMotorRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -150,7 +144,6 @@ class MotorRepository implements IMotorRepository {
         // List<CarModel> cars = result.data["Cars"];
         return cars;
       }, (error, stackTrace) {
-        print(error);
         if (error is DioError) {
           switch (error.type) {
             case DioErrorType.connectTimeout:

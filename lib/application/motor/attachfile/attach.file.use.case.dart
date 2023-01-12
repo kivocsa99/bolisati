@@ -5,7 +5,6 @@ import 'package:bolisati/domain/api/motor/contracts/i.motor.repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../domain/api/medical/contracts/i.medical.repository.dart';
 import 'attach.file.use.case.input.dart';
 
 final motorattachfileProvider = Provider((ref) =>

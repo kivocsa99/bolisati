@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/personal.repository.provider.dart';
 import 'package:bolisati/domain/api/personal/model/personaloccupation.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class PersonalInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
@@ -55,10 +55,9 @@ class PersonalInformationContainer extends HookWidget {
                 controller: namecontroller,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "Full Name",
+                label: "name".tr(),
                 width: double.infinity,
               ),
               Ocuupation(
@@ -72,10 +71,9 @@ class PersonalInformationContainer extends HookWidget {
                 controller: valuecontroller,
                 type: TextInputType.number,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: value,
-                label: "Insurance Amount",
+                label: "insuranceamount".tr(),
                 width: double.infinity,
               ),
               Row(
@@ -83,12 +81,12 @@ class PersonalInformationContainer extends HookWidget {
                 children: [
                   StartEndDate(
                     startcontroller: startdatecontroller,
-                    label: "Start Date",
+                    label: "startdate".tr(),
                     width: 150,
                   ),
                   StartEndDate(
                     endcontroller: enddatecontroller,
-                    label: "End Date",
+                    label: "enddate".tr(),
                     width: 150,
                   ),
                 ],
@@ -178,7 +176,7 @@ class YearPicker extends HookWidget {
   Widget build(BuildContext context) {
     final Box personal = Hive.box("personal");
 
-    final _selectedYear = useState("");
+    final selectedYear = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -193,7 +191,7 @@ class YearPicker extends HookWidget {
           height: 80,
           width: width,
           child: TextFormField(
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
@@ -219,11 +217,11 @@ class YearPicker extends HookWidget {
                 String picked = DateFormat.y().format(pickedYear);
                 String now = DateFormat.y().format(DateTime.now());
                 int result = int.parse(now) - int.parse(picked);
-                _selectedYear.value =
+                selectedYear.value =
                     DateFormat("yyyy-MM-dd").format(pickedYear);
-                personal.put("birthdate", _selectedYear.value);
+                personal.put("birthdate", selectedYear.value);
                 personal.put("age", result);
-                controller!.text = _selectedYear.value.toString();
+                controller!.text = selectedYear.value.toString();
               }
             },
             decoration: InputDecoration(
@@ -236,7 +234,7 @@ class YearPicker extends HookWidget {
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               filled: true,
               fillColor: Colors.blue[350],
-              labelText: "Birth Date",
+              labelText: "birthdate".tr(),
               hintStyle: const TextStyle(
                 color: Colors.black26,
                 fontSize: 18,
@@ -266,7 +264,7 @@ class StartEndDate extends HookWidget {
   Widget build(BuildContext context) {
     final Box car = Hive.box("personal");
 
-    final _selecteddate = useState("");
+    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -282,7 +280,7 @@ class StartEndDate extends HookWidget {
           width: width,
           child: TextFormField(
             readOnly: true,
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             onTap: () async {
               FocusScope.of(context).unfocus();
               final pickedYear = await showDatePicker(
@@ -304,15 +302,15 @@ class StartEndDate extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selecteddate.value = DateFormat("M/d/y").format(pickedYear);
-                if (label == "Start Date") {
+                selecteddate.value = DateFormat("M/d/y").format(pickedYear);
+                if (label == "Start Date" || label == "تاريخ البداية") {
                   car.put("startdate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  startcontroller!.text = _selecteddate.value.toString();
+                  startcontroller!.text = selecteddate.value.toString();
                 } else {
                   car.put("enddate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  endcontroller!.text = _selecteddate.value.toString();
+                  endcontroller!.text = selecteddate.value.toString();
                 }
               }
             },
@@ -333,7 +331,9 @@ class StartEndDate extends HookWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            controller: label == "Start Date" ? startcontroller : endcontroller,
+            controller: label == "Start Date" || label == "تاريخ البداية"
+                ? startcontroller
+                : endcontroller,
           ),
         ));
   }
@@ -376,26 +376,21 @@ class Ocuupation extends HookConsumerWidget {
               final apitoken = box.get("apitoken");
               return TextFormField(
                 readOnly: true,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onTap: () async {
                   final value =
                       await ref.read(getoccupationProvider(apitoken).future);
                   value.fold(
                       (l) => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content:
-                                  Text("${l.toString()} please contact us"))),
-                      (r) {
+                          SnackBar(content: Text("contact".tr()))), (r) {
                     List<PersonalOccupationModel> cars = r;
 
-                    print(r);
                     FocusScope.of(context).unfocus();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return SimpleDialog(
-                          title: const Text('Select Occupation'),
+                          title: const Text('selectocc').tr(),
                           children: cars.map((e) {
                             return SimpleDialogOption(
                               onPressed: () async {
@@ -405,7 +400,9 @@ class Ocuupation extends HookConsumerWidget {
                                 personal.put("typeid", e.id);
                                 await context.router.pop();
                               },
-                              child: Text(e.name!),
+                              child: context.locale.languageCode == "ar"
+                                  ? Text(e.name_ar!)
+                                  : Text(e.name!),
                             );
                           }).toList(),
                         );
@@ -423,7 +420,7 @@ class Ocuupation extends HookConsumerWidget {
                       const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                   filled: true,
                   fillColor: Colors.blue[350],
-                  labelText: "Occupation",
+                  labelText: "occupation".tr(),
                   hintStyle: const TextStyle(
                     color: Colors.black26,
                     fontSize: 18,

@@ -14,7 +14,7 @@ class PetOffersModel with _$PetOffersModel {
   const factory PetOffersModel({
     int? id,
     int? company_id,
-    int? price,
+    num? price,
     int? active,
     String? created_at,
     String? updated_at,

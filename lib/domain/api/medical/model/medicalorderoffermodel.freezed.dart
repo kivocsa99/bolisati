@@ -31,7 +31,7 @@ mixin _$MedicalOrderOfferModel {
   int? get age_to => throw _privateConstructorUsedError;
   String? get medical_insurance_type => throw _privateConstructorUsedError;
   GenderModel? get gender => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get birth_date => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
@@ -66,7 +66,7 @@ abstract class $MedicalOrderOfferModelCopyWith<$Res> {
       int? age_to,
       String? medical_insurance_type,
       GenderModel? gender,
-      int? price,
+      num? price,
       String? name,
       String? birth_date,
       int? age,
@@ -161,7 +161,7 @@ class _$MedicalOrderOfferModelCopyWithImpl<$Res,
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -237,7 +237,7 @@ abstract class _$$_MedicalOrderOfferModelCopyWith<$Res>
       int? age_to,
       String? medical_insurance_type,
       GenderModel? gender,
-      int? price,
+      num? price,
       String? name,
       String? birth_date,
       int? age,
@@ -331,7 +331,7 @@ class __$$_MedicalOrderOfferModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -427,7 +427,7 @@ class _$_MedicalOrderOfferModel implements _MedicalOrderOfferModel {
   @override
   final GenderModel? gender;
   @override
-  final int? price;
+  final num? price;
   @override
   final String? name;
   @override
@@ -558,7 +558,7 @@ abstract class _MedicalOrderOfferModel implements MedicalOrderOfferModel {
       final int? age_to,
       final String? medical_insurance_type,
       final GenderModel? gender,
-      final int? price,
+      final num? price,
       final String? name,
       final String? birth_date,
       final int? age,
@@ -594,7 +594,7 @@ abstract class _MedicalOrderOfferModel implements MedicalOrderOfferModel {
   @override
   GenderModel? get gender;
   @override
-  int? get price;
+  num? get price;
   @override
   String? get name;
   @override

@@ -22,14 +22,12 @@ class DomesticRepository implements IDomesticRepository {
       final result = await dio.post(
           "https://bolisati.bitsblend.org/api/V1/DomesticWorker/AttachFile?api_token=$apitoken",
           data: formData);
-      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data["FileURL"];
       } else {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -68,7 +66,6 @@ class DomesticRepository implements IDomesticRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:
@@ -96,7 +93,6 @@ class DomesticRepository implements IDomesticRepository {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/DomesticWorker/PlaceOrder?domestic_worker_insurance_id=${model.total}&name=${model.name}&start_date=${model.start_date}&end_date=${model.end_date}&national_id_number=${int.parse(model.national_id_number!)}&worker_name=${model.worker_name}$addons&api_token=$token");
-      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         DomesticDoneModel model =
             DomesticDoneModel.fromJson(result.data["OrderDetails"]);
@@ -105,7 +101,6 @@ class DomesticRepository implements IDomesticRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:

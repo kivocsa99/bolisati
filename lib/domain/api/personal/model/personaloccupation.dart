@@ -3,9 +3,6 @@
 //needs work
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../addons/model/addonsmodel.dart';
-import '../../company/model/companymodel.dart';
-
 part 'personaloccupation.freezed.dart';
 part 'personaloccupation.g.dart';
 

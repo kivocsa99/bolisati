@@ -1,4 +1,3 @@
-import 'package:bolisati/domain/api/orders/motororders/motorordermodel.dart';
 import 'package:bolisati/domain/api/pet/model/petorderdonemodel.dart';
 
 class PetPlaceOrderUseCaseInput {

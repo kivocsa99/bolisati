@@ -5,9 +5,7 @@ import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../domain/api/medical/contracts/i.medical.repository.dart';
 import '../../../../domain/api/retirment/contracts/i.retirment.repository.dart';
-import '../../../provider/medical.repository.provider.dart';
 
 final retirmentplaceOrderProvider = Provider((ref) => RetirmentPlaceOrderUseCase(
     retirmentRepository: ref.watch(retirmentrepoprovider)));

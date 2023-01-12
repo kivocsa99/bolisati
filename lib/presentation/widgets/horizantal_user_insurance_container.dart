@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class HorizantalUesrInsuranceContainer extends StatelessWidget {
   final Icon? icon;
@@ -76,16 +74,6 @@ class HorizantalUesrInsuranceContainer extends StatelessWidget {
                               const TextStyle(fontSize: 10, color: Colors.grey),
                         ),
                       ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      price!,
-                      style: const TextStyle(
-                          fontSize: 10, color: Color(0xFF1E90FF)),
                     ),
                   ),
                 ),

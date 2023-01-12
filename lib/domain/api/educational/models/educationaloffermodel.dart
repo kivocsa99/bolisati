@@ -4,7 +4,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../addons/model/addonsmodel.dart';
-import '../../company/model/companymodel.dart';
 
 part 'educationaloffermodel.freezed.dart';
 part 'educationaloffermodel.g.dart';
@@ -18,13 +17,12 @@ class EducationalChildDoneModel with _$EducationalChildDoneModel {
     String? birthdate,
     int? age,
     String? national_id_number,
-    int? gender_id,
+    String? gender_id,
     String? created_at,
     String? updated_at,
     String? deleted_at,
     List<AddonsModel>? addons,
-    CompanyModel? company,
-  }) = _EducationalOffersModel;
+  }) = _EducationalChildDoneModel;
   factory EducationalChildDoneModel.fromJson(Map<String, dynamic> json) =>
       _$EducationalChildDoneModelFromJson(json);
 }

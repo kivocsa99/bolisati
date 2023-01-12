@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -80,7 +81,7 @@ class PhoneNumberField extends HookWidget {
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     filled: true,
                     fillColor: Colors.blue[350],
-                    labelText: "Phone Number",
+                    labelText: "phone".tr(),
                     icon: const Icon(Icons.phone),
                     hintStyle: const TextStyle(
                       color: Colors.black26,

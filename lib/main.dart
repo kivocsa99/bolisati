@@ -1,14 +1,18 @@
+// ignore_for_file: avoid_print
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/auth/ali_api/use_cases/update/update_use_case.dart';
 import 'package:bolisati/application/auth/ali_api/use_cases/update/update_use_case.input.dart';
 import 'package:bolisati/router/app_route.gr.dart';
 import 'package:bolisati/router/guard.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -80,8 +84,8 @@ void showFlutterNotification(RemoteMessage message) {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          // TODO add a proper drawable resource to android, for now using
           //      one that already exists in example app.
+
           icon: 'launch_background',
         ),
       ),
@@ -91,12 +95,14 @@ void showFlutterNotification(RemoteMessage message) {
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
+String? token;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await EasyLocalization.ensureInitialized();
+
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   await messaging.requestPermission(
     alert: true,
@@ -128,16 +134,22 @@ Future<void> main() async {
   await domestic.clear();
   await retire.clear();
   await personal.clear();
-  var token = await FirebaseMessaging.instance.getToken();
-  print(user.values);
+  token = await FirebaseMessaging.instance.getToken();
   await user.put("fcmtoken", token);
+  print(user.values);
 
   FirebaseMessaging.instance.onTokenRefresh.listen((value) async {
     token = value;
     return await user.put("fcmtoken", value);
   });
-  runApp(ProviderScope(
-    child: MyApp(),
+  runApp(Phoenix(
+    child: EasyLocalization(
+        path: "assets",
+        supportedLocales: const [
+          Locale("ar"),
+          Locale("en"),
+        ],
+        child: ProviderScope(child: MyApp())),
   ));
 }
 
@@ -147,6 +159,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       builder: (context, child) => ResponsiveWrapper.builder(
           BouncingScrollWrapper.builder(context, child!),
           maxWidth: 1200,
@@ -174,7 +189,8 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Box user = Hive.box("setting");
-    final offset = useState(const Offset(2, 0));
+    final lang = useState(context.locale.languageCode);
+    final offset = useState(Offset(lang.value == "ar" ? -3.1 : 2, 0));
     final changeOffset = useMemoized(() async => await Future.delayed(
         const Duration(milliseconds: 300),
         () => offset.value = offset.value - const Offset(1.2, 0)));
@@ -193,24 +209,91 @@ class HomePage extends HookConsumerWidget {
                 AnimatedSlide(
                   duration: const Duration(milliseconds: 1000),
                   offset: offset.value,
-                  onEnd: () {
+                  onEnd: () async {
+                    print(user.get("firsttime"));
                     if (user.get("firsttime") != null) {
-                      print(user.get("name"));
-                      ref
+                      print(user.get("firsttime") != null);
+                      return ref
                           .read(updateuserprovider)
                           .execute(UpdateUserInput(
                             urlvalue: "fcm_token",
                             token: user.get("apitoken"),
                             value: user.get("fcmtoken"),
                           ))
-                          .then((value) => value.fold(
-                              (l) => ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(l.toString()))),
-                              (r) async => await context.router.replaceAll(
-                                  [LandingScreen(constraints: dimentions)])));
+                          .then((value) => value.fold((l) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: const Text("contact").tr()));
+                              }, (r) async {
+                                context.router.replaceAll([const HomeScreen()]);
+                              }));
                     } else {
-                      context.router
-                          .replaceAll([LandingScreen(constraints: dimentions)]);
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Image.asset(
+                                  "assets/logo.png",
+                                  scale: 1.5,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text(
+                                  'languagechange',
+                                ).tr(),
+                              ],
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 40.0, right: 40.0),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    context.setLocale(const Locale("en")).then(
+                                        (value) => context.router
+                                            .replaceAll([const HomeScreen()]));
+                                  },
+                                  child: Container(
+                                    color: Colors.black,
+                                    width: 100,
+                                    height: 60,
+                                    child: Center(
+                                        child: const Text(
+                                      "English",
+                                      style: TextStyle(color: Colors.white),
+                                    ).tr()),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 40.0, right: 40.0),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    context.setLocale(const Locale("ar")).then(
+                                        (value) => context.router
+                                            .replaceAll([const HomeScreen()]));
+                                  },
+                                  child: Container(
+                                    color: Colors.black,
+                                    width: 100,
+                                    height: 60,
+                                    child: Center(
+                                        child: const Text(
+                                      "العربية",
+                                      style: TextStyle(color: Colors.white),
+                                    ).tr()),
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      );
                     }
                   },
                   child: Image.asset("assets/logo.png"),

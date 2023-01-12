@@ -19,6 +19,7 @@ import 'package:bolisati/presentation/medical/widgets/medicalordercontainer.dart
 import 'package:bolisati/presentation/medical/widgets/medicaluploadpage.dart';
 
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -76,7 +77,7 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
       ),
       MedicalOrderOffersContainer(
         offers: offers.value,
-        key: Key("2"),
+        key: const Key("2"),
       ),
       MedicalUploadPage(
         image0: File(idfront.value),
@@ -112,9 +113,8 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Medical",
-                            description:
-                                "Find the best fit\nfor your medical needs.",
+                            name: "medical".tr(),
+                            description: "medicaldes".tr(),
                             icon: const Icon(
                               FontAwesomeIcons.houseMedical,
                               color: medicalcolor,
@@ -132,7 +132,7 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                             child: SingleChildScrollView(
                                 child: Column(
                               children: [
-                                  const SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Padding(
@@ -172,10 +172,10 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                             : Colors.black,
                                         width: 175,
                                         height: 60,
-                                        child: const Center(
+                                        child: Center(
                                             child: Text(
-                                          "Back",
-                                          style: TextStyle(color: Colors.white),
+                                          "back".tr(),
+                                          style: const TextStyle(color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -190,7 +190,6 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                               if (medicalformkey
                                                   .value.currentState!
                                                   .validate()) {
-                                                print(order.value);
                                                 ref
                                                     .read(
                                                         medicalgetOffersProvider)
@@ -207,11 +206,10 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                             (l) => ScaffoldMessenger.of(
                                                                     context)
                                                                 .showSnackBar(SnackBar(
-                                                                    content:
-                                                                        Text(l.toString()))),
+                                                                    content: const Text("contact")
+                                                                        .tr())),
                                                             (r) {
                                                           offers.value = r;
-                                                          print(offers.value);
                                                           final isLaseIndex =
                                                               index.value ==
                                                                   cases.length -
@@ -257,7 +255,6 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                               medical.get(
                                                                   "birthdate"));
                                                 }));
-                                                print(order.value);
                                                 final MedicalOffersModel
                                                     offersModel = offers.value
                                                         .firstWhere((element) =>
@@ -294,36 +291,23 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                     value.fold(
                                                                         (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                                             content:
-                                                                                Text(l.toString()))),
+                                                                                const Text("contact").tr())),
                                                                         (r) async {
                                                                       MedicalOrderDoneModel
                                                                           orderdone =
                                                                           r;
-                                                                      print(
-                                                                          orderdone);
                                                                       for (var element
                                                                           in images) {
-                                                                        await ref
-                                                                            .read(
-                                                                                medicalattachplaceOrderProvider)
-                                                                            .execute(MedicalAttachFileUseCaseInput(
-                                                                                token: token,
-                                                                                orderid: orderdone.id,
-                                                                                file: File(element)))
-                                                                            .then((value) => value.fold((l) => print(l), (r) => print(r)));
+                                                                        ref.read(medicalattachplaceOrderProvider).execute(MedicalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                                (r) async {
+                                                                              context.router.pop();
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                              await context.router.replaceAll([
+                                                                                const HomeScreen()
+                                                                              ]);
+                                                                            }));
                                                                       }
-                                                                      context
-                                                                          .router
-                                                                          .pop();
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                              const SnackBar(content: Text("Your Order Have Been Placed")));
-                                                                      // await context
-                                                                      //     .router
-                                                                      //     .replaceAll([
-                                                                      //   const HomeScreen()
-                                                                      // ]);
                                                                     }));
                                                           },
                                                           medicalorder:
@@ -335,9 +319,9 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                 );
                                               } else {
                                                 ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
+                                                    .showSnackBar(SnackBar(
                                                         content: Text(
-                                                            "please Upload all of the pictures")));
+                                                            "picupload".tr())));
                                               }
                                             }
                                           },
@@ -348,8 +332,8 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "Next"
-                                                  : "Confirm",
+                                                  ? "next".tr()
+                                                  : "confirm".tr(),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             )),

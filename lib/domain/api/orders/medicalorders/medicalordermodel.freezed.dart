@@ -32,7 +32,7 @@ mixin _$MedicalOrderModel {
   int? get age_to => throw _privateConstructorUsedError;
   String? get medical_insurance_type => throw _privateConstructorUsedError;
   GenderModel? get gender => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
@@ -77,7 +77,7 @@ abstract class $MedicalOrderModelCopyWith<$Res> {
       int? age_to,
       String? medical_insurance_type,
       GenderModel? gender,
-      int? price,
+      num? price,
       String? name,
       String? birthdate,
       int? age,
@@ -201,7 +201,7 @@ class _$MedicalOrderModelCopyWithImpl<$Res, $Val extends MedicalOrderModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -380,7 +380,7 @@ abstract class _$$_MedicalOrderModelCopyWith<$Res>
       int? age_to,
       String? medical_insurance_type,
       GenderModel? gender,
-      int? price,
+      num? price,
       String? name,
       String? birthdate,
       int? age,
@@ -509,7 +509,7 @@ class __$$_MedicalOrderModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -647,7 +647,7 @@ class _$_MedicalOrderModel implements _MedicalOrderModel {
   @override
   final GenderModel? gender;
   @override
-  final int? price;
+  final num? price;
   @override
   final String? name;
   @override
@@ -826,7 +826,7 @@ abstract class _MedicalOrderModel implements MedicalOrderModel {
       final int? age_to,
       final String? medical_insurance_type,
       final GenderModel? gender,
-      final int? price,
+      final num? price,
       final String? name,
       final String? birthdate,
       final int? age,
@@ -873,7 +873,7 @@ abstract class _MedicalOrderModel implements MedicalOrderModel {
   @override
   GenderModel? get gender;
   @override
-  int? get price;
+  num? get price;
   @override
   String? get name;
   @override

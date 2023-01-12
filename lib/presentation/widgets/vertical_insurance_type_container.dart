@@ -59,12 +59,14 @@ class VerticalInsurance extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          insuranceName!,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                        Expanded(
+                          child: Text(
+                            insuranceName!,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const SizedBox(
                           height: 5,
@@ -77,13 +79,6 @@ class VerticalInsurance extends StatelessWidget {
                         ),
                         const SizedBox(
                           height: 8,
-                        ),
-                        Expanded(
-                          child: Text(
-                            price!,
-                            style: const TextStyle(
-                                fontSize: 10, color: Color(0xFF1E90FF)),
-                          ),
                         ),
                       ],
                     ),

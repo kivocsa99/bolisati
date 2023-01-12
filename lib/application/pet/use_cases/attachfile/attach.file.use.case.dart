@@ -1,8 +1,6 @@
 import 'package:bolisati/application/core/use_cases/i.use_case.dart';
-import 'package:bolisati/application/provider/motor.repository.provider.dart';
 import 'package:bolisati/application/provider/pet.repository.provider.dart';
 import 'package:bolisati/domain/api/failures/api.failures.dart';
-import 'package:bolisati/domain/api/motor/contracts/i.motor.repository.dart';
 import 'package:bolisati/domain/api/pet/contracts/i.pet.repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

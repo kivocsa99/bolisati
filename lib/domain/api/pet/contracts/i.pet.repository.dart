@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
-import 'package:bolisati/domain/api/orders/petorders/petordermodel.dart';
-import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
 import 'package:bolisati/domain/api/pet/model/petorderdonemodel.dart';
 import 'package:fpdart/fpdart.dart';
 

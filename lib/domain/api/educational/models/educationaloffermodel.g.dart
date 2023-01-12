@@ -1,34 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'educationaloffermodel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_EducationalOffersModel _$$_EducationalOffersModelFromJson(
+_$_EducationalChildDoneModel _$$_EducationalChildDoneModelFromJson(
         Map<String, dynamic> json) =>
-    _$_EducationalOffersModel(
+    _$_EducationalChildDoneModel(
       id: json['id'] as int?,
       educational_order_id: json['educational_order_id'] as String?,
       name: json['name'] as String?,
       birthdate: json['birthdate'] as String?,
       age: json['age'] as int?,
       national_id_number: json['national_id_number'] as String?,
-      gender_id: json['gender_id'] as int?,
+      gender_id: json['gender_id'] as String?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,
       addons: (json['addons'] as List<dynamic>?)
           ?.map((e) => AddonsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      company: json['company'] == null
-          ? null
-          : CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_EducationalOffersModelToJson(
-        _$_EducationalOffersModel instance) =>
+Map<String, dynamic> _$$_EducationalChildDoneModelToJson(
+        _$_EducationalChildDoneModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'educational_order_id': instance.educational_order_id,
@@ -41,5 +40,4 @@ Map<String, dynamic> _$$_EducationalOffersModelToJson(
       'updated_at': instance.updated_at,
       'deleted_at': instance.deleted_at,
       'addons': instance.addons,
-      'company': instance.company,
     };

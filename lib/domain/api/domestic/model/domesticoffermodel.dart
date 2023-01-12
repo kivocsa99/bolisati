@@ -13,7 +13,7 @@ class DomesticOfferModel with _$DomesticOfferModel {
   const factory DomesticOfferModel({
     int? id,
     int? company_id,
-    int? price,
+    num? price,
     int? active,
     String? created_at,
     String? updated_at,

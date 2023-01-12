@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
-import 'package:bolisati/domain/api/orders/medicalorders/medicalordermodel.dart';
 import 'package:bolisati/domain/api/orders/retirementorders/retirementordermodel.dart';
 import 'package:fpdart/fpdart.dart';
 

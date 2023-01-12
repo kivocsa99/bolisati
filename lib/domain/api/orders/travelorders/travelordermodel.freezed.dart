@@ -27,11 +27,11 @@ mixin _$TravelOrderModel {
   int? get travel_region_id => throw _privateConstructorUsedError;
   int? get travel_order_status_id => throw _privateConstructorUsedError;
   String? get travel_region_name => throw _privateConstructorUsedError;
-  int? get price_from => throw _privateConstructorUsedError;
-  int? get price_to => throw _privateConstructorUsedError;
+  num? get price_from => throw _privateConstructorUsedError;
+  num? get price_to => throw _privateConstructorUsedError;
   int? get age_from => throw _privateConstructorUsedError;
   int? get age_to => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get destination => throw _privateConstructorUsedError;
   String? get start_date => throw _privateConstructorUsedError;
@@ -72,11 +72,11 @@ abstract class $TravelOrderModelCopyWith<$Res> {
       int? travel_region_id,
       int? travel_order_status_id,
       String? travel_region_name,
-      int? price_from,
-      int? price_to,
+      num? price_from,
+      num? price_to,
       int? age_from,
       int? age_to,
-      int? price,
+      num? price,
       String? name,
       String? destination,
       String? start_date,
@@ -179,11 +179,11 @@ class _$TravelOrderModelCopyWithImpl<$Res, $Val extends TravelOrderModel>
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       age_from: freezed == age_from
           ? _value.age_from
           : age_from // ignore: cast_nullable_to_non_nullable
@@ -195,7 +195,7 @@ class _$TravelOrderModelCopyWithImpl<$Res, $Val extends TravelOrderModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -349,11 +349,11 @@ abstract class _$$_TravelOrderModelCopyWith<$Res>
       int? travel_region_id,
       int? travel_order_status_id,
       String? travel_region_name,
-      int? price_from,
-      int? price_to,
+      num? price_from,
+      num? price_to,
       int? age_from,
       int? age_to,
-      int? price,
+      num? price,
       String? name,
       String? destination,
       String? start_date,
@@ -459,11 +459,11 @@ class __$$_TravelOrderModelCopyWithImpl<$Res>
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       age_from: freezed == age_from
           ? _value.age_from
           : age_from // ignore: cast_nullable_to_non_nullable
@@ -475,7 +475,7 @@ class __$$_TravelOrderModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -607,15 +607,15 @@ class _$_TravelOrderModel implements _TravelOrderModel {
   @override
   final String? travel_region_name;
   @override
-  final int? price_from;
+  final num? price_from;
   @override
-  final int? price_to;
+  final num? price_to;
   @override
   final int? age_from;
   @override
   final int? age_to;
   @override
-  final int? price;
+  final num? price;
   @override
   final String? name;
   @override
@@ -789,11 +789,11 @@ abstract class _TravelOrderModel implements TravelOrderModel {
       final int? travel_region_id,
       final int? travel_order_status_id,
       final String? travel_region_name,
-      final int? price_from,
-      final int? price_to,
+      final num? price_from,
+      final num? price_to,
       final int? age_from,
       final int? age_to,
-      final int? price,
+      final num? price,
       final String? name,
       final String? destination,
       final String? start_date,
@@ -831,15 +831,15 @@ abstract class _TravelOrderModel implements TravelOrderModel {
   @override
   String? get travel_region_name;
   @override
-  int? get price_from;
+  num? get price_from;
   @override
-  int? get price_to;
+  num? get price_to;
   @override
   int? get age_from;
   @override
   int? get age_to;
   @override
-  int? get price;
+  num? get price;
   @override
   String? get name;
   @override

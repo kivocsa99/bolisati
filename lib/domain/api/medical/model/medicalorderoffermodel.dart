@@ -21,7 +21,7 @@ class MedicalOrderOfferModel with _$MedicalOrderOfferModel {
     int? age_to,
     String? medical_insurance_type,
     GenderModel? gender,
-    int? price,
+    num? price,
     String? name,
     String? birth_date,
     int? age,

@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 
 class ReitirementInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
@@ -14,8 +14,6 @@ class ReitirementInformationContainer extends HookWidget {
   final ValueChanged<String?>? monthly;
   final ValueChanged<String?>? retirement;
   final ValueChanged<String?>? insurance;
-
-
 
   final GlobalKey<FormState>? formkey;
   const ReitirementInformationContainer({
@@ -44,10 +42,9 @@ class ReitirementInformationContainer extends HookWidget {
                 controller: namecontroller,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "Full Name",
+                label: "name".tr(),
                 width: double.infinity,
               ),
               YearPicker(
@@ -57,7 +54,7 @@ class ReitirementInformationContainer extends HookWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomField(
-                    initial: "Insurance Type",
+                    initial: "inursancet".tr(),
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2,
                   ),
@@ -74,10 +71,9 @@ class ReitirementInformationContainer extends HookWidget {
                       controller: monthlycontroller,
                       type: TextInputType.number,
                       readonly: false,
-                      validator: RequiredValidator(
-                          errorText: "This Field is Required"),
+                      validator: RequiredValidator(errorText: "reqfield".tr()),
                       onchanged: monthly,
-                      label: "Monthly Fee",
+                      label: "monthly".tr(),
                       width: double.infinity,
                     )
                   : const SizedBox.shrink(),
@@ -86,10 +82,9 @@ class ReitirementInformationContainer extends HookWidget {
                       controller: fullfee,
                       type: TextInputType.number,
                       readonly: false,
-                      validator: RequiredValidator(
-                          errorText: "This Field is Required"),
+                      validator: RequiredValidator(errorText: "reqfield".tr()),
                       onchanged: monthly,
-                      label: "Full Fee",
+                      label: "fullfee".tr(),
                       width: double.infinity,
                     )
                   : const SizedBox.shrink(),
@@ -97,10 +92,9 @@ class ReitirementInformationContainer extends HookWidget {
                 controller: retirementcontroller,
                 type: TextInputType.number,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: retirement,
-                label: "Retirement Age",
+                label: "retirementage".tr(),
                 width: double.infinity,
               ),
             ],
@@ -188,7 +182,7 @@ class YearPicker extends HookWidget {
   Widget build(BuildContext context) {
     final Box retirement = Hive.box("retirement");
 
-    final _selectedYear = useState("");
+    final selectedYear = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -203,7 +197,7 @@ class YearPicker extends HookWidget {
           height: 80,
           width: width,
           child: TextFormField(
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
@@ -229,11 +223,11 @@ class YearPicker extends HookWidget {
                 String picked = DateFormat.y().format(pickedYear);
                 String now = DateFormat.y().format(DateTime.now());
                 int result = int.parse(now) - int.parse(picked);
-                _selectedYear.value =
+                selectedYear.value =
                     DateFormat("yyyy-MM-dd").format(pickedYear);
-                retirement.put("birthdate", _selectedYear.value);
+                retirement.put("birthdate", selectedYear.value);
                 retirement.put("age", result);
-                controller!.text = _selectedYear.value.toString();
+                controller!.text = selectedYear.value.toString();
               }
             },
             decoration: InputDecoration(
@@ -246,7 +240,7 @@ class YearPicker extends HookWidget {
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               filled: true,
               fillColor: Colors.blue[350],
-              labelText: "Birth Date",
+              labelText: "birthdate".tr(),
               hintStyle: const TextStyle(
                 color: Colors.black26,
                 fontSize: 18,
@@ -258,8 +252,6 @@ class YearPicker extends HookWidget {
         ));
   }
 }
-
-
 
 class Insurance extends HookWidget {
   final ValueChanged<String?>? onchanged;
@@ -285,10 +277,10 @@ class Insurance extends HookWidget {
           onChanged: onchanged,
           items: ["N/A", "Monthly Fee", "Full Fee"]
               .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
+                  (String value) => DropdownMenuItem<String>(
+                      value: value,
                       child: Text(
-                        _value,
+                        value,
                       )))
               .toList(),
         ),

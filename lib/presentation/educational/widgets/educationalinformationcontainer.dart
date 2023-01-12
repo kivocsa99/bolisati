@@ -1,12 +1,8 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:bolisati/application/provider/motor.repository.provider.dart';
-import 'package:bolisati/domain/api/orders/motororders/cars/carmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class EducationalInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
@@ -64,10 +60,9 @@ class EducationalInformationContainer extends HookWidget {
                 controller: namecontroller,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "Full Name",
+                label: "name".tr(),
                 width: double.infinity,
               ),
               YearPicker(
@@ -76,7 +71,7 @@ class EducationalInformationContainer extends HookWidget {
               Row(
                 children: [
                   CustomField(
-                    initial: "Insurance Type",
+                    initial: "inursancet".tr(),
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2,
                   ),
@@ -93,10 +88,9 @@ class EducationalInformationContainer extends HookWidget {
                       controller: monthlyconotroller,
                       type: TextInputType.number,
                       readonly: false,
-                      validator: RequiredValidator(
-                          errorText: "This Field is Required"),
+                      validator: RequiredValidator(errorText: "reqfield".tr()),
                       onchanged: monthly,
-                      label: "Monthly Fee",
+                      label: "monthly".tr(),
                       width: double.infinity,
                     )
                   : const SizedBox.shrink(),
@@ -105,10 +99,9 @@ class EducationalInformationContainer extends HookWidget {
                       controller: fullfeecontroller,
                       type: TextInputType.number,
                       readonly: false,
-                      validator: RequiredValidator(
-                          errorText: "This Field is Required"),
+                      validator: RequiredValidator(errorText: "reqfield".tr()),
                       onchanged: yearly,
-                      label: "Full Fee",
+                      label: "fullfee".tr(),
                       width: double.infinity,
                     )
                   : const SizedBox.shrink(),
@@ -142,10 +135,10 @@ class Insurance extends HookWidget {
           onChanged: onchanged,
           items: ["N/A", "Monthly Fee", "Full Fee"]
               .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
+                  (String value) => DropdownMenuItem<String>(
+                      value: value,
                       child: Text(
-                        _value,
+                        value,
                       )))
               .toList(),
         ),
@@ -233,7 +226,7 @@ class YearPicker extends HookWidget {
   Widget build(BuildContext context) {
     final Box educational = Hive.box("educational");
 
-    final _selectedYear = useState("");
+    final selectedYear = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -248,7 +241,7 @@ class YearPicker extends HookWidget {
           height: 80,
           width: width,
           child: TextFormField(
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
@@ -274,11 +267,11 @@ class YearPicker extends HookWidget {
                 String picked = DateFormat.y().format(pickedYear);
                 String now = DateFormat.y().format(DateTime.now());
                 int result = int.parse(now) - int.parse(picked);
-                _selectedYear.value =
+                selectedYear.value =
                     DateFormat("yyyy-MM-dd").format(pickedYear);
-                educational.put("birthdate", _selectedYear.value);
+                educational.put("birthdate", selectedYear.value);
                 educational.put("age", result);
-                controller!.text = _selectedYear.value.toString();
+                controller!.text = selectedYear.value.toString();
               }
             },
             decoration: InputDecoration(
@@ -291,7 +284,7 @@ class YearPicker extends HookWidget {
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               filled: true,
               fillColor: Colors.blue[350],
-              labelText: "Birth Date",
+              labelText: "birthdate".tr(),
               hintStyle: const TextStyle(
                 color: Colors.black26,
                 fontSize: 18,
@@ -304,170 +297,3 @@ class YearPicker extends HookWidget {
   }
 }
 
-class CarBrand extends HookConsumerWidget {
-  final double? width;
-
-  final TextEditingController? brandcontroller;
-  final TextEditingController? modelcontroller;
-
-  const CarBrand({
-    super.key,
-    this.width,
-    this.brandcontroller,
-    this.modelcontroller,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final car = Hive.box("car");
-
-    final _selectedcar = useState("");
-    final _selectedmodel = useState("");
-    final Box setting = Hive.box("setting");
-
-    return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                ),
-              ),
-              height: 80,
-              width: width,
-              child: ValueListenableBuilder(
-                valueListenable: setting.listenable(),
-                builder: (context, Box box, child) {
-                  final apitoken = box.get("apitoken");
-                  final carprovider =
-                      ref.watch(getcarsProvider(apitoken).future);
-                  return TextFormField(
-                    readOnly: true,
-                    validator:
-                        RequiredValidator(errorText: "This Field is Required"),
-                    onTap: () async {
-                      final value =
-                          await ref.read(getcarsProvider(apitoken).future);
-                      value.fold(
-                          (l) => ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      "${l.toString()} please contact us"))),
-                          (r) {
-                        List<CarModel> cars = r;
-
-                        print(r);
-                        FocusScope.of(context).unfocus();
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SimpleDialog(
-                              title: const Text('Select Car Brand'),
-                              children: cars.map((e) {
-                                return SimpleDialogOption(
-                                  onPressed: () async {
-                                    _selectedcar.value = e.name.toString();
-                                    brandcontroller!.text =
-                                        _selectedcar.value.toString();
-                                    car.put("carbrand", e.id);
-                                    await context.router.pop();
-                                    return showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SimpleDialog(
-                                          title: const Text('Select Car Model'),
-                                          children: e.models!
-                                              .map((e) => SimpleDialogOption(
-                                                    onPressed: () {
-                                                      _selectedmodel.value =
-                                                          e.name!;
-                                                      modelcontroller!.text =
-                                                          _selectedmodel.value
-                                                              .toString();
-                                                      car.put("carmodel", e.id);
-                                                      context.router.pop();
-                                                    },
-                                                    child: Text(e!.name!),
-                                                  ))
-                                              .toList(),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Text(e.name!),
-                                );
-                              }).toList(),
-                            );
-                          },
-                        );
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusedErrorBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      errorBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      contentPadding:
-                          const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                      filled: true,
-                      fillColor: Colors.blue[350],
-                      labelText: "Car Brand",
-                      hintStyle: const TextStyle(
-                        color: Colors.black26,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    controller: brandcontroller,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                ),
-              ),
-              height: 80,
-              width: width,
-              child: TextFormField(
-                readOnly: true,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  focusedErrorBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red)),
-                  errorBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red)),
-                  contentPadding:
-                      const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                  filled: true,
-                  fillColor: Colors.blue[350],
-                  labelText: "Car Model",
-                  hintStyle: const TextStyle(
-                    color: Colors.black26,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                controller: modelcontroller,
-              ),
-            )
-          ],
-        ));
-  }
-}

@@ -11,8 +11,6 @@ import 'package:bolisati/domain/api/status/statusmodel.dart';
 import 'package:bolisati/domain/api/user/model/usermodel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../addons/model/addonsmodel.dart';
-
 part 'medicalordermodel.freezed.dart';
 part 'medicalordermodel.g.dart';
 
@@ -31,7 +29,7 @@ class MedicalOrderModel with _$MedicalOrderModel {
     int? age_to,
     String? medical_insurance_type,
     GenderModel? gender,
-    int? price,
+    num? price,
     String? name,
     String? birthdate,
     int? age,

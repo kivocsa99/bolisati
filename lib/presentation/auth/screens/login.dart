@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_const_constructors, avoid_print
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -25,21 +28,21 @@ class LoginScreen extends HookConsumerWidget {
     List<Widget> cases = [
       PhoneNumberField(
         validator: MultiValidator([
-          // PatternValidator((r'^(?!0)\d+$'),
-          //     errorText: "Please Provide a correct phonenumber"),
-          RequiredValidator(errorText: "This Field is Required"),
+          RequiredValidator(errorText: "reqfield".tr()),
           LengthRangeValidator(
-              min: 10, max: 10, errorText: "Please Provide a 10 digit phone")
+              min: 10,
+              max: 10,
+              errorText: "Please Provide a 10 digit phone".tr())
         ]),
         formkey: phoneformkey.value,
-        onchanged: (value) =>
-            user.value = user.value.copyWith(phone: "+962${value!.substring(1)}"),
+        onchanged: (value) => user.value =
+            user.value.copyWith(phone: "+962${value!.substring(1)}"),
         key: const Key("0"),
       ),
       PasswordField(
         obscureText: true,
         validator: MultiValidator([
-          RequiredValidator(errorText: "This Field is Required"),
+          RequiredValidator(errorText: "reqfield".tr()),
           LengthRangeValidator(
               min: 8,
               max: 20,
@@ -51,9 +54,9 @@ class LoginScreen extends HookConsumerWidget {
       )
     ];
     final index = useState(0);
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height,
           child: Stack(
@@ -86,8 +89,8 @@ class LoginScreen extends HookConsumerWidget {
                   )),
               Positioned(
                 top: 350,
-                left: 70,
-                right: 70,
+                left: 40,
+                right: 40,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -101,9 +104,9 @@ class LoginScreen extends HookConsumerWidget {
                         color: index.value == 0 ? Colors.grey : Colors.black,
                         width: MediaQuery.of(context).size.width / 3,
                         height: 60,
-                        child: const Center(
+                        child: Center(
                             child: Text(
-                          "Back",
+                          "back".tr(),
                           style: TextStyle(color: Colors.white),
                         )),
                       ),
@@ -124,11 +127,12 @@ class LoginScreen extends HookConsumerWidget {
                                     password: passswordController.text))
                                 .then((value) =>
                                     value.fold((l) => print(l), (r) {
+                                      print(r);
                                       if (r == const ApiFailures.authFailed()) {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
+                                            .showSnackBar( SnackBar(
                                                 content: Text(
-                                                    "please check your phone and password or contact us")));
+                                                    "logincheck").tr()));
                                       } else {
                                         context.router
                                             .replaceAll([const HomeScreen()]);
@@ -141,9 +145,9 @@ class LoginScreen extends HookConsumerWidget {
                         color: Colors.black,
                         width: MediaQuery.of(context).size.width / 3,
                         height: 60,
-                        child: const Center(
+                        child: Center(
                             child: Text(
-                          "Confirm",
+                          "confirm".tr(),
                           style: TextStyle(color: Colors.white),
                         )),
                       ),

@@ -1,7 +1,6 @@
 import 'package:bolisati/domain/api/personal/contracts/i.personal.repository.dart';
 import 'package:bolisati/infrastructure/personal/personal.repository.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/api/failures/api.failures.dart';

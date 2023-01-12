@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 
 class DomesticInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
@@ -48,30 +48,27 @@ class DomesticInformationContainer extends HookWidget {
                 controller: namecontroller,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "Full Name",
+                label: "name".tr(),
                 width: double.infinity,
               ),
               CustomField(
                 controller: workername,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: workernameonchanged,
-                label: "Worker Name",
+                label: "workername".tr(),
                 width: double.infinity,
               ),
               CustomField(
                 controller: workerinsurancecontroller,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: workerinsurance,
-                label: "Worker National Id",
+                label: "workerid".tr(),
                 width: double.infinity,
               ),
               Row(
@@ -79,12 +76,12 @@ class DomesticInformationContainer extends HookWidget {
                 children: [
                   StartEndDate(
                     startcontroller: startdatecontroller,
-                    label: "Start Date",
+                    label: "startdate".tr(),
                     width: 150,
                   ),
                   StartEndDate(
                     endcontroller: enddatecontroller,
-                    label: "End Date",
+                    label: "enddate".tr(),
                     width: 150,
                   ),
                 ],
@@ -132,46 +129,10 @@ class FuelType extends HookWidget {
           onChanged: onchanged,
           items: ["N/A", "electric", "fuel", "hybrid"]
               .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
+                  (String value) => DropdownMenuItem<String>(
+                      value: value,
                       child: Text(
-                        _value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class domesticraccident extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  const domesticraccident(
-      {super.key, this.width, this.onchanged, this.label, this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          validator: RequiredValidator(errorText: ""),
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["N/A", "True", "False"]
-              .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
-                      child: Text(
-                        _value,
+                        value,
                       )))
               .toList(),
         ),
@@ -259,7 +220,7 @@ class YearPicker extends HookWidget {
   Widget build(BuildContext context) {
     final Box domestic = Hive.box("domestic");
 
-    final _selectedYear = useState("");
+    final selectedYear = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -274,7 +235,7 @@ class YearPicker extends HookWidget {
           height: 80,
           width: width,
           child: TextFormField(
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
@@ -297,9 +258,9 @@ class YearPicker extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selectedYear.value = DateFormat.y().format(pickedYear);
-                domestic.put("domesticyear", _selectedYear.value);
-                controller!.text = _selectedYear.value.toString();
+                selectedYear.value = DateFormat.y().format(pickedYear);
+                domestic.put("domesticyear", selectedYear.value);
+                controller!.text = selectedYear.value.toString();
               }
             },
             decoration: InputDecoration(
@@ -342,7 +303,7 @@ class StartEndDate extends HookWidget {
   Widget build(BuildContext context) {
     final Box domestic = Hive.box("domestic");
 
-    final _selecteddate = useState("");
+    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -358,7 +319,7 @@ class StartEndDate extends HookWidget {
           width: width,
           child: TextFormField(
             readOnly: true,
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             onTap: () async {
               FocusScope.of(context).unfocus();
               final pickedYear = await showDatePicker(
@@ -380,15 +341,15 @@ class StartEndDate extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selecteddate.value = DateFormat("M/d/y").format(pickedYear);
-                if (label == "Start Date") {
+                selecteddate.value = DateFormat("M/d/y").format(pickedYear);
+                if (label == "Start Date" || label == "تاريخ البداية") {
                   domestic.put("domesticsstartdate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  startcontroller!.text = _selecteddate.value.toString();
+                  startcontroller!.text = selecteddate.value.toString();
                 } else {
                   domestic.put("domesticenddate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  endcontroller!.text = _selecteddate.value.toString();
+                  endcontroller!.text = selecteddate.value.toString();
                 }
               }
             },
@@ -409,7 +370,9 @@ class StartEndDate extends HookWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            controller: label == "Start Date" ? startcontroller : endcontroller,
+            controller: label == "Start Date" || label == "تاريخ البداية"
+                ? startcontroller
+                : endcontroller,
           ),
         ));
   }

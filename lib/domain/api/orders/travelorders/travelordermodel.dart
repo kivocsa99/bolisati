@@ -5,11 +5,11 @@ import 'package:bolisati/domain/api/orders/travelorders/insuranceoffer/travelins
 import 'package:bolisati/domain/api/orders/travelorders/region/regionmodel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../addons/model/addonsmodel.dart';
 import '../../company/model/companymodel.dart';
 import '../../files/filesmodel.dart';
 import '../../status/statusmodel.dart';
 import '../../user/model/usermodel.dart';
+
 part 'travelordermodel.freezed.dart';
 part 'travelordermodel.g.dart';
 
@@ -23,11 +23,11 @@ class TravelOrderModel with _$TravelOrderModel {
     int? travel_region_id,
     int? travel_order_status_id,
     String? travel_region_name,
-    int? price_from,
-    int? price_to,
+    num? price_from,
+    num? price_to,
     int? age_from,
     int? age_to,
-    int? price,
+    num? price,
     String? name,
     String? destination,
     String? start_date,

@@ -10,6 +10,7 @@ import 'package:bolisati/domain/api/orders/retirementorders/retirementordermodel
 
 import 'package:bolisati/domain/api/retirment/model/retirmentdonemodel.dart';
 import 'package:bolisati/presentation/retirement/widgets/retirmentuploadpage.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -48,7 +49,6 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
       passportback.value,
       passportfront.value,
     ];
-    print(order.value);
     List<Widget> cases = [
       ReitirementInformationContainer(
         retirementcontroller: retiremenrController,
@@ -104,7 +104,7 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Retirement",
+                            name: "retirement".tr(),
                             description: "Your best choice for a world full of",
                             icon: const Icon(
                               FontAwesomeIcons.personCane,
@@ -123,7 +123,7 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                             child: SingleChildScrollView(
                                 child: Column(
                               children: [
-                                  const SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Padding(
@@ -163,10 +163,10 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                             : Colors.black,
                                         width: 175,
                                         height: 60,
-                                        child: const Center(
+                                        child: Center(
                                             child: Text(
-                                          "Back",
-                                          style: TextStyle(color: Colors.white),
+                                          "back".tr(),
+                                          style: const TextStyle(color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -174,7 +174,6 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                       valueListenable: setting.listenable(),
                                       builder: (context, Box box, child) {
                                         final token = box.get("apitoken");
-                                        print(token);
                                         return GestureDetector(
                                           onTap: () async {
                                             if (index.value == 0 &&
@@ -209,8 +208,9 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                           (l) => ScaffoldMessenger
                                                                   .of(context)
                                                               .showSnackBar(SnackBar(
-                                                                  content: Text(
-                                                                      l.toString()))),
+                                                                  content: const Text(
+                                                                          "contact")
+                                                                      .tr())),
                                                           (r) async {
                                                         RetirmentDoneModel
                                                             orderdone = r;
@@ -228,23 +228,26 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                                       element)))
                                                               .then((value) =>
                                                                   value.fold(
-                                                                      (l) =>
-                                                                          print(
-                                                                              l),
-                                                                      (r) => print(
-                                                                          r)));
+                                                                      (l) => ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                              SnackBar(content: const Text("contact").tr())),
+                                                                      (r) async {
+                                                                    context
+                                                                        .router
+                                                                        .pop();
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(SnackBar(
+                                                                            content:
+                                                                                Text("orderconfirm".tr())));
+                                                                    await context
+                                                                        .router
+                                                                        .replaceAll([
+                                                                      const HomeScreen()
+                                                                    ]);
+                                                                  }));
                                                         }
-                                                        context.router.pop();
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                                    content: Text(
-                                                                        "Your Order Have Been Placed")));
-                                                        await context.router
-                                                            .replaceAll([
-                                                          const HomeScreen()
-                                                        ]);
                                                       }));
                                             }
                                           },
@@ -255,8 +258,8 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 1
-                                                  ? "Next"
-                                                  : "Confirm",
+                                                  ? "next".tr()
+                                                  : "confirm".tr(),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             )),

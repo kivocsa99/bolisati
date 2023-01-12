@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/motor.repository.provider.dart';
 import 'package:bolisati/domain/api/orders/motororders/cars/carmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class CarInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
@@ -55,10 +55,9 @@ class CarInformationContainer extends HookWidget {
                 controller: namecontroller,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "Full Name",
+                label: "name".tr(),
                 width: double.infinity,
               ),
               CarBrand(
@@ -73,13 +72,13 @@ class CarInformationContainer extends HookWidget {
                 children: [
                   CustomField(
                     onchanged: fueltype,
-                    initial: "Fuel Type",
+                    initial: "fuel".tr(),
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2,
                   ),
                   FuelType(
                     width: 100,
-                    onchanged: perviosaccidents,
+                    onchanged: fueltype,
                   ),
                 ],
               ),
@@ -87,17 +86,16 @@ class CarInformationContainer extends HookWidget {
                 controller: valuecontroller,
                 type: TextInputType.number,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: value,
-                label: "Value",
+                label: "value".tr(),
                 width: double.infinity,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CustomField(
-                    initial: "Previous Accidents",
+                    initial: "prev".tr(),
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2 + 10,
                   ),
@@ -112,12 +110,12 @@ class CarInformationContainer extends HookWidget {
                 children: [
                   StartEndDate(
                     startcontroller: startdatecontroller,
-                    label: "Start Date",
+                    label: "startdate".tr(),
                     width: 150,
                   ),
                   StartEndDate(
                     endcontroller: enddatecontroller,
-                    label: "End Date",
+                    label: "enddate".tr(),
                     width: 150,
                   ),
                 ],
@@ -165,10 +163,10 @@ class FuelType extends HookWidget {
           onChanged: onchanged,
           items: ["N/A", "electric", "fuel", "hybrid"]
               .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
+                  (String value) => DropdownMenuItem<String>(
+                      value: value,
                       child: Text(
-                        _value,
+                        value,
                       )))
               .toList(),
         ),
@@ -190,7 +188,7 @@ class Carraccident extends HookWidget {
     final dropDownValue = useState("N/A");
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Container(
+      child: SizedBox(
         height: 80,
         width: width,
         child: DropdownButtonFormField<String>(
@@ -201,10 +199,10 @@ class Carraccident extends HookWidget {
           onChanged: onchanged,
           items: ["N/A", "True", "False"]
               .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
+                  (String value) => DropdownMenuItem<String>(
+                      value: value,
                       child: Text(
-                        _value,
+                        value,
                       )))
               .toList(),
         ),
@@ -292,7 +290,7 @@ class YearPicker extends HookWidget {
   Widget build(BuildContext context) {
     final Box car = Hive.box("car");
 
-    final _selectedYear = useState("");
+    final selectedYear = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -307,7 +305,7 @@ class YearPicker extends HookWidget {
           height: 80,
           width: width,
           child: TextFormField(
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
@@ -330,9 +328,9 @@ class YearPicker extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selectedYear.value = DateFormat.y().format(pickedYear);
-                car.put("caryear", _selectedYear.value);
-                controller!.text = _selectedYear.value.toString();
+                selectedYear.value = DateFormat.y().format(pickedYear);
+                car.put("caryear", selectedYear.value);
+                controller!.text = selectedYear.value.toString();
               }
             },
             decoration: InputDecoration(
@@ -345,7 +343,7 @@ class YearPicker extends HookWidget {
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               filled: true,
               fillColor: Colors.blue[350],
-              labelText: "Car Year",
+              labelText: "caryear".tr(),
               hintStyle: const TextStyle(
                 color: Colors.black26,
                 fontSize: 18,
@@ -375,7 +373,7 @@ class StartEndDate extends HookWidget {
   Widget build(BuildContext context) {
     final Box car = Hive.box("car");
 
-    final _selecteddate = useState("");
+    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -391,7 +389,7 @@ class StartEndDate extends HookWidget {
           width: width,
           child: TextFormField(
             readOnly: true,
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             onTap: () async {
               FocusScope.of(context).unfocus();
               final pickedYear = await showDatePicker(
@@ -413,15 +411,15 @@ class StartEndDate extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selecteddate.value = DateFormat("M/d/y").format(pickedYear);
-                if (label == "Start Date") {
+                selecteddate.value = DateFormat("M/d/y").format(pickedYear);
+                if (label == "Start Date" || label == "تاريخ البداية") {
                   car.put("carsstartdate",
                       DateFormat("yyyy-MM-dd").format(pickedYear));
-                  startcontroller!.text = _selecteddate.value.toString();
+                  startcontroller!.text = selecteddate.value.toString();
                 } else {
                   car.put("carenddate",
                       DateFormat("yyyy-MM-dd").format(pickedYear));
-                  endcontroller!.text = _selecteddate.value.toString();
+                  endcontroller!.text = selecteddate.value.toString();
                 }
               }
             },
@@ -442,7 +440,9 @@ class StartEndDate extends HookWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            controller: label == "Start Date" ? startcontroller : endcontroller,
+            controller: label == "Start Date" || label == "تاريخ البداية"
+                ? startcontroller
+                : endcontroller,
           ),
         ));
   }
@@ -465,8 +465,8 @@ class CarBrand extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final car = Hive.box("car");
 
-    final _selectedcar = useState("");
-    final _selectedmodel = useState("");
+    final selectedcar = useState("");
+    final selectedmodel = useState("");
     final Box setting = Hive.box("setting");
 
     return Padding(
@@ -488,50 +488,43 @@ class CarBrand extends HookConsumerWidget {
                 valueListenable: setting.listenable(),
                 builder: (context, Box box, child) {
                   final apitoken = box.get("apitoken");
-                  final carprovider =
-                      ref.watch(getcarsProvider(apitoken).future);
                   return TextFormField(
                     readOnly: true,
-                    validator:
-                        RequiredValidator(errorText: "This Field is Required"),
+                    validator: RequiredValidator(errorText: "reqfield".tr()),
                     onTap: () async {
                       final value =
                           await ref.read(getcarsProvider(apitoken).future);
                       value.fold(
                           (l) => ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      "${l.toString()} please contact us"))),
-                          (r) {
+                              SnackBar(content: Text("contact".tr()))), (r) {
                         List<CarModel> cars = r;
 
-                        print(r);
                         FocusScope.of(context).unfocus();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return SimpleDialog(
-                              title: const Text('Select Car Brand'),
+                              title: const Text("selectbrand").tr(),
                               children: cars.map((e) {
                                 return SimpleDialogOption(
                                   onPressed: () async {
-                                    _selectedcar.value = e.name.toString();
+                                    selectedcar.value = e.name.toString();
                                     brandcontroller!.text =
-                                        _selectedcar.value.toString();
+                                        selectedcar.value.toString();
                                     car.put("carbrand", e.id);
                                     await context.router.pop();
                                     return showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return SimpleDialog(
-                                          title: const Text('Select Car Model'),
+                                          title: const Text("selectmodel").tr(),
                                           children: e.models!
                                               .map((e) => SimpleDialogOption(
                                                     onPressed: () {
-                                                      _selectedmodel.value =
+                                                      selectedmodel.value =
                                                           e.name!;
                                                       modelcontroller!.text =
-                                                          _selectedmodel.value
+                                                          selectedmodel.value
                                                               .toString();
                                                       car.put("carmodel", e.id);
                                                       context.router.pop();
@@ -561,7 +554,7 @@ class CarBrand extends HookConsumerWidget {
                           const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                       filled: true,
                       fillColor: Colors.blue[350],
-                      labelText: "Car Brand",
+                      labelText: "carbrand".tr(),
                       hintStyle: const TextStyle(
                         color: Colors.black26,
                         fontSize: 18,
@@ -589,8 +582,7 @@ class CarBrand extends HookConsumerWidget {
               width: width,
               child: TextFormField(
                 readOnly: true,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   focusedErrorBorder: const UnderlineInputBorder(
@@ -601,7 +593,7 @@ class CarBrand extends HookConsumerWidget {
                       const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                   filled: true,
                   fillColor: Colors.blue[350],
-                  labelText: "Car Model",
+                  labelText: "carmodel".tr(),
                   hintStyle: const TextStyle(
                     color: Colors.black26,
                     fontSize: 18,

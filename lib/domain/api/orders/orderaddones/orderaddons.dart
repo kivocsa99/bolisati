@@ -11,7 +11,7 @@ class OrderAddonsModel with _$OrderAddonsModel {
     int? id,
     String? belongable_type,
     String? name,
-    int? price,
+    num? price,
     String? created_at,
     String? updated_at,
     String? deleted_at,

@@ -1,10 +1,9 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:bolisati/domain/api/user/contracts/i.user.repository.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 import '../../domain/api/orders/user.orders.model.dart';
 

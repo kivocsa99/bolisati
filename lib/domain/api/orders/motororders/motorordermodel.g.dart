@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'motorordermodel.dart';
 
 // **************************************************************************
@@ -14,10 +16,10 @@ _$_MotorOrderModel _$$_MotorOrderModelFromJson(Map<String, dynamic> json) =>
       motor_insurance_id: json['motor_insurance_id'] as int?,
       vehicle_make_id: json['vehicle_make_id'] as int?,
       vehicle_model_id: json['vehicle_model_id'] as int?,
-      price_from: json['price_from'] as int?,
-      price_to: json['price_to'] as int?,
+      price_from: json['price_from'] as num?,
+      price_to: json['price_to'] as num?,
       fixed: json['fixed'] as int?,
-      percentage: json['percentage'] as int?,
+      percentage: json['percentage'] as num?,
       vehicle_make: json['vehicle_make'] == null
           ? null
           : VehicleMakeModel.fromJson(

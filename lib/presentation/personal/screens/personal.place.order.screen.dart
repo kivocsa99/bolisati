@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:another_stepper/another_stepper.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.input.dart';
 import 'package:bolisati/application/personal/attachfile/attach.file.use.case.dart';
 import 'package:bolisati/application/personal/attachfile/attach.file.use.case.input.dart';
 import 'package:bolisati/application/personal/getoffers/get.offers.use.case.dart';
@@ -11,7 +9,6 @@ import 'package:bolisati/application/personal/getoffers/get.offers.use.case.inpu
 import 'package:bolisati/application/personal/placeorder/place.order.use.case.dart';
 import 'package:bolisati/application/personal/placeorder/place.order.use.case.input.dart';
 import 'package:bolisati/constants.dart';
-import 'package:bolisati/domain/api/motor/model/motororderdonemodel.dart';
 import 'package:bolisati/domain/api/personal/model/personalofferdonemodel.dart';
 import 'package:bolisati/domain/api/personal/model/personaloffermodel.dart';
 import 'package:bolisati/presentation/personal/widgets/personalbottomsheet.dart';
@@ -19,6 +16,7 @@ import 'package:bolisati/presentation/personal/widgets/personalinformationcontai
 import 'package:bolisati/presentation/personal/widgets/personaluploadcontainer.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -112,9 +110,8 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Personal Accident",
-                            description:
-                                "Protect your vehicle\nin case of accidents.",
+                            name: "personal".tr(),
+                            description: "vehicledes".tr(),
                             icon: const Icon(
                               FontAwesomeIcons.personFallingBurst,
                               color: carcolor,
@@ -172,10 +169,10 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                             : Colors.black,
                                         width: 175,
                                         height: 60,
-                                        child: const Center(
+                                        child: Center(
                                             child: Text(
-                                          "Back",
-                                          style: TextStyle(color: Colors.white),
+                                          "back".tr(),
+                                          style: const TextStyle(color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -205,10 +202,10 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                                     .then((value) => value.fold(
                                                             (l) => ScaffoldMessenger
                                                                     .of(context)
-                                                                .showSnackBar(
-                                                                    SnackBar(
-                                                                        content:
-                                                                            Text(l.toString()))),
+                                                                .showSnackBar(SnackBar(
+                                                                    content: const Text(
+                                                                            "contact")
+                                                                        .tr())),
                                                             (r) {
                                                           offers.value = r;
                                                           final isLaseIndex =
@@ -280,8 +277,6 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                                           (context, setState) {
                                                         return PersonalBottomSheet(
                                                           function: () {
-                                                            print(order.value);
-
                                                             ref
                                                                 .read(
                                                                     personalplaceOrderProvider)
@@ -295,31 +290,25 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                                                             ""))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(SnackBar(content: Text(l.toString()))),
+                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                            content:
+                                                                                const Text("contact").tr())),
                                                                         (r) async {
                                                                       PersonalOfferDoneModel
                                                                           orderdone =
                                                                           r;
                                                                       for (var element
                                                                           in images) {
-                                                                        ref.read(personalattachfileProvider).execute(PersonalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
-                                                                            (l) =>
-                                                                                print(l),
-                                                                            (r) => print(r)));
+                                                                        ref.read(personalattachfileProvider).execute(PersonalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                                (r) async {
+                                                                              context.router.pop();
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                              await context.router.replaceAll([
+                                                                                const HomeScreen()
+                                                                              ]);
+                                                                            }));
                                                                       }
-                                                                      context
-                                                                          .router
-                                                                          .pop();
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                              const SnackBar(content: Text("Your Order Have Been Placed")));
-                                                                      await context
-                                                                          .router
-                                                                          .replaceAll([
-                                                                        const HomeScreen()
-                                                                      ]);
                                                                     }));
                                                           },
                                                           offerModel:
@@ -332,9 +321,9 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          "please Upload all of the pictures")));
+                                                          "picupload".tr())));
                                             }
                                           },
                                           child: Container(
@@ -344,8 +333,8 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 2
-                                                  ? "Next"
-                                                  : "Confirm",
+                                                  ? "next".tr()
+                                                  : "confirm".tr(),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             )),

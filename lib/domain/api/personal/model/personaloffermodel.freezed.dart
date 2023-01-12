@@ -22,7 +22,7 @@ PersonalOfferModel _$PersonalOfferModelFromJson(Map<String, dynamic> json) {
 mixin _$PersonalOfferModel {
   int? get id => throw _privateConstructorUsedError;
   int? get company_id => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   int? get age_from => throw _privateConstructorUsedError;
   int? get age_to => throw _privateConstructorUsedError;
@@ -49,7 +49,7 @@ abstract class $PersonalOfferModelCopyWith<$Res> {
   $Res call(
       {int? id,
       int? company_id,
-      int? price,
+      num? price,
       int? active,
       int? age_from,
       int? age_to,
@@ -103,7 +103,7 @@ class _$PersonalOfferModelCopyWithImpl<$Res, $Val extends PersonalOfferModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -171,7 +171,7 @@ abstract class _$$_PersonalOfferModelCopyWith<$Res>
   $Res call(
       {int? id,
       int? company_id,
-      int? price,
+      num? price,
       int? active,
       int? age_from,
       int? age_to,
@@ -224,7 +224,7 @@ class __$$_PersonalOfferModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -296,7 +296,7 @@ class _$_PersonalOfferModel implements _PersonalOfferModel {
   @override
   final int? company_id;
   @override
-  final int? price;
+  final num? price;
   @override
   final int? active;
   @override
@@ -395,7 +395,7 @@ abstract class _PersonalOfferModel implements PersonalOfferModel {
   const factory _PersonalOfferModel(
       {final int? id,
       final int? company_id,
-      final int? price,
+      final num? price,
       final int? active,
       final int? age_from,
       final int? age_to,
@@ -415,7 +415,7 @@ abstract class _PersonalOfferModel implements PersonalOfferModel {
   @override
   int? get company_id;
   @override
-  int? get price;
+  num? get price;
   @override
   int? get active;
   @override

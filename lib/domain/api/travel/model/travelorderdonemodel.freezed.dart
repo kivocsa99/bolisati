@@ -30,7 +30,7 @@ mixin _$TravelOrderDoneModel {
   int? get age_to => throw _privateConstructorUsedError;
   int? get period_from => throw _privateConstructorUsedError;
   int? get period_to => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get distination => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
@@ -67,7 +67,7 @@ abstract class $TravelOrderDoneModelCopyWith<$Res> {
       int? age_to,
       int? period_from,
       int? period_to,
-      int? price,
+      num? price,
       String? name,
       String? distination,
       String? birthdate,
@@ -164,7 +164,7 @@ class _$TravelOrderDoneModelCopyWithImpl<$Res,
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -236,7 +236,7 @@ abstract class _$$_TravelOrderDoneModelCopyWith<$Res>
       int? age_to,
       int? period_from,
       int? period_to,
-      int? price,
+      num? price,
       String? name,
       String? distination,
       String? birthdate,
@@ -330,7 +330,7 @@ class __$$_TravelOrderDoneModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -436,7 +436,7 @@ class _$_TravelOrderDoneModel implements _TravelOrderDoneModel {
   @override
   final int? period_to;
   @override
-  final int? price;
+  final num? price;
   @override
   final String? name;
   @override
@@ -576,7 +576,7 @@ abstract class _TravelOrderDoneModel implements TravelOrderDoneModel {
       final int? age_to,
       final int? period_from,
       final int? period_to,
-      final int? price,
+      final num? price,
       final String? name,
       final String? distination,
       final String? birthdate,
@@ -614,7 +614,7 @@ abstract class _TravelOrderDoneModel implements TravelOrderDoneModel {
   @override
   int? get period_to;
   @override
-  int? get price;
+  num? get price;
   @override
   String? get name;
   @override

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/presentation/widgets/vertical_insurance_type_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,19 +22,29 @@ class InsuranceListScreen extends HookWidget {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
+              context.locale.languageCode == "en"
+                  ? Positioned(
+                      left: 20,
+                      top: 30,
+                      child: IconButton(
+                          onPressed: () {
+                            context.router.pop();
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new)))
+                  : Positioned(
+                      right: 20,
+                      top: 30,
+                      child: IconButton(
+                          onPressed: () {
+                            context.router.pop();
+                          },
+                          icon: const Icon(FontAwesomeIcons.arrowRight))),
               Positioned(
-                  left: 20,
-                  top: 30,
-                  child: IconButton(
-                      onPressed: () {
-                        context.router.pop();
-                      },
-                      icon: Icon(Icons.arrow_back_ios_new))),
-              Positioned(
-                  left: 80,
+                  left: context.locale.languageCode == "ar" ? 0 : 80,
+                  right: context.locale.languageCode == "ar" ? 80 : 0,
                   top: 40,
                   child: Text(
-                    "All Insurances",
+                    "allins".tr(),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   )),
               Positioned(
@@ -51,10 +62,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: const Icon(FontAwesomeIcons.car),
-                        insuranceName: "Vehicle",
-                        insuranceDescreption:
-                            "Protect your vehicle\nin case of accidents.",
-                        price: "from 8JOD/mo",
+                        insuranceName: "vehicle".tr(),
+                        insuranceDescreption: "vehicledes".tr(),
                         function: () =>
                             context.router.push(const MotorPlaceOrderScreen()),
                       ),
@@ -65,10 +74,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: const Icon(FontAwesomeIcons.houseMedical),
-                        insuranceName: "Medical",
-                        insuranceDescreption:
-                            "Protect your self abroad in\ncase of accidents.",
-                        price: "from 8JOD/mo",
+                        insuranceName: "medical".tr(),
+                        insuranceDescreption: "medicaldes".tr(),
                         function: () => context.router
                             .push(const MedicalPlaceOrderScreen()),
                       ),
@@ -79,10 +86,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: const Icon(FontAwesomeIcons.plane),
-                        insuranceName: "Travel",
-                        insuranceDescreption:
-                            "Find the best fit\nfor your medical needs.",
-                        price: "from 8JOD/mo",
+                        insuranceName: "travel".tr(),
+                        insuranceDescreption: "traveldes".tr(),
                         function: () =>
                             context.router.push(const TravelPlaceOrderScreen()),
                       ),
@@ -93,10 +98,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: const Icon(FontAwesomeIcons.cat),
-                        insuranceName: "Pet",
-                        insuranceDescreption:
-                            "Protect your Pet\nin case of accidents.",
-                        price: "from 8JOD/mo",
+                        insuranceName: "pet".tr(),
+                        insuranceDescreption: "petdes".tr(),
                         function: () =>
                             context.router.push(PetPlaceOrderScreen()),
                       ),
@@ -107,10 +110,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: Icon(FontAwesomeIcons.briefcase),
-                        insuranceName: "Domestic Worker",
-                        insuranceDescreption:
-                            "Protect your workers\nin case of accidents.",
-                        price: "from 8JOD/mo",
+                        insuranceName: "domestic".tr(),
+                        insuranceDescreption: "domesticdes".tr(),
                         function: () => context.router
                             .push(const DomesticPlaceOrderScreen()),
                       ),
@@ -121,9 +122,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: const Icon(FontAwesomeIcons.personCane),
-                        insuranceName: "Retirement",
-                        insuranceDescreption: "Protect your Future.",
-                        price: "from 8JOD/mo",
+                        insuranceName: "retirement".tr(),
+                        insuranceDescreption: "insurancedes".tr(),
                         function: () => context.router
                             .push(const RetirmentPlaceOrderScreen()),
                       ),
@@ -134,10 +134,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: const Icon(FontAwesomeIcons.personFallingBurst),
-                        insuranceName: "Personal Accidents",
-                        insuranceDescreption:
-                            "Protect your Self\nin case of accidents.",
-                        price: "from 8JOD/mo",
+                        insuranceName: "personal".tr(),
+                        insuranceDescreption: "personaldes".tr(),
                         function: () => context.router
                             .push(const PersonalPlaceOrderScreen()),
                       ),
@@ -148,9 +146,8 @@ class InsuranceListScreen extends HookWidget {
                         containercolor: carcontainer,
                         iconcolor: carcolor,
                         icon: const Icon(FontAwesomeIcons.book),
-                        insuranceName: "Educational",
-                        insuranceDescreption: "Protect your Academic Life",
-                        price: "from 8JOD/mo",
+                        insuranceName: "edu".tr(),
+                        insuranceDescreption: "edudes".tr(),
                         function: () => context.router
                             .push(const EducationalPlaceOrderScreen()),
                       ),

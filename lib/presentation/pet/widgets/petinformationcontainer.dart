@@ -1,16 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bolisati/application/motor/placeorder/place.order.use.case.dart';
-import 'package:bolisati/application/provider/motor.repository.provider.dart';
 import 'package:bolisati/application/provider/pet.repository.provider.dart';
-import 'package:bolisati/domain/api/orders/motororders/cars/carmodel.dart';
 import 'package:bolisati/domain/api/pet/model/petcountrymodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class PetInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
@@ -59,10 +55,9 @@ class PetInformationContainer extends HookWidget {
                 controller: namecontroller,
                 type: TextInputType.text,
                 readonly: false,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "Full Name",
+                label: "name".tr(),
                 width: double.infinity,
               ),
               CarBrand(
@@ -76,7 +71,7 @@ class PetInformationContainer extends HookWidget {
               Row(
                 children: [
                   CustomField(
-                    initial: "Pet Type",
+                    initial: "pettype".tr(),
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2,
                   ),
@@ -92,7 +87,7 @@ class PetInformationContainer extends HookWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CustomField(
-                    initial: "Pet Gender",
+                    initial: "gender".tr(),
                     readonly: true,
                     width: MediaQuery.of(context).size.width / 2 + 10,
                   ),
@@ -109,12 +104,12 @@ class PetInformationContainer extends HookWidget {
                 children: [
                   StartEndDate(
                     startcontroller: startdatecontroller,
-                    label: "Start Date",
+                    label: "startdate".tr(),
                     width: 150,
                   ),
                   StartEndDate(
                     endcontroller: enddatecontroller,
-                    label: "End Date",
+                    label: "enddate".tr(),
                     width: 150,
                   ),
                 ],
@@ -154,10 +149,10 @@ class PetType extends HookWidget {
           onChanged: onchanged,
           items: ["N/A", "Cat", "Dog", "Other"]
               .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
+                  (String value) => DropdownMenuItem<String>(
+                      value: value,
                       child: Text(
-                        _value,
+                        value,
                       )))
               .toList(),
         ),
@@ -190,10 +185,10 @@ class Gender extends HookWidget {
           onChanged: onchanged,
           items: ["N/A", "Male", "Female"]
               .map<DropdownMenuItem<String>>(
-                  (String _value) => DropdownMenuItem<String>(
-                      value: _value,
+                  (String value) => DropdownMenuItem<String>(
+                      value: value,
                       child: Text(
-                        _value,
+                        value,
                       )))
               .toList(),
         ),
@@ -281,7 +276,7 @@ class YearPicker extends HookWidget {
   Widget build(BuildContext context) {
     final Box pet = Hive.box("pet");
 
-    final _selectedYear = useState("");
+    final selectedYear = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -296,7 +291,7 @@ class YearPicker extends HookWidget {
           height: 80,
           width: width,
           child: TextFormField(
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
@@ -322,11 +317,11 @@ class YearPicker extends HookWidget {
                 String picked = DateFormat.y().format(pickedYear);
                 String now = DateFormat.y().format(DateTime.now());
                 int result = int.parse(now) - int.parse(picked);
-                _selectedYear.value =
+                selectedYear.value =
                     DateFormat("yyyy-MM-dd").format(pickedYear);
-                pet.put("birthdate", _selectedYear.value);
+                pet.put("birthdate", selectedYear.value);
                 pet.put("age", result);
-                controller!.text = _selectedYear.value.toString();
+                controller!.text = selectedYear.value.toString();
               }
             },
             decoration: InputDecoration(
@@ -339,7 +334,7 @@ class YearPicker extends HookWidget {
                   const EdgeInsets.only(left: 20, top: 10, bottom: 10),
               filled: true,
               fillColor: Colors.blue[350],
-              labelText: "Birth Date",
+              labelText: "birthdate".tr(),
               hintStyle: const TextStyle(
                 color: Colors.black26,
                 fontSize: 18,
@@ -369,7 +364,7 @@ class StartEndDate extends HookWidget {
   Widget build(BuildContext context) {
     final Box car = Hive.box("pet");
 
-    final _selecteddate = useState("");
+    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -385,7 +380,7 @@ class StartEndDate extends HookWidget {
           width: width,
           child: TextFormField(
             readOnly: true,
-            validator: RequiredValidator(errorText: "This Field is Required"),
+            validator: RequiredValidator(errorText: "reqfield".tr()),
             onTap: () async {
               FocusScope.of(context).unfocus();
               final pickedYear = await showDatePicker(
@@ -407,15 +402,15 @@ class StartEndDate extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                _selecteddate.value = DateFormat("M/d/y").format(pickedYear);
-                if (label == "Start Date") {
+                selecteddate.value = DateFormat("M/d/y").format(pickedYear);
+                if (label == "Start Date" || label == "تاريخ البداية") {
                   car.put("startdate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  startcontroller!.text = _selecteddate.value.toString();
+                  startcontroller!.text = selecteddate.value.toString();
                 } else {
                   car.put("enddate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  endcontroller!.text = _selecteddate.value.toString();
+                  endcontroller!.text = selecteddate.value.toString();
                 }
               }
             },
@@ -436,7 +431,9 @@ class StartEndDate extends HookWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            controller: label == "Start Date" ? startcontroller : endcontroller,
+            controller: label == "Start Date" || label == "تاريخ البداية"
+                ? startcontroller
+                : endcontroller,
           ),
         ));
   }
@@ -481,26 +478,21 @@ class CarBrand extends HookConsumerWidget {
               final apitoken = box.get("apitoken");
               return TextFormField(
                 readOnly: true,
-                validator:
-                    RequiredValidator(errorText: "This Field is Required"),
+                validator: RequiredValidator(errorText: "reqfield".tr()),
                 onTap: () async {
                   final value =
                       await ref.read(getcountryProvider(apitoken).future);
                   value.fold(
                       (l) => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content:
-                                  Text("${l.toString()} please contact us"))),
-                      (r) {
+                          SnackBar(content: Text("contact".tr()))), (r) {
                     List<PetCountryModel> cars = r;
 
-                    print(r);
                     FocusScope.of(context).unfocus();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return SimpleDialog(
-                          title: const Text('Select Pet Country'),
+                          title: const Text("petcountrydes").tr(),
                           children: cars.map((e) {
                             return SimpleDialogOption(
                               onPressed: () async {
@@ -528,7 +520,7 @@ class CarBrand extends HookConsumerWidget {
                       const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                   filled: true,
                   fillColor: Colors.blue[350],
-                  labelText: "Pet country",
+                  labelText: "petcountry".tr(),
                   hintStyle: const TextStyle(
                     color: Colors.black26,
                     fontSize: 18,

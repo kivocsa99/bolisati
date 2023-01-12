@@ -22,10 +22,10 @@ MotorOffersModel _$MotorOffersModelFromJson(Map<String, dynamic> json) {
 mixin _$MotorOffersModel {
   int? get id => throw _privateConstructorUsedError;
   int? get company_id => throw _privateConstructorUsedError;
-  int? get price_from => throw _privateConstructorUsedError;
-  int? get price_to => throw _privateConstructorUsedError;
+  num? get price_from => throw _privateConstructorUsedError;
+  num? get price_to => throw _privateConstructorUsedError;
   int? get fixed => throw _privateConstructorUsedError;
-  int? get percentage => throw _privateConstructorUsedError;
+  num? get percentage => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -48,10 +48,10 @@ abstract class $MotorOffersModelCopyWith<$Res> {
   $Res call(
       {int? id,
       int? company_id,
-      int? price_from,
-      int? price_to,
+      num? price_from,
+      num? price_to,
       int? fixed,
-      int? percentage,
+      num? percentage,
       int? active,
       String? created_at,
       String? updated_at,
@@ -100,11 +100,11 @@ class _$MotorOffersModelCopyWithImpl<$Res, $Val extends MotorOffersModel>
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       fixed: freezed == fixed
           ? _value.fixed
           : fixed // ignore: cast_nullable_to_non_nullable
@@ -112,7 +112,7 @@ class _$MotorOffersModelCopyWithImpl<$Res, $Val extends MotorOffersModel>
       percentage: freezed == percentage
           ? _value.percentage
           : percentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -164,10 +164,10 @@ abstract class _$$_MotorOffersModelCopyWith<$Res>
   $Res call(
       {int? id,
       int? company_id,
-      int? price_from,
-      int? price_to,
+      num? price_from,
+      num? price_to,
       int? fixed,
-      int? percentage,
+      num? percentage,
       int? active,
       String? created_at,
       String? updated_at,
@@ -215,11 +215,11 @@ class __$$_MotorOffersModelCopyWithImpl<$Res>
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       fixed: freezed == fixed
           ? _value.fixed
           : fixed // ignore: cast_nullable_to_non_nullable
@@ -227,7 +227,7 @@ class __$$_MotorOffersModelCopyWithImpl<$Res>
       percentage: freezed == percentage
           ? _value.percentage
           : percentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -282,13 +282,13 @@ class _$_MotorOffersModel implements _MotorOffersModel {
   @override
   final int? company_id;
   @override
-  final int? price_from;
+  final num? price_from;
   @override
-  final int? price_to;
+  final num? price_to;
   @override
   final int? fixed;
   @override
-  final int? percentage;
+  final num? percentage;
   @override
   final int? active;
   @override
@@ -376,10 +376,10 @@ abstract class _MotorOffersModel implements MotorOffersModel {
   const factory _MotorOffersModel(
       {final int? id,
       final int? company_id,
-      final int? price_from,
-      final int? price_to,
+      final num? price_from,
+      final num? price_to,
       final int? fixed,
-      final int? percentage,
+      final num? percentage,
       final int? active,
       final String? created_at,
       final String? updated_at,
@@ -395,13 +395,13 @@ abstract class _MotorOffersModel implements MotorOffersModel {
   @override
   int? get company_id;
   @override
-  int? get price_from;
+  num? get price_from;
   @override
-  int? get price_to;
+  num? get price_to;
   @override
   int? get fixed;
   @override
-  int? get percentage;
+  num? get percentage;
   @override
   int? get active;
   @override

@@ -25,6 +25,7 @@ import '../presentation/screens/user.insurances_screen.dart';
       transitionsBuilder: TransitionsBuilders.fadeIn,
       durationInMilliseconds: 500),
   MaterialRoute(page: HomePage, initial: true),
+  MaterialRoute(page: MyApp),
   MaterialRoute(page: HomeScreen),
   CustomRoute(
       page: InsuranceListScreen,

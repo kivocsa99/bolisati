@@ -17,7 +17,7 @@ class MedicalOffersModel with _$MedicalOffersModel {
     int? age_to,
     int? medical_insurance_type_id,
     int? gender_id,
-    int? price,
+    num? price,
     int? active,
     String? created_at,
     String? updated_at,

@@ -1,9 +1,8 @@
-
 import 'package:bolisati/domain/api/addons/model/addonsmodel.dart';
 import 'package:bolisati/domain/api/motor/model/motormodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 
 class MyWidget extends StatefulWidget {
   final MotorOffersModel? offerModel;
@@ -25,8 +24,6 @@ class _MyWidgetState extends State<MyWidget> {
         padding:
             const EdgeInsets.only(left: 30.0, right: 30, top: 40, bottom: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
@@ -38,12 +35,16 @@ class _MyWidgetState extends State<MyWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.offerModel!.company!.name!,
-                  style: const TextStyle(fontSize: 30),
+                Align(
+                  child: Text(
+                    context.locale.languageCode == "en"
+                        ? widget.offerModel!.company!.name!
+                        : widget.offerModel!.company!.name_ar!,
+                    style: const TextStyle(fontSize: 30),
+                  ),
                 ),
                 Text(
-                  "${widget.offerModel!.price_from.toString()}JOD/year",
+                  "${widget.offerModel!.price_from.toString()}JOD",
                   style: const TextStyle(fontSize: 20),
                 ),
               ],
@@ -83,10 +84,15 @@ class _MyWidgetState extends State<MyWidget> {
 
                                 setState(() {});
                               }),
-                          Text(
-                            addonsModel.addon!.name!,
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                          context.locale.languageCode == "en"
+                              ? Text(
+                                  addonsModel.addon!.name!,
+                                  style: const TextStyle(fontSize: 20),
+                                )
+                              : Text(
+                                  addonsModel.addon!.name_ar!,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
                         ],
                       ),
                       Text(
@@ -107,10 +113,10 @@ class _MyWidgetState extends State<MyWidget> {
                   child: Container(
                     color: Colors.black,
                     height: 60,
-                    child: const Center(
+                    child: Center(
                         child: Text(
-                      "Place Order",
-                      style: TextStyle(color: Colors.white),
+                      "placeorder".tr(),
+                      style: const TextStyle(color: Colors.white),
                     )),
                   ),
                 ),
@@ -122,4 +128,3 @@ class _MyWidgetState extends State<MyWidget> {
     );
   }
 }
-

@@ -1,7 +1,6 @@
 import 'package:bolisati/domain/api/travel/contracts/i.travel.repository.dart';
 import 'package:bolisati/infrastructure/travel/travel.repository.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/api/failures/api.failures.dart';

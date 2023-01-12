@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'addonsmodel.dart';
 
 // **************************************************************************
@@ -12,7 +14,7 @@ _$_AddonsModel _$$_AddonsModelFromJson(Map<String, dynamic> json) =>
       company_id: json['company_id'] as int?,
       insurance_type_id: json['insurance_type_id'] as int?,
       addon_id: json['addon_id'] as int?,
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,

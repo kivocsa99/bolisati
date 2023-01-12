@@ -42,7 +42,6 @@ class ApiAuthFacade implements IApiAuthFacade {
       }
     }, (error, stackTrace) {
       if (error is DioError) {
-        print(error);
         switch (error.type) {
           case DioErrorType.connectTimeout:
             return const ApiFailures.connnectionTimeOut();
@@ -89,8 +88,6 @@ class ApiAuthFacade implements IApiAuthFacade {
       }
     }, (error, stackTrace) {
       if (error is DioError) {
-        print(error);
-
         switch (error.type) {
           case DioErrorType.connectTimeout:
             return const ApiFailures.connnectionTimeOut();
@@ -141,7 +138,6 @@ class ApiAuthFacade implements IApiAuthFacade {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/Users/Update?$urlvalue=$value&api_token=$token");
-      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         setting = Hive.box('setting');
 
@@ -152,11 +148,9 @@ class ApiAuthFacade implements IApiAuthFacade {
 
         return user;
       } else {
-        print(result.realUri);
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
-      print(error);
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:

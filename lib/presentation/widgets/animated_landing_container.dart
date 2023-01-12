@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -60,11 +61,11 @@ class AnimatedLandingContainer extends HookWidget {
                         decoration: const BoxDecoration(color: Colors.black),
                         height: 60,
                         width: 150,
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "Login",
+                            "login".tr(),
                             style:
-                                TextStyle(color: Colors.white, fontSize: 16.0),
+                                const TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
                         ),
                       ),
@@ -75,11 +76,11 @@ class AnimatedLandingContainer extends HookWidget {
                         decoration: const BoxDecoration(color: Colors.grey),
                         height: 60,
                         width: 150,
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "Signup",
+                            "signup".tr(),
                             style:
-                                TextStyle(color: Colors.white, fontSize: 16.0),
+                                const TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
                         ),
                       ),

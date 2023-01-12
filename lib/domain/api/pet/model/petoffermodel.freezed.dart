@@ -22,7 +22,7 @@ PetOffersModel _$PetOffersModelFromJson(Map<String, dynamic> json) {
 mixin _$PetOffersModel {
   int? get id => throw _privateConstructorUsedError;
   int? get company_id => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $PetOffersModelCopyWith<$Res> {
   $Res call(
       {int? id,
       int? company_id,
-      int? price,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -91,7 +91,7 @@ class _$PetOffersModelCopyWithImpl<$Res, $Val extends PetOffersModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -143,7 +143,7 @@ abstract class _$$_PetOffersModelCopyWith<$Res>
   $Res call(
       {int? id,
       int? company_id,
-      int? price,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -188,7 +188,7 @@ class __$$_PetOffersModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -240,7 +240,7 @@ class _$_PetOffersModel implements _PetOffersModel {
   @override
   final int? company_id;
   @override
-  final int? price;
+  final num? price;
   @override
   final int? active;
   @override
@@ -319,7 +319,7 @@ abstract class _PetOffersModel implements PetOffersModel {
   const factory _PetOffersModel(
       {final int? id,
       final int? company_id,
-      final int? price,
+      final num? price,
       final int? active,
       final String? created_at,
       final String? updated_at,
@@ -335,7 +335,7 @@ abstract class _PetOffersModel implements PetOffersModel {
   @override
   int? get company_id;
   @override
-  int? get price;
+  num? get price;
   @override
   int? get active;
   @override

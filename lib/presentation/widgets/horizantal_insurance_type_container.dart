@@ -67,10 +67,6 @@ class HorizantalInsurance extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              Text(
-                price!,
-                style: const TextStyle(fontSize: 10, color: Color(0xFF1E90FF)),
-              )
             ],
           ),
         ),

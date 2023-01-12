@@ -10,8 +10,8 @@ class MotorInsuranceOfferModel with _$MotorInsuranceOfferModel {
   const factory MotorInsuranceOfferModel({
     int? id,
     int? company_id,
-    int? price_from,
-    int? price_to,
+    num? price_from,
+    num? price_to,
     int? fixed,
     int? precentage,
     int? active,

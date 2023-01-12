@@ -26,10 +26,10 @@ mixin _$MotorOrderModel {
   int? get motor_insurance_id => throw _privateConstructorUsedError;
   int? get vehicle_make_id => throw _privateConstructorUsedError;
   int? get vehicle_model_id => throw _privateConstructorUsedError;
-  int? get price_from => throw _privateConstructorUsedError;
-  int? get price_to => throw _privateConstructorUsedError;
+  num? get price_from => throw _privateConstructorUsedError;
+  num? get price_to => throw _privateConstructorUsedError;
   int? get fixed => throw _privateConstructorUsedError;
-  int? get percentage => throw _privateConstructorUsedError;
+  num? get percentage => throw _privateConstructorUsedError;
   VehicleMakeModel? get vehicle_make => throw _privateConstructorUsedError;
   VehicleModelModel? get vehicle_model => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
@@ -72,10 +72,10 @@ abstract class $MotorOrderModelCopyWith<$Res> {
       int? motor_insurance_id,
       int? vehicle_make_id,
       int? vehicle_model_id,
-      int? price_from,
-      int? price_to,
+      num? price_from,
+      num? price_to,
       int? fixed,
-      int? percentage,
+      num? percentage,
       VehicleMakeModel? vehicle_make,
       VehicleModelModel? vehicle_model,
       String? name,
@@ -179,11 +179,11 @@ class _$MotorOrderModelCopyWithImpl<$Res, $Val extends MotorOrderModel>
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       fixed: freezed == fixed
           ? _value.fixed
           : fixed // ignore: cast_nullable_to_non_nullable
@@ -191,7 +191,7 @@ class _$MotorOrderModelCopyWithImpl<$Res, $Val extends MotorOrderModel>
       percentage: freezed == percentage
           ? _value.percentage
           : percentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       vehicle_make: freezed == vehicle_make
           ? _value.vehicle_make
           : vehicle_make // ignore: cast_nullable_to_non_nullable
@@ -368,10 +368,10 @@ abstract class _$$_MotorOrderModelCopyWith<$Res>
       int? motor_insurance_id,
       int? vehicle_make_id,
       int? vehicle_model_id,
-      int? price_from,
-      int? price_to,
+      num? price_from,
+      num? price_to,
       int? fixed,
-      int? percentage,
+      num? percentage,
       VehicleMakeModel? vehicle_make,
       VehicleModelModel? vehicle_model,
       String? name,
@@ -479,11 +479,11 @@ class __$$_MotorOrderModelCopyWithImpl<$Res>
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       price_to: freezed == price_to
           ? _value.price_to
           : price_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       fixed: freezed == fixed
           ? _value.fixed
           : fixed // ignore: cast_nullable_to_non_nullable
@@ -491,7 +491,7 @@ class __$$_MotorOrderModelCopyWithImpl<$Res>
       percentage: freezed == percentage
           ? _value.percentage
           : percentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       vehicle_make: freezed == vehicle_make
           ? _value.vehicle_make
           : vehicle_make // ignore: cast_nullable_to_non_nullable
@@ -634,13 +634,13 @@ class _$_MotorOrderModel implements _MotorOrderModel {
   @override
   final int? vehicle_model_id;
   @override
-  final int? price_from;
+  final num? price_from;
   @override
-  final int? price_to;
+  final num? price_to;
   @override
   final int? fixed;
   @override
-  final int? percentage;
+  final num? percentage;
   @override
   final VehicleMakeModel? vehicle_make;
   @override
@@ -825,10 +825,10 @@ abstract class _MotorOrderModel implements MotorOrderModel {
       final int? motor_insurance_id,
       final int? vehicle_make_id,
       final int? vehicle_model_id,
-      final int? price_from,
-      final int? price_to,
+      final num? price_from,
+      final num? price_to,
       final int? fixed,
-      final int? percentage,
+      final num? percentage,
       final VehicleMakeModel? vehicle_make,
       final VehicleModelModel? vehicle_model,
       final String? name,
@@ -867,13 +867,13 @@ abstract class _MotorOrderModel implements MotorOrderModel {
   @override
   int? get vehicle_model_id;
   @override
-  int? get price_from;
+  num? get price_from;
   @override
-  int? get price_to;
+  num? get price_to;
   @override
   int? get fixed;
   @override
-  int? get percentage;
+  num? get percentage;
   @override
   VehicleMakeModel? get vehicle_make;
   @override

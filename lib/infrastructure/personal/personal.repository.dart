@@ -1,13 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:bolisati/domain/api/personal/contracts/i.personal.repository.dart';
 import 'package:bolisati/domain/api/personal/model/personaloccupation.dart';
 import 'package:bolisati/domain/api/personal/model/personaloffermodel.dart';
-import 'package:bolisati/domain/api/pet/contracts/i.pet.repository.dart';
-import 'package:bolisati/domain/api/pet/model/petcountrymodel.dart';
-import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
-import 'package:bolisati/domain/api/pet/model/petorderdonemodel.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 

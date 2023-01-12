@@ -18,7 +18,7 @@ class TravelOffersModel with _$TravelOffersModel {
     int? period_to,
     int? age_form,
     int? age_to,
-    int? price,
+    num? price,
     int? active,
     String? created_at,
     String? updated_at,

@@ -14,7 +14,7 @@ class AddonsModel with _$AddonsModel {
     int? company_id,
     int? insurance_type_id,
     int? addon_id,
-    int? price,
+    num? price,
     String? created_at,
     String? updated_at,
     String? deleted_at,

@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 EducationalChildDoneModel _$EducationalChildDoneModelFromJson(
     Map<String, dynamic> json) {
-  return _EducationalOffersModel.fromJson(json);
+  return _EducationalChildDoneModel.fromJson(json);
 }
 
 /// @nodoc
@@ -27,12 +27,11 @@ mixin _$EducationalChildDoneModel {
   String? get birthdate => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
   String? get national_id_number => throw _privateConstructorUsedError;
-  int? get gender_id => throw _privateConstructorUsedError;
+  String? get gender_id => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
   List<AddonsModel>? get addons => throw _privateConstructorUsedError;
-  CompanyModel? get company => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,14 +52,11 @@ abstract class $EducationalChildDoneModelCopyWith<$Res> {
       String? birthdate,
       int? age,
       String? national_id_number,
-      int? gender_id,
+      String? gender_id,
       String? created_at,
       String? updated_at,
       String? deleted_at,
-      List<AddonsModel>? addons,
-      CompanyModel? company});
-
-  $CompanyModelCopyWith<$Res>? get company;
+      List<AddonsModel>? addons});
 }
 
 /// @nodoc
@@ -88,7 +84,6 @@ class _$EducationalChildDoneModelCopyWithImpl<$Res,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
     Object? addons = freezed,
-    Object? company = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -118,7 +113,7 @@ class _$EducationalChildDoneModelCopyWithImpl<$Res,
       gender_id: freezed == gender_id
           ? _value.gender_id
           : gender_id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -135,32 +130,17 @@ class _$EducationalChildDoneModelCopyWithImpl<$Res,
           ? _value.addons
           : addons // ignore: cast_nullable_to_non_nullable
               as List<AddonsModel>?,
-      company: freezed == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as CompanyModel?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $CompanyModelCopyWith<$Res>? get company {
-    if (_value.company == null) {
-      return null;
-    }
-
-    return $CompanyModelCopyWith<$Res>(_value.company!, (value) {
-      return _then(_value.copyWith(company: value) as $Val);
-    });
   }
 }
 
 /// @nodoc
-abstract class _$$_EducationalOffersModelCopyWith<$Res>
+abstract class _$$_EducationalChildDoneModelCopyWith<$Res>
     implements $EducationalChildDoneModelCopyWith<$Res> {
-  factory _$$_EducationalOffersModelCopyWith(_$_EducationalOffersModel value,
-          $Res Function(_$_EducationalOffersModel) then) =
-      __$$_EducationalOffersModelCopyWithImpl<$Res>;
+  factory _$$_EducationalChildDoneModelCopyWith(
+          _$_EducationalChildDoneModel value,
+          $Res Function(_$_EducationalChildDoneModel) then) =
+      __$$_EducationalChildDoneModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -170,24 +150,21 @@ abstract class _$$_EducationalOffersModelCopyWith<$Res>
       String? birthdate,
       int? age,
       String? national_id_number,
-      int? gender_id,
+      String? gender_id,
       String? created_at,
       String? updated_at,
       String? deleted_at,
-      List<AddonsModel>? addons,
-      CompanyModel? company});
-
-  @override
-  $CompanyModelCopyWith<$Res>? get company;
+      List<AddonsModel>? addons});
 }
 
 /// @nodoc
-class __$$_EducationalOffersModelCopyWithImpl<$Res>
+class __$$_EducationalChildDoneModelCopyWithImpl<$Res>
     extends _$EducationalChildDoneModelCopyWithImpl<$Res,
-        _$_EducationalOffersModel>
-    implements _$$_EducationalOffersModelCopyWith<$Res> {
-  __$$_EducationalOffersModelCopyWithImpl(_$_EducationalOffersModel _value,
-      $Res Function(_$_EducationalOffersModel) _then)
+        _$_EducationalChildDoneModel>
+    implements _$$_EducationalChildDoneModelCopyWith<$Res> {
+  __$$_EducationalChildDoneModelCopyWithImpl(
+      _$_EducationalChildDoneModel _value,
+      $Res Function(_$_EducationalChildDoneModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -204,9 +181,8 @@ class __$$_EducationalOffersModelCopyWithImpl<$Res>
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
     Object? addons = freezed,
-    Object? company = freezed,
   }) {
-    return _then(_$_EducationalOffersModel(
+    return _then(_$_EducationalChildDoneModel(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -234,7 +210,7 @@ class __$$_EducationalOffersModelCopyWithImpl<$Res>
       gender_id: freezed == gender_id
           ? _value.gender_id
           : gender_id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -251,18 +227,14 @@ class __$$_EducationalOffersModelCopyWithImpl<$Res>
           ? _value._addons
           : addons // ignore: cast_nullable_to_non_nullable
               as List<AddonsModel>?,
-      company: freezed == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as CompanyModel?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_EducationalOffersModel implements _EducationalOffersModel {
-  const _$_EducationalOffersModel(
+class _$_EducationalChildDoneModel implements _EducationalChildDoneModel {
+  const _$_EducationalChildDoneModel(
       {this.id,
       this.educational_order_id,
       this.name,
@@ -273,12 +245,11 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
       this.created_at,
       this.updated_at,
       this.deleted_at,
-      final List<AddonsModel>? addons,
-      this.company})
+      final List<AddonsModel>? addons})
       : _addons = addons;
 
-  factory _$_EducationalOffersModel.fromJson(Map<String, dynamic> json) =>
-      _$$_EducationalOffersModelFromJson(json);
+  factory _$_EducationalChildDoneModel.fromJson(Map<String, dynamic> json) =>
+      _$$_EducationalChildDoneModelFromJson(json);
 
   @override
   final int? id;
@@ -293,7 +264,7 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
   @override
   final String? national_id_number;
   @override
-  final int? gender_id;
+  final String? gender_id;
   @override
   final String? created_at;
   @override
@@ -311,18 +282,15 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
   }
 
   @override
-  final CompanyModel? company;
-
-  @override
   String toString() {
-    return 'EducationalChildDoneModel(id: $id, educational_order_id: $educational_order_id, name: $name, birthdate: $birthdate, age: $age, national_id_number: $national_id_number, gender_id: $gender_id, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons, company: $company)';
+    return 'EducationalChildDoneModel(id: $id, educational_order_id: $educational_order_id, name: $name, birthdate: $birthdate, age: $age, national_id_number: $national_id_number, gender_id: $gender_id, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EducationalOffersModel &&
+            other is _$_EducationalChildDoneModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.educational_order_id, educational_order_id) ||
                 other.educational_order_id == educational_order_id) &&
@@ -340,8 +308,7 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
                 other.updated_at == updated_at) &&
             (identical(other.deleted_at, deleted_at) ||
                 other.deleted_at == deleted_at) &&
-            const DeepCollectionEquality().equals(other._addons, _addons) &&
-            (identical(other.company, company) || other.company == company));
+            const DeepCollectionEquality().equals(other._addons, _addons));
   }
 
   @JsonKey(ignore: true)
@@ -358,41 +325,39 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
       created_at,
       updated_at,
       deleted_at,
-      const DeepCollectionEquality().hash(_addons),
-      company);
+      const DeepCollectionEquality().hash(_addons));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EducationalOffersModelCopyWith<_$_EducationalOffersModel> get copyWith =>
-      __$$_EducationalOffersModelCopyWithImpl<_$_EducationalOffersModel>(
-          this, _$identity);
+  _$$_EducationalChildDoneModelCopyWith<_$_EducationalChildDoneModel>
+      get copyWith => __$$_EducationalChildDoneModelCopyWithImpl<
+          _$_EducationalChildDoneModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EducationalOffersModelToJson(
+    return _$$_EducationalChildDoneModelToJson(
       this,
     );
   }
 }
 
-abstract class _EducationalOffersModel implements EducationalChildDoneModel {
-  const factory _EducationalOffersModel(
+abstract class _EducationalChildDoneModel implements EducationalChildDoneModel {
+  const factory _EducationalChildDoneModel(
       {final int? id,
       final String? educational_order_id,
       final String? name,
       final String? birthdate,
       final int? age,
       final String? national_id_number,
-      final int? gender_id,
+      final String? gender_id,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at,
-      final List<AddonsModel>? addons,
-      final CompanyModel? company}) = _$_EducationalOffersModel;
+      final List<AddonsModel>? addons}) = _$_EducationalChildDoneModel;
 
-  factory _EducationalOffersModel.fromJson(Map<String, dynamic> json) =
-      _$_EducationalOffersModel.fromJson;
+  factory _EducationalChildDoneModel.fromJson(Map<String, dynamic> json) =
+      _$_EducationalChildDoneModel.fromJson;
 
   @override
   int? get id;
@@ -407,7 +372,7 @@ abstract class _EducationalOffersModel implements EducationalChildDoneModel {
   @override
   String? get national_id_number;
   @override
-  int? get gender_id;
+  String? get gender_id;
   @override
   String? get created_at;
   @override
@@ -417,9 +382,7 @@ abstract class _EducationalOffersModel implements EducationalChildDoneModel {
   @override
   List<AddonsModel>? get addons;
   @override
-  CompanyModel? get company;
-  @override
   @JsonKey(ignore: true)
-  _$$_EducationalOffersModelCopyWith<_$_EducationalOffersModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_EducationalChildDoneModelCopyWith<_$_EducationalChildDoneModel>
+      get copyWith => throw _privateConstructorUsedError;
 }

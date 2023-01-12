@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, avoid_print
+
 import 'dart:io';
 
 import 'package:another_stepper/another_stepper.dart';
@@ -12,6 +14,7 @@ import 'package:bolisati/domain/api/domestic/model/domesticdonemodel.dart';
 import 'package:bolisati/domain/api/domestic/model/domesticoffermodel.dart';
 import 'package:bolisati/presentation/domestic/widgets/domesticbottomsheet.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -117,9 +120,8 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Domestic Worker",
-                            description:
-                                "Protect your workers\nin case of accidents.",
+                            name: "domestic".tr(),
+                            description: "domesticdes".tr(),
                             icon: const Icon(
                               FontAwesomeIcons.briefcase,
                               color: carcolor,
@@ -137,7 +139,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                             child: SingleChildScrollView(
                                 child: Column(
                               children: [
-                                  const SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Padding(
@@ -177,9 +179,9 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                             : Colors.black,
                                         width: 175,
                                         height: 60,
-                                        child: const Center(
+                                        child: Center(
                                             child: Text(
-                                          "Back",
+                                          "back".tr(),
                                           style: TextStyle(color: Colors.white),
                                         )),
                                       ),
@@ -202,10 +204,10 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                     .then((value) => value.fold(
                                                             (l) => ScaffoldMessenger
                                                                     .of(context)
-                                                                .showSnackBar(
-                                                                    SnackBar(
-                                                                        content:
-                                                                            Text(l.toString()))),
+                                                                .showSnackBar(SnackBar(
+                                                                    content: Text(
+                                                                            "contact")
+                                                                        .tr())),
                                                             (r) {
                                                           offers.value = r;
                                                           final isLaseIndex =
@@ -281,7 +283,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                                 .then((value) =>
                                                                     value.fold(
                                                                         (l) => ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(SnackBar(content: Text(l.toString()))),
+                                                                            .showSnackBar(SnackBar(content: Text("contact").tr())),
                                                                         (r) async {
                                                                       DomesticDoneModel
                                                                           orderdone =
@@ -299,7 +301,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                                       ScaffoldMessenger.of(
                                                                               context)
                                                                           .showSnackBar(
-                                                                              const SnackBar(content: Text("Your Order Have Been Placed")));
+                                                                              SnackBar(content: Text("orderconfirm".tr())));
                                                                       await context
                                                                           .router
                                                                           .replaceAll([
@@ -315,9 +317,9 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          "please Upload all of the pictures")));
+                                                          "picupload".tr())));
                                             }
                                           },
                                           child: Container(
@@ -327,8 +329,8 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 2
-                                                  ? "Next"
-                                                  : "Confirm",
+                                                  ? "next".tr()
+                                                  : "confirm".tr(),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             )),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
 
@@ -11,9 +12,9 @@ const travelcolor = Color(0xFF0898FF);
 List<StepperData> motorstepperData = [
   StepperData(
       title: StepperText(
-        "Car Information",
+        "carinfo".tr(),
       ),
-      subtitle: StepperText("please fill your car info.",
+      subtitle: StepperText("carinfodes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -24,9 +25,9 @@ List<StepperData> motorstepperData = [
       )),
   StepperData(
       title: StepperText(
-        "Offers",
+        "offers".tr(),
       ),
-      subtitle: StepperText("Please Select An Offer",
+      subtitle: StepperText("offersdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -36,8 +37,8 @@ List<StepperData> motorstepperData = [
         child: const Icon(Icons.looks_two, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload Car picturs"),
-      subtitle: StepperText("Select and Upload car pic",
+      title: StepperText("carpic".tr()),
+      subtitle: StepperText("carpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -47,8 +48,8 @@ List<StepperData> motorstepperData = [
         child: const Icon(Icons.looks_3, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload Driver Licenses"),
-      subtitle: StepperText("Select and upload ID & Driver license",
+      title: StepperText("carid".tr()),
+      subtitle: StepperText("cariddes".tr(),
           textStyle: const TextStyle(fontSize: 9, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -61,9 +62,9 @@ List<StepperData> motorstepperData = [
 List<StepperData> petstepperData = [
   StepperData(
       title: StepperText(
-        "Pet Information",
+        "petinfo".tr(),
       ),
-      subtitle: StepperText("please fill your pet info.",
+      subtitle: StepperText("petinfodis".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -74,9 +75,9 @@ List<StepperData> petstepperData = [
       )),
   StepperData(
       title: StepperText(
-        "Offers",
+        "offers".tr(),
       ),
-      subtitle: StepperText("Please Select An Offer",
+      subtitle: StepperText("offersdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -86,8 +87,8 @@ List<StepperData> petstepperData = [
         child: const Icon(Icons.looks_two, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload Pet vaccine pictures"),
-      subtitle: StepperText("Select and Upload pic",
+      title: StepperText("petpic".tr()),
+      subtitle: StepperText("petpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -100,9 +101,9 @@ List<StepperData> petstepperData = [
 List<StepperData> educationalstepperdata = [
   StepperData(
       title: StepperText(
-        "personal Information",
+        "personalinfo".tr(),
       ),
-      subtitle: StepperText("please fill your personal info.",
+      subtitle: StepperText("personalinfodis".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -113,9 +114,9 @@ List<StepperData> educationalstepperdata = [
       )),
   StepperData(
       title: StepperText(
-        "Add Child",
+        "childadd".tr(),
       ),
-      subtitle: StepperText("Please Add Child",
+      subtitle: StepperText("childdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -125,8 +126,8 @@ List<StepperData> educationalstepperdata = [
         child: const Icon(Icons.looks_two, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload Child ID"),
-      subtitle: StepperText("Select and Upload pic",
+      title: StepperText("idpic".tr()),
+      subtitle: StepperText("idpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -139,9 +140,9 @@ List<StepperData> educationalstepperdata = [
 List<StepperData> personalsteperdata = [
   StepperData(
       title: StepperText(
-        "Personal Information",
+        "personalinfo".tr(),
       ),
-      subtitle: StepperText("please fill your personal info.",
+      subtitle: StepperText("personalinfodis".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -152,9 +153,9 @@ List<StepperData> personalsteperdata = [
       )),
   StepperData(
       title: StepperText(
-        "Offers",
+        "offers".tr(),
       ),
-      subtitle: StepperText("Please Select An Offer",
+      subtitle: StepperText("offersdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -164,8 +165,8 @@ List<StepperData> personalsteperdata = [
         child: const Icon(Icons.looks_two, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload ID pictures"),
-      subtitle: StepperText("Select and Upload pic",
+      title: StepperText("idpic".tr()),
+      subtitle: StepperText("idpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -178,9 +179,9 @@ List<StepperData> personalsteperdata = [
 List<StepperData> medicalstepperdata = [
   StepperData(
       title: StepperText(
-        "personal Information",
+        "personalinfo".tr(),
       ),
-      subtitle: StepperText("please fill your personal info.",
+      subtitle: StepperText("personalinfodis".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -191,9 +192,9 @@ List<StepperData> medicalstepperdata = [
       )),
   StepperData(
       title: StepperText(
-        "Offers",
+        "offers".tr(),
       ),
-      subtitle: StepperText("Please Select An Offer",
+      subtitle: StepperText("offersdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -203,8 +204,8 @@ List<StepperData> medicalstepperdata = [
         child: const Icon(Icons.looks_two, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload ID picturs"),
-      subtitle: StepperText("Select and Upload ID pic",
+      title: StepperText("idpic".tr()),
+      subtitle: StepperText("idpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -217,9 +218,9 @@ List<StepperData> medicalstepperdata = [
 List<StepperData> travelstepperdata = [
   StepperData(
       title: StepperText(
-        "personal Information",
+        "personalinfo".tr(),
       ),
-      subtitle: StepperText("please fill your personal info.",
+      subtitle: StepperText("personalinfodis".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -230,9 +231,9 @@ List<StepperData> travelstepperdata = [
       )),
   StepperData(
       title: StepperText(
-        "Offers",
+        "offers".tr(),
       ),
-      subtitle: StepperText("Please Select An Offer",
+      subtitle: StepperText("offersdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -242,8 +243,8 @@ List<StepperData> travelstepperdata = [
         child: const Icon(Icons.looks_two, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload ID picturs"),
-      subtitle: StepperText("Select and Upload ID pic",
+      title: StepperText("idpic".tr()),
+      subtitle: StepperText("idpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -256,9 +257,9 @@ List<StepperData> travelstepperdata = [
 List<StepperData> domesticstepperdata = [
   StepperData(
       title: StepperText(
-        "Worker Information",
+        "workerinfo".tr(),
       ),
-      subtitle: StepperText("please fill Worker personal info.",
+      subtitle: StepperText("workerinfodis".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -269,9 +270,9 @@ List<StepperData> domesticstepperdata = [
       )),
   StepperData(
       title: StepperText(
-        "Offers",
+        "offers".tr(),
       ),
-      subtitle: StepperText("Please Select An Offer",
+      subtitle: StepperText("offersdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -281,8 +282,8 @@ List<StepperData> domesticstepperdata = [
         child: const Icon(Icons.looks_two, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload ID picturs"),
-      subtitle: StepperText("Select and Upload ID pic",
+      title: StepperText("idpic".tr()),
+      subtitle: StepperText("idpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -295,9 +296,9 @@ List<StepperData> domesticstepperdata = [
 List<StepperData> retirementstepperdata = [
   StepperData(
       title: StepperText(
-        "personal Information",
+        "personalinfo".tr(),
       ),
-      subtitle: StepperText("please fill your personal info.",
+      subtitle: StepperText("personalinfodis".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -307,14 +308,14 @@ List<StepperData> retirementstepperdata = [
         child: const Icon(Icons.looks_one, color: Colors.white),
       )),
   StepperData(
-      title: StepperText("Upload ID picturs"),
-      subtitle: StepperText("Select and Upload ID pic",
+      title: StepperText("idpic".tr()),
+      subtitle: StepperText("idpicdes".tr(),
           textStyle: const TextStyle(fontSize: 10, color: Colors.grey)),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
         decoration: const BoxDecoration(
             color: Colors.blue,
             borderRadius: BorderRadius.all(Radius.circular(30))),
-        child: const Icon(Icons.looks_3, color: Colors.white),
+        child: const Icon(Icons.looks_two, color: Colors.white),
       )),
 ];

@@ -1,12 +1,10 @@
 import 'package:bolisati/constants.dart';
-import 'package:bolisati/domain/api/motor/model/motormodel.dart';
 import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PetOrderContainer extends HookConsumerWidget {
@@ -21,12 +19,12 @@ class PetOrderContainer extends HookConsumerWidget {
         width: double.infinity,
         child: offers!.isEmpty
             ? Column(
-                children: const [
-                  SizedBox(
+                children: [
+                  const SizedBox(
                     height: 50,
                   ),
-                  Center(child: Text("No Offers for now, please contact us")),
-                  SizedBox(
+                  Center(child: const Text("nooffer").tr()),
+                  const SizedBox(
                     height: 50,
                   )
                 ],
@@ -156,7 +154,7 @@ class PetOrderContainer extends HookConsumerWidget {
     //       //             const SizedBox(
     //       //               height: 200,
     //       //             ),
-    //       //             Text("${l.toString()} please contact us")
+    //       //             Text("contact".tr())
     //       //           ],
     //       //         );
     //       //       }, (r) {

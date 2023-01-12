@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'domesticoffermodel.dart';
 
 // **************************************************************************
@@ -11,7 +13,7 @@ _$_DomesticOfferModel _$$_DomesticOfferModelFromJson(
     _$_DomesticOfferModel(
       id: json['id'] as int?,
       company_id: json['company_id'] as int?,
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       active: json['active'] as int?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,

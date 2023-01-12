@@ -20,7 +20,7 @@ class TravelOrderDoneModel with _$TravelOrderDoneModel {
     int? age_to,
     int? period_from,
     int? period_to,
-    int? price,
+    num? price,
     String? name,
     String? distination,
     String? birthdate,

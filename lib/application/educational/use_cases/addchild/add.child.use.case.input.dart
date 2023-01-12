@@ -1,9 +1,8 @@
-import 'dart:io';
+import 'package:bolisati/domain/api/educational/models/educationaloffermodel.dart';
 
 class EducationalAddChildFileUseCaseInput {
-  final File? file;
-  final int? orderid;
+  final EducationalChildDoneModel? model;
   final String? token;
 
-  EducationalAddChildFileUseCaseInput({this.file, this.orderid, this.token});
+  EducationalAddChildFileUseCaseInput({this.model, this.token});
 }

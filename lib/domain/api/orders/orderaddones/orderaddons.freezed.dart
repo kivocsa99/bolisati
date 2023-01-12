@@ -23,7 +23,7 @@ mixin _$OrderAddonsModel {
   int? get id => throw _privateConstructorUsedError;
   String? get belongable_type => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $OrderAddonsModelCopyWith<$Res> {
       {int? id,
       String? belongable_type,
       String? name,
-      int? price,
+      num? price,
       String? created_at,
       String? updated_at,
       String? deleted_at});
@@ -87,7 +87,7 @@ class _$OrderAddonsModelCopyWithImpl<$Res, $Val extends OrderAddonsModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -116,7 +116,7 @@ abstract class _$$_OrderAddonsModelCopyWith<$Res>
       {int? id,
       String? belongable_type,
       String? name,
-      int? price,
+      num? price,
       String? created_at,
       String? updated_at,
       String? deleted_at});
@@ -157,7 +157,7 @@ class __$$_OrderAddonsModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -196,7 +196,7 @@ class _$_OrderAddonsModel implements _OrderAddonsModel {
   @override
   final String? name;
   @override
-  final int? price;
+  final num? price;
   @override
   final String? created_at;
   @override
@@ -251,7 +251,7 @@ abstract class _OrderAddonsModel implements OrderAddonsModel {
       {final int? id,
       final String? belongable_type,
       final String? name,
-      final int? price,
+      final num? price,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at}) = _$_OrderAddonsModel;
@@ -266,7 +266,7 @@ abstract class _OrderAddonsModel implements OrderAddonsModel {
   @override
   String? get name;
   @override
-  int? get price;
+  num? get price;
   @override
   String? get created_at;
   @override

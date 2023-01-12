@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'medicalordermodel.dart';
 
 // **************************************************************************
@@ -22,7 +24,7 @@ _$_MedicalOrderModel _$$_MedicalOrderModelFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] == null
           ? null
           : GenderModel.fromJson(json['gender'] as Map<String, dynamic>),
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       name: json['name'] as String?,
       birthdate: json['birthdate'] as String?,
       age: json['age'] as int?,

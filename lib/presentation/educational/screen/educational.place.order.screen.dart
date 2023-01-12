@@ -2,18 +2,19 @@ import 'dart:io';
 
 import 'package:another_stepper/another_stepper.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:bolisati/application/educational/use_cases/addchild/add.child.use.case.input.dart';
+import 'package:bolisati/application/educational/use_cases/addchild/addchild.file.use.case.dart';
+import 'package:bolisati/application/educational/use_cases/attachfile/attach.file.use.case.input.dart';
 import 'package:bolisati/application/educational/use_cases/placeorder/place.order.use.case.dart';
 import 'package:bolisati/application/educational/use_cases/placeorder/place.order.use.case.input.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.dart';
-import 'package:bolisati/application/motor/attachfile/attach.file.use.case.input.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/educational/models/ducationaldoneoffermodel.dart';
-import 'package:bolisati/domain/api/motor/model/motororderdonemodel.dart';
+import 'package:bolisati/domain/api/educational/models/educationaloffermodel.dart';
+import 'package:bolisati/presentation/educational/widgets/educationaladdchildcontainer.dart';
 import 'package:bolisati/presentation/educational/widgets/educationalinformationcontainer.dart';
 import 'package:bolisati/presentation/educational/widgets/educationaluploadpictures.dart';
-import 'package:bolisati/presentation/vehicle/widgets/bottomsheetcontainer.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
-import 'package:bolisati/router/app_route.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -22,24 +23,30 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../application/educational/use_cases/attachfile/attach.file.use.case.dart';
+
 class EducationalPlaceOrderScreen extends HookConsumerWidget {
   const EducationalPlaceOrderScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final order = useState(const EducationalDoneModel());
+    final childorder = useState(const EducationalChildDoneModel());
+
     final carformkey = useState(GlobalKey<FormState>());
     final index = useState(0);
     final Box setting = Hive.box("setting");
-    final Box car = Hive.box("car");
     final nameController = useTextEditingController();
+    final childnameController = useTextEditingController();
+
     final yearController = useTextEditingController();
-    final brandController = useTextEditingController();
-    final modelController = useTextEditingController();
+
     final valueController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
     final monthlyController = useTextEditingController();
+    final nationalController = useTextEditingController();
+    final childyearController = useTextEditingController();
 
     final registerback = useState("");
     final registerfront = useState("");
@@ -69,6 +76,19 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
         },
         formkey: carformkey.value,
         key: const Key("1"),
+      ),
+      EducationalAddChildInformationContainer(
+        gender: (value) {
+          childorder.value =
+              childorder.value.copyWith(gender_id: value == "Male" ? "1" : "2");
+        },
+        national: (value) =>
+            childorder.value.copyWith(national_id_number: value),
+        nationalController: nationalController,
+        yearcontroller: childyearController,
+        name: (value) =>
+            childorder.value = childorder.value.copyWith(name: value),
+        namecontroller: childnameController,
       ),
       EducationalIdContainer(
         image0: File(registerfront.value),
@@ -105,8 +125,8 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Educational",
-                            description: "Protect your Academic Life.",
+                            name: "edu".tr(),
+                            description: "edudes".tr(),
                             icon: const Icon(
                               FontAwesomeIcons.book,
                               color: carcolor,
@@ -164,10 +184,11 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                             : Colors.black,
                                         width: 175,
                                         height: 60,
-                                        child: const Center(
+                                        child: Center(
                                             child: Text(
-                                          "Back",
-                                          style: TextStyle(color: Colors.white),
+                                          "back".tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -189,7 +210,6 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                     .copyWith(
                                                         age: educational
                                                             .get("age"));
-                                                print(order.value);
                                                 ref
                                                     .read(
                                                         educationalplaceOrderProvider)
@@ -201,13 +221,12 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                     .then((value) => value.fold(
                                                             (l) => ScaffoldMessenger
                                                                     .of(context)
-                                                                .showSnackBar(
-                                                                    SnackBar(
-                                                                        content:
-                                                                            Text(l.toString()))),
+                                                                .showSnackBar(SnackBar(
+                                                                    content: const Text(
+                                                                            "contact")
+                                                                        .tr())),
                                                             (r) async {
-                                                          EducationalDoneModel
-                                                              orderdone = r;
+                                                          order.value = r;
 
                                                           final isLaseIndex =
                                                               index.value ==
@@ -220,82 +239,167 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                                       1;
                                                         }));
                                               }
-                                            } else if (index.value == 1 &&
-                                                car.get("type") != null) {
-                                              final isLaseIndex = index.value ==
-                                                  cases.length - 1;
-                                              index.value = isLaseIndex
-                                                  ? 0
-                                                  : index.value + 1;
-                                            } else if (index.value == 3) {
+                                            } else if (index.value == 1) {
+                                              childorder.value =
+                                                  childorder.value.copyWith(
+                                                      educational_order_id:
+                                                          order.value.id
+                                                              .toString());
+                                              childorder.value =
+                                                  childorder.value.copyWith(
+                                                      birthdate: educational
+                                                          .get("birthdate"));
+                                              ref
+                                                  .read(
+                                                      educationaladdchildOrderProvider)
+                                                  .execute(
+                                                      EducationalAddChildFileUseCaseInput(
+                                                          model:
+                                                              childorder.value,
+                                                          token: token))
+                                                  .then((value) => value.fold(
+                                                      (l) => ScaffoldMessenger
+                                                              .of(context)
+                                                          .showSnackBar(SnackBar(
+                                                              content: const Text(
+                                                                      "contact")
+                                                                  .tr())),
+                                                      (r) => {
+                                                            showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return SimpleDialog(
+                                                                    title: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Image
+                                                                            .asset(
+                                                                          "assets/logo.png",
+                                                                          scale:
+                                                                              1.5,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          width:
+                                                                              10,
+                                                                        ),
+                                                                        const Text(
+                                                                          'addanother',
+                                                                        ).tr(),
+                                                                      ],
+                                                                    ),
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            left:
+                                                                                40.0,
+                                                                            right:
+                                                                                40.0),
+                                                                        child:
+                                                                            GestureDetector(
+                                                                          onTap:
+                                                                              () async {
+                                                                            childyearController.clear();
+                                                                            childnameController.clear();
+                                                                            nationalController.clear();
+                                                                            context.router.pop();
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            width:
+                                                                                100,
+                                                                            height:
+                                                                                60,
+                                                                            child: Center(
+                                                                                child: Text(
+                                                                              "globalsyes".tr(),
+                                                                              style: const TextStyle(color: Colors.white),
+                                                                            ).tr()),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            top:
+                                                                                40,
+                                                                            left:
+                                                                                40.0,
+                                                                            right:
+                                                                                40.0),
+                                                                        child:
+                                                                            GestureDetector(
+                                                                          onTap:
+                                                                              () async {
+                                                                            context.router.pop();
+                                                                            final isLaseIndex =
+                                                                                index.value == cases.length - 1;
+                                                                            index.value = isLaseIndex
+                                                                                ? 0
+                                                                                : index.value + 1;
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            width:
+                                                                                100,
+                                                                            height:
+                                                                                60,
+                                                                            child: Center(
+                                                                                child: Text(
+                                                                              "globalsno".tr(),
+                                                                              style: const TextStyle(color: Colors.white),
+                                                                            ).tr()),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ]);
+                                                              },
+                                                            )
+                                                          }));
+                                            } else if (index.value == 2) {
                                               if (registerfront.value != "" &&
                                                   registerback.value != "") {
-                                                await Future.delayed(
-                                                    const Duration(seconds: 1),
-                                                    (() {}));
-
-                                                showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  isDismissible: true,
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return StatefulBuilder(
-                                                      builder:
-                                                          (context, setState) {
-                                                        return MyWidget(
-                                                          function: () {
-                                                            ref
-                                                                .read(
-                                                                    educationalplaceOrderProvider)
-                                                                .execute(EducationalPlaceOrderUseCaseInput(
-                                                                    model: order
-                                                                        .value,
-                                                                    token:
-                                                                        token,
-                                                                    addons:
-                                                                        car.get("addon") ??
-                                                                            ""))
-                                                                .then((value) =>
-                                                                    value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(SnackBar(content: Text(l.toString()))),
-                                                                        (r) async {
-                                                                      MotorOrderDoneModel
-                                                                          orderdone =
-                                                                          r;
-                                                                      for (var element
-                                                                          in images) {
-                                                                        ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
-                                                                            (l) =>
-                                                                                print(l),
-                                                                            (r) => print(r)));
-                                                                      }
-                                                                      context
-                                                                          .router
-                                                                          .pop();
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                              const SnackBar(content: Text("Your Order Have Been Placed")));
-                                                                      await context
-                                                                          .router
-                                                                          .replaceAll([
-                                                                        const HomeScreen()
-                                                                      ]);
-                                                                    }));
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                );
+                                                for (var element in images) {
+                                                  ref
+                                                      .read(
+                                                          educationalattachplaceOrderProvider)
+                                                      .execute(
+                                                          EducationalAttachFileUseCaseInput(
+                                                              token: token,
+                                                              orderid: order
+                                                                  .value.id,
+                                                              file: File(
+                                                                  element)))
+                                                      .then((value) =>
+                                                          value.fold(
+                                                              (l) => ScaffoldMessenger.of(
+                                                                      context)
+                                                                  .showSnackBar(
+                                                                      SnackBar(
+                                                                          content:
+                                                                              const Text("contact").tr())),
+                                                              (r) async {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(SnackBar(
+                                                                    content: const Text(
+                                                                            "orderconfirm")
+                                                                        .tr()));
+                                                            context.router
+                                                                .pop();
+                                                          }));
+                                                }
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          "please Upload all of the pictures")));
+                                                          "picupload".tr())));
                                             }
                                           },
                                           child: Container(
@@ -305,8 +409,8 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "Next"
-                                                  : "Confirm",
+                                                  ? "next".tr()
+                                                  : "confirm".tr(),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             )),

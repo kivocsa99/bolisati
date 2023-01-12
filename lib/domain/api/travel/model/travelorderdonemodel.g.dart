@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'travelorderdonemodel.dart';
 
 // **************************************************************************
@@ -19,7 +21,7 @@ _$_TravelOrderDoneModel _$$_TravelOrderDoneModelFromJson(
       age_to: json['age_to'] as int?,
       period_from: json['period_from'] as int?,
       period_to: json['period_to'] as int?,
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       name: json['name'] as String?,
       distination: json['distination'] as String?,
       birthdate: json['birthdate'] as String?,

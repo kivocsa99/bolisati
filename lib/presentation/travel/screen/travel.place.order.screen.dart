@@ -15,6 +15,7 @@ import 'package:bolisati/presentation/travel/widgets/travelbottomsheet.dart';
 import 'package:bolisati/presentation/travel/widgets/travelinformationcontainer.dart';
 import 'package:bolisati/presentation/travel/widgets/travelordercontainer.dart';
 import 'package:bolisati/presentation/travel/widgets/traveluploadpage.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -105,9 +106,8 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BackInsuranceContainer(
-                  name: "Travel",
-                  description:
-                      "Protect your self abroad in\ncase of accidents.",
+                  name: "travel".tr(),
+                  description: "traveldes".tr(),
                   icon: const Icon(
                     FontAwesomeIcons.plane,
                     color: travelcolor,
@@ -154,10 +154,10 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                   index.value == 0 ? Colors.grey : Colors.black,
                               width: 175,
                               height: 60,
-                              child: const Center(
+                              child: Center(
                                   child: Text(
-                                "Back",
-                                style: TextStyle(color: Colors.white),
+                                "back".tr(),
+                                style: const TextStyle(color: Colors.white),
                               )),
                             ),
                           ),
@@ -165,7 +165,6 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                               valueListenable: setting.listenable(),
                               builder: (context, Box box, child) {
                                 final token = box.get("apitoken");
-                                print(token);
                                 return GestureDetector(
                                   onTap: () async {
                                     if (index.value == 0) {
@@ -185,8 +184,9 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                     (l) => ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(SnackBar(
-                                                            content: Text(
-                                                                l.toString()))),
+                                                            content:
+                                                              const  Text("contact")
+                                                                    .tr())),
                                                     (r) {
                                                   offer.value = r;
 
@@ -227,7 +227,6 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                               birthdate:
                                                   travel.get("birthdate"));
                                         }));
-                                        print(order.value);
                                         final TravelOffersModel offersModel =
                                             offer.value.firstWhere((element) =>
                                                 element.id ==
@@ -252,15 +251,15 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                             addons: travel.get(
                                                                     "addon") ??
                                                                 ""))
-                                                        .then((value) => value.fold(
-                                                                (l) => ScaffoldMessenger.of(
-                                                                        context)
+                                                        .then((value) =>
+                                                            value.fold(
+                                                                (l) => ScaffoldMessenger.of(context)
                                                                     .showSnackBar(
-                                                                        SnackBar(content: Text(l.toString()))),
+                                                                        SnackBar(content: const Text("contact").tr())),
                                                                 (r) async {
                                                               TravelOrderDoneModel
                                                                   orderdone = r;
-                                                              print(orderdone);
+                                                             
                                                               for (var element
                                                                   in images) {
                                                                 ref
@@ -269,15 +268,27 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                     .execute(TravelAttachFileUseCaseInput(
                                                                         token:
                                                                             token,
-                                                                        orderid: orderdone
-                                                                            .id,
+                                                                        orderid:
+                                                                            orderdone
+                                                                                .id,
                                                                         file: File(
                                                                             element)))
-                                                                    .then((value) => value.fold(
-                                                                        (l) => print(
-                                                                            l),
-                                                                        (r) => print(
-                                                                            r)));
+                                                                    .then((value) =>
+                                                                        value.fold(
+                                                                            (l) =>
+                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                            (r) async {
+                                                                          context
+                                                                              .router
+                                                                              .pop();
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                          await context
+                                                                              .router
+                                                                              .replaceAll([
+                                                                            const HomeScreen()
+                                                                          ]);
+                                                                        }));
                                                               }
                                                               context.router
                                                                   .pop();
@@ -285,9 +296,9 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                       .of(
                                                                           context)
                                                                   .showSnackBar(
-                                                                      const SnackBar(
+                                                                      SnackBar(
                                                                           content:
-                                                                              Text("Your Order Have Been Placed")));
+                                                                              Text("orderconfirm".tr())));
                                                               await context
                                                                   .router
                                                                   .replaceAll([
@@ -303,9 +314,9 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                         );
                                       } else {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "please Upload all of the pictures")));
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text("picupload".tr())));
                                       }
                                     }
                                   },
@@ -315,7 +326,9 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                     height: 60,
                                     child: Center(
                                         child: Text(
-                                      index.value != 2 ? "Next" : "Confirm",
+                                      index.value != 2
+                                          ? "next".tr()
+                                          : "confirm".tr(),
                                       style:
                                           const TextStyle(color: Colors.white),
                                     )),

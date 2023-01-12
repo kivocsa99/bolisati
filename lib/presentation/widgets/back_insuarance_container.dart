@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BackInsuranceContainer extends HookWidget {
   final VoidCallback? function;
@@ -37,8 +39,10 @@ class BackInsuranceContainer extends HookWidget {
           children: [
             IconButton(
               onPressed: function,
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
+              icon: Icon(
+                context.locale.languageCode == "en"
+                    ? Icons.arrow_back_ios_new
+                    : FontAwesomeIcons.arrowRight,
                 color: Colors.black,
               ),
               iconSize: 30,
@@ -79,7 +83,7 @@ class BackInsuranceContainer extends HookWidget {
                   )
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

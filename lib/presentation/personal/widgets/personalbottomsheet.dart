@@ -1,5 +1,5 @@
 import 'package:bolisati/domain/api/personal/model/personaloffermodel.dart';
-import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -107,10 +107,10 @@ class _PersonalBottomSheetState extends State<PersonalBottomSheet> {
                   child: Container(
                     color: Colors.black,
                     height: 60,
-                    child: const Center(
+                    child:  Center(
                         child: Text(
-                      "Place Order",
-                      style: TextStyle(color: Colors.white),
+                      "placeorder".tr(),
+                      style: const TextStyle(color: Colors.white),
                     )),
                   ),
                 ),

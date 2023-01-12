@@ -9,12 +9,12 @@ import 'package:bolisati/application/motor/placeorder/place.order.use.case.input
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/motor/model/motororderdonemodel.dart';
 import 'package:bolisati/domain/api/orders/motororders/motorordermodel.dart';
-import 'package:bolisati/domain/api/travel/model/travelmodel.dart';
 import 'package:bolisati/presentation/vehicle/widgets/bottomsheetcontainer.dart';
 import 'package:bolisati/presentation/vehicle/widgets/carpersonalidcontainer.dart';
 import 'package:bolisati/presentation/vehicle/widgets/ordersofferscontainer.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -86,13 +86,60 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
         perviosaccidents: (value) {
           order.value = order.value
               .copyWith(previous_accidents: value == "False" ? 1 : 0);
+          if (value == "True") {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return SimpleDialog(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Image.asset(
+                          "assets/logo.png",
+                          scale: 1.5,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Text(
+                          'crashdesc',
+                        ).tr(),
+                      ],
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                        child: const Text("crash").tr(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                        child: GestureDetector(
+                          onTap: () async {
+                            context.router.pop();
+                          },
+                          child: Container(
+                            color: Colors.black,
+                            width: 100,
+                            height: 60,
+                            child: Center(
+                                child: Text(
+                              "confirm".tr(),
+                              style: const TextStyle(color: Colors.white),
+                            ).tr()),
+                          ),
+                        ),
+                      )
+                    ]);
+              },
+            );
+          }
         },
         formkey: carformkey.value,
         key: const Key("1"),
       ),
       OrderOffersContainer(
         offers: offers.value,
-        key: Key("2"),
+        key: const Key("2"),
       ),
       CarPictiresContainer(
         image0: File(frontimage.value),
@@ -173,9 +220,8 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           BackInsuranceContainer(
-                            name: "Vehicle",
-                            description:
-                                "Protect your vehicle\nin case of accidents.",
+                            name: "vehicle".tr(),
+                            description: "vehicledes".tr(),
                             icon: const Icon(
                               FontAwesomeIcons.car,
                               color: carcolor,
@@ -233,10 +279,11 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                             : Colors.black,
                                         width: 175,
                                         height: 60,
-                                        child: const Center(
+                                        child: Center(
                                             child: Text(
-                                          "Back",
-                                          style: TextStyle(color: Colors.white),
+                                          "back".tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -265,10 +312,10 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                     .then((value) => value.fold(
                                                             (l) => ScaffoldMessenger
                                                                     .of(context)
-                                                                .showSnackBar(
-                                                                    SnackBar(
-                                                                        content:
-                                                                            Text(l.toString()))),
+                                                                .showSnackBar(SnackBar(
+                                                                    content: const Text(
+                                                                            "contact")
+                                                                        .tr())),
                                                             (r) {
                                                           offers.value = r;
                                                           final isLaseIndex =
@@ -302,9 +349,9 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                     : index.value + 1;
                                               } else {
                                                 ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
+                                                    .showSnackBar(SnackBar(
                                                         content: Text(
-                                                            "please Upload all of the pictures")));
+                                                            "picupload".tr())));
                                               }
                                             } else if (index.value == 3) {
                                               if (registerfront.value != "" &&
@@ -368,31 +415,25 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                                             ""))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(SnackBar(content: Text(l.toString()))),
+                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                            content:
+                                                                                const Text("contact").tr())),
                                                                         (r) async {
                                                                       MotorOrderDoneModel
                                                                           orderdone =
                                                                           r;
                                                                       for (var element
                                                                           in images) {
-                                                                        ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
-                                                                            (l) =>
-                                                                                print(l),
-                                                                            (r) => print(r)));
+                                                                        ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                                (r) async {
+                                                                              context.router.pop();
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                              await context.router.replaceAll([
+                                                                                const HomeScreen()
+                                                                              ]);
+                                                                            }));
                                                                       }
-                                                                      context
-                                                                          .router
-                                                                          .pop();
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                              const SnackBar(content: Text("Your Order Have Been Placed")));
-                                                                      await context
-                                                                          .router
-                                                                          .replaceAll([
-                                                                        const HomeScreen()
-                                                                      ]);
                                                                     }));
                                                           },
                                                           offerModel:
@@ -405,9 +446,9 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          "please Upload all of the pictures")));
+                                                          "picupload".tr())));
                                             }
                                           },
                                           child: Container(
@@ -417,8 +458,8 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "Next"
-                                                  : "Confirm",
+                                                  ? "next".tr()
+                                                  : "confirm".tr(),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             )),

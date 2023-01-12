@@ -27,7 +27,7 @@ mixin _$TravelOffersModel {
   int? get period_to => throw _privateConstructorUsedError;
   int? get age_form => throw _privateConstructorUsedError;
   int? get age_to => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -55,7 +55,7 @@ abstract class $TravelOffersModelCopyWith<$Res> {
       int? period_to,
       int? age_form,
       int? age_to,
-      int? price,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -126,7 +126,7 @@ class _$TravelOffersModelCopyWithImpl<$Res, $Val extends TravelOffersModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -183,7 +183,7 @@ abstract class _$$_TravelOffersModelCopyWith<$Res>
       int? period_to,
       int? age_form,
       int? age_to,
-      int? price,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -253,7 +253,7 @@ class __$$_TravelOffersModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -320,7 +320,7 @@ class _$_TravelOffersModel implements _TravelOffersModel {
   @override
   final int? age_to;
   @override
-  final int? price;
+  final num? price;
   @override
   final int? active;
   @override
@@ -419,7 +419,7 @@ abstract class _TravelOffersModel implements TravelOffersModel {
       final int? period_to,
       final int? age_form,
       final int? age_to,
-      final int? price,
+      final num? price,
       final int? active,
       final String? created_at,
       final String? updated_at,
@@ -445,7 +445,7 @@ abstract class _TravelOffersModel implements TravelOffersModel {
   @override
   int? get age_to;
   @override
-  int? get price;
+  num? get price;
   @override
   int? get active;
   @override

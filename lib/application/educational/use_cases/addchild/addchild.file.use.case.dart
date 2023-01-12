@@ -5,8 +5,6 @@ import 'package:bolisati/domain/api/failures/api.failures.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../domain/api/medical/contracts/i.medical.repository.dart';
-import '../../../provider/medical.repository.provider.dart';
 import 'add.child.use.case.input.dart';
 
 final educationaladdchildOrderProvider = Provider((ref) =>
@@ -17,16 +15,16 @@ class EducationalAddChildFileUseCase
     implements IUseCase<EducationalAddChildFileUseCaseInput, dynamic> {
   final IEducationalRepository? _educationalRepository;
 
-  EducationalAddChildFileUseCase({IEducationalRepository? educationalRepository})
+  EducationalAddChildFileUseCase(
+      {IEducationalRepository? educationalRepository})
       : _educationalRepository = educationalRepository;
 
   @override
   Future<Either<ApiFailures, dynamic>> execute(
       EducationalAddChildFileUseCaseInput input) async {
-    return await _educationalRepository!.attachFile(
-      apitoken: input.token,
-      file: input.file,
-      orderid: input.orderid,
+    return await _educationalRepository!.addchild(
+      token: input.token!,
+      model: input.model!,
     );
   }
 }

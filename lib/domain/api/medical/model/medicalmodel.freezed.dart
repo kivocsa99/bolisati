@@ -26,7 +26,7 @@ mixin _$MedicalOffersModel {
   int? get age_to => throw _privateConstructorUsedError;
   int? get medical_insurance_type_id => throw _privateConstructorUsedError;
   int? get gender_id => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -53,7 +53,7 @@ abstract class $MedicalOffersModelCopyWith<$Res> {
       int? age_to,
       int? medical_insurance_type_id,
       int? gender_id,
-      int? price,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -119,7 +119,7 @@ class _$MedicalOffersModelCopyWithImpl<$Res, $Val extends MedicalOffersModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -175,7 +175,7 @@ abstract class _$$_MedicalOffersModelCopyWith<$Res>
       int? age_to,
       int? medical_insurance_type_id,
       int? gender_id,
-      int? price,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -240,7 +240,7 @@ class __$$_MedicalOffersModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -304,7 +304,7 @@ class _$_MedicalOffersModel implements _MedicalOffersModel {
   @override
   final int? gender_id;
   @override
-  final int? price;
+  final num? price;
   @override
   final int? active;
   @override
@@ -400,7 +400,7 @@ abstract class _MedicalOffersModel implements MedicalOffersModel {
       final int? age_to,
       final int? medical_insurance_type_id,
       final int? gender_id,
-      final int? price,
+      final num? price,
       final int? active,
       final String? created_at,
       final String? updated_at,
@@ -424,7 +424,7 @@ abstract class _MedicalOffersModel implements MedicalOffersModel {
   @override
   int? get gender_id;
   @override
-  int? get price;
+  num? get price;
   @override
   int? get active;
   @override

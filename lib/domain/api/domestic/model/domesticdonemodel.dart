@@ -3,7 +3,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../addons/model/addonsmodel.dart';
-import '../../company/model/companymodel.dart';
 
 part 'domesticdonemodel.freezed.dart';
 part 'domesticdonemodel.g.dart';

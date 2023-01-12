@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'medicalinsuranceoffermodel.dart';
 
 // **************************************************************************
@@ -15,7 +17,7 @@ _$_MedicalInsuranceOfferModel _$$_MedicalInsuranceOfferModelFromJson(
       age_to: json['age_to'] as int?,
       medical_insurance_type_id: json['medical_insurance_type_id'] as int?,
       gender_id: json['gender_id'] as int?,
-      price: json['price'] as int?,
+      price: json['price'] as num?,
       active: json['active'] as int?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,

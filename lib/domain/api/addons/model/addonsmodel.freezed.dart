@@ -24,7 +24,7 @@ mixin _$AddonsModel {
   int? get company_id => throw _privateConstructorUsedError;
   int? get insurance_type_id => throw _privateConstructorUsedError;
   int? get addon_id => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $AddonsModelCopyWith<$Res> {
       int? company_id,
       int? insurance_type_id,
       int? addon_id,
-      int? price,
+      num? price,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -99,7 +99,7 @@ class _$AddonsModelCopyWithImpl<$Res, $Val extends AddonsModel>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -145,7 +145,7 @@ abstract class _$$_AddonsModelCopyWith<$Res>
       int? company_id,
       int? insurance_type_id,
       int? addon_id,
-      int? price,
+      num? price,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -196,7 +196,7 @@ class __$$_AddonsModelCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -243,7 +243,7 @@ class _$_AddonsModel implements _AddonsModel {
   @override
   final int? addon_id;
   @override
-  final int? price;
+  final num? price;
   @override
   final String? created_at;
   @override
@@ -314,7 +314,7 @@ abstract class _AddonsModel implements AddonsModel {
       final int? company_id,
       final int? insurance_type_id,
       final int? addon_id,
-      final int? price,
+      final num? price,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at,
@@ -332,7 +332,7 @@ abstract class _AddonsModel implements AddonsModel {
   @override
   int? get addon_id;
   @override
-  int? get price;
+  num? get price;
   @override
   String? get created_at;
   @override

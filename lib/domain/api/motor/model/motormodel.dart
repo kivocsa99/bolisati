@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
 
-//needs work 
+//needs work
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../addons/model/addonsmodel.dart';
@@ -14,10 +14,10 @@ class MotorOffersModel with _$MotorOffersModel {
   const factory MotorOffersModel({
     int? id,
     int? company_id,
-    int? price_from,
-    int? price_to,
+    num? price_from,
+    num? price_to,
     int? fixed,
-    int? percentage,
+    num? percentage,
     int? active,
     String? created_at,
     String? updated_at,

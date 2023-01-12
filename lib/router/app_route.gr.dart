@@ -68,6 +68,13 @@ class AppRouter extends _i16.RootStackRouter {
         child: const _i2.HomePage(),
       );
     },
+    MyApp.name: (routeData) {
+      final args = routeData.argsAs<MyAppArgs>(orElse: () => const MyAppArgs());
+      return _i16.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i2.MyApp(key: args.key),
+      );
+    },
     HomeScreen.name: (routeData) {
       return _i16.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -208,6 +215,10 @@ class AppRouter extends _i16.RootStackRouter {
           path: '/',
         ),
         _i16.RouteConfig(
+          MyApp.name,
+          path: '/my-app',
+        ),
+        _i16.RouteConfig(
           HomeScreen.name,
           path: '/home-screen',
         ),
@@ -306,6 +317,30 @@ class HomeRoute extends _i16.PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+}
+
+/// generated route for
+/// [_i2.MyApp]
+class MyApp extends _i16.PageRouteInfo<MyAppArgs> {
+  MyApp({_i19.Key? key})
+      : super(
+          MyApp.name,
+          path: '/my-app',
+          args: MyAppArgs(key: key),
+        );
+
+  static const String name = 'MyApp';
+}
+
+class MyAppArgs {
+  const MyAppArgs({this.key});
+
+  final _i19.Key? key;
+
+  @override
+  String toString() {
+    return 'MyAppArgs{key: $key}';
+  }
 }
 
 /// generated route for

@@ -14,7 +14,7 @@ class PersonalOfferModel with _$PersonalOfferModel {
   const factory PersonalOfferModel({
     int? id,
     int? company_id,
-    int? price,
+    num? price,
     int? active,
     int? age_from,
     int? age_to,
