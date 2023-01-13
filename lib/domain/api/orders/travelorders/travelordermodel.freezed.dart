@@ -27,8 +27,8 @@ mixin _$TravelOrderModel {
   int? get travel_region_id => throw _privateConstructorUsedError;
   int? get travel_order_status_id => throw _privateConstructorUsedError;
   String? get travel_region_name => throw _privateConstructorUsedError;
-  num? get price_from => throw _privateConstructorUsedError;
-  num? get price_to => throw _privateConstructorUsedError;
+  num? get period_from => throw _privateConstructorUsedError;
+  num? get period_to => throw _privateConstructorUsedError;
   int? get age_from => throw _privateConstructorUsedError;
   int? get age_to => throw _privateConstructorUsedError;
   num? get price => throw _privateConstructorUsedError;
@@ -72,8 +72,8 @@ abstract class $TravelOrderModelCopyWith<$Res> {
       int? travel_region_id,
       int? travel_order_status_id,
       String? travel_region_name,
-      num? price_from,
-      num? price_to,
+      num? period_from,
+      num? period_to,
       int? age_from,
       int? age_to,
       num? price,
@@ -123,8 +123,8 @@ class _$TravelOrderModelCopyWithImpl<$Res, $Val extends TravelOrderModel>
     Object? travel_region_id = freezed,
     Object? travel_order_status_id = freezed,
     Object? travel_region_name = freezed,
-    Object? price_from = freezed,
-    Object? price_to = freezed,
+    Object? period_from = freezed,
+    Object? period_to = freezed,
     Object? age_from = freezed,
     Object? age_to = freezed,
     Object? price = freezed,
@@ -176,13 +176,13 @@ class _$TravelOrderModelCopyWithImpl<$Res, $Val extends TravelOrderModel>
           ? _value.travel_region_name
           : travel_region_name // ignore: cast_nullable_to_non_nullable
               as String?,
-      price_from: freezed == price_from
-          ? _value.price_from
-          : price_from // ignore: cast_nullable_to_non_nullable
+      period_from: freezed == period_from
+          ? _value.period_from
+          : period_from // ignore: cast_nullable_to_non_nullable
               as num?,
-      price_to: freezed == price_to
-          ? _value.price_to
-          : price_to // ignore: cast_nullable_to_non_nullable
+      period_to: freezed == period_to
+          ? _value.period_to
+          : period_to // ignore: cast_nullable_to_non_nullable
               as num?,
       age_from: freezed == age_from
           ? _value.age_from
@@ -349,8 +349,8 @@ abstract class _$$_TravelOrderModelCopyWith<$Res>
       int? travel_region_id,
       int? travel_order_status_id,
       String? travel_region_name,
-      num? price_from,
-      num? price_to,
+      num? period_from,
+      num? period_to,
       int? age_from,
       int? age_to,
       num? price,
@@ -403,8 +403,8 @@ class __$$_TravelOrderModelCopyWithImpl<$Res>
     Object? travel_region_id = freezed,
     Object? travel_order_status_id = freezed,
     Object? travel_region_name = freezed,
-    Object? price_from = freezed,
-    Object? price_to = freezed,
+    Object? period_from = freezed,
+    Object? period_to = freezed,
     Object? age_from = freezed,
     Object? age_to = freezed,
     Object? price = freezed,
@@ -456,13 +456,13 @@ class __$$_TravelOrderModelCopyWithImpl<$Res>
           ? _value.travel_region_name
           : travel_region_name // ignore: cast_nullable_to_non_nullable
               as String?,
-      price_from: freezed == price_from
-          ? _value.price_from
-          : price_from // ignore: cast_nullable_to_non_nullable
+      period_from: freezed == period_from
+          ? _value.period_from
+          : period_from // ignore: cast_nullable_to_non_nullable
               as num?,
-      price_to: freezed == price_to
-          ? _value.price_to
-          : price_to // ignore: cast_nullable_to_non_nullable
+      period_to: freezed == period_to
+          ? _value.period_to
+          : period_to // ignore: cast_nullable_to_non_nullable
               as num?,
       age_from: freezed == age_from
           ? _value.age_from
@@ -563,8 +563,8 @@ class _$_TravelOrderModel implements _TravelOrderModel {
       this.travel_region_id,
       this.travel_order_status_id,
       this.travel_region_name,
-      this.price_from,
-      this.price_to,
+      this.period_from,
+      this.period_to,
       this.age_from,
       this.age_to,
       this.price,
@@ -607,9 +607,9 @@ class _$_TravelOrderModel implements _TravelOrderModel {
   @override
   final String? travel_region_name;
   @override
-  final num? price_from;
+  final num? period_from;
   @override
-  final num? price_to;
+  final num? period_to;
   @override
   final int? age_from;
   @override
@@ -671,7 +671,7 @@ class _$_TravelOrderModel implements _TravelOrderModel {
 
   @override
   String toString() {
-    return 'TravelOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, travel_insurance_id: $travel_insurance_id, travel_region_id: $travel_region_id, travel_order_status_id: $travel_order_status_id, travel_region_name: $travel_region_name, price_from: $price_from, price_to: $price_to, age_from: $age_from, age_to: $age_to, price: $price, name: $name, destination: $destination, start_date: $start_date, end_date: $end_date, period_of_stay: $period_of_stay, birthdate: $birthdate, age: $age, total: $total, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, insurance_offer: $insurance_offer, status: $status, addons: $addons, files: $files, region: $region)';
+    return 'TravelOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, travel_insurance_id: $travel_insurance_id, travel_region_id: $travel_region_id, travel_order_status_id: $travel_order_status_id, travel_region_name: $travel_region_name, period_from: $period_from, period_to: $period_to, age_from: $age_from, age_to: $age_to, price: $price, name: $name, destination: $destination, start_date: $start_date, end_date: $end_date, period_of_stay: $period_of_stay, birthdate: $birthdate, age: $age, total: $total, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, insurance_offer: $insurance_offer, status: $status, addons: $addons, files: $files, region: $region)';
   }
 
   @override
@@ -692,10 +692,10 @@ class _$_TravelOrderModel implements _TravelOrderModel {
                 other.travel_order_status_id == travel_order_status_id) &&
             (identical(other.travel_region_name, travel_region_name) ||
                 other.travel_region_name == travel_region_name) &&
-            (identical(other.price_from, price_from) ||
-                other.price_from == price_from) &&
-            (identical(other.price_to, price_to) ||
-                other.price_to == price_to) &&
+            (identical(other.period_from, period_from) ||
+                other.period_from == period_from) &&
+            (identical(other.period_to, period_to) ||
+                other.period_to == period_to) &&
             (identical(other.age_from, age_from) ||
                 other.age_from == age_from) &&
             (identical(other.age_to, age_to) || other.age_to == age_to) &&
@@ -741,8 +741,8 @@ class _$_TravelOrderModel implements _TravelOrderModel {
         travel_region_id,
         travel_order_status_id,
         travel_region_name,
-        price_from,
-        price_to,
+        period_from,
+        period_to,
         age_from,
         age_to,
         price,
@@ -789,8 +789,8 @@ abstract class _TravelOrderModel implements TravelOrderModel {
       final int? travel_region_id,
       final int? travel_order_status_id,
       final String? travel_region_name,
-      final num? price_from,
-      final num? price_to,
+      final num? period_from,
+      final num? period_to,
       final int? age_from,
       final int? age_to,
       final num? price,
@@ -831,9 +831,9 @@ abstract class _TravelOrderModel implements TravelOrderModel {
   @override
   String? get travel_region_name;
   @override
-  num? get price_from;
+  num? get period_from;
   @override
-  num? get price_to;
+  num? get period_to;
   @override
   int? get age_from;
   @override

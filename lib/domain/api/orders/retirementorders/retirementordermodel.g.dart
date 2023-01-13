@@ -12,9 +12,9 @@ _$_RetirementOrderModel _$$_RetirementOrderModelFromJson(
       id: json['id'] as int?,
       customer_user_id: json['customer_user_id'] as int?,
       company_id: json['company_id'] as int?,
-      retirement_type_id: json['retirement_type_id'] as String?,
+      retirement_type_id: json['retirement_type_id'] as int?,
       retirement_order_status_id: json['retirement_order_status_id'] as int?,
-      retirement_type: json['retirement_type'] as int?,
+      retirement_type: json['retirement_type'] as String?,
       age: json['age'] as int?,
       birthdate: json['birthdate'] as String?,
       retirement_age: json['retirement_age'] as int?,
@@ -23,12 +23,27 @@ _$_RetirementOrderModel _$$_RetirementOrderModelFromJson(
       name: json['name'] as String?,
       total_without_addons: json['total_without_addons'] as num?,
       total: json['total'] as num?,
-      addons: (json['addons'] as List<dynamic>?)
-          ?.map((e) => OrderAddonsModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,
+      customer: json['customer'] == null
+          ? null
+          : UserModel.fromJson(json['customer'] as Map<String, dynamic>),
+      company: json['company'] == null
+          ? null
+          : CompanyModel.fromJson(json['company'] as Map<String, dynamic>),
+      type: json['type'] == null
+          ? null
+          : RetTypeModel.fromJson(json['type'] as Map<String, dynamic>),
+      addons: (json['addons'] as List<dynamic>?)
+          ?.map((e) => OrderAddonsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['status'] == null
+          ? null
+          : StatusModel.fromJson(json['status'] as Map<String, dynamic>),
+      files: (json['files'] as List<dynamic>?)
+          ?.map((e) => FilesModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_RetirementOrderModelToJson(
@@ -48,8 +63,13 @@ Map<String, dynamic> _$$_RetirementOrderModelToJson(
       'name': instance.name,
       'total_without_addons': instance.total_without_addons,
       'total': instance.total,
-      'addons': instance.addons,
       'created_at': instance.created_at,
       'updated_at': instance.updated_at,
       'deleted_at': instance.deleted_at,
+      'customer': instance.customer,
+      'company': instance.company,
+      'type': instance.type,
+      'addons': instance.addons,
+      'status': instance.status,
+      'files': instance.files,
     };

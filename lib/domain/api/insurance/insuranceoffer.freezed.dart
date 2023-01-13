@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'motorinsuranceoffermodel.dart';
+part of 'insuranceoffer.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,19 +14,15 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-MotorInsuranceOfferModel _$MotorInsuranceOfferModelFromJson(
-    Map<String, dynamic> json) {
-  return _MotorInsuranceOfferModel.fromJson(json);
+InsuranceOfferModel _$InsuranceOfferModelFromJson(Map<String, dynamic> json) {
+  return _InsuranceOfferModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MotorInsuranceOfferModel {
+mixin _$InsuranceOfferModel {
   int? get id => throw _privateConstructorUsedError;
   int? get company_id => throw _privateConstructorUsedError;
-  num? get price_from => throw _privateConstructorUsedError;
-  num? get price_to => throw _privateConstructorUsedError;
-  num? get fixed => throw _privateConstructorUsedError;
-  num? get precentage => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -34,23 +30,20 @@ mixin _$MotorInsuranceOfferModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MotorInsuranceOfferModelCopyWith<MotorInsuranceOfferModel> get copyWith =>
+  $InsuranceOfferModelCopyWith<InsuranceOfferModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MotorInsuranceOfferModelCopyWith<$Res> {
-  factory $MotorInsuranceOfferModelCopyWith(MotorInsuranceOfferModel value,
-          $Res Function(MotorInsuranceOfferModel) then) =
-      _$MotorInsuranceOfferModelCopyWithImpl<$Res, MotorInsuranceOfferModel>;
+abstract class $InsuranceOfferModelCopyWith<$Res> {
+  factory $InsuranceOfferModelCopyWith(
+          InsuranceOfferModel value, $Res Function(InsuranceOfferModel) then) =
+      _$InsuranceOfferModelCopyWithImpl<$Res, InsuranceOfferModel>;
   @useResult
   $Res call(
       {int? id,
       int? company_id,
-      num? price_from,
-      num? price_to,
-      num? fixed,
-      num? precentage,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -58,10 +51,9 @@ abstract class $MotorInsuranceOfferModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MotorInsuranceOfferModelCopyWithImpl<$Res,
-        $Val extends MotorInsuranceOfferModel>
-    implements $MotorInsuranceOfferModelCopyWith<$Res> {
-  _$MotorInsuranceOfferModelCopyWithImpl(this._value, this._then);
+class _$InsuranceOfferModelCopyWithImpl<$Res, $Val extends InsuranceOfferModel>
+    implements $InsuranceOfferModelCopyWith<$Res> {
+  _$InsuranceOfferModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -73,10 +65,7 @@ class _$MotorInsuranceOfferModelCopyWithImpl<$Res,
   $Res call({
     Object? id = freezed,
     Object? company_id = freezed,
-    Object? price_from = freezed,
-    Object? price_to = freezed,
-    Object? fixed = freezed,
-    Object? precentage = freezed,
+    Object? price = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
@@ -91,21 +80,9 @@ class _$MotorInsuranceOfferModelCopyWithImpl<$Res,
           ? _value.company_id
           : company_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      price_from: freezed == price_from
-          ? _value.price_from
-          : price_from // ignore: cast_nullable_to_non_nullable
-              as num?,
-      price_to: freezed == price_to
-          ? _value.price_to
-          : price_to // ignore: cast_nullable_to_non_nullable
-              as num?,
-      fixed: freezed == fixed
-          ? _value.fixed
-          : fixed // ignore: cast_nullable_to_non_nullable
-              as num?,
-      precentage: freezed == precentage
-          ? _value.precentage
-          : precentage // ignore: cast_nullable_to_non_nullable
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as num?,
       active: freezed == active
           ? _value.active
@@ -128,21 +105,17 @@ class _$MotorInsuranceOfferModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MotorInsuranceOfferModelCopyWith<$Res>
-    implements $MotorInsuranceOfferModelCopyWith<$Res> {
-  factory _$$_MotorInsuranceOfferModelCopyWith(
-          _$_MotorInsuranceOfferModel value,
-          $Res Function(_$_MotorInsuranceOfferModel) then) =
-      __$$_MotorInsuranceOfferModelCopyWithImpl<$Res>;
+abstract class _$$_InsuranceOfferModelCopyWith<$Res>
+    implements $InsuranceOfferModelCopyWith<$Res> {
+  factory _$$_InsuranceOfferModelCopyWith(_$_InsuranceOfferModel value,
+          $Res Function(_$_InsuranceOfferModel) then) =
+      __$$_InsuranceOfferModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {int? id,
       int? company_id,
-      num? price_from,
-      num? price_to,
-      num? fixed,
-      num? precentage,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -150,12 +123,11 @@ abstract class _$$_MotorInsuranceOfferModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MotorInsuranceOfferModelCopyWithImpl<$Res>
-    extends _$MotorInsuranceOfferModelCopyWithImpl<$Res,
-        _$_MotorInsuranceOfferModel>
-    implements _$$_MotorInsuranceOfferModelCopyWith<$Res> {
-  __$$_MotorInsuranceOfferModelCopyWithImpl(_$_MotorInsuranceOfferModel _value,
-      $Res Function(_$_MotorInsuranceOfferModel) _then)
+class __$$_InsuranceOfferModelCopyWithImpl<$Res>
+    extends _$InsuranceOfferModelCopyWithImpl<$Res, _$_InsuranceOfferModel>
+    implements _$$_InsuranceOfferModelCopyWith<$Res> {
+  __$$_InsuranceOfferModelCopyWithImpl(_$_InsuranceOfferModel _value,
+      $Res Function(_$_InsuranceOfferModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -163,16 +135,13 @@ class __$$_MotorInsuranceOfferModelCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? company_id = freezed,
-    Object? price_from = freezed,
-    Object? price_to = freezed,
-    Object? fixed = freezed,
-    Object? precentage = freezed,
+    Object? price = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
   }) {
-    return _then(_$_MotorInsuranceOfferModel(
+    return _then(_$_InsuranceOfferModel(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -181,21 +150,9 @@ class __$$_MotorInsuranceOfferModelCopyWithImpl<$Res>
           ? _value.company_id
           : company_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      price_from: freezed == price_from
-          ? _value.price_from
-          : price_from // ignore: cast_nullable_to_non_nullable
-              as num?,
-      price_to: freezed == price_to
-          ? _value.price_to
-          : price_to // ignore: cast_nullable_to_non_nullable
-              as num?,
-      fixed: freezed == fixed
-          ? _value.fixed
-          : fixed // ignore: cast_nullable_to_non_nullable
-              as num?,
-      precentage: freezed == precentage
-          ? _value.precentage
-          : precentage // ignore: cast_nullable_to_non_nullable
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as num?,
       active: freezed == active
           ? _value.active
@@ -219,34 +176,25 @@ class __$$_MotorInsuranceOfferModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MotorInsuranceOfferModel implements _MotorInsuranceOfferModel {
-  const _$_MotorInsuranceOfferModel(
+class _$_InsuranceOfferModel implements _InsuranceOfferModel {
+  const _$_InsuranceOfferModel(
       {this.id,
       this.company_id,
-      this.price_from,
-      this.price_to,
-      this.fixed,
-      this.precentage,
+      this.price,
       this.active,
       this.created_at,
       this.updated_at,
       this.deleted_at});
 
-  factory _$_MotorInsuranceOfferModel.fromJson(Map<String, dynamic> json) =>
-      _$$_MotorInsuranceOfferModelFromJson(json);
+  factory _$_InsuranceOfferModel.fromJson(Map<String, dynamic> json) =>
+      _$$_InsuranceOfferModelFromJson(json);
 
   @override
   final int? id;
   @override
   final int? company_id;
   @override
-  final num? price_from;
-  @override
-  final num? price_to;
-  @override
-  final num? fixed;
-  @override
-  final num? precentage;
+  final num? price;
   @override
   final int? active;
   @override
@@ -258,24 +206,18 @@ class _$_MotorInsuranceOfferModel implements _MotorInsuranceOfferModel {
 
   @override
   String toString() {
-    return 'MotorInsuranceOfferModel(id: $id, company_id: $company_id, price_from: $price_from, price_to: $price_to, fixed: $fixed, precentage: $precentage, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'InsuranceOfferModel(id: $id, company_id: $company_id, price: $price, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MotorInsuranceOfferModel &&
+            other is _$_InsuranceOfferModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.company_id, company_id) ||
                 other.company_id == company_id) &&
-            (identical(other.price_from, price_from) ||
-                other.price_from == price_from) &&
-            (identical(other.price_to, price_to) ||
-                other.price_to == price_to) &&
-            (identical(other.fixed, fixed) || other.fixed == fixed) &&
-            (identical(other.precentage, precentage) ||
-                other.precentage == precentage) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.active, active) || other.active == active) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
@@ -287,52 +229,43 @@ class _$_MotorInsuranceOfferModel implements _MotorInsuranceOfferModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, company_id, price_from,
-      price_to, fixed, precentage, active, created_at, updated_at, deleted_at);
+  int get hashCode => Object.hash(runtimeType, id, company_id, price, active,
+      created_at, updated_at, deleted_at);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MotorInsuranceOfferModelCopyWith<_$_MotorInsuranceOfferModel>
-      get copyWith => __$$_MotorInsuranceOfferModelCopyWithImpl<
-          _$_MotorInsuranceOfferModel>(this, _$identity);
+  _$$_InsuranceOfferModelCopyWith<_$_InsuranceOfferModel> get copyWith =>
+      __$$_InsuranceOfferModelCopyWithImpl<_$_InsuranceOfferModel>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MotorInsuranceOfferModelToJson(
+    return _$$_InsuranceOfferModelToJson(
       this,
     );
   }
 }
 
-abstract class _MotorInsuranceOfferModel implements MotorInsuranceOfferModel {
-  const factory _MotorInsuranceOfferModel(
+abstract class _InsuranceOfferModel implements InsuranceOfferModel {
+  const factory _InsuranceOfferModel(
       {final int? id,
       final int? company_id,
-      final num? price_from,
-      final num? price_to,
-      final num? fixed,
-      final num? precentage,
+      final num? price,
       final int? active,
       final String? created_at,
       final String? updated_at,
-      final String? deleted_at}) = _$_MotorInsuranceOfferModel;
+      final String? deleted_at}) = _$_InsuranceOfferModel;
 
-  factory _MotorInsuranceOfferModel.fromJson(Map<String, dynamic> json) =
-      _$_MotorInsuranceOfferModel.fromJson;
+  factory _InsuranceOfferModel.fromJson(Map<String, dynamic> json) =
+      _$_InsuranceOfferModel.fromJson;
 
   @override
   int? get id;
   @override
   int? get company_id;
   @override
-  num? get price_from;
-  @override
-  num? get price_to;
-  @override
-  num? get fixed;
-  @override
-  num? get precentage;
+  num? get price;
   @override
   int? get active;
   @override
@@ -343,6 +276,6 @@ abstract class _MotorInsuranceOfferModel implements MotorInsuranceOfferModel {
   String? get deleted_at;
   @override
   @JsonKey(ignore: true)
-  _$$_MotorInsuranceOfferModelCopyWith<_$_MotorInsuranceOfferModel>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_InsuranceOfferModelCopyWith<_$_InsuranceOfferModel> get copyWith =>
+      throw _privateConstructorUsedError;
 }

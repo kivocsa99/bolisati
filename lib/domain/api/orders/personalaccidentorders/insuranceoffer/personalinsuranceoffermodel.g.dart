@@ -1,35 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'motorinsuranceoffermodel.dart';
+part of 'personalinsuranceoffermodel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MotorInsuranceOfferModel _$$_MotorInsuranceOfferModelFromJson(
+_$_PersonalInsuranceOfferModel _$$_PersonalInsuranceOfferModelFromJson(
         Map<String, dynamic> json) =>
-    _$_MotorInsuranceOfferModel(
+    _$_PersonalInsuranceOfferModel(
       id: json['id'] as int?,
       company_id: json['company_id'] as int?,
-      price_from: json['price_from'] as num?,
-      price_to: json['price_to'] as num?,
-      fixed: json['fixed'] as num?,
-      precentage: json['precentage'] as num?,
+      age_from: json['age_from'] as num?,
+      age_to: json['age_to'] as num?,
+      personal_accident_type_id: json['personal_accident_type_id'] as num?,
+      rate: json['rate'] as num?,
       active: json['active'] as int?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,
     );
 
-Map<String, dynamic> _$$_MotorInsuranceOfferModelToJson(
-        _$_MotorInsuranceOfferModel instance) =>
+Map<String, dynamic> _$$_PersonalInsuranceOfferModelToJson(
+        _$_PersonalInsuranceOfferModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'company_id': instance.company_id,
-      'price_from': instance.price_from,
-      'price_to': instance.price_to,
-      'fixed': instance.fixed,
-      'precentage': instance.precentage,
+      'age_from': instance.age_from,
+      'age_to': instance.age_to,
+      'personal_accident_type_id': instance.personal_accident_type_id,
+      'rate': instance.rate,
       'active': instance.active,
       'created_at': instance.created_at,
       'updated_at': instance.updated_at,
