@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -27,19 +28,19 @@ class EmailField extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "We might need\nyour Email",
+                "startemail",
                 style: TextStyle(fontSize: 36),
-              ),
+              ).tr(),
               const SizedBox(
                 height: 5,
               ),
               Row(
-                children: const [
-                  Text(
-                    "Just to send you invoices and insurance info",
+                children: [
+                  const Text(
+                    "startemaildes",
                     style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(
+                  ).tr(),
+                  const SizedBox(
                     width: 5,
                   ),
                 ],
@@ -63,7 +64,7 @@ class EmailField extends HookWidget {
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     filled: true,
                     fillColor: Colors.blue[350],
-                    labelText: "E-mail",
+                    labelText: "email".tr(),
                     hintStyle: const TextStyle(
                       color: Colors.black26,
                       fontSize: 18,

@@ -32,7 +32,7 @@ mixin _$RetirmentDoneModel {
   String? get retirement_age => throw _privateConstructorUsedError;
   String? get monthly_fee => throw _privateConstructorUsedError;
   int? get fixed_fee => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -64,7 +64,7 @@ abstract class $RetirmentDoneModelCopyWith<$Res> {
       String? retirement_age,
       String? monthly_fee,
       int? fixed_fee,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -158,7 +158,7 @@ class _$RetirmentDoneModelCopyWithImpl<$Res, $Val extends RetirmentDoneModel>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -216,7 +216,7 @@ abstract class _$$_RetirmentDoneModelCopyWith<$Res>
       String? retirement_age,
       String? monthly_fee,
       int? fixed_fee,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -309,7 +309,7 @@ class __$$_RetirmentDoneModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -386,7 +386,7 @@ class _$_RetirmentDoneModel implements _RetirmentDoneModel {
   @override
   final int? fixed_fee;
   @override
-  final int? total;
+  final num? total;
   @override
   final String? created_at;
   @override
@@ -503,7 +503,7 @@ abstract class _RetirmentDoneModel implements RetirmentDoneModel {
       final String? retirement_age,
       final String? monthly_fee,
       final int? fixed_fee,
-      final int? total,
+      final num? total,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at,
@@ -538,7 +538,7 @@ abstract class _RetirmentDoneModel implements RetirmentDoneModel {
   @override
   int? get fixed_fee;
   @override
-  int? get total;
+  num? get total;
   @override
   String? get created_at;
   @override

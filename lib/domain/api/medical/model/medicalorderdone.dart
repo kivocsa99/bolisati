@@ -27,7 +27,7 @@ class MedicalOrderDoneModel with _$MedicalOrderDoneModel {
     String? start_date,
     String? end_date,
     int? period_of_stay,
-    int? total,
+    num? total,
     String? updated_at,
     String? created_at,
     int? id,

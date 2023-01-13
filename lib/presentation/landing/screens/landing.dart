@@ -160,8 +160,8 @@ class LandingScreen extends HookConsumerWidget {
                       phoneNumber: "+962${user.value.phone!.substring(1)}",
                       verificationCompleted: (verificationCompleted) {},
                       verificationFailed: (verificationFailed) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(verificationFailed.toString())));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: const Text("contact").tr()));
                       },
                       codeSent: (value, codeSent) {
                         setting.put("firebase", value);
@@ -181,7 +181,7 @@ class LandingScreen extends HookConsumerWidget {
                     index.value = isLaseIndex ? 0 : index.value + 1;
                   } catch (error) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(error.toString())));
+                        SnackBar(content: const Text("contact").tr()));
                   }
                 } else if (index.value == 2 &&
                     nameformkey.value.currentState!.validate()) {

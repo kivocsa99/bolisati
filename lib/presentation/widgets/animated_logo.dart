@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -25,7 +26,11 @@ class AnimatedLogo extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
-      left: !islogodone! ? MediaQuery.of(context).size.width / 2 - width! : 50,
+      left: !islogodone!
+          ? MediaQuery.of(context).size.width / 2 - width!
+          : context.locale.languageCode == "ar"
+              ? -50
+              : 50,
       top: isgettingmain!
           ? 30
           : (isdone!

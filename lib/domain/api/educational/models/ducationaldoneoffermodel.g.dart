@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'ducationaldoneoffermodel.dart';
 
 // **************************************************************************
@@ -21,7 +19,7 @@ _$_EducationalOffersModel _$$_EducationalOffersModelFromJson(
       university_fee: json['university_fee'] as String?,
       birthdate: json['birthdate'] as String?,
       age: json['age'] as int?,
-      total: json['total'] as int?,
+      total: json['total'] as num?,
       active: json['active'] as int?,
       id: json['id'] as int?,
       created_at: json['created_at'] as String?,

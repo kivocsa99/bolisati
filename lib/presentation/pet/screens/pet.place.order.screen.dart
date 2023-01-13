@@ -42,7 +42,7 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
     final modelController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
- 
+
     final registerback = useState("");
     final registerfront = useState("");
     List<String> images = [
@@ -51,6 +51,40 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
     ];
     List<Widget> cases = [
       PetInformationContainer(
+        ontap: () async {
+          FocusScope.of(context).unfocus();
+          final pickedYear = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 740)),
+            builder: (context, child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(primary: Colors.blue),
+                  buttonTheme: const ButtonThemeData(
+                    textTheme: ButtonTextTheme.primary,
+                  ),
+                ),
+                child: child!,
+              );
+            },
+          );
+          if (pickedYear != null) {
+            pet.put("startdate",
+                DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
+            startController.text =
+                DateFormat("d/M/y").format(pickedYear).toString();
+
+            pet.put(
+                "enddate",
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(pickedYear.add(const Duration(days: 365))));
+            endController.text = DateFormat("d/M/y")
+                .format(pickedYear.add(const Duration(days: 365)))
+                .toString();
+          }
+        },
         gender: (value) {
           order.value =
               order.value.copyWith(genderid: value == "Male" ? "1" : "2");
@@ -294,11 +328,13 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                                         ref.read(petattachfileProvider).execute(PetAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
                                                                             value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                                 (r) async {
-                                                                              context.router.pop();
-                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                              await context.router.replaceAll([
-                                                                                const HomeScreen()
-                                                                              ]);
+                                                                              if (element == images.last) {
+                                                                                context.router.pop();
+                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                                await context.router.replaceAll([
+                                                                                  const HomeScreen()
+                                                                                ]);
+                                                                              }
                                                                             }));
                                                                       }
                                                                     }));
@@ -325,11 +361,11 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "next".tr()
-                                                  : "confirm".tr(),
+                                                  ? "next"
+                                                  : "confirm",
                                               style: const TextStyle(
                                                   color: Colors.white),
-                                            )),
+                                            ).tr()),
                                           ),
                                         );
                                       },

@@ -30,7 +30,7 @@ mixin _$EducationalDoneModel {
   String? get university_fee => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
@@ -62,7 +62,7 @@ abstract class $EducationalDoneModelCopyWith<$Res> {
       String? university_fee,
       String? birthdate,
       int? age,
-      int? total,
+      num? total,
       int? active,
       int? id,
       String? created_at,
@@ -151,7 +151,7 @@ class _$EducationalDoneModelCopyWithImpl<$Res,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -215,7 +215,7 @@ abstract class _$$_EducationalOffersModelCopyWith<$Res>
       String? university_fee,
       String? birthdate,
       int? age,
-      int? total,
+      num? total,
       int? active,
       int? id,
       String? created_at,
@@ -302,7 +302,7 @@ class __$$_EducationalOffersModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       active: freezed == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -383,7 +383,7 @@ class _$_EducationalOffersModel implements _EducationalOffersModel {
   @override
   final int? age;
   @override
-  final int? total;
+  final num? total;
   @override
   final int? active;
   @override
@@ -500,7 +500,7 @@ abstract class _EducationalOffersModel implements EducationalDoneModel {
       final String? university_fee,
       final String? birthdate,
       final int? age,
-      final int? total,
+      final num? total,
       final int? active,
       final int? id,
       final String? created_at,
@@ -533,7 +533,7 @@ abstract class _EducationalOffersModel implements EducationalDoneModel {
   @override
   int? get age;
   @override
-  int? get total;
+  num? get total;
   @override
   int? get active;
   @override

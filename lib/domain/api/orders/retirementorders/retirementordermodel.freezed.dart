@@ -32,8 +32,8 @@ mixin _$RetirementOrderModel {
   int? get monthly_fee => throw _privateConstructorUsedError;
   int? get fixed_fee => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  int? get total_without_addons => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total_without_addons => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   List<OrderAddonsModel>? get addons => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -64,8 +64,8 @@ abstract class $RetirementOrderModelCopyWith<$Res> {
       int? monthly_fee,
       int? fixed_fee,
       String? name,
-      int? total_without_addons,
-      int? total,
+      num? total_without_addons,
+      num? total,
       List<OrderAddonsModel>? addons,
       String? created_at,
       String? updated_at,
@@ -157,11 +157,11 @@ class _$RetirementOrderModelCopyWithImpl<$Res,
       total_without_addons: freezed == total_without_addons
           ? _value.total_without_addons
           : total_without_addons // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       addons: freezed == addons
           ? _value.addons
           : addons // ignore: cast_nullable_to_non_nullable
@@ -203,8 +203,8 @@ abstract class _$$_RetirementOrderModelCopyWith<$Res>
       int? monthly_fee,
       int? fixed_fee,
       String? name,
-      int? total_without_addons,
-      int? total,
+      num? total_without_addons,
+      num? total,
       List<OrderAddonsModel>? addons,
       String? created_at,
       String? updated_at,
@@ -293,11 +293,11 @@ class __$$_RetirementOrderModelCopyWithImpl<$Res>
       total_without_addons: freezed == total_without_addons
           ? _value.total_without_addons
           : total_without_addons // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       addons: freezed == addons
           ? _value._addons
           : addons // ignore: cast_nullable_to_non_nullable
@@ -370,9 +370,9 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
   @override
   final String? name;
   @override
-  final int? total_without_addons;
+  final num? total_without_addons;
   @override
-  final int? total;
+  final num? total;
   final List<OrderAddonsModel>? _addons;
   @override
   List<OrderAddonsModel>? get addons {
@@ -487,8 +487,8 @@ abstract class _RetirementOrderModel implements RetirementOrderModel {
       final int? monthly_fee,
       final int? fixed_fee,
       final String? name,
-      final int? total_without_addons,
-      final int? total,
+      final num? total_without_addons,
+      final num? total,
       final List<OrderAddonsModel>? addons,
       final String? created_at,
       final String? updated_at,
@@ -522,9 +522,9 @@ abstract class _RetirementOrderModel implements RetirementOrderModel {
   @override
   String? get name;
   @override
-  int? get total_without_addons;
+  num? get total_without_addons;
   @override
-  int? get total;
+  num? get total;
   @override
   List<OrderAddonsModel>? get addons;
   @override

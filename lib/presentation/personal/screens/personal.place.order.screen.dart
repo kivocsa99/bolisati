@@ -54,6 +54,38 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
     ];
     List<Widget> cases = [
       PersonalInformationContainer(
+        ontap: () async {
+          FocusScope.of(context).unfocus();
+          final pickedYear = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 740)),
+            builder: (context, child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(primary: Colors.blue),
+                  buttonTheme: const ButtonThemeData(
+                    textTheme: ButtonTextTheme.primary,
+                  ),
+                ),
+                child: child!,
+              );
+            },
+          );
+          if (pickedYear != null) {
+            personal.put("startdate",
+                DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
+            startController.text = DateFormat("d/M/y").format(pickedYear);
+
+            personal.put(
+                "enddate",
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(pickedYear.add(const Duration(days: 365))));
+            endController.text = DateFormat("d/M/y")
+                .format(pickedYear.add(const Duration(days: 365)));
+          }
+        },
         personaltype: (value) {
           order.value = order.value.copyWith();
         },
@@ -172,7 +204,8 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                         child: Center(
                                             child: Text(
                                           "back".tr(),
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -302,11 +335,13 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                                                         ref.read(personalattachfileProvider).execute(PersonalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
                                                                             value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                                 (r) async {
-                                                                              context.router.pop();
-                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                              await context.router.replaceAll([
-                                                                                const HomeScreen()
-                                                                              ]);
+                                                                              if (element == images.last) {
+                                                                                context.router.pop();
+                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                                await context.router.replaceAll([
+                                                                                  const HomeScreen()
+                                                                                ]);
+                                                                              }
                                                                             }));
                                                                       }
                                                                     }));
@@ -333,11 +368,11 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 2
-                                                  ? "next".tr()
-                                                  : "confirm".tr(),
+                                                  ? "next"
+                                                  : "confirm",
                                               style: const TextStyle(
                                                   color: Colors.white),
-                                            )),
+                                            ).tr()),
                                           ),
                                         );
                                       },

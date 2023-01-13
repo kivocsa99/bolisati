@@ -35,7 +35,7 @@ class MedicalOrderModel with _$MedicalOrderModel {
     int? age,
     String? start_date,
     String? end_date,
-    int? total,
+    num? total,
     String? created_at,
     String? updated_at,
     String? deleted_at,

@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'retirementordermodel.dart';
 
 // **************************************************************************
@@ -23,8 +21,8 @@ _$_RetirementOrderModel _$$_RetirementOrderModelFromJson(
       monthly_fee: json['monthly_fee'] as int?,
       fixed_fee: json['fixed_fee'] as int?,
       name: json['name'] as String?,
-      total_without_addons: json['total_without_addons'] as int?,
-      total: json['total'] as int?,
+      total_without_addons: json['total_without_addons'] as num?,
+      total: json['total'] as num?,
       addons: (json['addons'] as List<dynamic>?)
           ?.map((e) => OrderAddonsModel.fromJson(e as Map<String, dynamic>))
           .toList(),

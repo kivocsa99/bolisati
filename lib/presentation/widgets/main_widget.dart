@@ -25,7 +25,7 @@ class MainScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final DateTime now = DateTime.now();
-    final message = useState("Good Morning");
+    final message = useState("morning".tr());
     String currentHour = DateFormat('kk').format(now);
     final Box setting = Hive.box('setting');
 
@@ -58,16 +58,20 @@ class MainScreen extends HookConsumerWidget {
           child: Column(
             children: [
               Align(
-                  alignment: Alignment.topLeft,
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.topRight
+                      : Alignment.topLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 30),
                     child: Text(
-                      "Hello, $name",
+                      "${"hello".tr()}, $name",
                       style: const TextStyle(fontSize: 36),
                     ),
                   )),
               Align(
-                  alignment: Alignment.topLeft,
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.topRight
+                      : Alignment.topLeft,
                   child: Padding(
                       padding: const EdgeInsets.only(left: 30),
                       child: Text(message.value).tr())),
@@ -184,6 +188,9 @@ class MainScreen extends HookConsumerWidget {
                                           .vehicle_make!.name,
                                       insuranceDescreption:
                                           "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MotorOrders!.first.end_date!))}",
+                                      price: orders
+                                          .MotorOrders!.first.status!.name
+                                          .toString(),
                                       containercolor: carcontainer,
                                       function: () {},
                                       icon: const Icon(
@@ -197,7 +204,7 @@ class MainScreen extends HookConsumerWidget {
                                   ],
                                 );
                               }
-                            } else if (index == 1) {
+                            } else {
                               if (orders.MedicalOrders!.isEmpty) {
                                 return const SizedBox.shrink();
                               } else {
@@ -208,6 +215,9 @@ class MainScreen extends HookConsumerWidget {
                                           orders.MedicalOrders!.first.name,
                                       insuranceDescreption:
                                           "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MedicalOrders!.first.end_date!))}",
+                                      price: orders
+                                          .MedicalOrders!.first.status!.name
+                                          .toString(),
                                       containercolor: medicalcontainer,
                                       function: () {},
                                       icon: const Icon(
@@ -221,33 +231,9 @@ class MainScreen extends HookConsumerWidget {
                                   ],
                                 );
                               }
-                            } else {
-                              if (orders.TravelOrders!.isEmpty) {
-                                return const SizedBox.shrink();
-                              } else {
-                                return Column(
-                                  children: [
-                                    HorizantalUesrInsuranceContainer(
-                                      insuranceName:
-                                          orders.TravelOrders!.first.name,
-                                      insuranceDescreption:
-                                          "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.TravelOrders!.first.end_date!))}",
-                                      containercolor: travelcontainer,
-                                      function: () {},
-                                      icon: const Icon(
-                                        FontAwesomeIcons.plane,
-                                        color: travelcolor,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
-                                );
-                              }
                             }
                           },
-                          itemCount: 3,
+                          itemCount: 2,
                         );
                       },
                     );

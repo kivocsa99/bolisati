@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'travelordermodel.dart';
 
 // **************************************************************************
@@ -29,7 +27,7 @@ _$_TravelOrderModel _$$_TravelOrderModelFromJson(Map<String, dynamic> json) =>
       period_of_stay: json['period_of_stay'] as int?,
       birthdate: json['birthdate'] as String?,
       age: json['age'] as int?,
-      total: json['total'] as int?,
+      total: json['total'] as num?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,

@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'domesticdonemodel.dart';
 
 // **************************************************************************
@@ -21,7 +19,7 @@ _$_DomesticDoneModel _$$_DomesticDoneModelFromJson(Map<String, dynamic> json) =>
       active: json['active'] as int?,
       start_date: json['start_date'] as String?,
       end_date: json['end_date'] as String?,
-      total: json['total'] as int?,
+      total: json['total'] as num?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       addons: (json['addons'] as List<dynamic>?)

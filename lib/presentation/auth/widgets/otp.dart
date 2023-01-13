@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class OtpVerfication extends StatelessWidget {
@@ -27,25 +28,25 @@ class OtpVerfication extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "We sent you a 6\ndigit code",
+                "startotp",
                 style: TextStyle(fontSize: 36),
-              ),
+              ).tr(),
               const SizedBox(
                 height: 5,
               ),
               Row(
-                children: const [
-                  Text(
-                    "Didn't get code?",
+                children: [
+                  const Text(
+                    "nootp",
                     style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(
+                  ).tr(),
+                  const SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    "Send again",
+                  const Text(
+                    "sendagain",
                     style: TextStyle(fontSize: 14, color: Colors.blue),
-                  ),
+                  ).tr(),
                 ],
               ),
               const SizedBox(
@@ -69,7 +70,7 @@ class OtpVerfication extends StatelessWidget {
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     filled: true,
                     fillColor: Colors.blue[350],
-                    labelText: "Code",
+                    labelText: "code".tr(),
                     icon: const Icon(Icons.message),
                     hintStyle: const TextStyle(
                       color: Colors.black26,

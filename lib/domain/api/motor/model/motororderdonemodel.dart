@@ -36,7 +36,7 @@ class MotorOrderDoneModel with _$MotorOrderDoneModel {
     String? end_date,
     String? fuel_type,
     String? car_year,
-    int? total,
+    num? total,
   }) = _MotorOrderDoneModel;
   factory MotorOrderDoneModel.fromJson(Map<String, dynamic> json) =>
       _$MotorOrderDoneModelFromJson(json);

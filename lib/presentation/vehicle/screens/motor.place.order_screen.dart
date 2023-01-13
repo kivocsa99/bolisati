@@ -47,12 +47,16 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
     final valueController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
+
+    final enddate = useState("");
     final frontimage = useState("");
     final leftimage = useState("");
     final rightimage = useState("");
     final backimage = useState("");
     final idback = useState("");
     final idfront = useState("");
+    final selecteddate = useState("");
+
     final registerback = useState("");
     final registerfront = useState("");
     List<String> images = [
@@ -68,7 +72,41 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
     List<Widget> cases = [
       CarInformationContainer(
         startdatecontroller: startController,
+        ontap: () async {
+          FocusScope.of(context).unfocus();
+          final pickedYear = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 740)),
+            builder: (context, child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(primary: Colors.blue),
+                  buttonTheme: const ButtonThemeData(
+                    textTheme: ButtonTextTheme.primary,
+                  ),
+                ),
+                child: child!,
+              );
+            },
+          );
+          if (pickedYear != null) {
+            selecteddate.value = DateFormat("d/M/y").format(pickedYear);
+
+            car.put("carsstartdate",
+                DateFormat("yyyy-MM-dd").format(pickedYear).toString());
+            car.put(
+                "carenddate",
+                DateFormat("yyyy-MM-dd")
+                    .format(pickedYear.add(const Duration(days: 365))));
+            startController.text = selecteddate.value.toString();
+            endController.text = DateFormat("d/M/y")
+                .format(pickedYear.add(const Duration(days: 365)));
+          }
+        },
         enddatecontroller: endController,
+        date: DateTime.tryParse(car.get("dd").toString()),
         yearcontroller: yearController,
         carbrandcontroller: brandController,
         carmodelcontroller: modelController,
@@ -122,9 +160,9 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             width: 100,
                             height: 60,
                             child: Center(
-                                child: Text(
-                              "confirm".tr(),
-                              style: const TextStyle(color: Colors.white),
+                                child: const Text(
+                              "confirm",
+                              style: TextStyle(color: Colors.white),
                             ).tr()),
                           ),
                         ),
@@ -427,11 +465,13 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                                         ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
                                                                             value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                                 (r) async {
-                                                                              context.router.pop();
-                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                              await context.router.replaceAll([
-                                                                                const HomeScreen()
-                                                                              ]);
+                                                                              if (element == images.last) {
+                                                                                context.router.pop();
+                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                                await context.router.replaceAll([
+                                                                                  const HomeScreen()
+                                                                                ]);
+                                                                              }
                                                                             }));
                                                                       }
                                                                     }));
@@ -458,11 +498,11 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "next".tr()
-                                                  : "confirm".tr(),
+                                                  ? "next"
+                                                  : "confirm",
                                               style: const TextStyle(
                                                   color: Colors.white),
-                                            )),
+                                            ).tr()),
                                           ),
                                         );
                                       },

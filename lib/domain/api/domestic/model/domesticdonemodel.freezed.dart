@@ -31,7 +31,7 @@ mixin _$DomesticDoneModel {
   int? get active => throw _privateConstructorUsedError;
   String? get start_date => throw _privateConstructorUsedError;
   String? get end_date => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   List<AddonsModel>? get addons => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $DomesticDoneModelCopyWith<$Res> {
       int? active,
       String? start_date,
       String? end_date,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       List<AddonsModel>? addons});
@@ -138,7 +138,7 @@ class _$DomesticDoneModelCopyWithImpl<$Res, $Val extends DomesticDoneModel>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -174,7 +174,7 @@ abstract class _$$_DomesticDoneModelCopyWith<$Res>
       int? active,
       String? start_date,
       String? end_date,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       List<AddonsModel>? addons});
@@ -251,7 +251,7 @@ class __$$_DomesticDoneModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -312,7 +312,7 @@ class _$_DomesticDoneModel implements _DomesticDoneModel {
   @override
   final String? end_date;
   @override
-  final int? total;
+  final num? total;
   @override
   final String? created_at;
   @override
@@ -410,7 +410,7 @@ abstract class _DomesticDoneModel implements DomesticDoneModel {
       final int? active,
       final String? start_date,
       final String? end_date,
-      final int? total,
+      final num? total,
       final String? created_at,
       final String? updated_at,
       final List<AddonsModel>? addons}) = _$_DomesticDoneModel;
@@ -439,7 +439,7 @@ abstract class _DomesticDoneModel implements DomesticDoneModel {
   @override
   String? get end_date;
   @override
-  int? get total;
+  num? get total;
   @override
   String? get created_at;
   @override

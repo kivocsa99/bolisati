@@ -184,10 +184,9 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                     (l) => ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(SnackBar(
-                                                            content:
-                                                              const  Text("contact")
-                                                                    .tr())),
-                                                    (r) {
+                                                            content: const Text(
+                                                                    "contact")
+                                                                .tr())), (r) {
                                                   offer.value = r;
 
                                                   final isLaseIndex =
@@ -253,13 +252,14 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                 ""))
                                                         .then((value) =>
                                                             value.fold(
-                                                                (l) => ScaffoldMessenger.of(context)
+                                                                (l) => ScaffoldMessenger.of(
+                                                                        context)
                                                                     .showSnackBar(
                                                                         SnackBar(content: const Text("contact").tr())),
                                                                 (r) async {
                                                               TravelOrderDoneModel
                                                                   orderdone = r;
-                                                             
+
                                                               for (var element
                                                                   in images) {
                                                                 ref
@@ -278,32 +278,16 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                             (l) =>
                                                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                             (r) async {
-                                                                          context
-                                                                              .router
-                                                                              .pop();
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                          await context
-                                                                              .router
-                                                                              .replaceAll([
-                                                                            const HomeScreen()
-                                                                          ]);
+                                                                          if (element ==
+                                                                              images.last) {
+                                                                            context.router.pop();
+                                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                            await context.router.replaceAll([
+                                                                              const HomeScreen()
+                                                                            ]);
+                                                                          }
                                                                         }));
                                                               }
-                                                              context.router
-                                                                  .pop();
-                                                              ScaffoldMessenger
-                                                                      .of(
-                                                                          context)
-                                                                  .showSnackBar(
-                                                                      SnackBar(
-                                                                          content:
-                                                                              Text("orderconfirm".tr())));
-                                                              await context
-                                                                  .router
-                                                                  .replaceAll([
-                                                                const HomeScreen()
-                                                              ]);
                                                             }));
                                                   },
                                                   offerModel: offersModel,
@@ -326,12 +310,10 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                     height: 60,
                                     child: Center(
                                         child: Text(
-                                      index.value != 2
-                                          ? "next".tr()
-                                          : "confirm".tr(),
+                                      index.value != 2 ? "next" : "confirm",
                                       style:
                                           const TextStyle(color: Colors.white),
-                                    )),
+                                    ).tr()),
                                   ),
                                 );
                               }),

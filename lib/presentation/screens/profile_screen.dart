@@ -124,8 +124,9 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (l) => ScaffoldMessenger
                                                                 .of(context)
                                                             .showSnackBar(SnackBar(
-                                                                content: Text(l
-                                                                    .toString()))),
+                                                                content: const Text(
+                                                                        "contact")
+                                                                    .tr())),
                                                         (r) async {
                                                       await user.put("name",
                                                           namecontroller.text);
@@ -139,10 +140,10 @@ class ProfileScreen extends HookConsumerWidget {
                                           width: 100,
                                           height: 60,
                                           child: Center(
-                                              child: Text(
-                                            "confirm".tr(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
+                                              child: const Text(
+                                            "confirm",
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ).tr()),
                                         ),
                                       ),
@@ -211,8 +212,9 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (l) => ScaffoldMessenger
                                                                 .of(context)
                                                             .showSnackBar(SnackBar(
-                                                                content: Text(l
-                                                                    .toString()))),
+                                                                content: const Text(
+                                                                        "contact")
+                                                                    .tr())),
                                                         (r) async {
                                                       await user.put("email",
                                                           namecontroller.text);
@@ -226,11 +228,11 @@ class ProfileScreen extends HookConsumerWidget {
                                           width: 100,
                                           height: 60,
                                           child: Center(
-                                              child: Text(
-                                            "confirm".tr(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          )),
+                                              child: const Text(
+                                            "confirm",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ).tr()),
                                         ),
                                       ),
                                     )
@@ -298,8 +300,9 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (l) => ScaffoldMessenger
                                                                 .of(context)
                                                             .showSnackBar(SnackBar(
-                                                                content: Text(l
-                                                                    .toString()))),
+                                                                content: Text(
+                                                                        "contact")
+                                                                    .tr())),
                                                         (r) async {
                                                       await user.put("name",
                                                           namecontroller.text);
@@ -313,11 +316,11 @@ class ProfileScreen extends HookConsumerWidget {
                                           width: 100,
                                           height: 60,
                                           child: Center(
-                                              child: Text(
-                                            "confirm".tr(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          )),
+                                              child: const Text(
+                                            "confirm",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ).tr()),
                                         ),
                                       ),
                                     )
@@ -385,8 +388,9 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (l) => ScaffoldMessenger
                                                                 .of(context)
                                                             .showSnackBar(SnackBar(
-                                                                content: Text(l
-                                                                    .toString()))),
+                                                                content: Text(
+                                                                        "contact")
+                                                                    .tr())),
                                                         (r) async {
                                                       await user.put("name",
                                                           namecontroller.text);
@@ -400,11 +404,11 @@ class ProfileScreen extends HookConsumerWidget {
                                           width: 100,
                                           height: 60,
                                           child: Center(
-                                              child: Text(
-                                            "confirm".tr(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          )),
+                                              child: const Text(
+                                            "confirm",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ).tr()),
                                         ),
                                       ),
                                     )
@@ -450,7 +454,7 @@ class ProfileScreen extends HookConsumerWidget {
                                           context
                                               .setLocale(const Locale("ar"))
                                               .then((value) =>
-                                                  context.router.pop);
+                                                  context.router.pop());
                                         },
                                         child: Container(
                                           color: Colors.black,

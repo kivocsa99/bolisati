@@ -23,7 +23,7 @@ class RetirmentDoneModel with _$RetirmentDoneModel {
     String? retirement_age,
     String? monthly_fee,
     int? fixed_fee,
-    int? total,
+    num? total,
     String? created_at,
     String? updated_at,
     String? deleted_at,

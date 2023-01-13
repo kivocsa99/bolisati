@@ -315,9 +315,9 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                                             height:
                                                                                 60,
                                                                             child: Center(
-                                                                                child: Text(
-                                                                              "globalsyes".tr(),
-                                                                              style: const TextStyle(color: Colors.white),
+                                                                                child: const Text(
+                                                                              "globalsyes",
+                                                                              style: TextStyle(color: Colors.white),
                                                                             ).tr()),
                                                                           ),
                                                                         ),
@@ -350,9 +350,9 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                                             height:
                                                                                 60,
                                                                             child: Center(
-                                                                                child: Text(
-                                                                              "globalsno".tr(),
-                                                                              style: const TextStyle(color: Colors.white),
+                                                                                child: const Text(
+                                                                              "globalsno",
+                                                                              style: TextStyle(color: Colors.white),
                                                                             ).tr()),
                                                                           ),
                                                                         ),
@@ -409,11 +409,11 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "next".tr()
-                                                  : "confirm".tr(),
+                                                  ? "next"
+                                                  : "confirm",
                                               style: const TextStyle(
                                                   color: Colors.white),
-                                            )),
+                                            ).tr()),
                                           ),
                                         );
                                       },

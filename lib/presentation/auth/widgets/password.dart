@@ -33,9 +33,9 @@ class PasswordField extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Provide us with your\npassword",
-                style: TextStyle(fontSize: 36),
+              Text(
+                "startpassword".tr(),
+                style: const TextStyle(fontSize: 36),
               ),
               const SizedBox(
                 height: 5,

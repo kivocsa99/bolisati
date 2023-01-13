@@ -41,7 +41,7 @@ mixin _$MotorOrderModel {
   String? get end_date => throw _privateConstructorUsedError;
   String? get fuel_type => throw _privateConstructorUsedError;
   String? get car_year => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   UserModel? get customer => throw _privateConstructorUsedError;
   CompanyModel? get company => throw _privateConstructorUsedError;
   MotorInsuranceOfferModel? get insurance_offer =>
@@ -87,7 +87,7 @@ abstract class $MotorOrderModelCopyWith<$Res> {
       String? end_date,
       String? fuel_type,
       String? car_year,
-      int? total,
+      num? total,
       UserModel? customer,
       CompanyModel? company,
       MotorInsuranceOfferModel? insurance_offer,
@@ -239,7 +239,7 @@ class _$MotorOrderModelCopyWithImpl<$Res, $Val extends MotorOrderModel>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       customer: freezed == customer
           ? _value.customer
           : customer // ignore: cast_nullable_to_non_nullable
@@ -383,7 +383,7 @@ abstract class _$$_MotorOrderModelCopyWith<$Res>
       String? end_date,
       String? fuel_type,
       String? car_year,
-      int? total,
+      num? total,
       UserModel? customer,
       CompanyModel? company,
       MotorInsuranceOfferModel? insurance_offer,
@@ -539,7 +539,7 @@ class __$$_MotorOrderModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       customer: freezed == customer
           ? _value.customer
           : customer // ignore: cast_nullable_to_non_nullable
@@ -664,7 +664,7 @@ class _$_MotorOrderModel implements _MotorOrderModel {
   @override
   final String? car_year;
   @override
-  final int? total;
+  final num? total;
   @override
   final UserModel? customer;
   @override
@@ -840,7 +840,7 @@ abstract class _MotorOrderModel implements MotorOrderModel {
       final String? end_date,
       final String? fuel_type,
       final String? car_year,
-      final int? total,
+      final num? total,
       final UserModel? customer,
       final CompanyModel? company,
       final MotorInsuranceOfferModel? insurance_offer,
@@ -897,7 +897,7 @@ abstract class _MotorOrderModel implements MotorOrderModel {
   @override
   String? get car_year;
   @override
-  int? get total;
+  num? get total;
   @override
   UserModel? get customer;
   @override

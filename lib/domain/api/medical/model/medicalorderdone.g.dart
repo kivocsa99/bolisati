@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'medicalorderdone.dart';
 
 // **************************************************************************
@@ -28,7 +26,7 @@ _$_MedicalOrderDoneModel _$$_MedicalOrderDoneModelFromJson(
       start_date: json['start_date'] as String?,
       end_date: json['end_date'] as String?,
       period_of_stay: json['period_of_stay'] as int?,
-      total: json['total'] as int?,
+      total: json['total'] as num?,
       updated_at: json['updated_at'] as String?,
       created_at: json['created_at'] as String?,
       id: json['id'] as int?,

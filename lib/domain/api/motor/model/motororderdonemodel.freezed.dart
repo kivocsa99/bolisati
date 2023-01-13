@@ -45,7 +45,7 @@ mixin _$MotorOrderDoneModel {
   String? get end_date => throw _privateConstructorUsedError;
   String? get fuel_type => throw _privateConstructorUsedError;
   String? get car_year => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -85,7 +85,7 @@ abstract class $MotorOrderDoneModelCopyWith<$Res> {
       String? end_date,
       String? fuel_type,
       String? car_year,
-      int? total});
+      num? total});
 }
 
 /// @nodoc
@@ -232,7 +232,7 @@ class _$MotorOrderDoneModelCopyWithImpl<$Res, $Val extends MotorOrderDoneModel>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
     ) as $Val);
   }
 }
@@ -271,7 +271,7 @@ abstract class _$$_MotorOrderDoneModelCopyWith<$Res>
       String? end_date,
       String? fuel_type,
       String? car_year,
-      int? total});
+      num? total});
 }
 
 /// @nodoc
@@ -416,7 +416,7 @@ class __$$_MotorOrderDoneModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
     ));
   }
 }
@@ -515,7 +515,7 @@ class _$_MotorOrderDoneModel implements _MotorOrderDoneModel {
   @override
   final String? car_year;
   @override
-  final int? total;
+  final num? total;
 
   @override
   String toString() {
@@ -649,7 +649,7 @@ abstract class _MotorOrderDoneModel implements MotorOrderDoneModel {
       final String? end_date,
       final String? fuel_type,
       final String? car_year,
-      final int? total}) = _$_MotorOrderDoneModel;
+      final num? total}) = _$_MotorOrderDoneModel;
 
   factory _MotorOrderDoneModel.fromJson(Map<String, dynamic> json) =
       _$_MotorOrderDoneModel.fromJson;
@@ -705,7 +705,7 @@ abstract class _MotorOrderDoneModel implements MotorOrderDoneModel {
   @override
   String? get car_year;
   @override
-  int? get total;
+  num? get total;
   @override
   @JsonKey(ignore: true)
   _$$_MotorOrderDoneModelCopyWith<_$_MotorOrderDoneModel> get copyWith =>

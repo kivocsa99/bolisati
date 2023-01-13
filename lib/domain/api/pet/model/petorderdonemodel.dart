@@ -25,7 +25,7 @@ class PetOrderDoneModel with _$PetOrderDoneModel {
     int? age,
     String? start_date,
     String? end_date,
-    int? total,
+    num? total,
     String? created_at,
     String? updated_at,
     int? id,

@@ -39,7 +39,7 @@ mixin _$TravelOrderModel {
   int? get period_of_stay => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -84,7 +84,7 @@ abstract class $TravelOrderModelCopyWith<$Res> {
       int? period_of_stay,
       String? birthdate,
       int? age,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -227,7 +227,7 @@ class _$TravelOrderModelCopyWithImpl<$Res, $Val extends TravelOrderModel>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -361,7 +361,7 @@ abstract class _$$_TravelOrderModelCopyWith<$Res>
       int? period_of_stay,
       String? birthdate,
       int? age,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       String? deleted_at,
@@ -507,7 +507,7 @@ class __$$_TravelOrderModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -631,7 +631,7 @@ class _$_TravelOrderModel implements _TravelOrderModel {
   @override
   final int? age;
   @override
-  final int? total;
+  final num? total;
   @override
   final String? created_at;
   @override
@@ -801,7 +801,7 @@ abstract class _TravelOrderModel implements TravelOrderModel {
       final int? period_of_stay,
       final String? birthdate,
       final int? age,
-      final int? total,
+      final num? total,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at,
@@ -855,7 +855,7 @@ abstract class _TravelOrderModel implements TravelOrderModel {
   @override
   int? get age;
   @override
-  int? get total;
+  num? get total;
   @override
   String? get created_at;
   @override

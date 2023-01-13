@@ -31,9 +31,9 @@ class PhoneNumberField extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Let's start with\nphone",
+                "startphone",
                 style: TextStyle(fontSize: 36),
-              ),
+              ).tr(),
               const SizedBox(
                 height: 5,
               ),

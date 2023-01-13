@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'motorordermodel.dart';
 
 // **************************************************************************
@@ -37,7 +35,7 @@ _$_MotorOrderModel _$$_MotorOrderModelFromJson(Map<String, dynamic> json) =>
       end_date: json['end_date'] as String?,
       fuel_type: json['fuel_type'] as String?,
       car_year: json['car_year'] as String?,
-      total: json['total'] as int?,
+      total: json['total'] as num?,
       customer: json['customer'] == null
           ? null
           : UserModel.fromJson(json['customer'] as Map<String, dynamic>),

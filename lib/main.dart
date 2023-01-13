@@ -210,9 +210,7 @@ class HomePage extends HookConsumerWidget {
                   duration: const Duration(milliseconds: 1000),
                   offset: offset.value,
                   onEnd: () async {
-                    print(user.get("firsttime"));
                     if (user.get("firsttime") != null) {
-                      print(user.get("firsttime") != null);
                       return ref
                           .read(updateuserprovider)
                           .execute(UpdateUserInput(
@@ -229,6 +227,7 @@ class HomePage extends HookConsumerWidget {
                               }));
                     } else {
                       showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (context) {
                           return SimpleDialog(
@@ -250,12 +249,14 @@ class HomePage extends HookConsumerWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 40.0, right: 40.0),
+                                    left: 40.0, right: 40.0, bottom: 0),
                                 child: GestureDetector(
                                   onTap: () async {
                                     context.setLocale(const Locale("en")).then(
-                                        (value) => context.router
-                                            .replaceAll([const HomeScreen()]));
+                                        (value) => context.router.replaceAll([
+                                              LandingScreen(
+                                                  constraints: dimentions)
+                                            ]));
                                   },
                                   child: Container(
                                     color: Colors.black,
@@ -271,12 +272,14 @@ class HomePage extends HookConsumerWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 40.0, right: 40.0),
+                                    left: 40.0, right: 40.0, top: 40),
                                 child: GestureDetector(
                                   onTap: () async {
                                     context.setLocale(const Locale("ar")).then(
-                                        (value) => context.router
-                                            .replaceAll([const HomeScreen()]));
+                                        (value) => context.router.replaceAll([
+                                              LandingScreen(
+                                                  constraints: dimentions)
+                                            ]));
                                   },
                                   child: Container(
                                     color: Colors.black,

@@ -35,19 +35,23 @@ class AnimatedLandingContainer extends HookWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "For A Better \nFuture.",
+                Align(
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: const Text(
+                    "future",
                     style: TextStyle(fontSize: 36),
-                  ),
+                  ).tr(),
                 ),
-                const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Don't have an account?",
+                Align(
+                    alignment: context.locale.languageCode == "ar"
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: const Text(
+                      "noacc",
                       style: TextStyle(fontSize: 14),
-                    )),
+                    ).tr()),
                 const SizedBox(
                   height: 20,
                 ),
@@ -64,8 +68,8 @@ class AnimatedLandingContainer extends HookWidget {
                         child: Center(
                           child: Text(
                             "login".tr(),
-                            style:
-                                const TextStyle(color: Colors.white, fontSize: 16.0),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16.0),
                           ),
                         ),
                       ),
@@ -79,8 +83,8 @@ class AnimatedLandingContainer extends HookWidget {
                         child: Center(
                           child: Text(
                             "signup".tr(),
-                            style:
-                                const TextStyle(color: Colors.white, fontSize: 16.0),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16.0),
                           ),
                         ),
                       ),

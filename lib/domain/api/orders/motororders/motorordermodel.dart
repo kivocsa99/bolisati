@@ -36,7 +36,7 @@ class MotorOrderModel with _$MotorOrderModel {
     String? end_date,
     String? fuel_type,
     String? car_year,
-    int? total,
+    num? total,
     UserModel? customer,
     CompanyModel? company,
     MotorInsuranceOfferModel? insurance_offer,

@@ -19,19 +19,23 @@ class CarInformationContainer extends HookWidget {
   final TextEditingController? fueltypecontroller;
   final TextEditingController? valuecontroller;
   final TextEditingController? prevcontroller;
+  final DateTime? date;
 
   final ValueChanged<String?>? fueltype;
   final ValueChanged<String?>? value;
   final ValueChanged<String?>? perviosaccidents;
 
   final VoidCallback? caryearfunction;
+  final VoidCallback? ontap;
   final GlobalKey<FormState>? formkey;
   const CarInformationContainer(
       {super.key,
       this.caryearfunction,
       this.formkey,
+      this.date,
       this.name,
       this.yearcontroller,
+      this.ontap,
       this.carbrandcontroller,
       this.carmodelcontroller,
       this.valuecontroller,
@@ -109,11 +113,13 @@ class CarInformationContainer extends HookWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   StartEndDate(
+                    ontap: ontap,
                     startcontroller: startdatecontroller,
                     label: "startdate".tr(),
                     width: 150,
                   ),
-                  StartEndDate(
+                  EndDate(
+                    date: date,
                     endcontroller: enddatecontroller,
                     label: "enddate".tr(),
                     width: 150,
@@ -361,11 +367,13 @@ class StartEndDate extends HookWidget {
   final String? label;
   final TextEditingController? startcontroller;
   final TextEditingController? endcontroller;
+  final VoidCallback? ontap;
 
   const StartEndDate(
       {super.key,
       this.width,
       this.startcontroller,
+      this.ontap,
       this.label,
       this.endcontroller});
 
@@ -390,39 +398,7 @@ class StartEndDate extends HookWidget {
           child: TextFormField(
             readOnly: true,
             validator: RequiredValidator(errorText: "reqfield".tr()),
-            onTap: () async {
-              FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 740)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                selecteddate.value = DateFormat("M/d/y").format(pickedYear);
-                if (label == "Start Date" || label == "تاريخ البداية") {
-                  car.put("carsstartdate",
-                      DateFormat("yyyy-MM-dd").format(pickedYear));
-                  startcontroller!.text = selecteddate.value.toString();
-                } else {
-                  car.put("carenddate",
-                      DateFormat("yyyy-MM-dd").format(pickedYear));
-                  endcontroller!.text = selecteddate.value.toString();
-                }
-              }
-            },
+            onTap: ontap,
             decoration: InputDecoration(
               border: InputBorder.none,
               focusedErrorBorder: const UnderlineInputBorder(
@@ -440,9 +416,60 @@ class StartEndDate extends HookWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            controller: label == "Start Date" || label == "تاريخ البداية"
-                ? startcontroller
-                : endcontroller,
+            controller: startcontroller,
+          ),
+        ));
+  }
+}
+
+class EndDate extends HookWidget {
+  final double? width;
+  final String? label;
+  final DateTime? date;
+  final TextEditingController? endcontroller;
+
+  const EndDate(
+      {super.key, this.date, this.width, this.label, this.endcontroller});
+
+  @override
+  Widget build(BuildContext context) {
+    final Box car = Hive.box("car");
+
+    final selecteddate = useState("");
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey,
+                width: 2,
+              ),
+            ),
+          ),
+          height: 80,
+          width: width,
+          child: TextFormField(
+            readOnly: true,
+            validator: RequiredValidator(errorText: "reqfield".tr()),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              focusedErrorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              errorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              contentPadding:
+                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              filled: true,
+              fillColor: Colors.blue[350],
+              labelText: label,
+              hintStyle: const TextStyle(
+                color: Colors.black26,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            controller: endcontroller,
           ),
         ));
   }

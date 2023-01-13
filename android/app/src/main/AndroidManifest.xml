@@ -8,6 +8,7 @@
    <application
         android:label="bolisati"
         android:name="${applicationName}"
+        android:roundIcon="@mipmap/rounded"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

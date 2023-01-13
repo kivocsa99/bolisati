@@ -25,10 +25,12 @@ class PersonalInformationContainer extends HookWidget {
   final ValueChanged<String?>? gender;
 
   final VoidCallback? caryearfunction;
+  final VoidCallback? ontap;
   final GlobalKey<FormState>? formkey;
   const PersonalInformationContainer(
       {super.key,
       this.caryearfunction,
+      this.ontap,
       this.personaltypecontroller,
       this.formkey,
       this.name,
@@ -80,11 +82,12 @@ class PersonalInformationContainer extends HookWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   StartEndDate(
+                    ontap: ontap,
                     startcontroller: startdatecontroller,
                     label: "startdate".tr(),
                     width: 150,
                   ),
-                  StartEndDate(
+                  EndDate(
                     endcontroller: enddatecontroller,
                     label: "enddate".tr(),
                     width: 150,
@@ -94,6 +97,63 @@ class PersonalInformationContainer extends HookWidget {
             ],
           )),
     );
+  }
+}
+
+class EndDate extends HookWidget {
+  final double? width;
+  final String? label;
+  final TextEditingController? startcontroller;
+  final TextEditingController? endcontroller;
+  final VoidCallback? ontap;
+
+  const EndDate(
+      {super.key,
+      this.ontap,
+      this.width,
+      this.startcontroller,
+      this.label,
+      this.endcontroller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey,
+                width: 2,
+              ),
+            ),
+          ),
+          height: 80,
+          width: width,
+          child: TextFormField(
+            readOnly: true,
+            validator: RequiredValidator(errorText: "reqfield".tr()),
+            onTap: ontap,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              focusedErrorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              errorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              contentPadding:
+                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              filled: true,
+              fillColor: Colors.blue[350],
+              labelText: label,
+              hintStyle: const TextStyle(
+                color: Colors.black26,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            controller: endcontroller,
+          ),
+        ));
   }
 }
 
@@ -252,10 +312,11 @@ class StartEndDate extends HookWidget {
   final String? label;
   final TextEditingController? startcontroller;
   final TextEditingController? endcontroller;
-
+  final VoidCallback? ontap;
   const StartEndDate(
       {super.key,
       this.width,
+      this.ontap,
       this.startcontroller,
       this.label,
       this.endcontroller});
@@ -281,39 +342,7 @@ class StartEndDate extends HookWidget {
           child: TextFormField(
             readOnly: true,
             validator: RequiredValidator(errorText: "reqfield".tr()),
-            onTap: () async {
-              FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 740)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                selecteddate.value = DateFormat("M/d/y").format(pickedYear);
-                if (label == "Start Date" || label == "تاريخ البداية") {
-                  car.put("startdate",
-                      DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  startcontroller!.text = selecteddate.value.toString();
-                } else {
-                  car.put("enddate",
-                      DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  endcontroller!.text = selecteddate.value.toString();
-                }
-              }
-            },
+            onTap: ontap,
             decoration: InputDecoration(
               border: InputBorder.none,
               focusedErrorBorder: const UnderlineInputBorder(

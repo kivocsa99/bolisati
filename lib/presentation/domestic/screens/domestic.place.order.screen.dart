@@ -57,6 +57,38 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
     ];
     List<Widget> cases = [
       DomesticInformationContainer(
+        ontap: () async {
+          FocusScope.of(context).unfocus();
+          final pickedYear = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 740)),
+            builder: (context, child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(primary: Colors.blue),
+                  buttonTheme: const ButtonThemeData(
+                    textTheme: ButtonTextTheme.primary,
+                  ),
+                ),
+                child: child!,
+              );
+            },
+          );
+          if (pickedYear != null) {
+            domestic.put("domesticsstartdate",
+                DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
+            startController.text = DateFormat("d/M/y").format(pickedYear);
+
+            domestic.put(
+                "domesticenddate",
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(pickedYear.add(const Duration(days: 365))));
+            endController.text = DateFormat("d/M/y")
+                .format(pickedYear.add(const Duration(days: 365)));
+          }
+        },
         workerinsurancecontroller: nationalidcontroller,
         workerinsurance: (value) =>
             order.value = order.value.copyWith(national_id_number: value),
@@ -282,31 +314,27 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                                             ""))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(SnackBar(content: Text("contact").tr())),
+                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                            content:
+                                                                                Text("contact").tr())),
                                                                         (r) async {
                                                                       DomesticDoneModel
                                                                           orderdone =
                                                                           r;
                                                                       for (var element
                                                                           in images) {
-                                                                        ref.read(domesticattachplaceOrderProvider).execute(DomesticAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) => value.fold(
-                                                                            (l) =>
-                                                                                print(l),
-                                                                            (r) => print(r)));
+                                                                        ref.read(domesticattachplaceOrderProvider).execute(DomesticAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                                (r) async {
+                                                                              if (element == images.last) {
+                                                                                context.router.pop();
+                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                                await context.router.replaceAll([
+                                                                                  const HomeScreen()
+                                                                                ]);
+                                                                              }
+                                                                            }));
                                                                       }
-                                                                      context
-                                                                          .router
-                                                                          .pop();
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                              SnackBar(content: Text("orderconfirm".tr())));
-                                                                      await context
-                                                                          .router
-                                                                          .replaceAll([
-                                                                        const HomeScreen()
-                                                                      ]);
                                                                     }));
                                                           },
                                                         );
@@ -329,11 +357,11 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 2
-                                                  ? "next".tr()
-                                                  : "confirm".tr(),
+                                                  ? "next"
+                                                  : "confirm",
                                               style: const TextStyle(
                                                   color: Colors.white),
-                                            )),
+                                            ).tr()),
                                           ),
                                         );
                                       },

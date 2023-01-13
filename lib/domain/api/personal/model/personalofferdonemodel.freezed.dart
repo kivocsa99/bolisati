@@ -35,14 +35,14 @@ mixin _$PersonalOfferDoneModel {
   String? get personal_accident_type => throw _privateConstructorUsedError;
   String? get personal_accident_occupation =>
       throw _privateConstructorUsedError;
-  double? get rate => throw _privateConstructorUsedError;
+  num? get rate => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
   String? get insurance_amount => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
   String? get start_date => throw _privateConstructorUsedError;
   String? get end_date => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
@@ -71,14 +71,14 @@ abstract class $PersonalOfferDoneModelCopyWith<$Res> {
       int? age_to,
       String? personal_accident_type,
       String? personal_accident_occupation,
-      double? rate,
+      num? rate,
       String? name,
       int? age,
       String? insurance_amount,
       String? birthdate,
       String? start_date,
       String? end_date,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       int? id,
@@ -168,7 +168,7 @@ class _$PersonalOfferDoneModelCopyWithImpl<$Res,
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -196,7 +196,7 @@ class _$PersonalOfferDoneModelCopyWithImpl<$Res,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -236,14 +236,14 @@ abstract class _$$_PersonalOfferDoneModelCopyWith<$Res>
       int? age_to,
       String? personal_accident_type,
       String? personal_accident_occupation,
-      double? rate,
+      num? rate,
       String? name,
       int? age,
       String? insurance_amount,
       String? birthdate,
       String? start_date,
       String? end_date,
-      int? total,
+      num? total,
       String? created_at,
       String? updated_at,
       int? id,
@@ -331,7 +331,7 @@ class __$$_PersonalOfferDoneModelCopyWithImpl<$Res>
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as num?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -359,7 +359,7 @@ class __$$_PersonalOfferDoneModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -432,7 +432,7 @@ class _$_PersonalOfferDoneModel implements _PersonalOfferDoneModel {
   @override
   final String? personal_accident_occupation;
   @override
-  final double? rate;
+  final num? rate;
   @override
   final String? name;
   @override
@@ -446,7 +446,7 @@ class _$_PersonalOfferDoneModel implements _PersonalOfferDoneModel {
   @override
   final String? end_date;
   @override
-  final int? total;
+  final num? total;
   @override
   final String? created_at;
   @override
@@ -572,14 +572,14 @@ abstract class _PersonalOfferDoneModel implements PersonalOfferDoneModel {
       final int? age_to,
       final String? personal_accident_type,
       final String? personal_accident_occupation,
-      final double? rate,
+      final num? rate,
       final String? name,
       final int? age,
       final String? insurance_amount,
       final String? birthdate,
       final String? start_date,
       final String? end_date,
-      final int? total,
+      final num? total,
       final String? created_at,
       final String? updated_at,
       final int? id,
@@ -609,7 +609,7 @@ abstract class _PersonalOfferDoneModel implements PersonalOfferDoneModel {
   @override
   String? get personal_accident_occupation;
   @override
-  double? get rate;
+  num? get rate;
   @override
   String? get name;
   @override
@@ -623,7 +623,7 @@ abstract class _PersonalOfferDoneModel implements PersonalOfferDoneModel {
   @override
   String? get end_date;
   @override
-  int? get total;
+  num? get total;
   @override
   String? get created_at;
   @override

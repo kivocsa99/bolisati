@@ -105,7 +105,7 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                         children: [
                           BackInsuranceContainer(
                             name: "retirement".tr(),
-                            description: "Your best choice for a world full of",
+                            description: "insurancedes".tr(),
                             icon: const Icon(
                               FontAwesomeIcons.personCane,
                               color: carcolor,
@@ -166,7 +166,8 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                         child: Center(
                                             child: Text(
                                           "back".tr(),
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -208,9 +209,9 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                           (l) => ScaffoldMessenger
                                                                   .of(context)
                                                               .showSnackBar(SnackBar(
-                                                                  content: const Text(
-                                                                          "contact")
-                                                                      .tr())),
+                                                                  content:
+                                                                      const Text("contact")
+                                                                          .tr())),
                                                           (r) async {
                                                         RetirmentDoneModel
                                                             orderdone = r;
@@ -233,19 +234,22 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                                           .showSnackBar(
                                                                               SnackBar(content: const Text("contact").tr())),
                                                                       (r) async {
-                                                                    context
-                                                                        .router
-                                                                        .pop();
-                                                                    ScaffoldMessenger.of(
-                                                                            context)
-                                                                        .showSnackBar(SnackBar(
-                                                                            content:
-                                                                                Text("orderconfirm".tr())));
-                                                                    await context
-                                                                        .router
-                                                                        .replaceAll([
-                                                                      const HomeScreen()
-                                                                    ]);
+                                                                    if (element ==
+                                                                        images
+                                                                            .last) {
+                                                                      context
+                                                                          .router
+                                                                          .pop();
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                              SnackBar(content: Text("orderconfirm".tr())));
+                                                                      await context
+                                                                          .router
+                                                                          .replaceAll([
+                                                                        const HomeScreen()
+                                                                      ]);
+                                                                    }
                                                                   }));
                                                         }
                                                       }));
@@ -258,11 +262,11 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 1
-                                                  ? "next".tr()
-                                                  : "confirm".tr(),
+                                                  ? "next"
+                                                  : "confirm",
                                               style: const TextStyle(
                                                   color: Colors.white),
-                                            )),
+                                            ).tr()),
                                           ),
                                         );
                                       },

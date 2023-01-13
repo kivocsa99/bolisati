@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'retirmentdonemodel.dart';
 
 // **************************************************************************
@@ -23,7 +21,7 @@ _$_RetirmentDoneModel _$$_RetirmentDoneModelFromJson(
       retirement_age: json['retirement_age'] as String?,
       monthly_fee: json['monthly_fee'] as String?,
       fixed_fee: json['fixed_fee'] as int?,
-      total: json['total'] as int?,
+      total: json['total'] as num?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,

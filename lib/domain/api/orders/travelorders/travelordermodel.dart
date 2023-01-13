@@ -35,7 +35,7 @@ class TravelOrderModel with _$TravelOrderModel {
     int? period_of_stay,
     String? birthdate,
     int? age,
-    int? total,
+    num? total,
     String? created_at,
     String? updated_at,
     String? deleted_at,

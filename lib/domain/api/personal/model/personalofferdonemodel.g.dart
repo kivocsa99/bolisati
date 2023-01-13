@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'personalofferdonemodel.dart';
 
 // **************************************************************************
@@ -25,14 +23,14 @@ _$_PersonalOfferDoneModel _$$_PersonalOfferDoneModelFromJson(
       personal_accident_type: json['personal_accident_type'] as String?,
       personal_accident_occupation:
           json['personal_accident_occupation'] as String?,
-      rate: (json['rate'] as num?)?.toDouble(),
+      rate: json['rate'] as num?,
       name: json['name'] as String?,
       age: json['age'] as int?,
       insurance_amount: json['insurance_amount'] as String?,
       birthdate: json['birthdate'] as String?,
       start_date: json['start_date'] as String?,
       end_date: json['end_date'] as String?,
-      total: json['total'] as int?,
+      total: json['total'] as num?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       id: json['id'] as int?,

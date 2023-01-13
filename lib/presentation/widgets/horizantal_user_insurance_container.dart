@@ -73,6 +73,13 @@ class HorizantalUesrInsuranceContainer extends StatelessWidget {
                           style:
                               const TextStyle(fontSize: 10, color: Colors.grey),
                         ),
+                        Expanded(
+                          child: Text(
+                            price!,
+                            style: const TextStyle(
+                                fontSize: 10, color: Colors.grey),
+                          ),
+                        ),
                       ],
                     ),
                   ),

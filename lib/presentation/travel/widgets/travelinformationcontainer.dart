@@ -296,7 +296,7 @@ class StartEndDate extends HookWidget {
                 },
               );
               if (pickedYear != null) {
-                selecteddate.value = DateFormat("M/d/y").format(pickedYear);
+                selecteddate.value = DateFormat("d/M/y").format(pickedYear);
                 if (label == "Start Date" || label == "تاريخ البداية") {
                   travel.put("startdate",
                       DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
@@ -391,7 +391,10 @@ class Regions extends HookConsumerWidget {
                               children: regions.map((e) {
                                 return SimpleDialogOption(
                                   onPressed: () async {
-                                    selectedtravel.value = e.name.toString();
+                                    selectedtravel.value =
+                                        context.locale.languageCode == "en"
+                                            ? e.name.toString()
+                                            : e.name_ar.toString();
                                     regioncontroller!.text =
                                         selectedtravel.value.toString();
                                     travel.put("region", e.id);

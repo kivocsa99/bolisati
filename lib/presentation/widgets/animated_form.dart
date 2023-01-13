@@ -47,11 +47,11 @@ class AnimatedSignUpForm extends HookWidget {
                         color: Colors.black,
                         width: 315,
                         height: 60,
-                        child:  Center(
-                            child: Text(
-                          "confirm".tr(),
-                          style: const TextStyle(color: Colors.white),
-                        )),
+                        child: Center(
+                            child: const Text(
+                          "confirm",
+                          style: TextStyle(color: Colors.white),
+                        ).tr()),
                       ),
                     )
                   : const SizedBox.shrink(),

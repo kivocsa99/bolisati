@@ -38,7 +38,7 @@ mixin _$MedicalOrderDoneModel {
   String? get start_date => throw _privateConstructorUsedError;
   String? get end_date => throw _privateConstructorUsedError;
   int? get period_of_stay => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  num? get total => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
@@ -74,7 +74,7 @@ abstract class $MedicalOrderDoneModelCopyWith<$Res> {
       String? start_date,
       String? end_date,
       int? period_of_stay,
-      int? total,
+      num? total,
       String? updated_at,
       String? created_at,
       int? id,
@@ -190,7 +190,7 @@ class _$MedicalOrderDoneModelCopyWithImpl<$Res,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       updated_at: freezed == updated_at
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
@@ -237,7 +237,7 @@ abstract class _$$_MedicalOrderDoneModelCopyWith<$Res>
       String? start_date,
       String? end_date,
       int? period_of_stay,
-      int? total,
+      num? total,
       String? updated_at,
       String? created_at,
       int? id,
@@ -350,7 +350,7 @@ class __$$_MedicalOrderDoneModelCopyWithImpl<$Res>
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as num?,
       updated_at: freezed == updated_at
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
@@ -437,7 +437,7 @@ class _$_MedicalOrderDoneModel implements _MedicalOrderDoneModel {
   @override
   final int? period_of_stay;
   @override
-  final int? total;
+  final num? total;
   @override
   final String? updated_at;
   @override
@@ -567,7 +567,7 @@ abstract class _MedicalOrderDoneModel implements MedicalOrderDoneModel {
       final String? start_date,
       final String? end_date,
       final int? period_of_stay,
-      final int? total,
+      final num? total,
       final String? updated_at,
       final String? created_at,
       final int? id,
@@ -611,7 +611,7 @@ abstract class _MedicalOrderDoneModel implements MedicalOrderDoneModel {
   @override
   int? get period_of_stay;
   @override
-  int? get total;
+  num? get total;
   @override
   String? get updated_at;
   @override

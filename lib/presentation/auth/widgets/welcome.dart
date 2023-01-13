@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeAboard extends StatelessWidget {
@@ -15,16 +16,16 @@ class WelcomeAboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Welcome aboard!",
+              "welcome",
               style: TextStyle(fontSize: 36),
-            ),
+            ).tr(),
             const SizedBox(
               height: 10,
             ),
             Row(
               children: [
                 Text(
-                  "Hello $name",
+                  "${"hello".tr()} $name",
                   style: const TextStyle(fontSize: 14),
                 ),
               ],

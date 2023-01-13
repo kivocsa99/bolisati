@@ -22,7 +22,7 @@ class EducationalDoneModel with _$EducationalDoneModel {
     String? university_fee,
     String? birthdate,
     int? age,
-    int? total,
+    num? total,
     int? active,
     int? id,
     String? created_at,

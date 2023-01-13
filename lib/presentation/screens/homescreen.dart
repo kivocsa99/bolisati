@@ -24,17 +24,17 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final DateTime now = DateTime.now();
-    final message = useState("morning".tr());
+    final message = useState("morning");
     String currentHour = DateFormat('kk').format(now);
     final Box setting = Hive.box('setting');
 
     int hour = int.parse(currentHour);
     if (hour >= 5 && hour < 12) {
-      message.value = 'morning'.tr();
+      message.value = 'morning';
     } else if (hour >= 12 && hour <= 17) {
-      message.value = 'evening'.tr();
+      message.value = 'evening';
     } else {
-      message.value = 'evening'.tr();
+      message.value = 'evening';
     }
     useEffect(
       () {
@@ -54,6 +54,7 @@ class HomeScreen extends HookConsumerWidget {
             builder: (context, Box box, child) {
               final apitoken = box.get('apitoken');
               final name = box.get("name");
+              print(apitoken);
               final userOrderProvider = ref.watch(GetorderProvider(apitoken));
               return RefreshIndicator(
                 onRefresh: () => ref.refresh(GetorderProvider(apitoken).future),
@@ -244,8 +245,9 @@ class HomeScreen extends HookConsumerWidget {
                                                           .name,
                                                       insuranceDescreption:
                                                           "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MotorOrders!.first.end_date!))}",
-                                                      price:
-                                                          "${orders.MotorOrders!.first.price_from.toString()}JOD",
+                                                      price: orders.MotorOrders!
+                                                          .first.status!.name
+                                                          .toString(),
                                                       containercolor:
                                                           carcontainer,
                                                       function: () {},
@@ -274,8 +276,12 @@ class HomeScreen extends HookConsumerWidget {
                                                           .name,
                                                       insuranceDescreption:
                                                           "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MedicalOrders!.first.end_date!))}",
-                                                      price:
-                                                          "${orders.MedicalOrders!.first.price.toString()}JOD",
+                                                      price: orders
+                                                          .MedicalOrders!
+                                                          .first
+                                                          .status!
+                                                          .name
+                                                          .toString(),
                                                       containercolor:
                                                           medicalcontainer,
                                                       function: () {},

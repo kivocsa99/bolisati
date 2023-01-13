@@ -20,7 +20,7 @@ class DomesticDoneModel with _$DomesticDoneModel {
     int? active,
     String? start_date,
     String? end_date,
-    int? total,
+    num? total,
     String? created_at,
     String? updated_at,
     List<AddonsModel>? addons,

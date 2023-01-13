@@ -147,9 +147,9 @@ class LoginScreen extends HookConsumerWidget {
                         height: 60,
                         child: Center(
                             child: Text(
-                          "confirm".tr(),
+                          "confirm",
                           style: TextStyle(color: Colors.white),
-                        )),
+                        ).tr()),
                       ),
                     ),
                   ],

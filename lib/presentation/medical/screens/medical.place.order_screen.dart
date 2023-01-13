@@ -57,6 +57,38 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
     ];
     List<Widget> cases = [
       MedicalInformationContainer(
+        ontap: () async {
+          FocusScope.of(context).unfocus();
+          final pickedYear = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 740)),
+            builder: (context, child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(primary: Colors.blue),
+                  buttonTheme: const ButtonThemeData(
+                    textTheme: ButtonTextTheme.primary,
+                  ),
+                ),
+                child: child!,
+              );
+            },
+          );
+          if (pickedYear != null) {
+            medical.put("startdate",
+                DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
+            startController.text = DateFormat("d/M/y").format(pickedYear);
+
+            medical.put(
+                "enddate",
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(pickedYear.add(const Duration(days: 365))));
+            endController.text = DateFormat("d/M/y")
+                .format(pickedYear.add(const Duration(days: 365)));
+          }
+        },
         formkey: medicalformkey.value,
         maritalstatus: (value) => order.value =
             order.value.copyWith(marital_status_id: value == "Married" ? 1 : 2),
@@ -175,7 +207,8 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                         child: Center(
                                             child: Text(
                                           "back".tr(),
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )),
                                       ),
                                     ),
@@ -301,11 +334,13 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                         ref.read(medicalattachplaceOrderProvider).execute(MedicalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
                                                                             value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                                 (r) async {
-                                                                              context.router.pop();
-                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                              await context.router.replaceAll([
-                                                                                const HomeScreen()
-                                                                              ]);
+                                                                              if (element == images.last) {
+                                                                                context.router.pop();
+                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                                await context.router.replaceAll([
+                                                                                  const HomeScreen()
+                                                                                ]);
+                                                                              }
                                                                             }));
                                                                       }
                                                                     }));
@@ -332,11 +367,11 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                             child: Center(
                                                 child: Text(
                                               index.value != 3
-                                                  ? "next".tr()
-                                                  : "confirm".tr(),
+                                                  ? "next"
+                                                  : "confirm",
                                               style: const TextStyle(
                                                   color: Colors.white),
-                                            )),
+                                            ).tr()),
                                           ),
                                         );
                                       },
