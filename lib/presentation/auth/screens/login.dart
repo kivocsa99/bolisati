@@ -35,8 +35,7 @@ class LoginScreen extends HookConsumerWidget {
               errorText: "Please Provide a 10 digit phone".tr())
         ]),
         formkey: phoneformkey.value,
-        onchanged: (value) => user.value =
-            user.value.copyWith(phone: "+962${value!.substring(1)}"),
+        onchanged: (value) => user.value = user.value.copyWith(phone: value),
         key: const Key("0"),
       ),
       PasswordField(
@@ -120,6 +119,7 @@ class LoginScreen extends HookConsumerWidget {
                           }
                         } else if (index.value == 1) {
                           if (passformkey.value.currentState!.validate()) {
+                            print(user.value.phone);
                             ref
                                 .read(signInWithEmailAndPasswordUseCaseProvider)
                                 .execute(SignInWithEmailAndPasswordUseCaseInput(
@@ -130,9 +130,9 @@ class LoginScreen extends HookConsumerWidget {
                                       print(r);
                                       if (r == const ApiFailures.authFailed()) {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar( SnackBar(
-                                                content: Text(
-                                                    "logincheck").tr()));
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text("logincheck").tr()));
                                       } else {
                                         context.router
                                             .replaceAll([const HomeScreen()]);

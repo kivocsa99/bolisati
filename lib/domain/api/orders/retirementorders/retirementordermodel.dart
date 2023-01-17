@@ -24,6 +24,7 @@ class RetirementOrderModel with _$RetirementOrderModel {
     String? birthdate,
     int? retirement_age,
     int? monthly_fee,
+    String? end_date,
     int? fixed_fee,
     String? name,
     num? total_without_addons,

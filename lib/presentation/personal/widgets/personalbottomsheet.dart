@@ -99,6 +99,7 @@ class _PersonalBottomSheetState extends State<PersonalBottomSheet> {
                 itemCount: widget.offerModel!.addons!.length,
               ),
             ),
+            
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,

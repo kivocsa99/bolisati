@@ -29,6 +29,7 @@ mixin _$EducationalOrderModel {
   int? get educational_order_status_id => throw _privateConstructorUsedError;
   String? get educational_type => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
+  String? get end_date => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
   int? get monthly_fee => throw _privateConstructorUsedError;
@@ -68,6 +69,7 @@ abstract class $EducationalOrderModelCopyWith<$Res> {
       int? educational_order_status_id,
       String? educational_type,
       String? name,
+      String? end_date,
       String? birthdate,
       int? age,
       int? monthly_fee,
@@ -114,6 +116,7 @@ class _$EducationalOrderModelCopyWithImpl<$Res,
     Object? educational_order_status_id = freezed,
     Object? educational_type = freezed,
     Object? name = freezed,
+    Object? end_date = freezed,
     Object? birthdate = freezed,
     Object? age = freezed,
     Object? monthly_fee = freezed,
@@ -164,6 +167,10 @@ class _$EducationalOrderModelCopyWithImpl<$Res,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      end_date: freezed == end_date
+          ? _value.end_date
+          : end_date // ignore: cast_nullable_to_non_nullable
               as String?,
       birthdate: freezed == birthdate
           ? _value.birthdate
@@ -302,6 +309,7 @@ abstract class _$$_EducationalOrderModelCopyWith<$Res>
       int? educational_order_status_id,
       String? educational_type,
       String? name,
+      String? end_date,
       String? birthdate,
       int? age,
       int? monthly_fee,
@@ -349,6 +357,7 @@ class __$$_EducationalOrderModelCopyWithImpl<$Res>
     Object? educational_order_status_id = freezed,
     Object? educational_type = freezed,
     Object? name = freezed,
+    Object? end_date = freezed,
     Object? birthdate = freezed,
     Object? age = freezed,
     Object? monthly_fee = freezed,
@@ -399,6 +408,10 @@ class __$$_EducationalOrderModelCopyWithImpl<$Res>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      end_date: freezed == end_date
+          ? _value.end_date
+          : end_date // ignore: cast_nullable_to_non_nullable
               as String?,
       birthdate: freezed == birthdate
           ? _value.birthdate
@@ -484,6 +497,7 @@ class _$_EducationalOrderModel implements _EducationalOrderModel {
       this.educational_order_status_id,
       this.educational_type,
       this.name,
+      this.end_date,
       this.birthdate,
       this.age,
       this.monthly_fee,
@@ -524,6 +538,8 @@ class _$_EducationalOrderModel implements _EducationalOrderModel {
   final String? educational_type;
   @override
   final String? name;
+  @override
+  final String? end_date;
   @override
   final String? birthdate;
   @override
@@ -584,7 +600,7 @@ class _$_EducationalOrderModel implements _EducationalOrderModel {
 
   @override
   String toString() {
-    return 'EducationalOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, educational_type_id: $educational_type_id, personal_accident_type_id: $personal_accident_type_id, educational_order_status_id: $educational_order_status_id, educational_type: $educational_type, name: $name, birthdate: $birthdate, age: $age, monthly_fee: $monthly_fee, university_fee: $university_fee, total: $total, rate: $rate, total_without_addons: $total_without_addons, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, type: $type, addons: $addons, status: $status, files: $files, kids: $kids)';
+    return 'EducationalOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, educational_type_id: $educational_type_id, personal_accident_type_id: $personal_accident_type_id, educational_order_status_id: $educational_order_status_id, educational_type: $educational_type, name: $name, end_date: $end_date, birthdate: $birthdate, age: $age, monthly_fee: $monthly_fee, university_fee: $university_fee, total: $total, rate: $rate, total_without_addons: $total_without_addons, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, type: $type, addons: $addons, status: $status, files: $files, kids: $kids)';
   }
 
   @override
@@ -609,6 +625,8 @@ class _$_EducationalOrderModel implements _EducationalOrderModel {
             (identical(other.educational_type, educational_type) ||
                 other.educational_type == educational_type) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.end_date, end_date) ||
+                other.end_date == end_date) &&
             (identical(other.birthdate, birthdate) ||
                 other.birthdate == birthdate) &&
             (identical(other.age, age) || other.age == age) &&
@@ -648,6 +666,7 @@ class _$_EducationalOrderModel implements _EducationalOrderModel {
         educational_order_status_id,
         educational_type,
         name,
+        end_date,
         birthdate,
         age,
         monthly_fee,
@@ -692,6 +711,7 @@ abstract class _EducationalOrderModel implements EducationalOrderModel {
       final int? educational_order_status_id,
       final String? educational_type,
       final String? name,
+      final String? end_date,
       final String? birthdate,
       final int? age,
       final int? monthly_fee,
@@ -729,6 +749,8 @@ abstract class _EducationalOrderModel implements EducationalOrderModel {
   String? get educational_type;
   @override
   String? get name;
+  @override
+  String? get end_date;
   @override
   String? get birthdate;
   @override

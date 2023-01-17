@@ -109,7 +109,7 @@ class _TravelBottomSheetState extends State<TravelBottomSheet> {
                     child:  Center(
                         child: Text(
                       "placeorder".tr(),
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
                     )),
                   ),
                 ),

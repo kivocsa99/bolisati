@@ -65,7 +65,8 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
         monthlycontroller: monthly,
         formkey: retirementkey.value,
         insurance: (value) async {
-          order.value = order.value.copyWith(retirement_type_id: value);
+          order.value = order.value
+              .copyWith(retirement_type_id: value == "Monthly Fee" ? 1 : 2);
           await retirement.put("type", value == "Monthly Fee" ? 1 : 2);
         },
         fullfee: fullfee,

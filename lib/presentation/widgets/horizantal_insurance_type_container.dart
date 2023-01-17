@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HorizantalInsurance extends StatelessWidget {
-  final Icon? icon;
+  final String? icon;
   final String? insuranceName;
   final String? insuranceDescreption;
   final String? price;
@@ -22,17 +22,17 @@ class HorizantalInsurance extends StatelessWidget {
       onTap: function,
       child: Container(
         height: 202,
-        width: 150,
+        width: 170,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
-              blurRadius: 7,
+              blurRadius: 25,
               offset: const Offset(0, 3),
             ),
-          ],
+          ]
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -45,7 +45,7 @@ class HorizantalInsurance extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: containercolor,
                 ),
-                child: Center(child: icon),
+                child: Center(child: Image.asset(icon!)),
               ),
               const SizedBox(
                 height: 10,

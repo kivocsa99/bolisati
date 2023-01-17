@@ -30,6 +30,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../router/app_route.gr.dart';
 
+//privacy policy
 class MedicalPlaceOrderScreen extends HookConsumerWidget {
   const MedicalPlaceOrderScreen({super.key});
 
@@ -101,7 +102,8 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
           order.value = order.value.copyWith(name: value);
         },
         gender: (value) {
-          order.value = order.value.copyWith(gender_id: value == "Man" ? 1 : 2);
+          order.value =
+              order.value.copyWith(gender_id: value == "Male" ? 1 : 2);
         },
         insurance: (value) => order.value = order.value
             .copyWith(medical_insurance_type_id: value == "in" ? 1 : 2),

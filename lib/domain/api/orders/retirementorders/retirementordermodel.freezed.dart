@@ -30,6 +30,7 @@ mixin _$RetirementOrderModel {
   String? get birthdate => throw _privateConstructorUsedError;
   int? get retirement_age => throw _privateConstructorUsedError;
   int? get monthly_fee => throw _privateConstructorUsedError;
+  String? get end_date => throw _privateConstructorUsedError;
   int? get fixed_fee => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   num? get total_without_addons => throw _privateConstructorUsedError;
@@ -67,6 +68,7 @@ abstract class $RetirementOrderModelCopyWith<$Res> {
       String? birthdate,
       int? retirement_age,
       int? monthly_fee,
+      String? end_date,
       int? fixed_fee,
       String? name,
       num? total_without_addons,
@@ -111,6 +113,7 @@ class _$RetirementOrderModelCopyWithImpl<$Res,
     Object? birthdate = freezed,
     Object? retirement_age = freezed,
     Object? monthly_fee = freezed,
+    Object? end_date = freezed,
     Object? fixed_fee = freezed,
     Object? name = freezed,
     Object? total_without_addons = freezed,
@@ -166,6 +169,10 @@ class _$RetirementOrderModelCopyWithImpl<$Res,
           ? _value.monthly_fee
           : monthly_fee // ignore: cast_nullable_to_non_nullable
               as int?,
+      end_date: freezed == end_date
+          ? _value.end_date
+          : end_date // ignore: cast_nullable_to_non_nullable
+              as String?,
       fixed_fee: freezed == fixed_fee
           ? _value.fixed_fee
           : fixed_fee // ignore: cast_nullable_to_non_nullable
@@ -289,6 +296,7 @@ abstract class _$$_RetirementOrderModelCopyWith<$Res>
       String? birthdate,
       int? retirement_age,
       int? monthly_fee,
+      String? end_date,
       int? fixed_fee,
       String? name,
       num? total_without_addons,
@@ -334,6 +342,7 @@ class __$$_RetirementOrderModelCopyWithImpl<$Res>
     Object? birthdate = freezed,
     Object? retirement_age = freezed,
     Object? monthly_fee = freezed,
+    Object? end_date = freezed,
     Object? fixed_fee = freezed,
     Object? name = freezed,
     Object? total_without_addons = freezed,
@@ -389,6 +398,10 @@ class __$$_RetirementOrderModelCopyWithImpl<$Res>
           ? _value.monthly_fee
           : monthly_fee // ignore: cast_nullable_to_non_nullable
               as int?,
+      end_date: freezed == end_date
+          ? _value.end_date
+          : end_date // ignore: cast_nullable_to_non_nullable
+              as String?,
       fixed_fee: freezed == fixed_fee
           ? _value.fixed_fee
           : fixed_fee // ignore: cast_nullable_to_non_nullable
@@ -459,6 +472,7 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
       this.birthdate,
       this.retirement_age,
       this.monthly_fee,
+      this.end_date,
       this.fixed_fee,
       this.name,
       this.total_without_addons,
@@ -498,6 +512,8 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
   final int? retirement_age;
   @override
   final int? monthly_fee;
+  @override
+  final String? end_date;
   @override
   final int? fixed_fee;
   @override
@@ -542,7 +558,7 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
 
   @override
   String toString() {
-    return 'RetirementOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, retirement_type_id: $retirement_type_id, retirement_order_status_id: $retirement_order_status_id, retirement_type: $retirement_type, age: $age, birthdate: $birthdate, retirement_age: $retirement_age, monthly_fee: $monthly_fee, fixed_fee: $fixed_fee, name: $name, total_without_addons: $total_without_addons, total: $total, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, type: $type, addons: $addons, status: $status, files: $files)';
+    return 'RetirementOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, retirement_type_id: $retirement_type_id, retirement_order_status_id: $retirement_order_status_id, retirement_type: $retirement_type, age: $age, birthdate: $birthdate, retirement_age: $retirement_age, monthly_fee: $monthly_fee, end_date: $end_date, fixed_fee: $fixed_fee, name: $name, total_without_addons: $total_without_addons, total: $total, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, type: $type, addons: $addons, status: $status, files: $files)';
   }
 
   @override
@@ -570,6 +586,8 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
                 other.retirement_age == retirement_age) &&
             (identical(other.monthly_fee, monthly_fee) ||
                 other.monthly_fee == monthly_fee) &&
+            (identical(other.end_date, end_date) ||
+                other.end_date == end_date) &&
             (identical(other.fixed_fee, fixed_fee) ||
                 other.fixed_fee == fixed_fee) &&
             (identical(other.name, name) || other.name == name) &&
@@ -605,6 +623,7 @@ class _$_RetirementOrderModel implements _RetirementOrderModel {
         birthdate,
         retirement_age,
         monthly_fee,
+        end_date,
         fixed_fee,
         name,
         total_without_addons,
@@ -647,6 +666,7 @@ abstract class _RetirementOrderModel implements RetirementOrderModel {
       final String? birthdate,
       final int? retirement_age,
       final int? monthly_fee,
+      final String? end_date,
       final int? fixed_fee,
       final String? name,
       final num? total_without_addons,
@@ -684,6 +704,8 @@ abstract class _RetirementOrderModel implements RetirementOrderModel {
   int? get retirement_age;
   @override
   int? get monthly_fee;
+  @override
+  String? get end_date;
   @override
   int? get fixed_fee;
   @override

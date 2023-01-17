@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+//check marrital status
 class MedicalUploadPage extends HookConsumerWidget {
   final VoidCallback? function0;
   final VoidCallback? function1;

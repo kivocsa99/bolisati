@@ -1,8 +1,16 @@
+import 'package:bolisati/application/motor/placeorder/place.order.use.case.dart';
+import 'package:bolisati/application/motor/placeorder/place.order.use.case.input.dart';
 import 'package:bolisati/domain/api/addons/model/addonsmodel.dart';
 import 'package:bolisati/domain/api/medical/model/medicalmodel.dart';
+import 'package:bolisati/domain/api/motor/model/motormodel.dart';
+import 'package:bolisati/domain/api/travel/model/travelmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../domain/api/motor/model/motororderdonemodel.dart';
 
 class MedicalBottomSheet extends StatefulWidget {
   final MedicalOffersModel? medicalorder;
@@ -79,6 +87,7 @@ class _MedicalBottomSheetState extends State<MedicalBottomSheet> {
                                 }
 
                                 medical.put("addon", loc);
+                                print(loc);
                                 setState(() {});
                               }),
                           Text(
@@ -105,7 +114,7 @@ class _MedicalBottomSheetState extends State<MedicalBottomSheet> {
                   child: Container(
                     color: Colors.black,
                     height: 60,
-                    child: Center(
+                    child:  Center(
                         child: Text(
                       "placeorder".tr(),
                       style: const TextStyle(color: Colors.white),

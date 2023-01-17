@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class VerticalInsurance extends StatelessWidget {
-  final Icon? icon;
+  final String? icon;
   final String? insuranceName;
   final String? insuranceDescreption;
   final String? price;
@@ -47,7 +47,7 @@ class VerticalInsurance extends StatelessWidget {
                   height: 56,
                   width: 56,
                   color: containercolor,
-                  child: Center(child: icon),
+                  child: Center(child: Image.asset(icon!)),
                 ),
                 const SizedBox(
                   width: 20,

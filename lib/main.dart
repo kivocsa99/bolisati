@@ -23,6 +23,7 @@ import 'router/app_route.gr.dart' as app_router;
 
 //phone number edit with zero
 //por and
+
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -159,6 +160,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeData(
+          fontFamily:
+              context.locale.languageCode == "en" ? "Articulate" : "Plexsans"),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

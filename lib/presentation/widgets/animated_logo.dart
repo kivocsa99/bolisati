@@ -36,7 +36,7 @@ class AnimatedLogo extends HookWidget {
           : (isdone!
               ? MediaQuery.of(context).size.height -
                   MediaQuery.of(context).size.height / 4.5
-              : (!isStarted! ? MediaQuery.of(context).size.height / 2 : 20)),
+              : (!isStarted! ? MediaQuery.of(context).size.height / 2 : 40)),
       duration: const Duration(seconds: 1),
       curve: Curves.easeIn,
       child: AnimatedOpacity(

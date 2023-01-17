@@ -30,17 +30,18 @@ mixin _$PersonalAccidentOrderModel {
       throw _privateConstructorUsedError;
   int? get personal_accident_order_status_id =>
       throw _privateConstructorUsedError;
-  int? get age_from => throw _privateConstructorUsedError;
-  int? get age_to => throw _privateConstructorUsedError;
+  String? get age_from => throw _privateConstructorUsedError;
+  String? get age_to => throw _privateConstructorUsedError;
   String? get personal_accident_occupation =>
       throw _privateConstructorUsedError;
   String? get personal_accident_type => throw _privateConstructorUsedError;
-  num? get rate => throw _privateConstructorUsedError;
+  String? get rate => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get birthdate => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
   String? get start_date => throw _privateConstructorUsedError;
   String? get end_date => throw _privateConstructorUsedError;
+  String? get insurance_amount => throw _privateConstructorUsedError;
   num? get total => throw _privateConstructorUsedError;
   num? get total_without_addons => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
@@ -74,16 +75,17 @@ abstract class $PersonalAccidentOrderModelCopyWith<$Res> {
       int? personal_accident_type_id,
       int? personal_accident_occupation_id,
       int? personal_accident_order_status_id,
-      int? age_from,
-      int? age_to,
+      String? age_from,
+      String? age_to,
       String? personal_accident_occupation,
       String? personal_accident_type,
-      num? rate,
+      String? rate,
       String? name,
       String? birthdate,
       int? age,
       String? start_date,
       String? end_date,
+      String? insurance_amount,
       num? total,
       num? total_without_addons,
       String? created_at,
@@ -133,6 +135,7 @@ class _$PersonalAccidentOrderModelCopyWithImpl<$Res,
     Object? age = freezed,
     Object? start_date = freezed,
     Object? end_date = freezed,
+    Object? insurance_amount = freezed,
     Object? total = freezed,
     Object? total_without_addons = freezed,
     Object? created_at = freezed,
@@ -179,11 +182,11 @@ class _$PersonalAccidentOrderModelCopyWithImpl<$Res,
       age_from: freezed == age_from
           ? _value.age_from
           : age_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       age_to: freezed == age_to
           ? _value.age_to
           : age_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       personal_accident_occupation: freezed == personal_accident_occupation
           ? _value.personal_accident_occupation
           : personal_accident_occupation // ignore: cast_nullable_to_non_nullable
@@ -195,7 +198,7 @@ class _$PersonalAccidentOrderModelCopyWithImpl<$Res,
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -215,6 +218,10 @@ class _$PersonalAccidentOrderModelCopyWithImpl<$Res,
       end_date: freezed == end_date
           ? _value.end_date
           : end_date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      insurance_amount: freezed == insurance_amount
+          ? _value.insurance_amount
+          : insurance_amount // ignore: cast_nullable_to_non_nullable
               as String?,
       total: freezed == total
           ? _value.total
@@ -329,16 +336,17 @@ abstract class _$$_PersonalAccidentOrderModelCopyWith<$Res>
       int? personal_accident_type_id,
       int? personal_accident_occupation_id,
       int? personal_accident_order_status_id,
-      int? age_from,
-      int? age_to,
+      String? age_from,
+      String? age_to,
       String? personal_accident_occupation,
       String? personal_accident_type,
-      num? rate,
+      String? rate,
       String? name,
       String? birthdate,
       int? age,
       String? start_date,
       String? end_date,
+      String? insurance_amount,
       num? total,
       num? total_without_addons,
       String? created_at,
@@ -391,6 +399,7 @@ class __$$_PersonalAccidentOrderModelCopyWithImpl<$Res>
     Object? age = freezed,
     Object? start_date = freezed,
     Object? end_date = freezed,
+    Object? insurance_amount = freezed,
     Object? total = freezed,
     Object? total_without_addons = freezed,
     Object? created_at = freezed,
@@ -437,11 +446,11 @@ class __$$_PersonalAccidentOrderModelCopyWithImpl<$Res>
       age_from: freezed == age_from
           ? _value.age_from
           : age_from // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       age_to: freezed == age_to
           ? _value.age_to
           : age_to // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       personal_accident_occupation: freezed == personal_accident_occupation
           ? _value.personal_accident_occupation
           : personal_accident_occupation // ignore: cast_nullable_to_non_nullable
@@ -453,7 +462,7 @@ class __$$_PersonalAccidentOrderModelCopyWithImpl<$Res>
       rate: freezed == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -473,6 +482,10 @@ class __$$_PersonalAccidentOrderModelCopyWithImpl<$Res>
       end_date: freezed == end_date
           ? _value.end_date
           : end_date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      insurance_amount: freezed == insurance_amount
+          ? _value.insurance_amount
+          : insurance_amount // ignore: cast_nullable_to_non_nullable
               as String?,
       total: freezed == total
           ? _value.total
@@ -543,6 +556,7 @@ class _$_PersonalAccidentOrderModel implements _PersonalAccidentOrderModel {
       this.age,
       this.start_date,
       this.end_date,
+      this.insurance_amount,
       this.total,
       this.total_without_addons,
       this.created_at,
@@ -575,15 +589,15 @@ class _$_PersonalAccidentOrderModel implements _PersonalAccidentOrderModel {
   @override
   final int? personal_accident_order_status_id;
   @override
-  final int? age_from;
+  final String? age_from;
   @override
-  final int? age_to;
+  final String? age_to;
   @override
   final String? personal_accident_occupation;
   @override
   final String? personal_accident_type;
   @override
-  final num? rate;
+  final String? rate;
   @override
   final String? name;
   @override
@@ -594,6 +608,8 @@ class _$_PersonalAccidentOrderModel implements _PersonalAccidentOrderModel {
   final String? start_date;
   @override
   final String? end_date;
+  @override
+  final String? insurance_amount;
   @override
   final num? total;
   @override
@@ -634,7 +650,7 @@ class _$_PersonalAccidentOrderModel implements _PersonalAccidentOrderModel {
 
   @override
   String toString() {
-    return 'PersonalAccidentOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, personal_accident_insurance_id: $personal_accident_insurance_id, personal_accident_type_id: $personal_accident_type_id, personal_accident_occupation_id: $personal_accident_occupation_id, personal_accident_order_status_id: $personal_accident_order_status_id, age_from: $age_from, age_to: $age_to, personal_accident_occupation: $personal_accident_occupation, personal_accident_type: $personal_accident_type, rate: $rate, name: $name, birthdate: $birthdate, age: $age, start_date: $start_date, end_date: $end_date, total: $total, total_without_addons: $total_without_addons, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, type: $type, addons: $addons, status: $status, files: $files)';
+    return 'PersonalAccidentOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, personal_accident_insurance_id: $personal_accident_insurance_id, personal_accident_type_id: $personal_accident_type_id, personal_accident_occupation_id: $personal_accident_occupation_id, personal_accident_order_status_id: $personal_accident_order_status_id, age_from: $age_from, age_to: $age_to, personal_accident_occupation: $personal_accident_occupation, personal_accident_type: $personal_accident_type, rate: $rate, name: $name, birthdate: $birthdate, age: $age, start_date: $start_date, end_date: $end_date, insurance_amount: $insurance_amount, total: $total, total_without_addons: $total_without_addons, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, customer: $customer, company: $company, type: $type, addons: $addons, status: $status, files: $files)';
   }
 
   @override
@@ -676,6 +692,8 @@ class _$_PersonalAccidentOrderModel implements _PersonalAccidentOrderModel {
                 other.start_date == start_date) &&
             (identical(other.end_date, end_date) ||
                 other.end_date == end_date) &&
+            (identical(other.insurance_amount, insurance_amount) ||
+                other.insurance_amount == insurance_amount) &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.total_without_addons, total_without_addons) ||
                 other.total_without_addons == total_without_addons) &&
@@ -683,8 +701,7 @@ class _$_PersonalAccidentOrderModel implements _PersonalAccidentOrderModel {
                 other.created_at == created_at) &&
             (identical(other.updated_at, updated_at) ||
                 other.updated_at == updated_at) &&
-            (identical(other.deleted_at, deleted_at) ||
-                other.deleted_at == deleted_at) &&
+            (identical(other.deleted_at, deleted_at) || other.deleted_at == deleted_at) &&
             (identical(other.customer, customer) || other.customer == customer) &&
             (identical(other.company, company) || other.company == company) &&
             (identical(other.type, type) || other.type == type) &&
@@ -714,6 +731,7 @@ class _$_PersonalAccidentOrderModel implements _PersonalAccidentOrderModel {
         age,
         start_date,
         end_date,
+        insurance_amount,
         total,
         total_without_addons,
         created_at,
@@ -752,16 +770,17 @@ abstract class _PersonalAccidentOrderModel
       final int? personal_accident_type_id,
       final int? personal_accident_occupation_id,
       final int? personal_accident_order_status_id,
-      final int? age_from,
-      final int? age_to,
+      final String? age_from,
+      final String? age_to,
       final String? personal_accident_occupation,
       final String? personal_accident_type,
-      final num? rate,
+      final String? rate,
       final String? name,
       final String? birthdate,
       final int? age,
       final String? start_date,
       final String? end_date,
+      final String? insurance_amount,
       final num? total,
       final num? total_without_addons,
       final String? created_at,
@@ -792,15 +811,15 @@ abstract class _PersonalAccidentOrderModel
   @override
   int? get personal_accident_order_status_id;
   @override
-  int? get age_from;
+  String? get age_from;
   @override
-  int? get age_to;
+  String? get age_to;
   @override
   String? get personal_accident_occupation;
   @override
   String? get personal_accident_type;
   @override
-  num? get rate;
+  String? get rate;
   @override
   String? get name;
   @override
@@ -811,6 +830,8 @@ abstract class _PersonalAccidentOrderModel
   String? get start_date;
   @override
   String? get end_date;
+  @override
+  String? get insurance_amount;
   @override
   num? get total;
   @override

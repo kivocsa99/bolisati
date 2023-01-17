@@ -355,7 +355,6 @@ class EndDate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -406,7 +405,7 @@ class Gender extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
+    final dropDownValue = useState("Male");
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
@@ -418,7 +417,7 @@ class Gender extends HookWidget {
           iconEnabledColor: Colors.grey,
           value: dropDownValue.value,
           onChanged: onchanged,
-          items: ["N/A", "Man", "Woman"]
+          items: ["Male", "Female"]
               .map<DropdownMenuItem<String>>(
                   (String value) => DropdownMenuItem<String>(
                       value: value,

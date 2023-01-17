@@ -71,7 +71,7 @@ class MedicalOrderOffersContainer extends HookConsumerWidget {
                                               height: 40,
                                               color: carcontainer,
                                               child: const Icon(
-                                                FontAwesomeIcons.car,
+                                                FontAwesomeIcons.houseMedical,
                                                 color: carcolor,
                                               ),
                                             ),

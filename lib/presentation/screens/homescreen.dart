@@ -1,6 +1,11 @@
 // ignore_for_file: body_might_complete_normally_nullable
-
 import 'package:auto_route/auto_route.dart';
+import 'package:bolisati/domain/api/orders/domesticworkerorders/domesticworkersmodel.dart';
+import 'package:bolisati/domain/api/orders/educationalorders/educationalordermodel.dart';
+import 'package:bolisati/domain/api/orders/medicalorders/medicalordermodel.dart';
+import 'package:bolisati/domain/api/orders/motororders/motorordermodel.dart';
+import 'package:bolisati/domain/api/orders/personalaccidentorders/personalaccidentordermodel.dart';
+import 'package:bolisati/domain/api/orders/travelorders/travelordermodel.dart';
 import 'package:bolisati/domain/api/orders/user.orders.model.dart';
 import 'package:bolisati/presentation/widgets/horizantal_insurance_type_container.dart';
 import 'package:bolisati/presentation/widgets/horizantal_user_insurance_container.dart';
@@ -15,6 +20,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../application/provider/user.repository.provider.dart';
 import '../../constants.dart';
+import '../../domain/api/orders/petorders/petordermodel.dart';
 import '../../main.dart';
 import '../../router/app_route.gr.dart';
 
@@ -54,7 +60,7 @@ class HomeScreen extends HookConsumerWidget {
             builder: (context, Box box, child) {
               final apitoken = box.get('apitoken');
               final name = box.get("name");
-              print(apitoken);
+
               final userOrderProvider = ref.watch(GetorderProvider(apitoken));
               return RefreshIndicator(
                 onRefresh: () => ref.refresh(GetorderProvider(apitoken).future),
@@ -150,10 +156,7 @@ class HomeScreen extends HookConsumerWidget {
                                         context.router.push(
                                             const MotorPlaceOrderScreen());
                                       },
-                                      icon: const Icon(
-                                        FontAwesomeIcons.car,
-                                        color: carcolor,
-                                      ),
+                                      icon: "assets/car.png",
                                       insuranceName: "vehicle".tr(),
                                       insuranceDescreption: "vehicledes".tr(),
                                     ),
@@ -163,10 +166,7 @@ class HomeScreen extends HookConsumerWidget {
                                         context.router.push(
                                             const MedicalPlaceOrderScreen());
                                       },
-                                      icon: const Icon(
-                                        FontAwesomeIcons.houseMedical,
-                                        color: medicalcolor,
-                                      ),
+                                      icon: "assets/medical.png",
                                       insuranceName: "medical".tr(),
                                       insuranceDescreption: "medicaldes".tr(),
                                     ),
@@ -174,18 +174,14 @@ class HomeScreen extends HookConsumerWidget {
                                 ),
                               ),
                               VerticalInsurance(
-                                function: () {
-                                  context.router
-                                      .push(const TravelPlaceOrderScreen());
-                                },
-                                insuranceName: "travel".tr(),
-                                insuranceDescreption: "traveldes".tr(),
-                                containercolor: travelcontainer,
-                                icon: const Icon(
-                                  FontAwesomeIcons.plane,
-                                  color: travelcolor,
-                                ),
-                              ),
+                                  function: () {
+                                    context.router
+                                        .push(const TravelPlaceOrderScreen());
+                                  },
+                                  insuranceName: "travel".tr(),
+                                  insuranceDescreption: "traveldes".tr(),
+                                  containercolor: travelcontainer,
+                                  icon: "assets/travel.png"),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -203,7 +199,10 @@ class HomeScreen extends HookConsumerWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        context.router
+                                            .push(UserInsuranceListScreen());
+                                      },
                                       child: Text(
                                         "view".tr(),
                                         style: const TextStyle(
@@ -226,78 +225,101 @@ class HomeScreen extends HookConsumerWidget {
                                       ).tr(),
                                       (r) {
                                         UserOrdersModel orders = r;
-                                        return ListView.builder(
+                                        List<dynamic> firstElements = [];
+
+                                        if (orders
+                                            .DomesticWorkerOrders!.isNotEmpty) {
+                                          firstElements.add(
+                                              orders.DomesticWorkerOrders![0]);
+                                        }
+                                        if (orders
+                                            .EducationalOrders!.isNotEmpty) {
+                                          firstElements.add(
+                                              orders.EducationalOrders![0]);
+                                        }
+                                        if (orders.MedicalOrders!.isNotEmpty) {
+                                          firstElements
+                                              .add(orders.MedicalOrders![0]);
+                                        }
+                                        if (orders.MotorOrders!.isNotEmpty) {
+                                          firstElements
+                                              .add(orders.MotorOrders![0]);
+                                        }
+                                        if (orders.PetOrders!.isNotEmpty) {
+                                          firstElements
+                                              .add(orders.PetOrders![0]);
+                                        }
+                                        if (orders.PersonalAccidentOrders!
+                                            .isNotEmpty) {
+                                          firstElements.add(orders
+                                              .PersonalAccidentOrders![0]);
+                                        }
+                                        if (orders
+                                            .RetirementOrders!.isNotEmpty) {
+                                          firstElements
+                                              .add(orders.RetirementOrders![0]);
+                                        }
+                                        if (orders.TravelOrders!.isNotEmpty) {
+                                          firstElements
+                                              .add(orders.TravelOrders![0]);
+                                        }
+                                        return ListView.separated(
+                                          separatorBuilder: (context, index) {
+                                            return const SizedBox(
+                                              height: 10,
+                                            );
+                                          },
                                           shrinkWrap: true,
                                           physics:
                                               const NeverScrollableScrollPhysics(),
                                           itemBuilder: (context, index) {
-                                            if (index == 0) {
-                                              if (orders.MotorOrders!.isEmpty) {
-                                                return const SizedBox.shrink();
-                                              } else {
-                                                return Column(
-                                                  children: [
-                                                    HorizantalUesrInsuranceContainer(
-                                                      insuranceName: orders
-                                                          .MotorOrders!
-                                                          .first
-                                                          .vehicle_make!
-                                                          .name,
-                                                      insuranceDescreption:
-                                                          "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MotorOrders!.first.end_date!))}",
-                                                      price: orders.MotorOrders!
-                                                          .first.status!.name
-                                                          .toString(),
-                                                      containercolor:
-                                                          carcontainer,
-                                                      function: () {},
-                                                      icon: const Icon(
-                                                        FontAwesomeIcons.car,
-                                                        color: carcolor,
-                                                      ),
+                                            return firstElements.isNotEmpty
+                                                ? HorizantalUesrInsuranceContainer(
+                                                    insuranceName: "",
+                                                    insuranceDescreption:
+                                                        firstElements[index]
+                                                                    .end_date !=
+                                                                null
+                                                            ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(firstElements[index].end_date!))}"
+                                                            : "",
+                                                    price: firstElements[index]
+                                                        .status!
+                                                        .name
+                                                        .toString(),
+                                                    containercolor:
+                                                        carcontainer,
+                                                    function: () {},
+                                                    icon: Icon(
+                                                      firstElements[index]
+                                                              is MotorOrderModel
+                                                          ? FontAwesomeIcons.car
+                                                          : firstElements[index]
+                                                                  is EducationalOrderModel
+                                                              ? FontAwesomeIcons
+                                                                  .book
+                                                              : firstElements[
+                                                                          index]
+                                                                      is DomesticWorkersOrderModel
+                                                                  ? FontAwesomeIcons
+                                                                      .briefcase
+                                                                  : firstElements[
+                                                                              index]
+                                                                          is TravelOrderModel
+                                                                      ? FontAwesomeIcons
+                                                                          .plane
+                                                                      : firstElements[index]
+                                                                              is PersonalAccidentOrderModel
+                                                                          ? FontAwesomeIcons
+                                                                              .personFallingBurst
+                                                                          : firstElements[index] is MedicalOrderModel
+                                                                              ? FontAwesomeIcons.houseMedical
+                                                                              : firstElements[index] is PetOrderModel
+                                                                                  ? FontAwesomeIcons.cat
+                                                                                  : FontAwesomeIcons.personCane,
+                                                      color: carcolor,
                                                     ),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                            } else {
-                                              if (orders
-                                                  .MedicalOrders!.isEmpty) {
-                                                return const SizedBox.shrink();
-                                              } else {
-                                                return Column(
-                                                  children: [
-                                                    HorizantalUesrInsuranceContainer(
-                                                      insuranceName: orders
-                                                          .MedicalOrders!
-                                                          .first
-                                                          .name,
-                                                      insuranceDescreption:
-                                                          "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MedicalOrders!.first.end_date!))}",
-                                                      price: orders
-                                                          .MedicalOrders!
-                                                          .first
-                                                          .status!
-                                                          .name
-                                                          .toString(),
-                                                      containercolor:
-                                                          medicalcontainer,
-                                                      function: () {},
-                                                      icon: const Icon(
-                                                        FontAwesomeIcons
-                                                            .houseMedical,
-                                                        color: medicalcolor,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                            }
+                                                  )
+                                                : const SizedBox.shrink();
                                           },
                                           itemCount: 2,
                                         );

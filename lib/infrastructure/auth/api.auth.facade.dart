@@ -25,6 +25,7 @@ class ApiAuthFacade implements IApiAuthFacade {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/Users/GetToken?phone=$email&password=$password");
+
       if (result.data["AZSVR"] == "SUCCESS") {
         UserModel user = UserModel.fromJson(result.data["User"]);
         setting = Hive.box('setting');

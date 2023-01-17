@@ -23,6 +23,7 @@ class EducationalOrderModel with _$EducationalOrderModel {
     int? educational_order_status_id,
     String? educational_type,
     String? name,
+    String? end_date,
     String? birthdate,
     int? age,
     int? monthly_fee,

@@ -1,13 +1,25 @@
 import 'package:bolisati/domain/api/addons/model/addonsmodel.dart';
 import 'package:bolisati/domain/api/motor/model/motormodel.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyWidget extends StatefulWidget {
   final MotorOffersModel? offerModel;
   final VoidCallback? function;
-  const MyWidget({super.key, this.function, this.offerModel});
+  final VoidCallback? ontap;
+  final ValueChanged<bool?>? onchanged;
+  final bool? value;
+
+  const MyWidget(
+      {super.key,
+      this.onchanged,
+      this.value,
+      this.function,
+      this.ontap,
+      this.offerModel});
 
   @override
   State<MyWidget> createState() => _MyWidgetState();
@@ -53,7 +65,7 @@ class _MyWidgetState extends State<MyWidget> {
               height: 10,
             ),
             SizedBox(
-              height: 200,
+              height: 150,
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   AddonsModel addonsModel = widget.offerModel!.addons![index];
@@ -105,13 +117,36 @@ class _MyWidgetState extends State<MyWidget> {
                 itemCount: widget.offerModel!.addons!.length,
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    await launchUrl(Uri.parse(""));
+                  },
+                  child: const Text(
+                    "privacy",
+                    style: TextStyle(color: Colors.blue),
+                  ).tr(),
+                ),
+                CupertinoSwitch(
+                  value: car.get("checked") ?? false,
+                  onChanged: (value) {
+                    setState(() {
+                      car.put("checked", value);
+                    });
+                  },
+                ),
+              ],
+            ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: widget.function,
                   child: Container(
-                    color: Colors.black,
+                    color:
+                        car.get("checked") == true ? Colors.black : Colors.grey,
                     height: 60,
                     child: Center(
                         child: Text(

@@ -1,5 +1,6 @@
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/motor/model/motormodel.dart';
+import 'package:bolisati/main.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
@@ -139,22 +140,28 @@ class OrderOffersContainer extends HookConsumerWidget {
                                         ),
                                       )
                                     : Positioned(
-                                        right: 5,
+                                        right: 0,
                                         top: 50,
                                         child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: e.addons!
                                               .map((addon) => Column(
                                                     children: [
-                                                      Row(children: [
-                                                        const Icon(
-                                                            FontAwesomeIcons
-                                                                .shieldHalved),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Text(
-                                                            "${addon.addon!.name!}(${addon.price})")
-                                                      ]),
+                                                      Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Icon(
+                                                                FontAwesomeIcons
+                                                                    .shieldHalved),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text("${addon.addon!.name_ar!}(${addon.price})")
+                                                                .tr()
+                                                          ]),
                                                       const SizedBox(
                                                         height: 10,
                                                       )

@@ -15,6 +15,7 @@ import 'package:auto_route/auto_route.dart' as _i16;
 import 'package:flutter/foundation.dart' as _i19;
 import 'package:flutter/material.dart' as _i17;
 
+import '../domain/api/orders/user.orders.model.dart' as _i20;
 import '../main.dart' as _i2;
 import '../presentation/auth/screens/login.dart' as _i8;
 import '../presentation/domestic/screens/domestic.place.order.screen.dart'
@@ -92,9 +93,14 @@ class AppRouter extends _i16.RootStackRouter {
       );
     },
     UserInsuranceListScreen.name: (routeData) {
+      final args = routeData.argsAs<UserInsuranceListScreenArgs>(
+          orElse: () => const UserInsuranceListScreenArgs());
       return _i16.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i5.UserInsuranceListScreen(),
+        child: _i5.UserInsuranceListScreen(
+          key: args.key,
+          order: args.order,
+        ),
         transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
@@ -369,14 +375,37 @@ class InsuranceListScreen extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.UserInsuranceListScreen]
-class UserInsuranceListScreen extends _i16.PageRouteInfo<void> {
-  const UserInsuranceListScreen()
-      : super(
+class UserInsuranceListScreen
+    extends _i16.PageRouteInfo<UserInsuranceListScreenArgs> {
+  UserInsuranceListScreen({
+    _i19.Key? key,
+    _i20.UserOrdersModel? order,
+  }) : super(
           UserInsuranceListScreen.name,
           path: '/user-insurance-list-screen',
+          args: UserInsuranceListScreenArgs(
+            key: key,
+            order: order,
+          ),
         );
 
   static const String name = 'UserInsuranceListScreen';
+}
+
+class UserInsuranceListScreenArgs {
+  const UserInsuranceListScreenArgs({
+    this.key,
+    this.order,
+  });
+
+  final _i19.Key? key;
+
+  final _i20.UserOrdersModel? order;
+
+  @override
+  String toString() {
+    return 'UserInsuranceListScreenArgs{key: $key, order: $order}';
+  }
 }
 
 /// generated route for

@@ -48,12 +48,13 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
     final startController = useTextEditingController();
     final endController = useTextEditingController();
 
-    final enddate = useState("");
+    final checked = useState(false);
     final frontimage = useState("");
     final leftimage = useState("");
     final rightimage = useState("");
     final backimage = useState("");
     final idback = useState("");
+
     final idfront = useState("");
     final selecteddate = useState("");
 
@@ -439,42 +440,43 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                           (context, setState) {
                                                         return MyWidget(
                                                           function: () {
-                                                            ref
-                                                                .read(
-                                                                    motorplaceOrderProvider)
-                                                                .execute(MotorPlaceOrderUseCaseInput(
-                                                                    motorOrder:
-                                                                        order
-                                                                            .value,
-                                                                    token:
-                                                                        token,
-                                                                    addons:
-                                                                        car.get("addon") ??
-                                                                            ""))
-                                                                .then((value) =>
-                                                                    value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                            content:
-                                                                                const Text("contact").tr())),
-                                                                        (r) async {
-                                                                      MotorOrderDoneModel
-                                                                          orderdone =
-                                                                          r;
-                                                                      for (var element
-                                                                          in images) {
-                                                                        ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
-                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
-                                                                                (r) async {
-                                                                              if (element == images.last) {
-                                                                                context.router.pop();
-                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                                await context.router.replaceAll([
-                                                                                  const HomeScreen()
-                                                                                ]);
-                                                                              }
-                                                                            }));
-                                                                      }
-                                                                    }));
+                                                            if (car.get(
+                                                                "checked")) {
+                                                              ref
+                                                                  .read(
+                                                                      motorplaceOrderProvider)
+                                                                  .execute(MotorPlaceOrderUseCaseInput(
+                                                                      motorOrder:
+                                                                          order
+                                                                              .value,
+                                                                      token:
+                                                                          token,
+                                                                      addons:
+                                                                          car.get("addon") ??
+                                                                              ""))
+                                                                  .then((value) =>
+                                                                      value.fold(
+                                                                          (l) =>
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                          (r) async {
+                                                                        MotorOrderDoneModel
+                                                                            orderdone =
+                                                                            r;
+                                                                        for (var element
+                                                                            in images) {
+                                                                          ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                              value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())), (r) async {
+                                                                                if (element == images.last) {
+                                                                                  context.router.pop();
+                                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
+                                                                                  await context.router.replaceAll([
+                                                                                    const HomeScreen()
+                                                                                  ]);
+                                                                                }
+                                                                              }));
+                                                                        }
+                                                                      }));
+                                                            }
                                                           },
                                                           offerModel:
                                                               offersModel,
