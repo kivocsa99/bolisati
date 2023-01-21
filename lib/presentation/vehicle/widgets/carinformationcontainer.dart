@@ -109,6 +109,11 @@ class CarInformationContainer extends HookWidget {
                   ),
                 ],
               ),
+              Align(
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: Text("").tr()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

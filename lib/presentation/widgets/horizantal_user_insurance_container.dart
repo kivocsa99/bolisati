@@ -31,9 +31,9 @@ class HorizantalUesrInsuranceContainer extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Colors.black.withOpacity(0.08),
                 spreadRadius: 5,
-                blurRadius: 7,
+                blurRadius: 25,
                 offset: const Offset(0, 3),
               ),
             ],

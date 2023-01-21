@@ -62,9 +62,7 @@ class NameField extends HookWidget {
                         borderSide: BorderSide(color: Colors.red)),
                     contentPadding:
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                    filled: true,
-                    fillColor: Colors.blue[350],
-                    labelText: "name".tr(),
+                    hintText: "name".tr(),
                     hintStyle: const TextStyle(
                       color: Colors.black26,
                       fontSize: 18,

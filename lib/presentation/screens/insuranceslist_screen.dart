@@ -73,7 +73,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/medical.png",
+                        icon: "assets/medical.svg",
                         insuranceName: "medical".tr(),
                         insuranceDescreption: "medicaldes".tr(),
                         function: () => context.router

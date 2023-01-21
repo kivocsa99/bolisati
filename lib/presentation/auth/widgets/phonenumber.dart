@@ -32,7 +32,9 @@ class PhoneNumberField extends HookWidget {
             children: [
               const Text(
                 "startphone",
-                style: TextStyle(fontSize: 36),
+                style: TextStyle(
+                  fontSize: 36,
+                ),
               ).tr(),
               const SizedBox(
                 height: 5,
@@ -79,12 +81,9 @@ class PhoneNumberField extends HookWidget {
                         borderSide: BorderSide(color: Colors.red)),
                     contentPadding:
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                    filled: true,
-                    fillColor: Colors.blue[350],
-                    labelText: "phone".tr(),
-                    icon: const Icon(Icons.phone),
+                    hintText: "phone".tr(),
                     hintStyle: const TextStyle(
-                      color: Colors.black26,
+                      color: Colors.grey,
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),

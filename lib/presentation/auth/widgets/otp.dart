@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class OtpVerfication extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String?>? onchanged;
+  final VoidCallback? function;
   final GlobalKey<FormState>? formkey;
   final String? Function(String?)? validator;
 
   const OtpVerfication({
     super.key,
     this.validator,
+    this.function,
     this.formkey,
     this.controller,
     this.onchanged,
@@ -43,10 +45,13 @@ class OtpVerfication extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  const Text(
-                    "sendagain",
-                    style: TextStyle(fontSize: 14, color: Colors.blue),
-                  ).tr(),
+                  GestureDetector(
+                    onTap: function,
+                    child: const Text(
+                      "sendagain",
+                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                    ).tr(),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -68,10 +73,7 @@ class OtpVerfication extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.red)),
                     contentPadding:
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                    filled: true,
-                    fillColor: Colors.blue[350],
-                    labelText: "code".tr(),
-                    icon: const Icon(Icons.message),
+                    hintText: "code".tr(),
                     hintStyle: const TextStyle(
                       color: Colors.black26,
                       fontSize: 18,

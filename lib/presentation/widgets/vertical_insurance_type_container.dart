@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class VerticalInsurance extends StatelessWidget {
   final String? icon;
@@ -32,9 +33,9 @@ class VerticalInsurance extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Colors.black.withOpacity(0.08),
                 spreadRadius: 5,
-                blurRadius: 7,
+                blurRadius: 25,
                 offset: const Offset(0, 3),
               ),
             ],
@@ -47,7 +48,7 @@ class VerticalInsurance extends StatelessWidget {
                   height: 56,
                   width: 56,
                   color: containercolor,
-                  child: Center(child: Image.asset(icon!)),
+                  child: Center(child: SvgPicture.asset(icon!)),
                 ),
                 const SizedBox(
                   width: 20,

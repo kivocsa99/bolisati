@@ -118,7 +118,7 @@ class MainScreen extends HookConsumerWidget {
                       function: () {
                         context.router.push(const MedicalPlaceOrderScreen());
                       },
-                      icon: "assets/medical.png",
+                      icon: "assets/medical.svg",
                       insuranceName: "medical".tr(),
                       insuranceDescreption: "medicaldes".tr(),
                     ),
@@ -196,7 +196,6 @@ class MainScreen extends HookConsumerWidget {
                         if (orders.TravelOrders!.isNotEmpty) {
                           firstElements.add(orders.TravelOrders![0]);
                         }
-                        print(firstElements);
                         return ListView.separated(
                           separatorBuilder: (context, index) {
                             return const SizedBox(
@@ -208,14 +207,15 @@ class MainScreen extends HookConsumerWidget {
                           itemBuilder: (context, index) {
                             return firstElements.isNotEmpty
                                 ? HorizantalUesrInsuranceContainer(
-                                    insuranceName: firstElements[index].name,
+                                    insuranceName: "",
                                     insuranceDescreption: firstElements[index]
                                                 .end_date !=
                                             null
                                         ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(firstElements[index].end_date!))}"
                                         : "",
-                                    price: orders
-                                        .MotorOrders!.first.status!.name
+                                    price: firstElements[index]
+                                        .status!
+                                        .name
                                         .toString(),
                                     containercolor: carcontainer,
                                     function: () {},
@@ -251,7 +251,9 @@ class MainScreen extends HookConsumerWidget {
                                   )
                                 : const SizedBox.shrink();
                           },
-                          itemCount: 2,
+                          itemCount: firstElements.isNotEmpty
+                              ? firstElements.length
+                              : 0,
                         );
                       },
                     );

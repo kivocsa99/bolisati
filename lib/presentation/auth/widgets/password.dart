@@ -71,10 +71,8 @@ class PasswordField extends HookWidget {
                         borderSide: BorderSide(color: Colors.red)),
                     contentPadding:
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                    filled: true,
-                    fillColor: Colors.blue[350],
-                    labelText: "password".tr(),
-                    icon: const Icon(Icons.key),
+            
+                    hintText: "password".tr(),
                     hintStyle: const TextStyle(
                       color: Colors.black26,
                       fontSize: 18,

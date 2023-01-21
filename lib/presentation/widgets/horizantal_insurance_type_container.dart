@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HorizantalInsurance extends StatelessWidget {
   final String? icon;
@@ -23,17 +24,14 @@ class HorizantalInsurance extends StatelessWidget {
       child: Container(
         height: 202,
         width: 170,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              spreadRadius: 5,
-              blurRadius: 25,
-              offset: const Offset(0, 3),
-            ),
-          ]
-        ),
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            spreadRadius: 5,
+            blurRadius: 25,
+            offset: const Offset(0, 3),
+          ),
+        ]),
         child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: Column(
@@ -45,7 +43,7 @@ class HorizantalInsurance extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: containercolor,
                 ),
-                child: Center(child: Image.asset(icon!)),
+                child: Center(child: SvgPicture.asset(icon!)),
               ),
               const SizedBox(
                 height: 10,

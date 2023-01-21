@@ -12,6 +12,7 @@ import 'package:bolisati/presentation/widgets/animated_landing_container.dart';
 import 'package:bolisati/presentation/widgets/animated_logo.dart';
 import 'package:bolisati/presentation/widgets/animated_video.dart';
 import 'package:bolisati/router/app_route.gr.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -163,8 +164,8 @@ class LandingScreen extends HookConsumerWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: const Text("contact").tr()));
                       },
-                      codeSent: (value, codeSent) {
-                        setting.put("firebase", value);
+                      codeSent: (value, codeSent) async {
+                        await setting.put("firebase", value);
                         final isLaseIndex =
                             index.value == registercases.length - 1;
                         index.value = isLaseIndex ? 0 : index.value + 1;
@@ -177,6 +178,10 @@ class LandingScreen extends HookConsumerWidget {
                       smsCode: otpcontroller.text);
                   try {
                     await FirebaseAuth.instance.signInWithCredential(phone);
+                    await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(user.value.phone!)
+                        .set({"phone": user.value.phone!});
                     final isLaseIndex = index.value == registercases.length - 1;
                     index.value = isLaseIndex ? 0 : index.value + 1;
                   } catch (error) {

@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/auth/ali_api/use_cases/update/update_use_case.dart';
 import 'package:bolisati/application/auth/ali_api/use_cases/update/update_use_case.input.dart';
@@ -12,7 +10,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -102,6 +99,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   await EasyLocalization.ensureInitialized();
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -143,15 +141,13 @@ Future<void> main() async {
     token = value;
     return await user.put("fcmtoken", value);
   });
-  runApp(Phoenix(
-    child: EasyLocalization(
-        path: "assets",
-        supportedLocales: const [
-          Locale("ar"),
-          Locale("en"),
-        ],
-        child: ProviderScope(child: MyApp())),
-  ));
+  runApp(EasyLocalization(
+      path: "assets",
+      supportedLocales: const [
+        Locale("ar"),
+        Locale("en"),
+      ],
+      child: ProviderScope(child: MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -266,11 +262,11 @@ class HomePage extends HookConsumerWidget {
                                     color: Colors.black,
                                     width: 100,
                                     height: 60,
-                                    child: Center(
-                                        child: const Text(
+                                    child: const Center(
+                                        child: Text(
                                       "English",
                                       style: TextStyle(color: Colors.white),
-                                    ).tr()),
+                                    )),
                                   ),
                                 ),
                               ),
@@ -289,11 +285,11 @@ class HomePage extends HookConsumerWidget {
                                     color: Colors.black,
                                     width: 100,
                                     height: 60,
-                                    child: Center(
-                                        child: const Text(
+                                    child: const Center(
+                                        child: Text(
                                       "العربية",
                                       style: TextStyle(color: Colors.white),
-                                    ).tr()),
+                                    )),
                                   ),
                                 ),
                               )

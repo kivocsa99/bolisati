@@ -76,11 +76,11 @@ class HomeScreen extends HookConsumerWidget {
                           children: [
                             IconButton(
                                 onPressed: () {},
-                                icon: const Icon(FontAwesomeIcons.bell)),
+                                icon: Image.asset('assets/bell.png')),
                             IconButton(
                                 onPressed: () =>
                                     context.router.push(const ProfileScreen()),
-                                icon: const Icon(FontAwesomeIcons.user)),
+                                icon: Image.asset('assets/profile.png')),
                           ],
                         ),
                       ),
@@ -166,7 +166,7 @@ class HomeScreen extends HookConsumerWidget {
                                         context.router.push(
                                             const MedicalPlaceOrderScreen());
                                       },
-                                      icon: "assets/medical.png",
+                                      icon: "assets/medical.svg",
                                       insuranceName: "medical".tr(),
                                       insuranceDescreption: "medicaldes".tr(),
                                     ),
@@ -321,7 +321,9 @@ class HomeScreen extends HookConsumerWidget {
                                                   )
                                                 : const SizedBox.shrink();
                                           },
-                                          itemCount: 2,
+                                          itemCount: firstElements.isNotEmpty
+                                              ? firstElements.length
+                                              : 0,
                                         );
                                       },
                                     );
