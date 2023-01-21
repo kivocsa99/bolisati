@@ -144,10 +144,7 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "personal".tr(),
                             description: "vehicledes".tr(),
-                            icon: const Icon(
-                              FontAwesomeIcons.personFallingBurst,
-                              color: carcolor,
-                            ),
+                            icon: "assets/personal",
                             function: () => context.router.pop(),
                             containercolor: carcontainer,
                           ),

@@ -127,10 +127,7 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "edu".tr(),
                             description: "edudes".tr(),
-                            icon: const Icon(
-                              FontAwesomeIcons.book,
-                              color: carcolor,
-                            ),
+                            icon: "assets/education.svg",
                             function: () => context.router.pop(),
                             containercolor: carcontainer,
                           ),

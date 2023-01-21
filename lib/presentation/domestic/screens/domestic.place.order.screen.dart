@@ -154,10 +154,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "domestic".tr(),
                             description: "domesticdes".tr(),
-                            icon: const Icon(
-                              FontAwesomeIcons.briefcase,
-                              color: carcolor,
-                            ),
+                            icon: "assets/domestic.svg",
                             function: () => context.router.pop(),
                             containercolor: carcontainer,
                           ),

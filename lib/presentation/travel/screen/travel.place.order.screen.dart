@@ -108,10 +108,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                 BackInsuranceContainer(
                   name: "travel".tr(),
                   description: "traveldes".tr(),
-                  icon: const Icon(
-                    FontAwesomeIcons.plane,
-                    color: travelcolor,
-                  ),
+                  icon: "assets/travel.png",
                   function: () => context.router.pop(),
                   containercolor: travelcontainer,
                 ),

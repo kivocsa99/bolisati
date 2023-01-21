@@ -261,10 +261,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "vehicle".tr(),
                             description: "vehicledes".tr(),
-                            icon: const Icon(
-                              FontAwesomeIcons.car,
-                              color: carcolor,
-                            ),
+                            icon: "assets/car.svg",
                             function: () => context.router.pop(),
                             containercolor: carcontainer,
                           ),

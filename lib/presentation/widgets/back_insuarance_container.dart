@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BackInsuranceContainer extends HookWidget {
   final VoidCallback? function;
-  final Icon? icon;
+  final String? icon;
   final Color? containercolor;
   final String? name;
   final String? description;
@@ -54,7 +55,7 @@ class BackInsuranceContainer extends HookWidget {
               height: 56,
               width: 56,
               color: containercolor,
-              child: Center(child: icon),
+              child: Center(child: SvgPicture.asset(icon!)),
             ),
             const SizedBox(
               width: 20,

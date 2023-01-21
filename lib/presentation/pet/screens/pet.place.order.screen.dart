@@ -20,6 +20,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -150,10 +151,7 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "pet".tr(),
                             description: "petdes".tr(),
-                            icon: const Icon(
-                              FontAwesomeIcons.cat,
-                              color: carcolor,
-                            ),
+                            icon: 'assets/pet.svg',
                             function: () => context.router.pop(),
                             containercolor: carcontainer,
                           ),

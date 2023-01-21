@@ -20,7 +20,6 @@ class ApiAuthFacade implements IApiAuthFacade {
   @override
   Future<Either<ApiFailures, dynamic>> signInWithEmailAndPassword(
       {required String email, required String password}) {
-        
     late Box setting;
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
@@ -168,5 +167,11 @@ class ApiAuthFacade implements IApiAuthFacade {
       return const ApiFailures.internalError();
     });
     return result.map((r) => r).run();
+  }
+
+  @override
+  Future<Either<ApiFailures, dynamic>> forgetpassword({required String email}) {
+    // TODO: implement forgetpassword
+    throw UnimplementedError();
   }
 }

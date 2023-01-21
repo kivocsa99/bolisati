@@ -12,6 +12,9 @@ abstract class IApiAuthFacade {
     required String email,
     required String password,
   });
+  Future<Either<ApiFailures, dynamic>> forgetpassword({
+    required String email,
+  });
 
   Future<void> signOut(BuildContext context);
 

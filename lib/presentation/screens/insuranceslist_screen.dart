@@ -61,7 +61,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/car.png",
+                        icon: "assets/car.svg",
                         insuranceName: "vehicle".tr(),
                         insuranceDescreption: "vehicledes".tr(),
                         function: () =>
@@ -85,7 +85,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.png",
+                        icon: "assets/travel.svg",
                         insuranceName: "travel".tr(),
                         insuranceDescreption: "traveldes".tr(),
                         function: () =>
@@ -97,7 +97,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.png",
+                        icon: "assets/travel.svg",
                         insuranceName: "pet".tr(),
                         insuranceDescreption: "petdes".tr(),
                         function: () =>
@@ -109,7 +109,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.png",
+                        icon: "assets/travel.svg",
                         insuranceName: "domestic".tr(),
                         insuranceDescreption: "domesticdes".tr(),
                         function: () => context.router
@@ -121,7 +121,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.png",
+                        icon: "assets/travel.svg",
                         insuranceName: "retirement".tr(),
                         insuranceDescreption: "insurancedes".tr(),
                         function: () => context.router
@@ -133,7 +133,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.png",
+                        icon: "assets/travel.svg",
                         insuranceName: "personal".tr(),
                         insuranceDescreption: "personaldes".tr(),
                         function: () => context.router
@@ -145,7 +145,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.png",
+                        icon: "assets/travel.svg",
                         insuranceName: "edu".tr(),
                         insuranceDescreption: "edudes".tr(),
                         function: () => context.router

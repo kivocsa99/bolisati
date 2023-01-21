@@ -156,7 +156,7 @@ class HomeScreen extends HookConsumerWidget {
                                         context.router.push(
                                             const MotorPlaceOrderScreen());
                                       },
-                                      icon: "assets/car.png",
+                                      icon: "assets/car.svg",
                                       insuranceName: "vehicle".tr(),
                                       insuranceDescreption: "vehicledes".tr(),
                                     ),
@@ -181,7 +181,7 @@ class HomeScreen extends HookConsumerWidget {
                                   insuranceName: "travel".tr(),
                                   insuranceDescreption: "traveldes".tr(),
                                   containercolor: travelcontainer,
-                                  icon: "assets/travel.png"),
+                                  icon: "assets/travel.svg"),
                               const SizedBox(
                                 height: 20,
                               ),

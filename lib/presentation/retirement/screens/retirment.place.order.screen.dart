@@ -107,10 +107,7 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "retirement".tr(),
                             description: "insurancedes".tr(),
-                            icon: const Icon(
-                              FontAwesomeIcons.personCane,
-                              color: carcolor,
-                            ),
+                            icon: "assets/retirement.svg",
                             function: () => context.router.pop(),
                             containercolor: carcontainer,
                           ),

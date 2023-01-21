@@ -149,10 +149,7 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "medical".tr(),
                             description: "medicaldes".tr(),
-                            icon: const Icon(
-                              FontAwesomeIcons.houseMedical,
-                              color: medicalcolor,
-                            ),
+                            icon: "assets/medical.svg",
                             function: () => context.router.pop(),
                             containercolor: medicalcontainer,
                           ),
