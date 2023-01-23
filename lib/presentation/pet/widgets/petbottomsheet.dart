@@ -15,6 +15,16 @@ class PetBottomSheet extends StatefulWidget {
 
 class _PetBottomSheetState extends State<PetBottomSheet> {
   final List<bool?> checked = List.generate(20, (index) => false);
+  final List<int?> prices = [];
+  final TextEditingController controller = TextEditingController();
+  int? sum;
+
+  @override
+  void initState() {
+    controller.text = "${widget.offerModel!.price.toString()} ${"jod".tr()}";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Box pet = Hive.box("pet");
@@ -24,34 +34,58 @@ class _PetBottomSheetState extends State<PetBottomSheet> {
         padding:
             const EdgeInsets.only(left: 30.0, right: 30, top: 40, bottom: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: Image.asset("assets/logo.png"),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.offerModel!.company!.name!,
-                  style: const TextStyle(fontSize: 30),
-                ),
-                Text(
-                  "${widget.offerModel!.price.toString()}JOD/year",
-                  style: const TextStyle(fontSize: 20),
+                Row(children: [
+                  SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: ClipOval(
+                      child: Image.network(
+                        "https://bolisati.bitsblend.org/storage/${widget.offerModel!.company!.image}",
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    context.locale.languageCode == "en"
+                        ? widget.offerModel!.company!.name!
+                        : widget.offerModel!.company!.name_ar!,
+                    style: const TextStyle(fontSize: 30),
+                  )
+                ]),
+                Row(
+                  children: [
+                    Text(
+                      "${widget.offerModel!.price.toString()} ",
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Text("jod").tr()
+                  ],
                 ),
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
+            ),
+            Align(
+              alignment: context.locale.languageCode == "en"
+                  ? Alignment.topLeft
+                  : Alignment.topRight,
+              child: const Text(
+                "Addone",
+                style: TextStyle(fontSize: 20),
+              ).tr(),
             ),
             SizedBox(
-              height: 200,
+              height: 150,
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   AddonsModel addonsModel = widget.offerModel!.addons![index];
@@ -79,23 +113,72 @@ class _PetBottomSheetState extends State<PetBottomSheet> {
                                 }
 
                                 pet.put("addon", loc);
+                                checked[index] == true
+                                    ? prices.add(addonsModel.price!.toInt())
+                                    : prices.remove(addonsModel.price!.toInt());
+
+                                prices.isNotEmpty
+                                    ? sum = prices.fold(
+                                        0, (prev, element) => prev! + element!)
+                                    : sum = 0;
+                                controller.text =
+                                    ("${sum! + (widget.offerModel!.price!.toInt())} ${"jod".tr()}");
 
                                 setState(() {});
                               }),
-                          Text(
-                            addonsModel.addon!.name!,
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                          context.locale.languageCode == "en"
+                              ? Text(
+                                  addonsModel.addon!.name!,
+                                  style: const TextStyle(fontSize: 20),
+                                )
+                              : Text(
+                                  addonsModel.addon!.name_ar!,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
                         ],
                       ),
-                      Text(
-                        "${addonsModel.price} JOD",
-                        style: const TextStyle(fontSize: 20),
-                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "${addonsModel.price} ",
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const Text("jod").tr()
+                        ],
+                      )
                     ],
                   );
                 },
                 itemCount: widget.offerModel!.addons!.length,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: const Text("total").tr(),
+            ),
+            TextField(
+              controller: controller,
+              textAlign: TextAlign.center,
+              readOnly: true,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                focusedErrorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
+                errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
+                contentPadding: const EdgeInsets.all(0),
+                hintText: "total".tr(),
+                hintStyle: const TextStyle(
+                  color: Colors.black26,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
             Expanded(
@@ -106,7 +189,7 @@ class _PetBottomSheetState extends State<PetBottomSheet> {
                   child: Container(
                     color: Colors.black,
                     height: 60,
-                    child:  Center(
+                    child: Center(
                         child: Text(
                       "placeorder".tr(),
                       style: const TextStyle(color: Colors.white),

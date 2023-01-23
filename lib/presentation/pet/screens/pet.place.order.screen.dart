@@ -465,9 +465,8 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                                             ""))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                            content:
-                                                                                const Text("contact").tr())),
+                                                                        (l) => ScaffoldMessenger.of(context)
+                                                                            .showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                         (r) async {
                                                                       PetOrderDoneModel
                                                                           orderdone =
@@ -478,11 +477,55 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                                             value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                                 (r) async {
                                                                               if (element == images.last) {
-                                                                                context.router.pop();
-                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                                await context.router.replaceAll([
-                                                                                  const HomeScreen()
-                                                                                ]);
+                                                                                await context.router.pop();
+                                                                                showDialog(
+                                                                                  barrierDismissible: false,
+                                                                                  context: context,
+                                                                                  builder: (context) {
+                                                                                    return SimpleDialog(
+                                                                                        title: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                          children: [
+                                                                                            Image.asset(
+                                                                                              "assets/logo.png",
+                                                                                              scale: 1.5,
+                                                                                            ),
+                                                                                            const SizedBox(
+                                                                                              width: 10,
+                                                                                            ),
+                                                                                            const Text(
+                                                                                              'crashdesc',
+                                                                                            ).tr(),
+                                                                                          ],
+                                                                                        ),
+                                                                                        children: [
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                            child: const Text("orderconfirm").tr(),
+                                                                                          ),
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                            child: GestureDetector(
+                                                                                              onTap: () async {
+                                                                                                await context.router.replaceAll([
+                                                                                                  const HomeScreen()
+                                                                                                ]);
+                                                                                              },
+                                                                                              child: Container(
+                                                                                                color: Colors.black,
+                                                                                                width: 100,
+                                                                                                height: 60,
+                                                                                                child: Center(
+                                                                                                    child: const Text(
+                                                                                                  "confirm",
+                                                                                                  style: TextStyle(color: Colors.white),
+                                                                                                ).tr()),
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ]);
+                                                                                  },
+                                                                                );
                                                                               }
                                                                             }));
                                                                       }

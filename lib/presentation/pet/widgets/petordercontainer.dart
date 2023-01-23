@@ -1,4 +1,5 @@
-import 'package:bolisati/constants.dart';
+import 'package:advance_pdf_viewer_fork/advance_pdf_viewer_fork.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../router/app_route.gr.dart';
 
 class PetOrderContainer extends HookConsumerWidget {
   final List<PetOffersModel>? offers;
@@ -36,29 +39,31 @@ class PetOrderContainer extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     PetOffersModel e = offers![index];
 
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            selectedindex.value = index;
-                            await pet.put("petid", e.id);
-                          },
-                          child: Container(
-                            width: 350,
-                            height: 180,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.08),
-                                  spreadRadius: 5,
-                                  blurRadius: 25,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              selectedindex.value = index;
+                              await pet.put("petid", e.id);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  left: 30.0, right: 30.0, top: 20, bottom: 20),
+                              width: double.infinity,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.08),
+                                    spreadRadius: 5,
+                                    blurRadius: 25,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
                               child: Stack(children: [
                                 context.locale.languageCode == "en"
                                     ? Positioned(
@@ -108,43 +113,42 @@ class PetOrderContainer extends HookConsumerWidget {
                                       ),
                                 context.locale.languageCode == "en"
                                     ? Positioned(
-                                        left: 5,
+                                        right: 0,
+                                        left: 0,
                                         top: 50,
-                                        child: Column(
-                                          children: e.addons!
-                                              .map((addon) => Column(
-                                                    children: [
-                                                      Row(children: [
-                                                        SvgPicture.asset(
-                                                            'assets/add.svg'),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Text(
-                                                            "${addon.addon!.name!} (${addon.price} ${"jod".tr()})")
-                                                      ]),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      )
-                                                    ],
-                                                  ))
-                                              .toList(),
+                                        child: SizedBox(
+                                          height: 90,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: e.addons!
+                                                  .map(
+                                                      (addon) => Row(children: [
+                                                            SvgPicture.asset(
+                                                                'assets/add.svg'),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text(
+                                                                "${addon.addon!.name!} (${addon.price} ${"jod".tr()})")
+                                                          ]))
+                                                  .toList(),
+                                            ),
+                                          ),
                                         ),
                                       )
                                     : Positioned(
+                                        left: 0,
                                         right: 0,
                                         top: 50,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: e.addons!
-                                              .map((addon) => Column(
-                                                    children: [
-                                                      Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
+                                        child: SizedBox(
+                                          height: 90,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: e.addons!
+                                                  .map(
+                                                      (addon) => Row(children: [
                                                             SvgPicture.asset(
                                                                 'assets/add.svg'),
                                                             const SizedBox(
@@ -152,13 +156,10 @@ class PetOrderContainer extends HookConsumerWidget {
                                                             ),
                                                             Text(
                                                                 "${addon.addon!.name_ar!} (${addon.price} ${"jod".tr()})")
-                                                          ]),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      )
-                                                    ],
-                                                  ))
-                                              .toList(),
+                                                          ]))
+                                                  .toList(),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                 context.locale.languageCode == "en"
@@ -190,21 +191,49 @@ class PetOrderContainer extends HookConsumerWidget {
                                         ),
                                       )
                                     : Positioned(
-                                        left: 0,
-                                        bottom: 10,
+                                        left: -10,
+                                        bottom: -10,
                                         child: Checkbox(
                                           value: index == selectedindex.value,
                                           onChanged: (value) {},
                                         ),
                                       ),
+                                Positioned(
+                                    bottom: 0,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        final hello = await PDFDocument.fromURL(
+                                            e.company!.pdf!);
+
+                                        context.router
+                                            .push(PdfScreen(url: hello));
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            FontAwesomeIcons.filePdf,
+                                            size: 15,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          const Text(
+                                            "read",
+                                            style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 10),
+                                          ).tr(),
+                                        ],
+                                      ),
+                                    ))
                               ]),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        )
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ),
                     );
                   },
                   itemCount: offers!.length,
