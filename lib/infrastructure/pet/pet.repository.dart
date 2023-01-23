@@ -95,17 +95,16 @@ class PetRepository implements IPetRepository {
 //done
 
   @override
-  Future<Either<ApiFailures, dynamic>> placeOrder({
-    required PetOrderDoneModel model,
-    required String? token,
-    required String? addons
-  }) async {
+  Future<Either<ApiFailures, dynamic>> placeOrder(
+      {required PetOrderDoneModel model,
+      required String? token,
+      required String? addons}) async {
     var dio = Dio();
     dio.options.headers = {"Content-Type": "application/json"};
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Pet/PlaceOrder?pet_insurance_id=${int.parse(model.pet_insurance_id!)}&pet_type_id=${int.parse(model.pet_type_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&gender_id=${int.parse(model.genderid!)}&country_id=${int.parse(model.country_id!)}$addons&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/Pet/PlaceOrder?pet_insurance_id=${int.parse(model.pet_insurance_id!)}&pet_type_id=${int.parse(model.pet_type_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&gender_id=${int.parse(model.gender_id!)}&country_id=${int.parse(model.country_id!)}$addons&api_token=$token""");
 
       if (result.data["AZSVR"] == "SUCCESS") {
         PetOrderDoneModel model =

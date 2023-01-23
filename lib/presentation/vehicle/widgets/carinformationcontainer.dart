@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/motor.repository.provider.dart';
 import 'package:bolisati/domain/api/orders/motororders/cars/carmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -21,9 +23,9 @@ class CarInformationContainer extends HookWidget {
   final TextEditingController? prevcontroller;
   final DateTime? date;
 
-  final ValueChanged<String?>? fueltype;
+  final VoidCallback? fueltype;
   final ValueChanged<String?>? value;
-  final ValueChanged<String?>? perviosaccidents;
+  final VoidCallback? perviosaccidents;
 
   final VoidCallback? caryearfunction;
   final VoidCallback? ontap;
@@ -61,7 +63,7 @@ class CarInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "insname".tr(),
                 width: double.infinity,
               ),
               CarBrand(
@@ -72,48 +74,44 @@ class CarInformationContainer extends HookWidget {
               YearPicker(
                 controller: yearcontroller,
               ),
-              Row(
-                children: [
-                  CustomField(
-                    onchanged: fueltype,
-                    initial: "fuel".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2,
-                  ),
-                  FuelType(
-                    width: 100,
-                    onchanged: fueltype,
-                  ),
-                ],
-              ),
               CustomField(
                 controller: valuecontroller,
                 type: TextInputType.number,
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: value,
+                formatter: [ThousandsSeparatorInputFormatter()],
                 label: "value".tr(),
                 width: double.infinity,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomField(
-                    initial: "prev".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2 + 10,
-                  ),
-                  Carraccident(
-                    width: 100,
-                    onchanged: perviosaccidents,
-                  ),
-                ],
+              CustomField(
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                controller: fueltypecontroller,
+                readonly: true,
+                width: double.infinity,
+                label: "fuel".tr(),
+                function: fueltype,
               ),
-              Align(
+              CustomField(
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                controller: prevcontroller,
+                readonly: true,
+                width: double.infinity,
+                label: "prev".tr(),
+                function: perviosaccidents,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
                   alignment: context.locale.languageCode == "ar"
                       ? Alignment.centerRight
                       : Alignment.centerLeft,
-                  child: Text("").tr()),
+                  child: const Text(
+                    "insuranceperiod",
+                    style: TextStyle(fontSize: 20),
+                  ).tr(),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -137,55 +135,6 @@ class CarInformationContainer extends HookWidget {
   }
 }
 
-class FuelType extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  final TextEditingController? controller;
-  const FuelType(
-      {super.key,
-      this.width,
-      this.onchanged,
-      this.controller,
-      this.label,
-      this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.grey,
-              width: 2,
-            ),
-          ),
-        ),
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["N/A", "electric", "fuel", "hybrid"]
-              .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
-  }
-}
-
 class Carraccident extends HookWidget {
   final ValueChanged<String?>? onchanged;
   final String? Function(String?)? validator;
@@ -196,19 +145,20 @@ class Carraccident extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
+    final dropDownValue = useState(null);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
         height: 80,
         width: width,
         child: DropdownButtonFormField<String>(
-          validator: RequiredValidator(errorText: ""),
+          hint: const Text("prev").tr(),
+          validator: (value) => value ?? "reqfield".tr(),
           focusColor: Colors.grey,
           iconEnabledColor: Colors.grey,
           value: dropDownValue.value,
           onChanged: onchanged,
-          items: ["N/A", "True", "False"]
+          items: ["globalsyes".tr(), "globalsno".tr()]
               .map<DropdownMenuItem<String>>(
                   (String value) => DropdownMenuItem<String>(
                       value: value,
@@ -227,7 +177,7 @@ class CustomField extends StatelessWidget {
   final String? Function(String?)? validator;
   final VoidCallback? function;
   final TextEditingController? controller;
-
+  final List<TextInputFormatter>? formatter;
   final String? label;
   final double? width;
   final bool? readonly;
@@ -237,6 +187,7 @@ class CustomField extends StatelessWidget {
       {super.key,
       this.width,
       this.type,
+      this.formatter,
       this.function,
       this.readonly,
       this.controller,
@@ -261,6 +212,7 @@ class CustomField extends StatelessWidget {
         height: 80,
         width: width,
         child: TextFormField(
+          inputFormatters: formatter,
           controller: controller,
           onTap: function,
           initialValue: initial,
@@ -274,7 +226,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -299,9 +251,14 @@ class YearPicker extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scrollcontroller = FixedExtentScrollController(initialItem: 0);
+    List<String> years = [];
+    int currentYear = DateTime.now().year;
+    for (int i = currentYear; i > currentYear - 16; i--) {
+      years.add(i.toString());
+    }
     final Box car = Hive.box("car");
 
-    final selectedYear = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -320,29 +277,54 @@ class YearPicker extends HookWidget {
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1970),
-                lastDate: DateTime.now().add(const Duration(days: 356)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                selectedYear.value = DateFormat.y().format(pickedYear);
-                car.put("caryear", selectedYear.value);
-                controller!.text = selectedYear.value.toString();
-              }
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoPicker(
+                                scrollController: scrollcontroller,
+                                looping: false,
+                                itemExtent: 46,
+                                onSelectedItemChanged: (value) {
+                                  car.put("caryear", years[value]);
+                                  controller!.text = years[value].toString();
+                                },
+                                children: List<Widget>.generate(years.length,
+                                    (int index) {
+                                  return Text(
+                                    years[index],
+                                    style: const TextStyle(
+                                        color: CupertinoColors.black),
+                                  );
+                                }),
+                              ),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (scrollcontroller.selectedItem == 0) {
+                                      car.put("caryear", years[0]);
+                                      controller!.text = years[0].toString();
+                                    }
+                                    context.router.pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
             },
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -350,8 +332,8 @@ class YearPicker extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: "caryear".tr(),
@@ -384,9 +366,6 @@ class StartEndDate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("car");
-
-    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -410,8 +389,8 @@ class StartEndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -438,9 +417,6 @@ class EndDate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("car");
-
-    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -463,8 +439,8 @@ class EndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -582,8 +558,8 @@ class CarBrand extends HookConsumerWidget {
                           borderSide: BorderSide(color: Colors.red)),
                       errorBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.red)),
-                      contentPadding:
-                          const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                      contentPadding: const EdgeInsets.only(
+                          left: 10, top: 10, bottom: 10, right: 10),
                       filled: true,
                       fillColor: Colors.blue[350],
                       labelText: "carbrand".tr(),
@@ -621,8 +597,8 @@ class CarBrand extends HookConsumerWidget {
                       borderSide: BorderSide(color: Colors.red)),
                   errorBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.red)),
-                  contentPadding:
-                      const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                  contentPadding: const EdgeInsets.only(
+                      left: 10, top: 10, bottom: 10, right: 10),
                   filled: true,
                   fillColor: Colors.blue[350],
                   labelText: "carmodel".tr(),
@@ -637,5 +613,52 @@ class CarBrand extends HookConsumerWidget {
             )
           ],
         ));
+  }
+}
+
+class ThousandsSeparatorInputFormatter extends TextInputFormatter {
+  static const separator = ','; // Change this to '.' for other locales
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Short-circuit if the new value is empty
+    if (newValue.text.isEmpty) {
+      return newValue.copyWith(text: '');
+    }
+
+    // Handle "deletion" of separator character
+    String oldValueText = oldValue.text.replaceAll(separator, '');
+    String newValueText = newValue.text.replaceAll(separator, '');
+
+    if (oldValue.text.endsWith(separator) &&
+        oldValue.text.length == newValue.text.length + 1) {
+      newValueText = newValueText.substring(0, newValueText.length - 1);
+    }
+
+    // Only process if the old value and new value are different
+    if (oldValueText != newValueText) {
+      int selectionIndex =
+          newValue.text.length - newValue.selection.extentOffset;
+      final chars = newValueText.split('');
+
+      String newString = '';
+      for (int i = chars.length - 1; i >= 0; i--) {
+        if ((chars.length - 1 - i) % 3 == 0 && i != chars.length - 1) {
+          newString = separator + newString;
+        }
+        newString = chars[i] + newString;
+      }
+
+      return TextEditingValue(
+        text: newString.toString(),
+        selection: TextSelection.collapsed(
+          offset: newString.length - selectionIndex,
+        ),
+      );
+    }
+
+    // If the new value and old value are the same, just return as-is
+    return newValue;
   }
 }

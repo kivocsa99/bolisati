@@ -64,7 +64,7 @@ class TravelRepository implements ITravelRepository {
       final result = await dio.get(
         "https://bolisati.bitsblend.org/api/V1/Travel/GetOffers?travel_region_id=$regionid&period_in_days=$period&age=$age&api_token=$token",
       );
-      print(result.data);
+      print(result.realUri);
 
       Map<String, dynamic> map = result.data;
 
@@ -100,11 +100,10 @@ class TravelRepository implements ITravelRepository {
 //done
 
   @override
-  Future<Either<ApiFailures, dynamic>> placeOrder({
-    required TravelOrderModel travelOrder,
-    required String? token,
-    required String? addons
-  }) async {
+  Future<Either<ApiFailures, dynamic>> placeOrder(
+      {required TravelOrderModel travelOrder,
+      required String? token,
+      required String? addons}) async {
     var dio = Dio();
     dio.options.headers = {"Content-Type": "application/json"};
 

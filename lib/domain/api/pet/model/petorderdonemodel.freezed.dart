@@ -24,7 +24,7 @@ mixin _$PetOrderDoneModel {
   int? get company_id => throw _privateConstructorUsedError;
   String? get pet_insurance_id => throw _privateConstructorUsedError;
   String? get pet_type_id => throw _privateConstructorUsedError;
-  String? get genderid => throw _privateConstructorUsedError;
+  String? get gender_id => throw _privateConstructorUsedError;
   int? get pet_order_status_id => throw _privateConstructorUsedError;
   String? get pet_type => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
@@ -57,7 +57,7 @@ abstract class $PetOrderDoneModelCopyWith<$Res> {
       int? company_id,
       String? pet_insurance_id,
       String? pet_type_id,
-      String? genderid,
+      String? gender_id,
       int? pet_order_status_id,
       String? pet_type,
       String? gender,
@@ -91,7 +91,7 @@ class _$PetOrderDoneModelCopyWithImpl<$Res, $Val extends PetOrderDoneModel>
     Object? company_id = freezed,
     Object? pet_insurance_id = freezed,
     Object? pet_type_id = freezed,
-    Object? genderid = freezed,
+    Object? gender_id = freezed,
     Object? pet_order_status_id = freezed,
     Object? pet_type = freezed,
     Object? gender = freezed,
@@ -124,9 +124,9 @@ class _$PetOrderDoneModelCopyWithImpl<$Res, $Val extends PetOrderDoneModel>
           ? _value.pet_type_id
           : pet_type_id // ignore: cast_nullable_to_non_nullable
               as String?,
-      genderid: freezed == genderid
-          ? _value.genderid
-          : genderid // ignore: cast_nullable_to_non_nullable
+      gender_id: freezed == gender_id
+          ? _value.gender_id
+          : gender_id // ignore: cast_nullable_to_non_nullable
               as String?,
       pet_order_status_id: freezed == pet_order_status_id
           ? _value.pet_order_status_id
@@ -201,7 +201,7 @@ abstract class _$$_PetOrderDoneModelCopyWith<$Res>
       int? company_id,
       String? pet_insurance_id,
       String? pet_type_id,
-      String? genderid,
+      String? gender_id,
       int? pet_order_status_id,
       String? pet_type,
       String? gender,
@@ -233,7 +233,7 @@ class __$$_PetOrderDoneModelCopyWithImpl<$Res>
     Object? company_id = freezed,
     Object? pet_insurance_id = freezed,
     Object? pet_type_id = freezed,
-    Object? genderid = freezed,
+    Object? gender_id = freezed,
     Object? pet_order_status_id = freezed,
     Object? pet_type = freezed,
     Object? gender = freezed,
@@ -266,9 +266,9 @@ class __$$_PetOrderDoneModelCopyWithImpl<$Res>
           ? _value.pet_type_id
           : pet_type_id // ignore: cast_nullable_to_non_nullable
               as String?,
-      genderid: freezed == genderid
-          ? _value.genderid
-          : genderid // ignore: cast_nullable_to_non_nullable
+      gender_id: freezed == gender_id
+          ? _value.gender_id
+          : gender_id // ignore: cast_nullable_to_non_nullable
               as String?,
       pet_order_status_id: freezed == pet_order_status_id
           ? _value.pet_order_status_id
@@ -338,7 +338,7 @@ class _$_PetOrderDoneModel implements _PetOrderDoneModel {
       this.company_id,
       this.pet_insurance_id,
       this.pet_type_id,
-      this.genderid,
+      this.gender_id,
       this.pet_order_status_id,
       this.pet_type,
       this.gender,
@@ -367,7 +367,7 @@ class _$_PetOrderDoneModel implements _PetOrderDoneModel {
   @override
   final String? pet_type_id;
   @override
-  final String? genderid;
+  final String? gender_id;
   @override
   final int? pet_order_status_id;
   @override
@@ -406,7 +406,7 @@ class _$_PetOrderDoneModel implements _PetOrderDoneModel {
 
   @override
   String toString() {
-    return 'PetOrderDoneModel(customer_user_id: $customer_user_id, company_id: $company_id, pet_insurance_id: $pet_insurance_id, pet_type_id: $pet_type_id, genderid: $genderid, pet_order_status_id: $pet_order_status_id, pet_type: $pet_type, gender: $gender, name: $name, country_id: $country_id, birthdate: $birthdate, age: $age, start_date: $start_date, end_date: $end_date, total: $total, created_at: $created_at, updated_at: $updated_at, id: $id, addons: $addons)';
+    return 'PetOrderDoneModel(customer_user_id: $customer_user_id, company_id: $company_id, pet_insurance_id: $pet_insurance_id, pet_type_id: $pet_type_id, gender_id: $gender_id, pet_order_status_id: $pet_order_status_id, pet_type: $pet_type, gender: $gender, name: $name, country_id: $country_id, birthdate: $birthdate, age: $age, start_date: $start_date, end_date: $end_date, total: $total, created_at: $created_at, updated_at: $updated_at, id: $id, addons: $addons)';
   }
 
   @override
@@ -422,8 +422,8 @@ class _$_PetOrderDoneModel implements _PetOrderDoneModel {
                 other.pet_insurance_id == pet_insurance_id) &&
             (identical(other.pet_type_id, pet_type_id) ||
                 other.pet_type_id == pet_type_id) &&
-            (identical(other.genderid, genderid) ||
-                other.genderid == genderid) &&
+            (identical(other.gender_id, gender_id) ||
+                other.gender_id == gender_id) &&
             (identical(other.pet_order_status_id, pet_order_status_id) ||
                 other.pet_order_status_id == pet_order_status_id) &&
             (identical(other.pet_type, pet_type) ||
@@ -456,7 +456,7 @@ class _$_PetOrderDoneModel implements _PetOrderDoneModel {
         company_id,
         pet_insurance_id,
         pet_type_id,
-        genderid,
+        gender_id,
         pet_order_status_id,
         pet_type,
         gender,
@@ -494,7 +494,7 @@ abstract class _PetOrderDoneModel implements PetOrderDoneModel {
       final int? company_id,
       final String? pet_insurance_id,
       final String? pet_type_id,
-      final String? genderid,
+      final String? gender_id,
       final int? pet_order_status_id,
       final String? pet_type,
       final String? gender,
@@ -522,7 +522,7 @@ abstract class _PetOrderDoneModel implements PetOrderDoneModel {
   @override
   String? get pet_type_id;
   @override
-  String? get genderid;
+  String? get gender_id;
   @override
   int? get pet_order_status_id;
   @override

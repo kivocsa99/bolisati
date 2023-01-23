@@ -73,6 +73,11 @@ dependencies:
   url_launcher: ^6.1.7
   cloud_firestore: ^4.3.1
   flutter_svg: ^1.1.6
+  syncfusion_flutter_pdfviewer: ^20.4.44
+  advance_pdf_viewer_fork: ^2.0.0 
+  flutter_cache_manager: ^3.3.0
+  flutter_cached_pdfview: ^0.4.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

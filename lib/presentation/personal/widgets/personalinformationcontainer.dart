@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/personal.repository.provider.dart';
 import 'package:bolisati/domain/api/personal/model/personaloccupation.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -59,7 +61,7 @@ class PersonalInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "insname".tr(),
                 width: double.infinity,
               ),
               Ocuupation(
@@ -70,6 +72,7 @@ class PersonalInformationContainer extends HookWidget {
                 controller: yearcontroller,
               ),
               CustomField(
+                formatter: [ThousandsSeparatorInputFormatter()],
                 controller: valuecontroller,
                 type: TextInputType.number,
                 readonly: false,
@@ -100,69 +103,12 @@ class PersonalInformationContainer extends HookWidget {
   }
 }
 
-class EndDate extends HookWidget {
-  final double? width;
-  final String? label;
-  final TextEditingController? startcontroller;
-  final TextEditingController? endcontroller;
-  final VoidCallback? ontap;
-
-  const EndDate(
-      {super.key,
-      this.ontap,
-      this.width,
-      this.startcontroller,
-      this.label,
-      this.endcontroller});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.grey,
-                width: 2,
-              ),
-            ),
-          ),
-          height: 80,
-          width: width,
-          child: TextFormField(
-            readOnly: true,
-            validator: RequiredValidator(errorText: "reqfield".tr()),
-            onTap: ontap,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              focusedErrorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-              errorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-              filled: true,
-              fillColor: Colors.blue[350],
-              labelText: label,
-              hintStyle: const TextStyle(
-                color: Colors.black26,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            controller: endcontroller,
-          ),
-        ));
-  }
-}
-
 class CustomField extends StatelessWidget {
   final ValueChanged<String?>? onchanged;
   final String? Function(String?)? validator;
   final VoidCallback? function;
   final TextEditingController? controller;
-
+  final List<TextInputFormatter>? formatter;
   final String? label;
   final double? width;
   final bool? readonly;
@@ -173,6 +119,7 @@ class CustomField extends StatelessWidget {
       this.width,
       this.type,
       this.function,
+      this.formatter,
       this.readonly,
       this.controller,
       this.label,
@@ -196,6 +143,7 @@ class CustomField extends StatelessWidget {
         height: 80,
         width: width,
         child: TextFormField(
+          inputFormatters: formatter,
           controller: controller,
           onTap: function,
           initialValue: initial,
@@ -209,7 +157,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -255,34 +203,71 @@ class YearPicker extends HookWidget {
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now().add(const Duration(days: 356)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                String picked = DateFormat.y().format(pickedYear);
-                String now = DateFormat.y().format(DateTime.now());
-                int result = int.parse(now) - int.parse(picked);
-                selectedYear.value =
-                    DateFormat("yyyy-MM-dd").format(pickedYear);
-                personal.put("birthdate", selectedYear.value);
-                personal.put("age", result);
-                controller!.text = selectedYear.value.toString();
-              }
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoDatePicker(
+                                  dateOrder: DatePickerDateOrder.dmy,
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: DateTime.now()
+                                      .add(const Duration(hours: 1)),
+                                  minimumDate: DateTime(1990),
+                                  maximumDate: DateTime.now()
+                                      .add(const Duration(days: 356)),
+                                  onDateTimeChanged: (val) {
+                                    String picked = DateFormat.y().format(val);
+                                    String now =
+                                        DateFormat.y().format(DateTime.now());
+                                    int result =
+                                        int.parse(now) - int.parse(picked);
+                                    selectedYear.value =
+                                        DateFormat("yyyy-MM-dd").format(val);
+                                    personal.put(
+                                        "birthdate", selectedYear.value);
+                                    personal.put("age", result);
+                                    controller!.text =
+                                        selectedYear.value.toString();
+                                  }),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (controller!.text == "") {
+                                      String picked =
+                                          DateFormat.y().format(DateTime.now());
+                                      String now =
+                                          DateFormat.y().format(DateTime.now());
+                                      int result =
+                                          int.parse(now) - int.parse(picked);
+                                      selectedYear.value =
+                                          DateFormat("yyyy-MM-dd")
+                                              .format(DateTime.now());
+                                      personal.put(
+                                          "birthdate", selectedYear.value);
+                                      personal.put("age", result);
+                                      controller!.text =
+                                          selectedYear.value.toString();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
             },
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -290,8 +275,8 @@ class YearPicker extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: "birthdate".tr(),
@@ -313,19 +298,17 @@ class StartEndDate extends HookWidget {
   final TextEditingController? startcontroller;
   final TextEditingController? endcontroller;
   final VoidCallback? ontap;
+
   const StartEndDate(
       {super.key,
-      this.width,
       this.ontap,
+      this.width,
       this.startcontroller,
       this.label,
       this.endcontroller});
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("personal");
-
-    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -349,8 +332,8 @@ class StartEndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -360,9 +343,64 @@ class StartEndDate extends HookWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            controller: label == "Start Date" || label == "تاريخ البداية"
-                ? startcontroller
-                : endcontroller,
+            controller: startcontroller,
+          ),
+        ));
+  }
+}
+
+class EndDate extends HookWidget {
+  final double? width;
+  final String? label;
+  final TextEditingController? startcontroller;
+  final TextEditingController? endcontroller;
+  final VoidCallback? ontap;
+
+  const EndDate(
+      {super.key,
+      this.ontap,
+      this.width,
+      this.startcontroller,
+      this.label,
+      this.endcontroller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey,
+                width: 2,
+              ),
+            ),
+          ),
+          height: 80,
+          width: width,
+          child: TextFormField(
+            readOnly: true,
+            validator: RequiredValidator(errorText: "reqfield".tr()),
+            onTap: ontap,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              focusedErrorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              errorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
+              filled: true,
+              fillColor: Colors.blue[350],
+              labelText: label,
+              hintStyle: const TextStyle(
+                color: Colors.black26,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            controller: endcontroller,
           ),
         ));
   }
@@ -423,7 +461,10 @@ class Ocuupation extends HookConsumerWidget {
                           children: cars.map((e) {
                             return SimpleDialogOption(
                               onPressed: () async {
-                                selectedcountry.value = e.name.toString();
+                                selectedcountry.value =
+                                    context.locale.languageCode == "ar"
+                                        ? e.name_ar.toString()
+                                        : e.name.toString();
                                 brandcontroller!.text =
                                     selectedcountry.value.toString();
                                 personal.put("typeid", e.id);
@@ -445,8 +486,8 @@ class Ocuupation extends HookConsumerWidget {
                       borderSide: BorderSide(color: Colors.red)),
                   errorBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.red)),
-                  contentPadding:
-                      const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                  contentPadding: const EdgeInsets.only(
+                      left: 10, top: 10, bottom: 10, right: 10),
                   filled: true,
                   fillColor: Colors.blue[350],
                   labelText: "occupation".tr(),
@@ -461,5 +502,52 @@ class Ocuupation extends HookConsumerWidget {
             },
           ),
         ));
+  }
+}
+
+class ThousandsSeparatorInputFormatter extends TextInputFormatter {
+  static const separator = ','; // Change this to '.' for other locales
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Short-circuit if the new value is empty
+    if (newValue.text.isEmpty) {
+      return newValue.copyWith(text: '');
+    }
+
+    // Handle "deletion" of separator character
+    String oldValueText = oldValue.text.replaceAll(separator, '');
+    String newValueText = newValue.text.replaceAll(separator, '');
+
+    if (oldValue.text.endsWith(separator) &&
+        oldValue.text.length == newValue.text.length + 1) {
+      newValueText = newValueText.substring(0, newValueText.length - 1);
+    }
+
+    // Only process if the old value and new value are different
+    if (oldValueText != newValueText) {
+      int selectionIndex =
+          newValue.text.length - newValue.selection.extentOffset;
+      final chars = newValueText.split('');
+
+      String newString = '';
+      for (int i = chars.length - 1; i >= 0; i--) {
+        if ((chars.length - 1 - i) % 3 == 0 && i != chars.length - 1) {
+          newString = separator + newString;
+        }
+        newString = chars[i] + newString;
+      }
+
+      return TextEditingValue(
+        text: newString.toString(),
+        selection: TextSelection.collapsed(
+          offset: newString.length - selectionIndex,
+        ),
+      );
+    }
+
+    // If the new value and old value are the same, just return as-is
+    return newValue;
   }
 }

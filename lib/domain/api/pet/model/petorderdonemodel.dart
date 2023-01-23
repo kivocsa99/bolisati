@@ -15,7 +15,7 @@ class PetOrderDoneModel with _$PetOrderDoneModel {
     int? company_id,
     String? pet_insurance_id,
     String? pet_type_id,
-    String? genderid,
+    String? gender_id,
     int? pet_order_status_id,
     String? pet_type,
     String? gender,

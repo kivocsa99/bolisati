@@ -63,9 +63,8 @@ class RetirmentRepository implements IRetirmentRepository {
     dio.options.headers = {"Content-Type": "application/json"};
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
-      int type =
-          retirementOrderModel.retirement_type_id == "Monthly Fee" ? 1 : 2;
-      String fee = retirementOrderModel.retirement_type_id == "Monthly Fee"
+      int type = retirementOrderModel.retirement_type_id == 1 ? 1 : 2;
+      String fee = retirementOrderModel.retirement_type_id == 1
           ? "monthly_fee"
           : "full_fee";
       print(type);

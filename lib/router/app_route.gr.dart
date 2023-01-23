@@ -11,82 +11,84 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i16;
-import 'package:flutter/foundation.dart' as _i19;
-import 'package:flutter/material.dart' as _i17;
+import 'package:advance_pdf_viewer_fork/advance_pdf_viewer_fork.dart' as _i22;
+import 'package:auto_route/auto_route.dart' as _i17;
+import 'package:flutter/foundation.dart' as _i20;
+import 'package:flutter/material.dart' as _i18;
 
-import '../domain/api/orders/user.orders.model.dart' as _i20;
+import '../domain/api/orders/user.orders.model.dart' as _i21;
 import '../main.dart' as _i2;
 import '../presentation/auth/screens/login.dart' as _i8;
 import '../presentation/domestic/screens/domestic.place.order.screen.dart'
-    as _i13;
+    as _i14;
 import '../presentation/educational/screen/educational.place.order.screen.dart'
-    as _i12;
+    as _i13;
 import '../presentation/landing/screens/landing.dart' as _i1;
 import '../presentation/medical/screens/medical.place.order_screen.dart'
-    as _i11;
+    as _i12;
 import '../presentation/personal/screens/personal.place.order.screen.dart'
     as _i9;
 import '../presentation/pet/screens/pet.place.order.screen.dart' as _i6;
 import '../presentation/retirement/screens/retirment.place.order.screen.dart'
-    as _i10;
+    as _i11;
 import '../presentation/screens/homescreen.dart' as _i3;
 import '../presentation/screens/insuranceslist_screen.dart' as _i4;
+import '../presentation/screens/pdfviewer_screen.dart' as _i10;
 import '../presentation/screens/profile_screen.dart' as _i7;
 import '../presentation/screens/user.insurances_screen.dart' as _i5;
-import '../presentation/travel/screen/travel.place.order.screen.dart' as _i14;
-import '../presentation/vehicle/screens/motor.place.order_screen.dart' as _i15;
-import 'guard.dart' as _i18;
+import '../presentation/travel/screen/travel.place.order.screen.dart' as _i15;
+import '../presentation/vehicle/screens/motor.place.order_screen.dart' as _i16;
+import 'guard.dart' as _i19;
 
-class AppRouter extends _i16.RootStackRouter {
+class AppRouter extends _i17.RootStackRouter {
   AppRouter({
-    _i17.GlobalKey<_i17.NavigatorState>? navigatorKey,
+    _i18.GlobalKey<_i18.NavigatorState>? navigatorKey,
     required this.authGuard,
   }) : super(navigatorKey);
 
-  final _i18.AuthGuard authGuard;
+  final _i19.AuthGuard authGuard;
 
   @override
-  final Map<String, _i16.PageFactory> pagesMap = {
+  final Map<String, _i17.PageFactory> pagesMap = {
     LandingScreen.name: (routeData) {
       final args = routeData.argsAs<LandingScreenArgs>(
           orElse: () => const LandingScreenArgs());
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
         child: _i1.LandingScreen(
           key: args.key,
           constraints: args.constraints,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.fadeIn,
+        transitionsBuilder: _i17.TransitionsBuilders.fadeIn,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     HomeRoute.name: (routeData) {
-      return _i16.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i2.HomePage(),
       );
     },
     MyApp.name: (routeData) {
       final args = routeData.argsAs<MyAppArgs>(orElse: () => const MyAppArgs());
-      return _i16.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i2.MyApp(key: args.key),
       );
     },
     HomeScreen.name: (routeData) {
-      return _i16.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i3.HomeScreen(),
       );
     },
     InsuranceListScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i4.InsuranceListScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
@@ -95,113 +97,128 @@ class AppRouter extends _i16.RootStackRouter {
     UserInsuranceListScreen.name: (routeData) {
       final args = routeData.argsAs<UserInsuranceListScreenArgs>(
           orElse: () => const UserInsuranceListScreenArgs());
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
         child: _i5.UserInsuranceListScreen(
           key: args.key,
           order: args.order,
         ),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     PetPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i6.PetPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     ProfileScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i7.ProfileScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     LoginScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i8.LoginScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     PersonalPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i9.PersonalPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
+        durationInMilliseconds: 500,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
+    PdfScreen.name: (routeData) {
+      final args =
+          routeData.argsAs<PdfScreenArgs>(orElse: () => const PdfScreenArgs());
+      return _i17.CustomPage<dynamic>(
+        routeData: routeData,
+        child: _i10.PdfScreen(
+          key: args.key,
+          url: args.url,
+        ),
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     RetirmentPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i10.RetirmentPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        child: const _i11.RetirmentPlaceOrderScreen(),
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     MedicalPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i11.MedicalPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        child: const _i12.MedicalPlaceOrderScreen(),
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     EducationalPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i12.EducationalPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        child: const _i13.EducationalPlaceOrderScreen(),
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     DomesticPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i13.DomesticPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        child: const _i14.DomesticPlaceOrderScreen(),
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     TravelPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i14.TravelPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        child: const _i15.TravelPlaceOrderScreen(),
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
       );
     },
     MotorPlaceOrderScreen.name: (routeData) {
-      return _i16.CustomPage<dynamic>(
+      return _i17.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i15.MotorPlaceOrderScreen(),
-        transitionsBuilder: _i16.TransitionsBuilders.slideBottom,
+        child: const _i16.MotorPlaceOrderScreen(),
+        transitionsBuilder: _i17.TransitionsBuilders.slideBottom,
         durationInMilliseconds: 500,
         opaque: true,
         barrierDismissible: false,
@@ -210,69 +227,73 @@ class AppRouter extends _i16.RootStackRouter {
   };
 
   @override
-  List<_i16.RouteConfig> get routes => [
-        _i16.RouteConfig(
+  List<_i17.RouteConfig> get routes => [
+        _i17.RouteConfig(
           LandingScreen.name,
           path: '/landing-screen',
           guards: [authGuard],
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           HomeRoute.name,
           path: '/',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           MyApp.name,
           path: '/my-app',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           HomeScreen.name,
           path: '/home-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           InsuranceListScreen.name,
           path: '/insurance-list-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           UserInsuranceListScreen.name,
           path: '/user-insurance-list-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           PetPlaceOrderScreen.name,
           path: '/pet-place-order-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           ProfileScreen.name,
           path: '/profile-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           LoginScreen.name,
           path: '/login-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           PersonalPlaceOrderScreen.name,
           path: '/personal-place-order-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
+          PdfScreen.name,
+          path: '/pdf-screen',
+        ),
+        _i17.RouteConfig(
           RetirmentPlaceOrderScreen.name,
           path: '/retirment-place-order-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           MedicalPlaceOrderScreen.name,
           path: '/medical-place-order-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           EducationalPlaceOrderScreen.name,
           path: '/educational-place-order-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           DomesticPlaceOrderScreen.name,
           path: '/domestic-place-order-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           TravelPlaceOrderScreen.name,
           path: '/travel-place-order-screen',
         ),
-        _i16.RouteConfig(
+        _i17.RouteConfig(
           MotorPlaceOrderScreen.name,
           path: '/motor-place-order-screen',
         ),
@@ -281,10 +302,10 @@ class AppRouter extends _i16.RootStackRouter {
 
 /// generated route for
 /// [_i1.LandingScreen]
-class LandingScreen extends _i16.PageRouteInfo<LandingScreenArgs> {
+class LandingScreen extends _i17.PageRouteInfo<LandingScreenArgs> {
   LandingScreen({
-    _i19.Key? key,
-    _i17.BoxConstraints? constraints,
+    _i20.Key? key,
+    _i18.BoxConstraints? constraints,
   }) : super(
           LandingScreen.name,
           path: '/landing-screen',
@@ -303,9 +324,9 @@ class LandingScreenArgs {
     this.constraints,
   });
 
-  final _i19.Key? key;
+  final _i20.Key? key;
 
-  final _i17.BoxConstraints? constraints;
+  final _i18.BoxConstraints? constraints;
 
   @override
   String toString() {
@@ -315,7 +336,7 @@ class LandingScreenArgs {
 
 /// generated route for
 /// [_i2.HomePage]
-class HomeRoute extends _i16.PageRouteInfo<void> {
+class HomeRoute extends _i17.PageRouteInfo<void> {
   const HomeRoute()
       : super(
           HomeRoute.name,
@@ -327,8 +348,8 @@ class HomeRoute extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.MyApp]
-class MyApp extends _i16.PageRouteInfo<MyAppArgs> {
-  MyApp({_i19.Key? key})
+class MyApp extends _i17.PageRouteInfo<MyAppArgs> {
+  MyApp({_i20.Key? key})
       : super(
           MyApp.name,
           path: '/my-app',
@@ -341,7 +362,7 @@ class MyApp extends _i16.PageRouteInfo<MyAppArgs> {
 class MyAppArgs {
   const MyAppArgs({this.key});
 
-  final _i19.Key? key;
+  final _i20.Key? key;
 
   @override
   String toString() {
@@ -351,7 +372,7 @@ class MyAppArgs {
 
 /// generated route for
 /// [_i3.HomeScreen]
-class HomeScreen extends _i16.PageRouteInfo<void> {
+class HomeScreen extends _i17.PageRouteInfo<void> {
   const HomeScreen()
       : super(
           HomeScreen.name,
@@ -363,7 +384,7 @@ class HomeScreen extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.InsuranceListScreen]
-class InsuranceListScreen extends _i16.PageRouteInfo<void> {
+class InsuranceListScreen extends _i17.PageRouteInfo<void> {
   const InsuranceListScreen()
       : super(
           InsuranceListScreen.name,
@@ -376,10 +397,10 @@ class InsuranceListScreen extends _i16.PageRouteInfo<void> {
 /// generated route for
 /// [_i5.UserInsuranceListScreen]
 class UserInsuranceListScreen
-    extends _i16.PageRouteInfo<UserInsuranceListScreenArgs> {
+    extends _i17.PageRouteInfo<UserInsuranceListScreenArgs> {
   UserInsuranceListScreen({
-    _i19.Key? key,
-    _i20.UserOrdersModel? order,
+    _i20.Key? key,
+    _i21.UserOrdersModel? order,
   }) : super(
           UserInsuranceListScreen.name,
           path: '/user-insurance-list-screen',
@@ -398,9 +419,9 @@ class UserInsuranceListScreenArgs {
     this.order,
   });
 
-  final _i19.Key? key;
+  final _i20.Key? key;
 
-  final _i20.UserOrdersModel? order;
+  final _i21.UserOrdersModel? order;
 
   @override
   String toString() {
@@ -410,7 +431,7 @@ class UserInsuranceListScreenArgs {
 
 /// generated route for
 /// [_i6.PetPlaceOrderScreen]
-class PetPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+class PetPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const PetPlaceOrderScreen()
       : super(
           PetPlaceOrderScreen.name,
@@ -422,7 +443,7 @@ class PetPlaceOrderScreen extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.ProfileScreen]
-class ProfileScreen extends _i16.PageRouteInfo<void> {
+class ProfileScreen extends _i17.PageRouteInfo<void> {
   const ProfileScreen()
       : super(
           ProfileScreen.name,
@@ -434,7 +455,7 @@ class ProfileScreen extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.LoginScreen]
-class LoginScreen extends _i16.PageRouteInfo<void> {
+class LoginScreen extends _i17.PageRouteInfo<void> {
   const LoginScreen()
       : super(
           LoginScreen.name,
@@ -446,7 +467,7 @@ class LoginScreen extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.PersonalPlaceOrderScreen]
-class PersonalPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+class PersonalPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const PersonalPlaceOrderScreen()
       : super(
           PersonalPlaceOrderScreen.name,
@@ -457,8 +478,42 @@ class PersonalPlaceOrderScreen extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.RetirmentPlaceOrderScreen]
-class RetirmentPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+/// [_i10.PdfScreen]
+class PdfScreen extends _i17.PageRouteInfo<PdfScreenArgs> {
+  PdfScreen({
+    _i20.Key? key,
+    _i22.PDFDocument? url,
+  }) : super(
+          PdfScreen.name,
+          path: '/pdf-screen',
+          args: PdfScreenArgs(
+            key: key,
+            url: url,
+          ),
+        );
+
+  static const String name = 'PdfScreen';
+}
+
+class PdfScreenArgs {
+  const PdfScreenArgs({
+    this.key,
+    this.url,
+  });
+
+  final _i20.Key? key;
+
+  final _i22.PDFDocument? url;
+
+  @override
+  String toString() {
+    return 'PdfScreenArgs{key: $key, url: $url}';
+  }
+}
+
+/// generated route for
+/// [_i11.RetirmentPlaceOrderScreen]
+class RetirmentPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const RetirmentPlaceOrderScreen()
       : super(
           RetirmentPlaceOrderScreen.name,
@@ -469,8 +524,8 @@ class RetirmentPlaceOrderScreen extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.MedicalPlaceOrderScreen]
-class MedicalPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+/// [_i12.MedicalPlaceOrderScreen]
+class MedicalPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const MedicalPlaceOrderScreen()
       : super(
           MedicalPlaceOrderScreen.name,
@@ -481,8 +536,8 @@ class MedicalPlaceOrderScreen extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.EducationalPlaceOrderScreen]
-class EducationalPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+/// [_i13.EducationalPlaceOrderScreen]
+class EducationalPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const EducationalPlaceOrderScreen()
       : super(
           EducationalPlaceOrderScreen.name,
@@ -493,8 +548,8 @@ class EducationalPlaceOrderScreen extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.DomesticPlaceOrderScreen]
-class DomesticPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+/// [_i14.DomesticPlaceOrderScreen]
+class DomesticPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const DomesticPlaceOrderScreen()
       : super(
           DomesticPlaceOrderScreen.name,
@@ -505,8 +560,8 @@ class DomesticPlaceOrderScreen extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.TravelPlaceOrderScreen]
-class TravelPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+/// [_i15.TravelPlaceOrderScreen]
+class TravelPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const TravelPlaceOrderScreen()
       : super(
           TravelPlaceOrderScreen.name,
@@ -517,8 +572,8 @@ class TravelPlaceOrderScreen extends _i16.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i15.MotorPlaceOrderScreen]
-class MotorPlaceOrderScreen extends _i16.PageRouteInfo<void> {
+/// [_i16.MotorPlaceOrderScreen]
+class MotorPlaceOrderScreen extends _i17.PageRouteInfo<void> {
   const MotorPlaceOrderScreen()
       : super(
           MotorPlaceOrderScreen.name,

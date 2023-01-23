@@ -300,7 +300,7 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (l) => ScaffoldMessenger
                                                                 .of(context)
                                                             .showSnackBar(SnackBar(
-                                                                content: Text(
+                                                                content: const Text(
                                                                         "contact")
                                                                     .tr())),
                                                         (r) async {
@@ -388,7 +388,7 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (l) => ScaffoldMessenger
                                                                 .of(context)
                                                             .showSnackBar(SnackBar(
-                                                                content: Text(
+                                                                content: const Text(
                                                                         "contact")
                                                                     .tr())),
                                                         (r) async {

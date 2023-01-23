@@ -71,8 +71,8 @@ class OtpVerfication extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.red)),
                     errorBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.red)),
-                    contentPadding:
-                        const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                    contentPadding: const EdgeInsets.only(
+                        left: 10, top: 10, bottom: 10, right: 10),
                     hintText: "code".tr(),
                     hintStyle: const TextStyle(
                       color: Colors.black26,

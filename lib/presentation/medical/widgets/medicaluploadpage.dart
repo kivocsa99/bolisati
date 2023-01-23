@@ -7,15 +7,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class MedicalUploadPage extends HookConsumerWidget {
   final VoidCallback? function0;
   final VoidCallback? function1;
-  final File? image0;
-  final File? image1;
+  final List<String>? images;
 
   const MedicalUploadPage({
     super.key,
     this.function0,
     this.function1,
-    this.image0,
-    this.image1,
+    this.images,
   });
 
   @override
@@ -41,7 +39,7 @@ class MedicalUploadPage extends HookConsumerWidget {
               onTap: function0,
               child: SizedBox(
                 height: MediaQuery.of(context).size.height / 2,
-                child: image1 == null || image1!.path == ""
+                child: images!.isEmpty
                     ? Container(
                         alignment: Alignment.center,
                         child: Image.asset(
@@ -54,20 +52,16 @@ class MedicalUploadPage extends HookConsumerWidget {
                     : SizedBox(
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.file(
-                                image0!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              ),
-                              Image.file(
-                                image1!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              )
-                            ]),
+                            children: images!
+                                .map(
+                                  (e) => Image.file(
+                                    File(e),
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
+                                .toList()),
                       ),
               ),
             ),

@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HorizantalUesrInsuranceContainer extends StatelessWidget {
-  final Icon? icon;
+  final String? icon;
   final String? insuranceName;
   final String? insuranceDescreption;
   final String? price;
@@ -25,7 +27,7 @@ class HorizantalUesrInsuranceContainer extends StatelessWidget {
       child: GestureDetector(
         onTap: function,
         child: Container(
-          height: 83,
+          height: 90,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -46,41 +48,46 @@ class HorizantalUesrInsuranceContainer extends StatelessWidget {
                   height: 56,
                   width: 56,
                   color: containercolor,
-                  child: Center(child: icon),
+                  child: Center(child: SvgPicture.asset(icon!)),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          insuranceName!,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          insuranceDescreption!,
-                          style:
-                              const TextStyle(fontSize: 10, color: Colors.grey),
-                        ),
-                        Expanded(
-                          child: Text(
-                            price!,
-                            style: const TextStyle(
-                                fontSize: 10, color: Colors.grey),
-                          ),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        insuranceName!,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      insuranceDescreption != ""
+                          ? Expanded(
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  insuranceDescreption!,
+                                  style: const TextStyle(
+                                      fontSize: 10, color: Colors.grey),
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: context.locale.languageCode == "ar"
+                        ? Alignment.bottomLeft
+                        : Alignment.bottomRight,
+                    child: Text(
+                      price!,
+                      style: const TextStyle(fontSize: 10, color: Colors.grey),
                     ),
                   ),
                 ),

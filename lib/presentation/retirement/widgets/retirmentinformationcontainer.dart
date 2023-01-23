@@ -155,7 +155,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -236,8 +236,8 @@ class YearPicker extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: "birthdate".tr(),

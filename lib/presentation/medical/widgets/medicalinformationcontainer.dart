@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -10,27 +11,30 @@ class MedicalInformationContainer extends HookWidget {
   final TextEditingController? yearcontroller;
   final TextEditingController? startdatecontroller;
   final TextEditingController? enddatecontroller;
-  final TextEditingController? regioncontroller;
-  final TextEditingController? valuecontroller;
+  final TextEditingController? insurancecontroller;
+  final TextEditingController? gendercontroller;
   final TextEditingController? periodcontroller;
+  final TextEditingController? maritalcontroller;
+
   final ValueChanged<String?>? period;
   final VoidCallback? ontap;
-  final ValueChanged<String?>? gender;
-  final ValueChanged<String?>? insurance;
+  final VoidCallback? gender;
+  final VoidCallback? insurance;
 
-  final ValueChanged<String?>? maritalstatus;
+  final VoidCallback? maritalstatus;
 
   final GlobalKey<FormState>? formkey;
   const MedicalInformationContainer({
     super.key,
     this.periodcontroller,
+    this.maritalcontroller,
     this.insurance,
     this.formkey,
     this.name,
     this.yearcontroller,
     this.gender,
-    this.regioncontroller,
-    this.valuecontroller,
+    this.insurancecontroller,
+    this.gendercontroller,
     this.ontap,
     this.enddatecontroller,
     this.startdatecontroller,
@@ -52,59 +56,47 @@ class MedicalInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "insname".tr(),
                 width: double.infinity,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomField(
-                    initial: "gender".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2 + 10,
-                  ),
-                  Expanded(
-                    child: Gender(
-                      width: 100,
-                      onchanged: gender,
-                    ),
-                  ),
-                ],
+              CustomField(
+                controller: gendercontroller,
+                label: "gender".tr(),
+                readonly: false,
+                width: double.infinity,
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                function: gender,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomField(
-                    initial: "inursancet".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2 + 10,
-                  ),
-                  Expanded(
-                    child: Insurance(
-                      width: 100,
-                      onchanged: insurance,
-                    ),
-                  ),
-                ],
+              CustomField(
+                controller: insurancecontroller,
+                label: "inursancet".tr(),
+                readonly: true,
+                width: double.infinity,
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                function: insurance,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomField(
-                    initial: "maritalstatus".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2 + 10,
-                  ),
-                  Expanded(
-                    child: Marital(
-                      width: 100,
-                      onchanged: maritalstatus,
-                    ),
-                  ),
-                ],
+              CustomField(
+                controller: maritalcontroller,
+                label: "maritalstatus".tr(),
+                readonly: true,
+                width: double.infinity,
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                function: maritalstatus,
               ),
               YearPicker(
                 controller: yearcontroller,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: const Text(
+                    "insuranceperiod",
+                    style: TextStyle(fontSize: 20),
+                  ).tr(),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -180,7 +172,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -226,34 +218,68 @@ class YearPicker extends HookWidget {
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now().add(const Duration(days: 356)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                String picked = DateFormat.y().format(pickedYear);
-                String now = DateFormat.y().format(DateTime.now());
-                int result = int.parse(now) - int.parse(picked);
-                selectedYear.value =
-                    DateFormat("yyyy-MM-dd").format(pickedYear);
-                medical.put("birthdate", selectedYear.value);
-                medical.put("age", result);
-                controller!.text = selectedYear.value.toString();
-              }
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoDatePicker(
+                                  dateOrder: DatePickerDateOrder.dmy,
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: DateTime.now(),
+                                  minimumDate: DateTime(1900),
+                                  maximumDate: DateTime.now(),
+                                  onDateTimeChanged: (val) {
+                                    String picked = DateFormat.y().format(val);
+                                    String now =
+                                        DateFormat.y().format(DateTime.now());
+                                    int result =
+                                        int.parse(now) - int.parse(picked);
+                                    selectedYear.value =
+                                        DateFormat("yyyy-MM-dd").format(val);
+                                    medical.put(
+                                        "birthdate", selectedYear.value);
+                                    medical.put("age", result);
+                                    controller!.text =
+                                        selectedYear.value.toString();
+                                  }),
+                            ),
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (controller!.text == "") {
+                                      String picked =
+                                          DateFormat.y().format(DateTime.now());
+                                      String now =
+                                          DateFormat.y().format(DateTime.now());
+                                      int result =
+                                          int.parse(now) - int.parse(picked);
+                                      selectedYear.value =
+                                          DateFormat("yyyy-MM-dd")
+                                              .format(DateTime.now());
+                                      medical.put(
+                                          "birthdate", selectedYear.value);
+                                      medical.put("age", result);
+                                      controller!.text =
+                                          selectedYear.value.toString();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
             },
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -261,8 +287,8 @@ class YearPicker extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: "birthdate".tr(),
@@ -295,9 +321,6 @@ class StartEndDate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box medical = Hive.box("medical");
-
-    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -321,8 +344,8 @@ class StartEndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -378,8 +401,8 @@ class EndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -392,113 +415,5 @@ class EndDate extends HookWidget {
             controller: endcontroller,
           ),
         ));
-  }
-}
-
-class Gender extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  const Gender(
-      {super.key, this.width, this.onchanged, this.label, this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("Male");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          validator: RequiredValidator(errorText: ""),
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["Male", "Female"]
-              .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class Insurance extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  const Insurance(
-      {super.key, this.width, this.onchanged, this.label, this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          validator: RequiredValidator(errorText: ""),
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["N/A", "in", "in/out"]
-              .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class Marital extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  const Marital(
-      {super.key, this.width, this.onchanged, this.label, this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          validator: RequiredValidator(errorText: ""),
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["N/A", "Married", "Single"]
-              .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
   }
 }

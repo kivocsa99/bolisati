@@ -18,6 +18,7 @@ class MotorOffersModel with _$MotorOffersModel {
     num? price_to,
     int? fixed,
     num? percentage,
+    num? price,
     int? active,
     String? created_at,
     String? updated_at,

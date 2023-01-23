@@ -8,6 +8,7 @@ import 'package:bolisati/presentation/medical/screens/medical.place.order_screen
 import 'package:bolisati/presentation/personal/screens/personal.place.order.screen.dart';
 import 'package:bolisati/presentation/pet/screens/pet.place.order.screen.dart';
 import 'package:bolisati/presentation/retirement/screens/retirment.place.order.screen.dart';
+import 'package:bolisati/presentation/screens/pdfviewer_screen.dart';
 import 'package:bolisati/presentation/screens/profile_screen.dart';
 import 'package:bolisati/presentation/travel/screen/travel.place.order.screen.dart';
 import 'package:bolisati/presentation/vehicle/screens/motor.place.order_screen.dart';
@@ -49,6 +50,10 @@ import '../presentation/screens/user.insurances_screen.dart';
       durationInMilliseconds: 500),
   CustomRoute(
       page: PersonalPlaceOrderScreen,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
+      durationInMilliseconds: 500),
+  CustomRoute(
+      page: PdfScreen,
       transitionsBuilder: TransitionsBuilders.slideBottom,
       durationInMilliseconds: 500),
   CustomRoute(

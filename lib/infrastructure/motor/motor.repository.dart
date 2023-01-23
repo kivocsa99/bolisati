@@ -102,8 +102,7 @@ class MotorRepository implements IMotorRepository {
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Motor/PlaceOrder?motor_insurance_id=${motororder.motor_insurance_id}&vehicle_model_id=${motororder.vehicle_model_id}&name=${motororder.name}&estimated_car_price=${motororder.estimated_car_price}&start_date=${motororder.start_date}&end_date=${motororder.end_date}&fuel_type=fuel&car_year=2002&previous_accidents=${motororder.previous_accidents}$addons&api_token=$token""");
-
+          """https://bolisati.bitsblend.org/api/V1/Motor/PlaceOrder?motor_insurance_id=${motororder.motor_insurance_id}&vehicle_model_id=${motororder.vehicle_model_id}&name=${motororder.name}&estimated_car_price=${motororder.estimated_car_price}&start_date=${motororder.start_date}&end_date=${motororder.end_date}&fuel_type=fuel&car_year=${motororder.car_year}&previous_accidents=${motororder.previous_accidents}$addons&api_token=$token""");
       if (result.data["AZSVR"] == "SUCCESS") {
         MotorOrderDoneModel model =
             MotorOrderDoneModel.fromJson(result.data["OrderDetails"]);

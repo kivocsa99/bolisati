@@ -65,8 +65,7 @@ class LandingScreen extends HookConsumerWidget {
           // PatternValidator((r'^(?!0)\d+$'),
           //     errorText: "Please Provide a correct phonenumber"),
           RequiredValidator(errorText: "reqfield".tr()),
-          LengthRangeValidator(
-              min: 10, max: 10, errorText: "Please Provide a 10 digit phone")
+          LengthRangeValidator(min: 10, max: 10, errorText: "phonereq".tr())
         ]),
         formkey: phoneformkey.value,
         onchanged: (value) => user.value = user.value.copyWith(phone: value),

@@ -32,7 +32,7 @@ class LoginScreen extends HookConsumerWidget {
           LengthRangeValidator(
               min: 10,
               max: 10,
-              errorText: "Please Provide a 10 digit phone".tr())
+              errorText: "phonereq".tr())
         ]),
         formkey: phoneformkey.value,
         onchanged: (value) => user.value = user.value.copyWith(phone: value),

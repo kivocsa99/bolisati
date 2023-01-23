@@ -3,6 +3,7 @@ import 'package:bolisati/domain/api/personal/model/personaloffermodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -64,15 +65,12 @@ class PersonalOrderOffersContainer extends HookConsumerWidget {
                                         left: 0,
                                         child: Row(
                                           children: [
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              color: carcontainer,
-                                              child: const Icon(
-                                                FontAwesomeIcons.car,
-                                                color: carcolor,
-                                              ),
-                                            ),
+                                            SizedBox(
+                                                width: 40,
+                                                height: 40,
+                                                child: ClipOval(
+                                                    child: Image.network(
+                                                        "https://bolisati.bitsblend.org/storage/${e.company!.image}"))),
                                             const SizedBox(
                                               width: 10,
                                             ),
@@ -89,14 +87,12 @@ class PersonalOrderOffersContainer extends HookConsumerWidget {
                                         right: 0,
                                         child: Row(
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: 40,
                                               height: 40,
-                                              color: carcontainer,
-                                              child: const Icon(
-                                                FontAwesomeIcons.car,
-                                                color: carcolor,
-                                              ),
+                                              child: ClipOval(
+                                                  child: Image.network(
+                                                      "https://bolisati.bitsblend.org/storage/${e.company!.image}")),
                                             ),
                                             const SizedBox(
                                               width: 10,
@@ -119,14 +115,13 @@ class PersonalOrderOffersContainer extends HookConsumerWidget {
                                               .map((addon) => Column(
                                                     children: [
                                                       Row(children: [
-                                                        const Icon(
-                                                            FontAwesomeIcons
-                                                                .shieldHalved),
+                                                        SvgPicture.asset(
+                                                            'assets/add.svg'),
                                                         const SizedBox(
                                                           width: 10,
                                                         ),
                                                         Text(
-                                                            "${addon.addon!.name!}(${addon.price})")
+                                                            "${addon.addon!.name!} (${addon.price} ${"jod".tr()})")
                                                       ]),
                                                       const SizedBox(
                                                         height: 10,
@@ -137,22 +132,27 @@ class PersonalOrderOffersContainer extends HookConsumerWidget {
                                         ),
                                       )
                                     : Positioned(
-                                        right: 5,
+                                        right: 0,
                                         top: 50,
                                         child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: e.addons!
                                               .map((addon) => Column(
                                                     children: [
-                                                      Row(children: [
-                                                        const Icon(
-                                                            FontAwesomeIcons
-                                                                .shieldHalved),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Text(
-                                                            "${addon.addon!.name!}(${addon.price})")
-                                                      ]),
+                                                      Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                                'assets/add.svg'),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text(
+                                                                "${addon.addon!.name_ar!} (${addon.price} ${"jod".tr()})")
+                                                          ]),
                                                       const SizedBox(
                                                         height: 10,
                                                       )
@@ -166,7 +166,7 @@ class PersonalOrderOffersContainer extends HookConsumerWidget {
                                         right: 0,
                                         top: 10,
                                         child: Text(
-                                          "${e.price.toString()} JOD",
+                                          "${e.price.toString()} ${"jod".tr()}",
                                           style: const TextStyle(
                                               color: Colors.blue),
                                         ),
@@ -175,7 +175,7 @@ class PersonalOrderOffersContainer extends HookConsumerWidget {
                                         left: 0,
                                         top: 10,
                                         child: Text(
-                                          "${e.price.toString()} JOD",
+                                          "${e.price.toString()} ${"jod".tr()}",
                                           style: const TextStyle(
                                               color: Colors.blue),
                                         ),

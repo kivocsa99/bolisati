@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/travel.repository.provider.dart';
 import 'package:bolisati/domain/api/orders/travelorders/region/regionmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -20,14 +21,18 @@ class TravelInformationContainer extends HookWidget {
 
   final ValueChanged<String?>? period;
   final ValueChanged<String?>? genderid;
+  final ValueChanged<DateTime?>? startchanged;
+  final ValueChanged<DateTime?>? endchanged;
 
   final VoidCallback? travelyearfunction;
   final GlobalKey<FormState>? formkey;
   const TravelInformationContainer(
       {super.key,
       this.periodcontroller,
+      this.startchanged,
       this.travelyearfunction,
       this.formkey,
+      this.endchanged,
       this.name,
       this.yearcontroller,
       this.regioncontroller,
@@ -51,7 +56,7 @@ class TravelInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "insname".tr(),
                 width: double.infinity,
               ),
               Regions(
@@ -61,30 +66,44 @@ class TravelInformationContainer extends HookWidget {
               YearPicker(
                 controller: yearcontroller,
               ),
-              CustomField(
-                controller: periodcontroller,
-                type: TextInputType.number,
-                readonly: false,
-                validator: RequiredValidator(errorText: "reqfield".tr()),
-                onchanged: period,
-                label: "period".tr(),
-                width: double.infinity,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: const Text(
+                    "insuranceperiod",
+                    style: TextStyle(fontSize: 20),
+                  ).tr(),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   StartEndDate(
+                    onchanged: startchanged,
                     startcontroller: startdatecontroller,
                     label: "startdate".tr(),
                     width: 150,
                   ),
-                  StartEndDate(
+                  EndDate(
+                    onchanged: endchanged,
                     endcontroller: enddatecontroller,
                     label: "enddate".tr(),
                     width: 150,
                   ),
                 ],
               ),
+              CustomField(
+                controller: periodcontroller,
+                type: TextInputType.number,
+                readonly: true,
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                onchanged: period,
+                label: "period".tr(),
+                width: double.infinity,
+              )
             ],
           )),
     );
@@ -143,7 +162,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -189,43 +208,111 @@ class YearPicker extends HookWidget {
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now().add(const Duration(days: 356)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                String picked = DateFormat.y().format(pickedYear);
-                String now = DateFormat.y().format(DateTime.now());
-                int result = int.parse(now) - int.parse(picked);
-                selectedYear.value =
-                    DateFormat("yyyy-MM-dd").format(pickedYear);
-                travel.put("birthdate", selectedYear.value);
-                travel.put("age", result);
-                controller!.text = selectedYear.value.toString();
-              }
-            },
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoDatePicker(
+                                  dateOrder: DatePickerDateOrder.dmy,
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: DateTime.now()
+                                      .add(const Duration(hours: 1)),
+                                  minimumDate: DateTime(1990),
+                                  maximumDate: DateTime.now()
+                                      .add(const Duration(days: 356)),
+                                  onDateTimeChanged: (val) {
+                                    String picked = DateFormat.y().format(val);
+                                    String now =
+                                        DateFormat.y().format(DateTime.now());
+                                    int result =
+                                        int.parse(now) - int.parse(picked);
+                                    selectedYear.value =
+                                        DateFormat("yyyy-MM-dd").format(val);
+                                    travel.put("birthdate", selectedYear.value);
+                                    travel.put("age", result);
+                                    controller!.text =
+                                        selectedYear.value.toString();
+                                  }),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (controller!.text == "") {
+                                      String picked =
+                                          DateFormat.y().format(DateTime.now());
+                                      String now =
+                                          DateFormat.y().format(DateTime.now());
+                                      int result =
+                                          int.parse(now) - int.parse(picked);
+                                      selectedYear.value =
+                                          DateFormat("yyyy-MM-dd")
+                                              .format(DateTime.now());
+                                      travel.put(
+                                          "birthdate", selectedYear.value);
+                                      travel.put("age", result);
+                                      controller!.text =
+                                          selectedYear.value.toString();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
+            }
+            // async {
+            //   FocusScope.of(context).unfocus();
+            //   final pickedYear = await showDatePicker(
+            //     context: context,
+            //     initialDate: DateTime.now(),
+            //     firstDate: DateTime(1900),
+            //     lastDate: DateTime.now().add(const Duration(days: 356)),
+            //     builder: (context, child) {
+            //       return Theme(
+            //         data: ThemeData.light().copyWith(
+            //           colorScheme:
+            //               const ColorScheme.light(primary: Colors.blue),
+            //           buttonTheme: const ButtonThemeData(
+            //             textTheme: ButtonTextTheme.primary,
+            //           ),
+            //         ),
+            //         child: child!,
+            //       );
+            //     },
+            //   );
+            //   if (pickedYear != null) {
+            // String picked = DateFormat.y().format(pickedYear);
+            // String now = DateFormat.y().format(DateTime.now());
+            // int result = int.parse(now) - int.parse(picked);
+            // selectedYear.value =
+            //     DateFormat("yyyy-MM-dd").format(pickedYear);
+            // travel.put("birthdate", selectedYear.value);
+            // travel.put("age", result);
+            // controller!.text = selectedYear.value.toString();
+            //   }
+            // }
+            ,
             decoration: InputDecoration(
               border: InputBorder.none,
               focusedErrorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: "birthdate".tr(),
@@ -244,15 +331,16 @@ class YearPicker extends HookWidget {
 class StartEndDate extends HookWidget {
   final double? width;
   final String? label;
+  final ValueChanged<DateTime?>? onchanged;
   final TextEditingController? startcontroller;
-  final TextEditingController? endcontroller;
 
-  const StartEndDate(
-      {super.key,
-      this.width,
-      this.startcontroller,
-      this.label,
-      this.endcontroller});
+  const StartEndDate({
+    super.key,
+    this.onchanged,
+    this.width,
+    this.startcontroller,
+    this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -277,36 +365,53 @@ class StartEndDate extends HookWidget {
             validator: RequiredValidator(errorText: "reqfield".tr()),
             onTap: () async {
               FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 740)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                selecteddate.value = DateFormat("d/M/y").format(pickedYear);
-                if (label == "Start Date" || label == "تاريخ البداية") {
-                  travel.put("startdate",
-                      DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  startcontroller!.text = selecteddate.value.toString();
-                } else {
-                  travel.put("enddate",
-                      DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-                  endcontroller!.text = selecteddate.value.toString();
-                }
-              }
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoDatePicker(
+                                  dateOrder: DatePickerDateOrder.dmy,
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: DateTime.now()
+                                      .add(const Duration(hours: 1)),
+                                  minimumDate: DateTime.now(),
+                                  maximumDate: DateTime.now()
+                                      .add(const Duration(days: 356)),
+                                  onDateTimeChanged: onchanged!),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (startcontroller!.text == "") {
+                                      selecteddate.value = DateFormat("d/M/y")
+                                          .format(DateTime.now());
+                                      travel.put(
+                                          "startdate",
+                                          DateFormat("yyyy-MM-dd HH:mm:ss")
+                                              .format(DateTime.now()));
+
+                                      startcontroller!.text =
+                                          selecteddate.value.toString();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
             },
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -314,8 +419,8 @@ class StartEndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -325,9 +430,108 @@ class StartEndDate extends HookWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            controller: label == "Start Date" || label == "تاريخ البداية"
-                ? startcontroller
-                : endcontroller,
+            controller: startcontroller,
+          ),
+        ));
+  }
+}
+
+class EndDate extends HookWidget {
+  final double? width;
+  final String? label;
+  final TextEditingController? endcontroller;
+  final ValueChanged<DateTime?>? onchanged;
+
+  const EndDate(
+      {super.key, this.onchanged, this.width, this.label, this.endcontroller});
+
+  @override
+  Widget build(BuildContext context) {
+    final Box travel = Hive.box("travel");
+
+    final selecteddate = useState("");
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey,
+                width: 2,
+              ),
+            ),
+          ),
+          height: 80,
+          width: width,
+          child: TextFormField(
+            readOnly: true,
+            validator: RequiredValidator(errorText: "reqfield".tr()),
+            onTap: () async {
+              FocusScope.of(context).unfocus();
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoDatePicker(
+                                  dateOrder: DatePickerDateOrder.dmy,
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: DateTime.now()
+                                      .add(const Duration(hours: 1)),
+                                  minimumDate: DateTime.now(),
+                                  maximumDate: DateTime.now()
+                                      .add(const Duration(days: 356)),
+                                  onDateTimeChanged: onchanged!),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (endcontroller!.text == "") {
+                                      selecteddate.value = DateFormat("d/M/y")
+                                          .format(DateTime.now());
+
+                                      travel.put(
+                                          "enddate",
+                                          DateFormat("yyyy-MM-dd HH:mm:ss")
+                                              .format(DateTime.now()));
+                                      endcontroller!.text =
+                                          selecteddate.value.toString();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              focusedErrorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              errorBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red)),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
+              filled: true,
+              fillColor: Colors.blue[350],
+              labelText: label,
+              hintStyle: const TextStyle(
+                color: Colors.black26,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            controller: endcontroller,
           ),
         ));
   }
@@ -418,8 +622,8 @@ class Regions extends HookConsumerWidget {
                           borderSide: BorderSide(color: Colors.red)),
                       errorBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.red)),
-                      contentPadding:
-                          const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                      contentPadding: const EdgeInsets.only(
+                          left: 10, top: 10, bottom: 10, right: 10),
                       filled: true,
                       fillColor: Colors.blue[350],
                       labelText: "region".tr(),

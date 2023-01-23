@@ -1,21 +1,21 @@
 import 'package:bolisati/domain/api/addons/model/addonsmodel.dart';
 import 'package:bolisati/domain/api/motor/model/motormodel.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MyWidget extends StatefulWidget {
   final MotorOffersModel? offerModel;
   final VoidCallback? function;
   final VoidCallback? ontap;
   final ValueChanged<bool?>? onchanged;
+  final bool? ordering;
   final bool? value;
 
   const MyWidget(
       {super.key,
       this.onchanged,
+      this.ordering,
       this.value,
       this.function,
       this.ontap,
@@ -26,7 +26,17 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
-  final List<bool?> checked = List.generate(20, (index) => false);
+  final List<bool?> checked = List.generate(100, (index) => false);
+  final List<int?> prices = [];
+  final TextEditingController controller = TextEditingController();
+  int? sum;
+
+  @override
+  void initState() {
+    controller.text = "${widget.offerModel!.price.toString()} ${"jod".tr()}";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Box car = Hive.box("car");
@@ -37,32 +47,54 @@ class _MyWidgetState extends State<MyWidget> {
             const EdgeInsets.only(left: 30.0, right: 30, top: 40, bottom: 10),
         child: Column(
           children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: Image.asset("assets/logo.png"),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Align(
-                  child: Text(
+                Row(children: [
+                  SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: ClipOval(
+                      child: Image.network(
+                        "https://bolisati.bitsblend.org/storage/${widget.offerModel!.company!.image}",
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
                     context.locale.languageCode == "en"
                         ? widget.offerModel!.company!.name!
                         : widget.offerModel!.company!.name_ar!,
                     style: const TextStyle(fontSize: 30),
-                  ),
-                ),
-                Text(
-                  "${widget.offerModel!.price_from.toString()}JOD",
-                  style: const TextStyle(fontSize: 20),
+                  )
+                ]),
+                Row(
+                  children: [
+                    Text(
+                      "${widget.offerModel!.price.toString()} ",
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Text("jod").tr()
+                  ],
                 ),
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
+            ),
+            Align(
+              alignment: context.locale.languageCode == "en"
+                  ? Alignment.topLeft
+                  : Alignment.topRight,
+              child: const Text(
+                "Addone",
+                style: TextStyle(fontSize: 20),
+              ).tr(),
             ),
             SizedBox(
               height: 150,
@@ -93,6 +125,16 @@ class _MyWidgetState extends State<MyWidget> {
                                 }
 
                                 car.put("addon", loc);
+                                checked[index] == true
+                                    ? prices.add(addonsModel.price!.toInt())
+                                    : prices.remove(addonsModel.price!.toInt());
+
+                                prices.isNotEmpty
+                                    ? sum = prices.fold(
+                                        0, (prev, element) => prev! + element!)
+                                    : sum = 0;
+                                controller.text =
+                                    ("${sum! + (widget.offerModel!.price!.toInt())} ${"jod".tr()}");
 
                                 setState(() {});
                               }),
@@ -107,37 +149,49 @@ class _MyWidgetState extends State<MyWidget> {
                                 ),
                         ],
                       ),
-                      Text(
-                        "${addonsModel.price} JOD",
-                        style: const TextStyle(fontSize: 20),
-                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "${addonsModel.price} ",
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const Text("jod").tr()
+                        ],
+                      )
                     ],
                   );
                 },
                 itemCount: widget.offerModel!.addons!.length,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    await launchUrl(Uri.parse(""));
-                  },
-                  child: const Text(
-                    "privacy",
-                    style: TextStyle(color: Colors.blue),
-                  ).tr(),
+            const SizedBox(
+              height: 5,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: const Text("total").tr(),
+            ),
+            TextField(
+              controller: controller,
+              textAlign: TextAlign.center,
+              readOnly: true,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                focusedErrorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
+                errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
+                contentPadding: const EdgeInsets.all(0),
+                hintText: "total".tr(),
+                hintStyle: const TextStyle(
+                  color: Colors.black26,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
                 ),
-                CupertinoSwitch(
-                  value: car.get("checked") ?? false,
-                  onChanged: (value) {
-                    setState(() {
-                      car.put("checked", value);
-                    });
-                  },
-                ),
-              ],
+              ),
             ),
             Expanded(
               child: Align(
@@ -145,14 +199,16 @@ class _MyWidgetState extends State<MyWidget> {
                 child: GestureDetector(
                   onTap: widget.function,
                   child: Container(
-                    color:
-                        car.get("checked") == true ? Colors.black : Colors.grey,
+                    color: Colors.black,
                     height: 60,
                     child: Center(
-                        child: Text(
-                      "placeorder".tr(),
-                      style: const TextStyle(color: Colors.white),
-                    )),
+                        child:
+                            widget.ordering == null || widget.ordering == false
+                                ? Text(
+                                    "placeorder".tr(),
+                                    style: const TextStyle(color: Colors.white),
+                                  )
+                                : const CircularProgressIndicator()),
                   ),
                 ),
               ),

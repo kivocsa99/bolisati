@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/pet.repository.provider.dart';
 import 'package:bolisati/domain/api/pet/model/petcountrymodel.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -14,16 +15,15 @@ class PetInformationContainer extends HookWidget {
   final TextEditingController? yearcontroller;
   final TextEditingController? startdatecontroller;
   final TextEditingController? enddatecontroller;
-  final TextEditingController? carbrandcontroller;
-  final TextEditingController? carmodelcontroller;
-  final TextEditingController? valuecontroller;
+  final TextEditingController? petcountrycontroller;
+  final TextEditingController? gendercontroller;
   final TextEditingController? prevcontroller;
   final TextEditingController? pettypecontroller;
   final VoidCallback? ontap;
 
-  final ValueChanged<String?>? pettype;
+  final VoidCallback? pettype;
   final ValueChanged<String?>? value;
-  final ValueChanged<String?>? gender;
+  final VoidCallback? gender;
 
   final VoidCallback? caryearfunction;
   final GlobalKey<FormState>? formkey;
@@ -34,10 +34,9 @@ class PetInformationContainer extends HookWidget {
       this.formkey,
       this.name,
       this.yearcontroller,
-      this.carbrandcontroller,
-      this.carmodelcontroller,
+      this.petcountrycontroller,
+      this.gendercontroller,
       this.ontap,
-      this.valuecontroller,
       this.enddatecontroller,
       this.startdatecontroller,
       this.prevcontroller,
@@ -49,57 +48,51 @@ class PetInformationContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: Form(
-          key: formkey,
-          child: Column(
-            children: [
+        child: Form(
+            key: formkey,
+            child: Column(children: [
               CustomField(
                 controller: namecontroller,
                 type: TextInputType.text,
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "petowner".tr(),
                 width: double.infinity,
               ),
-              CarBrand(
-                modelcontroller: carmodelcontroller,
-                brandcontroller: carbrandcontroller,
+              PetCountry(
+                controller: petcountrycontroller,
                 width: double.infinity,
+              ),
+              CustomField(
+                controller: pettypecontroller,
+                label: "pettype".tr(),
+                readonly: true,
+                width: double.infinity,
+                function: pettype,
+              ),
+              CustomField(
+                controller: gendercontroller,
+                label: "gender".tr(),
+                readonly: true,
+                width: double.infinity,
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                function: gender,
               ),
               YearPicker(
                 controller: yearcontroller,
               ),
-              Row(
-                children: [
-                  CustomField(
-                    initial: "pettype".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2,
-                  ),
-                  Expanded(
-                    child: PetType(
-                      width: 100,
-                      onchanged: pettype,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomField(
-                    initial: "gender".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2 + 10,
-                  ),
-                  Expanded(
-                    child: Gender(
-                      width: 100,
-                      onchanged: gender,
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: const Text(
+                    "insuranceperiod",
+                    style: TextStyle(fontSize: 20),
+                  ).tr(),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,9 +110,7 @@ class PetInformationContainer extends HookWidget {
                   ),
                 ],
               ),
-            ],
-          )),
-    );
+            ])));
   }
 }
 
@@ -163,8 +154,8 @@ class EndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -177,83 +168,6 @@ class EndDate extends HookWidget {
             controller: endcontroller,
           ),
         ));
-  }
-}
-
-class PetType extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  final TextEditingController? controller;
-  const PetType(
-      {super.key,
-      this.width,
-      this.onchanged,
-      this.controller,
-      this.label,
-      this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["N/A", "Cat", "Dog", "Other"]
-              .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class Gender extends HookWidget {
-  final ValueChanged<String?>? onchanged;
-  final String? Function(String?)? validator;
-  final String? label;
-  final double? width;
-  const Gender(
-      {super.key, this.width, this.onchanged, this.label, this.validator});
-
-  @override
-  Widget build(BuildContext context) {
-    final dropDownValue = useState("N/A");
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        height: 80,
-        width: width,
-        child: DropdownButtonFormField<String>(
-          validator: RequiredValidator(errorText: ""),
-          focusColor: Colors.grey,
-          iconEnabledColor: Colors.grey,
-          value: dropDownValue.value,
-          onChanged: onchanged,
-          items: ["N/A", "Male", "Female"]
-              .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                      )))
-              .toList(),
-        ),
-      ),
-    );
   }
 }
 
@@ -309,7 +223,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -355,34 +269,69 @@ class YearPicker extends HookWidget {
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now().add(const Duration(days: 356)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                String picked = DateFormat.y().format(pickedYear);
-                String now = DateFormat.y().format(DateTime.now());
-                int result = int.parse(now) - int.parse(picked);
-                selectedYear.value =
-                    DateFormat("yyyy-MM-dd").format(pickedYear);
-                pet.put("birthdate", selectedYear.value);
-                pet.put("age", result);
-                controller!.text = selectedYear.value.toString();
-              }
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoDatePicker(
+                                  dateOrder: DatePickerDateOrder.dmy,
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: DateTime.now()
+                                      .add(const Duration(hours: 1)),
+                                  minimumDate: DateTime(1990),
+                                  maximumDate: DateTime.now()
+                                      .add(const Duration(days: 356)),
+                                  onDateTimeChanged: (val) {
+                                    String picked = DateFormat.y().format(val);
+                                    String now =
+                                        DateFormat.y().format(DateTime.now());
+                                    int result =
+                                        int.parse(now) - int.parse(picked);
+                                    selectedYear.value =
+                                        DateFormat("yyyy-MM-dd").format(val);
+                                    pet.put("birthdate", selectedYear.value);
+                                    pet.put("age", result);
+                                    controller!.text =
+                                        selectedYear.value.toString();
+                                  }),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (controller!.text == "") {
+                                      String picked =
+                                          DateFormat.y().format(DateTime.now());
+                                      String now =
+                                          DateFormat.y().format(DateTime.now());
+                                      int result =
+                                          int.parse(now) - int.parse(picked);
+                                      selectedYear.value =
+                                          DateFormat("yyyy-MM-dd")
+                                              .format(DateTime.now());
+                                      pet.put("birthdate", selectedYear.value);
+                                      pet.put("age", result);
+                                      controller!.text =
+                                          selectedYear.value.toString();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
             },
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -390,8 +339,8 @@ class YearPicker extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: "birthdate".tr(),
@@ -424,9 +373,6 @@ class StartEndDate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box car = Hive.box("pet");
-
-    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -450,8 +396,8 @@ class StartEndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -467,17 +413,15 @@ class StartEndDate extends HookWidget {
   }
 }
 
-class CarBrand extends HookConsumerWidget {
+class PetCountry extends HookConsumerWidget {
   final double? width;
 
-  final TextEditingController? brandcontroller;
-  final TextEditingController? modelcontroller;
+  final TextEditingController? controller;
 
-  const CarBrand({
+  const PetCountry({
     super.key,
     this.width,
-    this.brandcontroller,
-    this.modelcontroller,
+    this.controller,
   });
 
   @override
@@ -510,6 +454,7 @@ class CarBrand extends HookConsumerWidget {
                 onTap: () async {
                   final value =
                       await ref.read(getcountryProvider(apitoken).future);
+
                   value.fold(
                       (l) => ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("contact".tr()))), (r) {
@@ -525,7 +470,7 @@ class CarBrand extends HookConsumerWidget {
                             return SimpleDialogOption(
                               onPressed: () async {
                                 selectedcountry.value = e.name.toString();
-                                brandcontroller!.text =
+                                controller!.text =
                                     selectedcountry.value.toString();
                                 pet.put("country", e.id);
                                 await context.router.pop();
@@ -544,8 +489,8 @@ class CarBrand extends HookConsumerWidget {
                       borderSide: BorderSide(color: Colors.red)),
                   errorBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.red)),
-                  contentPadding:
-                      const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                  contentPadding: const EdgeInsets.only(
+                      left: 10, top: 10, bottom: 10, right: 10),
                   filled: true,
                   fillColor: Colors.blue[350],
                   labelText: "petcountry".tr(),
@@ -555,7 +500,7 @@ class CarBrand extends HookConsumerWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                controller: brandcontroller,
+                controller: controller,
               );
             },
           ),

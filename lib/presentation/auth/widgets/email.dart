@@ -61,7 +61,7 @@ class EmailField extends HookWidget {
                     errorBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.red)),
                     contentPadding:
-                        const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                        const EdgeInsets.only(left: 10, top: 10, bottom: 10,right: 10),
                     hintText: "email".tr(),
                     hintStyle: const TextStyle(
                       color: Colors.black26,

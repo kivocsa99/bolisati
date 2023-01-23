@@ -26,6 +26,7 @@ mixin _$MotorOffersModel {
   num? get price_to => throw _privateConstructorUsedError;
   int? get fixed => throw _privateConstructorUsedError;
   num? get percentage => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -52,6 +53,7 @@ abstract class $MotorOffersModelCopyWith<$Res> {
       num? price_to,
       int? fixed,
       num? percentage,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -81,6 +83,7 @@ class _$MotorOffersModelCopyWithImpl<$Res, $Val extends MotorOffersModel>
     Object? price_to = freezed,
     Object? fixed = freezed,
     Object? percentage = freezed,
+    Object? price = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
@@ -112,6 +115,10 @@ class _$MotorOffersModelCopyWithImpl<$Res, $Val extends MotorOffersModel>
       percentage: freezed == percentage
           ? _value.percentage
           : percentage // ignore: cast_nullable_to_non_nullable
+              as num?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as num?,
       active: freezed == active
           ? _value.active
@@ -168,6 +175,7 @@ abstract class _$$_MotorOffersModelCopyWith<$Res>
       num? price_to,
       int? fixed,
       num? percentage,
+      num? price,
       int? active,
       String? created_at,
       String? updated_at,
@@ -196,6 +204,7 @@ class __$$_MotorOffersModelCopyWithImpl<$Res>
     Object? price_to = freezed,
     Object? fixed = freezed,
     Object? percentage = freezed,
+    Object? price = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
@@ -227,6 +236,10 @@ class __$$_MotorOffersModelCopyWithImpl<$Res>
       percentage: freezed == percentage
           ? _value.percentage
           : percentage // ignore: cast_nullable_to_non_nullable
+              as num?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as num?,
       active: freezed == active
           ? _value.active
@@ -266,6 +279,7 @@ class _$_MotorOffersModel implements _MotorOffersModel {
       this.price_to,
       this.fixed,
       this.percentage,
+      this.price,
       this.active,
       this.created_at,
       this.updated_at,
@@ -290,6 +304,8 @@ class _$_MotorOffersModel implements _MotorOffersModel {
   @override
   final num? percentage;
   @override
+  final num? price;
+  @override
   final int? active;
   @override
   final String? created_at;
@@ -312,7 +328,7 @@ class _$_MotorOffersModel implements _MotorOffersModel {
 
   @override
   String toString() {
-    return 'MotorOffersModel(id: $id, company_id: $company_id, price_from: $price_from, price_to: $price_to, fixed: $fixed, percentage: $percentage, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons, company: $company)';
+    return 'MotorOffersModel(id: $id, company_id: $company_id, price_from: $price_from, price_to: $price_to, fixed: $fixed, percentage: $percentage, price: $price, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, addons: $addons, company: $company)';
   }
 
   @override
@@ -330,6 +346,7 @@ class _$_MotorOffersModel implements _MotorOffersModel {
             (identical(other.fixed, fixed) || other.fixed == fixed) &&
             (identical(other.percentage, percentage) ||
                 other.percentage == percentage) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.active, active) || other.active == active) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
@@ -351,6 +368,7 @@ class _$_MotorOffersModel implements _MotorOffersModel {
       price_to,
       fixed,
       percentage,
+      price,
       active,
       created_at,
       updated_at,
@@ -380,6 +398,7 @@ abstract class _MotorOffersModel implements MotorOffersModel {
       final num? price_to,
       final int? fixed,
       final num? percentage,
+      final num? price,
       final int? active,
       final String? created_at,
       final String? updated_at,
@@ -402,6 +421,8 @@ abstract class _MotorOffersModel implements MotorOffersModel {
   int? get fixed;
   @override
   num? get percentage;
+  @override
+  num? get price;
   @override
   int? get active;
   @override

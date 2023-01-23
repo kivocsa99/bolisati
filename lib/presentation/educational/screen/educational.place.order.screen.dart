@@ -15,10 +15,10 @@ import 'package:bolisati/presentation/educational/widgets/educationalinformation
 import 'package:bolisati/presentation/educational/widgets/educationaluploadpictures.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,9 +32,10 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final order = useState(const EducationalDoneModel());
     final childorder = useState(const EducationalChildDoneModel());
-
     final carformkey = useState(GlobalKey<FormState>());
+    final childformkey = useState(GlobalKey<FormState>());
     final index = useState(0);
+    final genderscrollcontroller = FixedExtentScrollController(initialItem: 0);
     final Box setting = Hive.box("setting");
     final nameController = useTextEditingController();
     final childnameController = useTextEditingController();
@@ -44,10 +45,15 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
     final valueController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
+
     final monthlyController = useTextEditingController();
+    final insurancecontroller = useTextEditingController();
+    final genderController = useTextEditingController();
+
     final nationalController = useTextEditingController();
     final childyearController = useTextEditingController();
-
+    final insurancescrollcontroller =
+        FixedExtentScrollController(initialItem: 0);
     final registerback = useState("");
     final registerfront = useState("");
     final Box educational = Hive.box("educational");
@@ -57,14 +63,71 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
     ];
     List<Widget> cases = [
       EducationalInformationContainer(
-        insurance: (value) async {
-          order.value = order.value.copyWith(educational_type_id: value);
-          await educational.put("type", value == "Monthly Fee" ? 1 : 2);
+        insurancecontroller: insurancecontroller,
+        insurance: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: insurancescrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) async {
+                              order.value = order.value.copyWith(
+                                  educational_type_id: value == 0 ? "1" : "2");
+                              insurancecontroller.text =
+                                  value == 0 ? "monthly".tr() : "fullfee".tr();
+                              await educational.put("type", value == 0 ? 1 : 2);
+                            },
+                            children: [
+                              const Text("monthly").tr(),
+                              const Text("fullfee").tr(),
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (insurancescrollcontroller.selectedItem ==
+                                    0) {
+                                  order.value = order.value
+                                      .copyWith(educational_type_id: "1");
+                                  insurancecontroller.text = "monthly".tr();
+                                }
+                                await educational.put("type", 1);
+
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
-        monthly: (value) =>
-            order.value = order.value.copyWith(monthly_fee: value),
-        yearly: (value) =>
-            order.value = order.value.copyWith(monthly_fee: value),
+        monthly: (value) {
+          var myInt = int.parse(value!.replaceAll(",", ""));
+
+          order.value = order.value.copyWith(monthly_fee: myInt.toString());
+        },
+        yearly: (value) {
+          var myInt = int.parse(value!.replaceAll(",", ""));
+
+          order.value = order.value.copyWith(monthly_fee: myInt.toString());
+        },
         monthlyconotroller: monthlyController,
         startdatecontroller: startController,
         enddatecontroller: endController,
@@ -78,10 +141,59 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
         key: const Key("1"),
       ),
       EducationalAddChildInformationContainer(
-        gender: (value) {
-          childorder.value =
-              childorder.value.copyWith(gender_id: value == "Male" ? "1" : "2");
+        formkey: childformkey.value,
+        gender: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: genderscrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) {
+                              childorder.value = childorder.value
+                                  .copyWith(gender_id: value == 0 ? "1" : "2");
+                              genderController.text = value == 0
+                                  ? "globalsmale".tr()
+                                  : "globalsfemale".tr();
+                            },
+                            children: [
+                              const Text("globalsmale").tr(),
+                              const Text("globalsfemale").tr(),
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (genderscrollcontroller.selectedItem == 0) {
+                                  childorder.value =
+                                      childorder.value.copyWith(gender_id: "1");
+                                  genderController.text = "globalsmale".tr();
+                                }
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
+        gendercontroller: genderController,
         national: (value) =>
             childorder.value.copyWith(national_id_number: value),
         nationalController: nationalController,
@@ -127,8 +239,11 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                           BackInsuranceContainer(
                             name: "edu".tr(),
                             description: "edudes".tr(),
-                            icon: "assets/education.svg",
-                            function: () => context.router.pop(),
+                            icon: "assets/educational.svg",
+                            function: () async {
+                              await educational.delete("type");
+                              context.router.pop();
+                            },
                             containercolor: carcontainer,
                           ),
                           const SizedBox(
@@ -237,127 +352,118 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                         }));
                                               }
                                             } else if (index.value == 1) {
-                                              childorder.value =
-                                                  childorder.value.copyWith(
-                                                      educational_order_id:
-                                                          order.value.id
-                                                              .toString());
-                                              childorder.value =
-                                                  childorder.value.copyWith(
-                                                      birthdate: educational
-                                                          .get("birthdate"));
-                                              ref
-                                                  .read(
-                                                      educationaladdchildOrderProvider)
-                                                  .execute(
-                                                      EducationalAddChildFileUseCaseInput(
-                                                          model:
-                                                              childorder.value,
-                                                          token: token))
-                                                  .then((value) => value.fold(
-                                                      (l) => ScaffoldMessenger
-                                                              .of(context)
-                                                          .showSnackBar(SnackBar(
-                                                              content: const Text(
-                                                                      "contact")
-                                                                  .tr())),
-                                                      (r) => {
-                                                            showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return SimpleDialog(
-                                                                    title: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Image
-                                                                            .asset(
-                                                                          "assets/logo.png",
-                                                                          scale:
-                                                                              1.5,
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          width:
-                                                                              10,
-                                                                        ),
-                                                                        const Text(
-                                                                          'addanother',
-                                                                        ).tr(),
-                                                                      ],
-                                                                    ),
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            left:
-                                                                                40.0,
-                                                                            right:
-                                                                                40.0),
-                                                                        child:
-                                                                            GestureDetector(
-                                                                          onTap:
-                                                                              () async {
-                                                                            childyearController.clear();
-                                                                            childnameController.clear();
-                                                                            nationalController.clear();
-                                                                            context.router.pop();
-                                                                          },
-                                                                          child:
-                                                                              Container(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            width:
-                                                                                100,
-                                                                            height:
-                                                                                60,
-                                                                            child: Center(
-                                                                                child: const Text(
-                                                                              "globalsyes",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            ).tr()),
+                                              if (childformkey
+                                                  .value.currentState!
+                                                  .validate()) {
+                                                childorder.value =
+                                                    childorder.value.copyWith(
+                                                        educational_order_id:
+                                                            order.value.id
+                                                                .toString());
+                                                childorder.value =
+                                                    childorder.value.copyWith(
+                                                        birthdate: educational
+                                                            .get("birthdate"));
+                                                ref
+                                                    .read(
+                                                        educationaladdchildOrderProvider)
+                                                    .execute(
+                                                        EducationalAddChildFileUseCaseInput(
+                                                            model: childorder
+                                                                .value,
+                                                            token: token))
+                                                    .then((value) => value.fold(
+                                                        (l) => ScaffoldMessenger
+                                                                .of(context)
+                                                            .showSnackBar(SnackBar(
+                                                                content: const Text(
+                                                                        "contact")
+                                                                    .tr())),
+                                                        (r) => {
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return SimpleDialog(
+                                                                      title:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Image
+                                                                              .asset(
+                                                                            "assets/logo.png",
+                                                                            scale:
+                                                                                1.5,
                                                                           ),
-                                                                        ),
+                                                                          const SizedBox(
+                                                                            width:
+                                                                                10,
+                                                                          ),
+                                                                          const Text(
+                                                                            'addanother',
+                                                                          ).tr(),
+                                                                        ],
                                                                       ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            top:
-                                                                                40,
-                                                                            left:
-                                                                                40.0,
-                                                                            right:
-                                                                                40.0),
-                                                                        child:
-                                                                            GestureDetector(
-                                                                          onTap:
-                                                                              () async {
-                                                                            context.router.pop();
-                                                                            final isLaseIndex =
-                                                                                index.value == cases.length - 1;
-                                                                            index.value = isLaseIndex
-                                                                                ? 0
-                                                                                : index.value + 1;
-                                                                          },
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left: 40.0,
+                                                                              right: 40.0),
                                                                           child:
-                                                                              Container(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            width:
-                                                                                100,
-                                                                            height:
-                                                                                60,
-                                                                            child: Center(
-                                                                                child: const Text(
-                                                                              "globalsno",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            ).tr()),
+                                                                              GestureDetector(
+                                                                            onTap:
+                                                                                () async {
+                                                                              childyearController.clear();
+                                                                              childnameController.clear();
+                                                                              nationalController.clear();
+                                                                              context.router.pop();
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              color: Colors.black,
+                                                                              width: 100,
+                                                                              height: 60,
+                                                                              child: Center(
+                                                                                  child: const Text(
+                                                                                "globalsyes",
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              ).tr()),
+                                                                            ),
                                                                           ),
                                                                         ),
-                                                                      )
-                                                                    ]);
-                                                              },
-                                                            )
-                                                          }));
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              top: 40,
+                                                                              left: 40.0,
+                                                                              right: 40.0),
+                                                                          child:
+                                                                              GestureDetector(
+                                                                            onTap:
+                                                                                () async {
+                                                                              context.router.pop();
+                                                                              final isLaseIndex = index.value == cases.length - 1;
+                                                                              index.value = isLaseIndex ? 0 : index.value + 1;
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              color: Colors.black,
+                                                                              width: 100,
+                                                                              height: 60,
+                                                                              child: Center(
+                                                                                  child: const Text(
+                                                                                "globalsno",
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              ).tr()),
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                      ]);
+                                                                },
+                                                              )
+                                                            }));
+                                              }
                                             } else if (index.value == 2) {
                                               if (registerfront.value != "" &&
                                                   registerback.value != "") {

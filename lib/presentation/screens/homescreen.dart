@@ -15,9 +15,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../application/provider/user.repository.provider.dart';
 import '../../constants.dart';
 import '../../domain/api/orders/petorders/petordermodel.dart';
@@ -275,7 +275,9 @@ class HomeScreen extends HookConsumerWidget {
                                           itemBuilder: (context, index) {
                                             return firstElements.isNotEmpty
                                                 ? HorizantalUesrInsuranceContainer(
-                                                    insuranceName: "",
+                                                    insuranceName:
+                                                        firstElements[index]
+                                                            .name,
                                                     insuranceDescreption:
                                                         firstElements[index]
                                                                     .end_date !=
@@ -289,35 +291,29 @@ class HomeScreen extends HookConsumerWidget {
                                                     containercolor:
                                                         carcontainer,
                                                     function: () {},
-                                                    icon: Icon(
-                                                      firstElements[index]
-                                                              is MotorOrderModel
-                                                          ? FontAwesomeIcons.car
-                                                          : firstElements[index]
-                                                                  is EducationalOrderModel
-                                                              ? FontAwesomeIcons
-                                                                  .book
-                                                              : firstElements[
-                                                                          index]
-                                                                      is DomesticWorkersOrderModel
-                                                                  ? FontAwesomeIcons
-                                                                      .briefcase
-                                                                  : firstElements[
-                                                                              index]
-                                                                          is TravelOrderModel
-                                                                      ? FontAwesomeIcons
-                                                                          .plane
-                                                                      : firstElements[index]
-                                                                              is PersonalAccidentOrderModel
-                                                                          ? FontAwesomeIcons
-                                                                              .personFallingBurst
-                                                                          : firstElements[index] is MedicalOrderModel
-                                                                              ? FontAwesomeIcons.houseMedical
-                                                                              : firstElements[index] is PetOrderModel
-                                                                                  ? FontAwesomeIcons.cat
-                                                                                  : FontAwesomeIcons.personCane,
-                                                      color: carcolor,
-                                                    ),
+                                                    icon: firstElements[index]
+                                                            is MotorOrderModel
+                                                        ? "assets/car.svg"
+                                                        : firstElements[index]
+                                                                is EducationalOrderModel
+                                                            ? "assets/educational.svg"
+                                                            : firstElements[
+                                                                        index]
+                                                                    is DomesticWorkersOrderModel
+                                                                ? "assets/domestic.svg"
+                                                                : firstElements[
+                                                                            index]
+                                                                        is TravelOrderModel
+                                                                    ? "assets/travel.svg"
+                                                                    : firstElements[index]
+                                                                            is PersonalAccidentOrderModel
+                                                                        ? "assets/personal.svg"
+                                                                        : firstElements[index]
+                                                                                is MedicalOrderModel
+                                                                            ? "assets/medical.svg"
+                                                                            : firstElements[index] is PetOrderModel
+                                                                                ? "assets/pet.svg"
+                                                                                : "assets/ret.svg",
                                                   )
                                                 : const SizedBox.shrink();
                                           },

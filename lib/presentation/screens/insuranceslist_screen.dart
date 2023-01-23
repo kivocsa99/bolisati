@@ -97,7 +97,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.svg",
+                        icon: "assets/pet.svg",
                         insuranceName: "pet".tr(),
                         insuranceDescreption: "petdes".tr(),
                         function: () =>
@@ -109,7 +109,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.svg",
+                        icon: "assets/domestic.svg",
                         insuranceName: "domestic".tr(),
                         insuranceDescreption: "domesticdes".tr(),
                         function: () => context.router
@@ -121,7 +121,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.svg",
+                        icon: "assets/ret.svg",
                         insuranceName: "retirement".tr(),
                         insuranceDescreption: "insurancedes".tr(),
                         function: () => context.router
@@ -133,7 +133,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.svg",
+                        icon: "assets/personal.svg",
                         insuranceName: "personal".tr(),
                         insuranceDescreption: "personaldes".tr(),
                         function: () => context.router
@@ -145,7 +145,7 @@ class InsuranceListScreen extends HookWidget {
                       VerticalInsurance(
                         containercolor: carcontainer,
                         iconcolor: carcolor,
-                        icon: "assets/travel.svg",
+                        icon: "assets/educational.svg",
                         insuranceName: "edu".tr(),
                         insuranceDescreption: "edudes".tr(),
                         function: () => context.router

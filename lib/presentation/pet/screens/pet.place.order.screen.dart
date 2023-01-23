@@ -17,11 +17,10 @@ import 'package:bolisati/presentation/pet/widgets/petuploadpictures.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:bolisati/router/app_route.gr.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -39,11 +38,16 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
     final Box pet = Hive.box("pet");
     final nameController = useTextEditingController();
     final yearController = useTextEditingController();
-    final brandController = useTextEditingController();
-    final modelController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
+    final pettypecontroller = useTextEditingController();
+    final petcountrycontroller = useTextEditingController();
+    final gendercontroller = useTextEditingController();
 
+    final genderscrollcontroller = FixedExtentScrollController(initialItem: 0);
+    final typescrollcontroller = FixedExtentScrollController(initialItem: 0);
+
+    final selecteddate = useState("");
     final registerback = useState("");
     final registerfront = useState("");
     List<String> images = [
@@ -54,56 +58,193 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
       PetInformationContainer(
         ontap: () async {
           FocusScope.of(context).unfocus();
-          final pickedYear = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now(),
-            lastDate: DateTime.now().add(const Duration(days: 740)),
-            builder: (context, child) {
-              return Theme(
-                data: ThemeData.light().copyWith(
-                  colorScheme: const ColorScheme.light(primary: Colors.blue),
-                  buttonTheme: const ButtonThemeData(
-                    textTheme: ButtonTextTheme.primary,
-                  ),
-                ),
-                child: child!,
-              );
-            },
-          );
-          if (pickedYear != null) {
-            pet.put("startdate",
-                DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-            startController.text =
-                DateFormat("d/M/y").format(pickedYear).toString();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoDatePicker(
+                              dateOrder: DatePickerDateOrder.dmy,
+                              mode: CupertinoDatePickerMode.date,
+                              initialDateTime:
+                                  DateTime.now().add(const Duration(hours: 1)),
+                              minimumDate: DateTime.now(),
+                              maximumDate:
+                                  DateTime.now().add(const Duration(days: 356)),
+                              onDateTimeChanged: (val) {
+                                selecteddate.value =
+                                    DateFormat("d/M/y").format(val);
 
-            pet.put(
-                "enddate",
-                DateFormat("yyyy-MM-dd HH:mm:ss")
-                    .format(pickedYear.add(const Duration(days: 365))));
-            endController.text = DateFormat("d/M/y")
-                .format(pickedYear.add(const Duration(days: 365)))
-                .toString();
-          }
+                                pet.put(
+                                    "startdate",
+                                    DateFormat("yyyy-MM-dd HH:mm:ss")
+                                        .format(val)
+                                        .toString());
+                                pet.put(
+                                    "enddate",
+                                    DateFormat("yyyy-MM-dd HH:mm:ss").format(
+                                        val.add(const Duration(days: 365))));
+                                startController.text =
+                                    selecteddate.value.toString();
+                                endController.text = DateFormat("d/M/y")
+                                    .format(val.add(const Duration(days: 365)));
+                              }),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (selecteddate.value == "") {
+                                  pet.put(
+                                      "startdate",
+                                      DateFormat("yyyy-MM-dd HH:mm:ss")
+                                          .format(DateTime.now())
+                                          .toString());
+                                  pet.put(
+                                      "enddate",
+                                      DateFormat("yyyy-MM-dd HH:mm:ss").format(
+                                          DateTime.now()
+                                              .add(const Duration(days: 365))));
+                                  startController.text = DateFormat("d/M/y")
+                                      .format(DateTime.now());
+                                  endController.text = DateFormat("d/M/y")
+                                      .format(DateTime.now()
+                                          .add(const Duration(days: 365)));
+                                }
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
-        gender: (value) {
-          order.value =
-              order.value.copyWith(genderid: value == "Male" ? "1" : "2");
+        gender: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: genderscrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) {
+                              order.value = order.value
+                                  .copyWith(gender_id: value == 0 ? "1" : "2");
+                              gendercontroller.text = value == 0
+                                  ? "globalsmale".tr()
+                                  : "globalsfemale".tr();
+                            },
+                            children: [
+                              const Text("globalsmale").tr(),
+                              const Text("globalsfemale").tr(),
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (genderscrollcontroller.selectedItem == 0) {
+                                  order.value =
+                                      order.value.copyWith(gender_id: "1");
+                                  gendercontroller.text = "globalsmale".tr();
+                                }
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
-        pettype: (value) {
-          order.value = order.value.copyWith(
-              pet_type_id: value == "Cat"
-                  ? "1"
-                  : value == "Dog"
-                      ? "2"
-                      : "3");
+        pettype: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: typescrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) {
+                              order.value = order.value.copyWith(
+                                  pet_type_id: value == 0
+                                      ? "1"
+                                      : value == 1
+                                          ? "2"
+                                          : "3");
+                              pettypecontroller.text = value == 0
+                                  ? "pettypecat".tr()
+                                  : value == 1
+                                      ? "pettypedog".tr()
+                                      : "pettypeother".tr();
+                            },
+                            children: [
+                              const Text("pettypecat").tr(),
+                              const Text("pettypedog").tr(),
+                              const Text("pettypeother").tr(),
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (typescrollcontroller.selectedItem == 0) {
+                                  order.value =
+                                      order.value.copyWith(pet_type_id: "1");
+                                  pettypecontroller.text = "pettypecat".tr();
+                                }
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
         startdatecontroller: startController,
         enddatecontroller: endController,
         yearcontroller: yearController,
-        carbrandcontroller: brandController,
-        carmodelcontroller: modelController,
         namecontroller: nameController,
+        petcountrycontroller: petcountrycontroller,
+        gendercontroller: gendercontroller,
+        pettypecontroller: pettypecontroller,
         name: (value) {
           order.value = order.value.copyWith(name: value);
         },
@@ -194,8 +335,11 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
-                                      onTap: () {
-                                        if (index.value != 0) {
+                                      onTap: () async {
+                                        if (index.value == 1) {
+                                          await pet.delete("petid");
+                                          index.value = index.value - 1;
+                                        } else if (index.value != 0) {
                                           index.value = index.value - 1;
                                         }
                                       },
@@ -247,13 +391,20 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                                       1;
                                                         }));
                                               }
-                                            } else if (index.value == 1 &&
-                                                pet.get("petid") != null) {
-                                              final isLaseIndex = index.value ==
-                                                  cases.length - 1;
-                                              index.value = isLaseIndex
-                                                  ? 0
-                                                  : index.value + 1;
+                                            } else if (index.value == 1) {
+                                              if (pet.get("petid") != null) {
+                                                final isLaseIndex =
+                                                    index.value ==
+                                                        cases.length - 1;
+                                                index.value = isLaseIndex
+                                                    ? 0
+                                                    : index.value + 1;
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "offersdes".tr())));
+                                              }
                                             } else if (index.value == 2) {
                                               if (registerfront.value != "" &&
                                                   registerback.value != "") {

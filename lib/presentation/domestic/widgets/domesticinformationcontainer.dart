@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -53,7 +54,7 @@ class DomesticInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "kafname".tr(),
                 width: double.infinity,
               ),
               CustomField(
@@ -136,8 +137,8 @@ class EndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,
@@ -254,7 +255,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -268,82 +269,6 @@ class CustomField extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class YearPicker extends HookWidget {
-  final double? width;
-  final String? selectedyear;
-  final TextEditingController? controller;
-  const YearPicker({super.key, this.width, this.controller, this.selectedyear});
-
-  @override
-  Widget build(BuildContext context) {
-    final Box domestic = Hive.box("domestic");
-
-    final selectedYear = useState("");
-    return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.grey,
-                width: 2,
-              ),
-            ),
-          ),
-          height: 80,
-          width: width,
-          child: TextFormField(
-            validator: RequiredValidator(errorText: "reqfield".tr()),
-            readOnly: true,
-            onTap: () async {
-              FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1970),
-                lastDate: DateTime.now().add(const Duration(days: 356)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                selectedYear.value = DateFormat.y().format(pickedYear);
-                domestic.put("domesticyear", selectedYear.value);
-                controller!.text = selectedYear.value.toString();
-              }
-            },
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              focusedErrorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-              errorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-              filled: true,
-              fillColor: Colors.blue[350],
-              labelText: "domestic Year",
-              hintStyle: const TextStyle(
-                color: Colors.black26,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            controller: controller,
-          ),
-        ));
   }
 }
 
@@ -363,9 +288,6 @@ class StartEndDate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box domestic = Hive.box("domestic");
-
-    final selecteddate = useState("");
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
@@ -389,8 +311,8 @@ class StartEndDate extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: label,

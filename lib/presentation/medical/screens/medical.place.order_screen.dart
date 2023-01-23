@@ -8,7 +8,6 @@ import 'package:bolisati/application/medical/use_cases/getoffers/get.offers.use.
 import 'package:bolisati/application/medical/use_cases/getoffers/get.offers.use.case.input.dart';
 import 'package:bolisati/application/medical/use_cases/placeorder/place.order.use.case.dart';
 import 'package:bolisati/application/medical/use_cases/placeorder/place.order.use.case.input.dart';
-
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/medical/model/medicalmodel.dart';
 import 'package:bolisati/domain/api/medical/model/medicalorderdone.dart';
@@ -17,9 +16,9 @@ import 'package:bolisati/presentation/medical/widgets/medicalbottomsheet.dart';
 import 'package:bolisati/presentation/medical/widgets/medicalinformationcontainer.dart';
 import 'package:bolisati/presentation/medical/widgets/medicalordercontainer.dart';
 import 'package:bolisati/presentation/medical/widgets/medicaluploadpage.dart';
-
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -45,68 +44,280 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
     final nameController = useTextEditingController();
     final yearController = useTextEditingController();
 
-    final valueController = useTextEditingController();
+    final genderController = useTextEditingController();
     final startController = useTextEditingController();
     final endController = useTextEditingController();
+    final maritalController = useTextEditingController();
+    final insuranceController = useTextEditingController();
+
+    final genderscrollcontroller = FixedExtentScrollController(initialItem: 0);
+    final maritalscrollcontroller = FixedExtentScrollController(initialItem: 0);
+    final insurancescrollcontroller =
+        FixedExtentScrollController(initialItem: 0);
+    final imageCount = useState(0);
+
+    final _images = useState<List<String>>([]);
 
     final idback = useState("");
     final idfront = useState("");
+    final selecteddate = useState("");
 
-    List<String> images = [
-      idback.value,
-      idfront.value,
-    ];
     List<Widget> cases = [
       MedicalInformationContainer(
         ontap: () async {
           FocusScope.of(context).unfocus();
-          final pickedYear = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now(),
-            lastDate: DateTime.now().add(const Duration(days: 740)),
-            builder: (context, child) {
-              return Theme(
-                data: ThemeData.light().copyWith(
-                  colorScheme: const ColorScheme.light(primary: Colors.blue),
-                  buttonTheme: const ButtonThemeData(
-                    textTheme: ButtonTextTheme.primary,
-                  ),
-                ),
-                child: child!,
-              );
-            },
-          );
-          if (pickedYear != null) {
-            medical.put("startdate",
-                DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-            startController.text = DateFormat("d/M/y").format(pickedYear);
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoDatePicker(
+                              dateOrder: DatePickerDateOrder.dmy,
+                              mode: CupertinoDatePickerMode.date,
+                              initialDateTime:
+                                  DateTime.now().add(const Duration(hours: 1)),
+                              minimumDate: DateTime.now(),
+                              maximumDate:
+                                  DateTime.now().add(const Duration(days: 356)),
+                              onDateTimeChanged: (val) {
+                                selecteddate.value =
+                                    DateFormat("d/M/y").format(val);
 
-            medical.put(
-                "enddate",
-                DateFormat("yyyy-MM-dd HH:mm:ss")
-                    .format(pickedYear.add(const Duration(days: 365))));
-            endController.text = DateFormat("d/M/y")
-                .format(pickedYear.add(const Duration(days: 365)));
-          }
+                                medical.put(
+                                    "startdate",
+                                    DateFormat("yyyy-MM-dd HH:mm:ss")
+                                        .format(val)
+                                        .toString());
+                                medical.put(
+                                    "enddate",
+                                    DateFormat("yyyy-MM-dd HH:mm:ss").format(
+                                        val.add(const Duration(days: 365))));
+                                startController.text =
+                                    selecteddate.value.toString();
+                                endController.text = DateFormat("d/M/y")
+                                    .format(val.add(const Duration(days: 365)));
+                              }),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (selecteddate.value == "") {
+                                  selecteddate.value = DateFormat("d/M/y")
+                                      .format(DateTime.now());
+
+                                  medical.put(
+                                      "startdate",
+                                      DateFormat("yyyy-MM-dd HH:mm:ss")
+                                          .format(DateTime.now())
+                                          .toString());
+                                  medical.put(
+                                      "enddate",
+                                      DateFormat("yyyy-MM-dd HH:mm:ss").format(
+                                          DateTime.now()
+                                              .add(const Duration(days: 365))));
+                                  startController.text =
+                                      selecteddate.value.toString();
+                                  endController.text = DateFormat("d/M/y")
+                                      .format(DateTime.now()
+                                          .add(const Duration(days: 365)));
+                                }
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
         formkey: medicalformkey.value,
-        maritalstatus: (value) => order.value =
-            order.value.copyWith(marital_status_id: value == "Married" ? 1 : 2),
+        maritalstatus: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: maritalscrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) {
+                              order.value = order.value.copyWith(
+                                  marital_status_id: value == 0
+                                      ? 1
+                                      : value == 1
+                                          ? 2
+                                          : value == 2
+                                              ? 3
+                                              : 4);
+                              maritalController.text = value == 0
+                                  ? "single".tr()
+                                  : value == 1
+                                      ? "married".tr()
+                                      : value == 2
+                                          ? "widowed".tr()
+                                          : "divorced".tr();
+                            },
+                            children: [
+                              const Text("single").tr(),
+                              const Text("married").tr(),
+                              const Text("widowed").tr(),
+                              const Text("divorced").tr()
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (maritalscrollcontroller.selectedItem == 0) {
+                                  order.value = order.value
+                                      .copyWith(marital_status_id: 1);
+                                  maritalController.text = "single".tr();
+                                }
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
+        },
+        maritalcontroller: maritalController,
         startdatecontroller: startController,
         enddatecontroller: endController,
         yearcontroller: yearController,
-        valuecontroller: valueController,
+        gendercontroller: genderController,
         namecontroller: nameController,
+        insurancecontroller: insuranceController,
         name: (value) {
           order.value = order.value.copyWith(name: value);
         },
-        gender: (value) {
-          order.value =
-              order.value.copyWith(gender_id: value == "Male" ? 1 : 2);
+        gender: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: genderscrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) {
+                              order.value = order.value
+                                  .copyWith(gender_id: value == 0 ? 1 : 2);
+                              genderController.text = value == 0
+                                  ? "globalsmale".tr()
+                                  : "globalsfemale".tr();
+                            },
+                            children: [
+                              const Text("globalsmale").tr(),
+                              const Text("globalsfemale").tr(),
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (genderscrollcontroller.selectedItem == 0) {
+                                  order.value =
+                                      order.value.copyWith(gender_id: 1);
+                                  genderController.text = "globalsmale".tr();
+                                }
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
-        insurance: (value) => order.value = order.value
-            .copyWith(medical_insurance_type_id: value == "in" ? 1 : 2),
+        insurance: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: insurancescrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) {
+                              order.value = order.value.copyWith(
+                                  medical_insurance_type_id:
+                                      value == 0 ? 1 : 2);
+                              insuranceController.text = value == 0
+                                  ? "globalsin".tr()
+                                  : "globalsinout".tr();
+                            },
+                            children: [
+                              const Text("globalsin").tr(),
+                              const Text("globalsinout").tr(),
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (insurancescrollcontroller.selectedItem ==
+                                    0) {
+                                  order.value = order.value
+                                      .copyWith(medical_insurance_type_id: 1);
+                                  insuranceController.text = "globalsin".tr();
+                                }
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
+        },
         key: const Key("1"),
       ),
       MedicalOrderOffersContainer(
@@ -114,14 +325,69 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
         key: const Key("2"),
       ),
       MedicalUploadPage(
-        image0: File(idfront.value),
-        image1: File(idback.value),
+        images: _images.value,
         function0: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            idback.value = pictures[0].path;
-            idfront.value = pictures[1].path;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+
+                                  print(pickedFile.path);
+                                  _images.value.add(pickedFile.path);
+                                  print(_images);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+                                  print(pickedFile.path);
+                                  _images.value.add(pickedFile.path);
+                                  print(_images);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
         },
       )
     ];
@@ -192,8 +458,11 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
-                                      onTap: () {
-                                        if (index.value != 0) {
+                                      onTap: () async {
+                                        if (index.value == 1) {
+                                          await medical.delete("medicalid");
+                                          index.value = index.value - 1;
+                                        } else if (index.value != 0) {
                                           index.value = index.value - 1;
                                         }
                                       },
@@ -253,17 +522,23 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                       1;
                                                         }));
                                               }
-                                            } else if (index.value == 1 &&
-                                                medical.get("medicalid") !=
-                                                    null) {
-                                              final isLaseIndex = index.value ==
-                                                  cases.length - 1;
-                                              index.value = isLaseIndex
-                                                  ? 0
-                                                  : index.value + 1;
+                                            } else if (index.value == 1) {
+                                              if (medical.get("medicalid") !=
+                                                  null) {
+                                                final isLaseIndex =
+                                                    index.value ==
+                                                        cases.length - 1;
+                                                index.value = isLaseIndex
+                                                    ? 0
+                                                    : index.value + 1;
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "offersdes".tr())));
+                                              }
                                             } else if (index.value == 2) {
-                                              if (idback.value != "" &&
-                                                  idfront.value != "") {
+                                              if (_images.value.length == 2) {
                                                 await Future.delayed(
                                                     const Duration(seconds: 1),
                                                     (() {
@@ -329,16 +604,61 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                           orderdone =
                                                                           r;
                                                                       for (var element
-                                                                          in images) {
+                                                                          in _images
+                                                                              .value) {
                                                                         ref.read(medicalattachplaceOrderProvider).execute(MedicalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
                                                                             value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                                 (r) async {
-                                                                              if (element == images.last) {
-                                                                                context.router.pop();
-                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                                await context.router.replaceAll([
-                                                                                  const HomeScreen()
-                                                                                ]);
+                                                                              if (element == _images.value.last) {
+                                                                                await context.router.pop();
+                                                                                showDialog(
+                                                                                  barrierDismissible: false,
+                                                                                  context: context,
+                                                                                  builder: (context) {
+                                                                                    return SimpleDialog(
+                                                                                        title: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                          children: [
+                                                                                            Image.asset(
+                                                                                              "assets/logo.png",
+                                                                                              scale: 1.5,
+                                                                                            ),
+                                                                                            const SizedBox(
+                                                                                              width: 10,
+                                                                                            ),
+                                                                                            const Text(
+                                                                                              'crashdesc',
+                                                                                            ).tr(),
+                                                                                          ],
+                                                                                        ),
+                                                                                        children: [
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                            child: const Text("orderconfirm").tr(),
+                                                                                          ),
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                            child: GestureDetector(
+                                                                                              onTap: () async {
+                                                                                                await context.router.replaceAll([
+                                                                                                  const HomeScreen()
+                                                                                                ]);
+                                                                                              },
+                                                                                              child: Container(
+                                                                                                color: Colors.black,
+                                                                                                width: 100,
+                                                                                                height: 60,
+                                                                                                child: Center(
+                                                                                                    child: const Text(
+                                                                                                  "confirm",
+                                                                                                  style: TextStyle(color: Colors.white),
+                                                                                                ).tr()),
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ]);
+                                                                                  },
+                                                                                );
                                                                               }
                                                                             }));
                                                                       }

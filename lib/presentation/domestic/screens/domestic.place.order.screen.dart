@@ -15,10 +15,10 @@ import 'package:bolisati/domain/api/domestic/model/domesticoffermodel.dart';
 import 'package:bolisati/presentation/domestic/widgets/domesticbottomsheet.dart';
 import 'package:bolisati/presentation/widgets/back_insuarance_container.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +44,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
     final startController = useTextEditingController();
     final endController = useTextEditingController();
     final nationalidcontroller = useTextEditingController();
+    final selecteddate = useState("");
 
     final idback = useState("");
     final idfront = useState("");
@@ -59,35 +60,76 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
       DomesticInformationContainer(
         ontap: () async {
           FocusScope.of(context).unfocus();
-          final pickedYear = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now(),
-            lastDate: DateTime.now().add(const Duration(days: 740)),
-            builder: (context, child) {
-              return Theme(
-                data: ThemeData.light().copyWith(
-                  colorScheme: const ColorScheme.light(primary: Colors.blue),
-                  buttonTheme: const ButtonThemeData(
-                    textTheme: ButtonTextTheme.primary,
-                  ),
-                ),
-                child: child!,
-              );
-            },
-          );
-          if (pickedYear != null) {
-            domestic.put("domesticsstartdate",
-                DateFormat("yyyy-MM-dd HH:mm:ss").format(pickedYear));
-            startController.text = DateFormat("d/M/y").format(pickedYear);
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoDatePicker(
+                              dateOrder: DatePickerDateOrder.dmy,
+                              mode: CupertinoDatePickerMode.date,
+                              initialDateTime:
+                                  DateTime.now().add(const Duration(hours: 1)),
+                              minimumDate: DateTime.now(),
+                              maximumDate:
+                                  DateTime.now().add(const Duration(days: 356)),
+                              onDateTimeChanged: (val) {
+                                selecteddate.value =
+                                    DateFormat("d/M/y").format(val);
 
-            domestic.put(
-                "domesticenddate",
-                DateFormat("yyyy-MM-dd HH:mm:ss")
-                    .format(pickedYear.add(const Duration(days: 365))));
-            endController.text = DateFormat("d/M/y")
-                .format(pickedYear.add(const Duration(days: 365)));
-          }
+                                domestic.put(
+                                    "startdate",
+                                    DateFormat("yyyy-MM-dd HH:mm:ss")
+                                        .format(val)
+                                        .toString());
+                                domestic.put(
+                                    "enddate",
+                                    DateFormat("yyyy-MM-dd HH:mm:ss").format(
+                                        val.add(const Duration(days: 365))));
+                                startController.text =
+                                    selecteddate.value.toString();
+                                endController.text = DateFormat("d/M/y")
+                                    .format(val.add(const Duration(days: 365)));
+                              }),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (selecteddate.value == "") {
+                                  domestic.put(
+                                      "startdate",
+                                      DateFormat("yyyy-MM-dd HH:mm:ss")
+                                          .format(DateTime.now())
+                                          .toString());
+                                  domestic.put(
+                                      "enddate",
+                                      DateFormat("yyyy-MM-dd HH:mm:ss").format(
+                                          DateTime.now()
+                                              .add(const Duration(days: 365))));
+                                  startController.text = DateFormat("d/M/y")
+                                      .format(DateTime.now());
+                                  endController.text = DateFormat("d/M/y")
+                                      .format(DateTime.now()
+                                          .add(const Duration(days: 365)));
+                                }
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
         },
         workerinsurancecontroller: nationalidcontroller,
         workerinsurance: (value) =>
@@ -197,8 +239,11 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
-                                      onTap: () {
-                                        if (index.value != 0) {
+                                      onTap: () async {
+                                        if (index.value == 1) {
+                                          await domestic.delete("domesticid");
+                                          index.value = index.value - 1;
+                                        } else if (index.value != 0) {
                                           index.value = index.value - 1;
                                         }
                                       },
@@ -250,14 +295,21 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                                       1;
                                                         }));
                                               }
-                                            } else if (index.value == 1 &&
-                                                domestic.get("domesticid") !=
-                                                    null) {
-                                              final isLaseIndex = index.value ==
-                                                  cases.length - 1;
-                                              index.value = isLaseIndex
-                                                  ? 0
-                                                  : index.value + 1;
+                                            } else if (index.value == 1) {
+                                              if (domestic.get("domesticid") !=
+                                                  null) {
+                                                final isLaseIndex =
+                                                    index.value ==
+                                                        cases.length - 1;
+                                                index.value = isLaseIndex
+                                                    ? 0
+                                                    : index.value + 1;
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "offersdes".tr())));
+                                              }
                                             } else if (index.value == 2) {
                                               if (registerfront.value != "" &&
                                                   registerback.value != "" &&
@@ -270,13 +322,15 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                       .copyWith(
                                                           total: domestic.get(
                                                               "domesticid"));
-                                                  order.value = order.value.copyWith(
-                                                      start_date: domestic.get(
-                                                          "domesticsstartdate"));
                                                   order.value = order.value
                                                       .copyWith(
-                                                          end_date: domestic.get(
-                                                              "domesticenddate"));
+                                                          start_date:
+                                                              domestic.get(
+                                                                  "startdate"));
+                                                  order.value = order.value
+                                                      .copyWith(
+                                                          end_date: domestic
+                                                              .get("enddate"));
                                                 }));
                                                 final DomesticOfferModel
                                                     offersModel = offers.value

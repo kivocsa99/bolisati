@@ -18,7 +18,6 @@ import 'package:bolisati/presentation/travel/widgets/traveluploadpage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +31,8 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final order = useState(const TravelOrderModel());
+
     final nameController = useTextEditingController();
     final regioncontroller = useTextEditingController();
     final yearcontroller = useTextEditingController();
@@ -39,7 +40,6 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
     final endController = useTextEditingController();
     final periodcontroller = useTextEditingController();
 
-    final order = useState(const TravelOrderModel());
     final offer = useState<List<TravelOffersModel>>([]);
     final travelkey = useState(GlobalKey<FormState>());
     final Box setting = Hive.box("setting");
@@ -48,6 +48,9 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
     final idfront = useState("");
     final passportback = useState("");
     final passportfront = useState("");
+    final startselecteddate = useState("");
+    final endselecteddate = useState("");
+
     List<String> images = [
       idback.value,
       idfront.value,
@@ -56,6 +59,31 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
     ];
     List<Widget> cases = [
       TravelInformationContainer(
+        startchanged: (val) {
+          startselecteddate.value = val!.toString();
+          travel.put(
+              "startdate", DateFormat("yyyy-MM-dd HH:mm:ss").format(val));
+          startController.text = DateFormat("d/M/y").format(val);
+          if (endselecteddate.value != "" && startselecteddate.value != "") {
+            periodcontroller.text = DateTime.parse(endselecteddate.value)
+                .difference(DateTime.parse(startselecteddate.value))
+                .inDays
+                .toString();
+          }
+        },
+        endchanged: (val) {
+          endselecteddate.value = val!.toString();
+
+          travel.put("enddate", DateFormat("yyyy-MM-dd HH:mm:ss").format(val));
+
+          endController.text = DateFormat("d/M/y").format(val);
+          if (endselecteddate.value != "" && startselecteddate.value != "") {
+            periodcontroller.text = DateTime.parse(endselecteddate.value)
+                .difference(DateTime.parse(startselecteddate.value))
+                .inDays
+                .toString();
+          }
+        },
         namecontroller: nameController,
         name: (value) => order.value = order.value.copyWith(name: value),
         regioncontroller: regioncontroller,
@@ -108,7 +136,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                 BackInsuranceContainer(
                   name: "travel".tr(),
                   description: "traveldes".tr(),
-                  icon: "assets/travel.png",
+                  icon: "assets/travel.svg",
                   function: () => context.router.pop(),
                   containercolor: travelcontainer,
                 ),
@@ -141,8 +169,11 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              if (index.value != 0) {
+                            onTap: () async {
+                              if (index.value == 1) {
+                                await travel.delete("travelid");
+                                index.value = index.value - 1;
+                              } else if (index.value != 0) {
                                 index.value = index.value - 1;
                               }
                             },
@@ -169,14 +200,12 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                           .validate()) {
                                         await ref
                                             .read(travelgetOffersProvider)
-                                            .execute(
-                                                TravelGetOffersUseCaseInput(
-                                                    regionid:
-                                                        travel.get("region"),
-                                                    token: token,
-                                                    age: travel.get("age"),
-                                                    periodindays: order
-                                                        .value.period_of_stay))
+                                            .execute(TravelGetOffersUseCaseInput(
+                                                regionid: travel.get("region"),
+                                                token: token,
+                                                age: travel.get("age"),
+                                                periodindays: int.parse(
+                                                    periodcontroller.text)))
                                             .then((value) => value.fold(
                                                     (l) => ScaffoldMessenger.of(
                                                             context)
@@ -194,12 +223,18 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                       : index.value + 1;
                                                 }));
                                       }
-                                    } else if (index.value == 1 &&
-                                        travel.get("travelid") != null) {
-                                      final isLaseIndex =
-                                          index.value == cases.length - 1;
-                                      index.value =
-                                          isLaseIndex ? 0 : index.value + 1;
+                                    } else if (index.value == 1) {
+                                      if (travel.get("travelid") != null) {
+                                        final isLaseIndex =
+                                            index.value == cases.length - 1;
+                                        index.value =
+                                            isLaseIndex ? 0 : index.value + 1;
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text("offersdes".tr())));
+                                      }
                                     } else if (index.value == 2) {
                                       if (passportback.value != "" &&
                                           passportfront.value != "" &&

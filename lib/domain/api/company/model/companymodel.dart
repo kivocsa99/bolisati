@@ -16,6 +16,7 @@ class CompanyModel with _$CompanyModel {
     String? description_ar,
     String? code,
     String? email,
+    String? pdf,
     String? image,
     int? active,
     String? created_at,

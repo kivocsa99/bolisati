@@ -28,6 +28,7 @@ mixin _$CompanyModel {
   String? get description_ar => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
+  String? get pdf => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
@@ -55,6 +56,7 @@ abstract class $CompanyModelCopyWith<$Res> {
       String? description_ar,
       String? code,
       String? email,
+      String? pdf,
       String? image,
       int? active,
       String? created_at,
@@ -83,6 +85,7 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
     Object? description_ar = freezed,
     Object? code = freezed,
     Object? email = freezed,
+    Object? pdf = freezed,
     Object? image = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
@@ -121,6 +124,10 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pdf: freezed == pdf
+          ? _value.pdf
+          : pdf // ignore: cast_nullable_to_non_nullable
               as String?,
       image: freezed == image
           ? _value.image
@@ -163,6 +170,7 @@ abstract class _$$_CompanyModelCopyWith<$Res>
       String? description_ar,
       String? code,
       String? email,
+      String? pdf,
       String? image,
       int? active,
       String? created_at,
@@ -189,6 +197,7 @@ class __$$_CompanyModelCopyWithImpl<$Res>
     Object? description_ar = freezed,
     Object? code = freezed,
     Object? email = freezed,
+    Object? pdf = freezed,
     Object? image = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
@@ -228,6 +237,10 @@ class __$$_CompanyModelCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      pdf: freezed == pdf
+          ? _value.pdf
+          : pdf // ignore: cast_nullable_to_non_nullable
+              as String?,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -264,6 +277,7 @@ class _$_CompanyModel implements _CompanyModel {
       this.description_ar,
       this.code,
       this.email,
+      this.pdf,
       this.image,
       this.active,
       this.created_at,
@@ -290,6 +304,8 @@ class _$_CompanyModel implements _CompanyModel {
   @override
   final String? email;
   @override
+  final String? pdf;
+  @override
   final String? image;
   @override
   final int? active;
@@ -302,7 +318,7 @@ class _$_CompanyModel implements _CompanyModel {
 
   @override
   String toString() {
-    return 'CompanyModel(id: $id, parent_company_id: $parent_company_id, name: $name, name_ar: $name_ar, description: $description, description_ar: $description_ar, code: $code, email: $email, image: $image, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'CompanyModel(id: $id, parent_company_id: $parent_company_id, name: $name, name_ar: $name_ar, description: $description, description_ar: $description_ar, code: $code, email: $email, pdf: $pdf, image: $image, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -321,6 +337,7 @@ class _$_CompanyModel implements _CompanyModel {
                 other.description_ar == description_ar) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.pdf, pdf) || other.pdf == pdf) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.active, active) || other.active == active) &&
             (identical(other.created_at, created_at) ||
@@ -343,6 +360,7 @@ class _$_CompanyModel implements _CompanyModel {
       description_ar,
       code,
       email,
+      pdf,
       image,
       active,
       created_at,
@@ -373,6 +391,7 @@ abstract class _CompanyModel implements CompanyModel {
       final String? description_ar,
       final String? code,
       final String? email,
+      final String? pdf,
       final String? image,
       final int? active,
       final String? created_at,
@@ -398,6 +417,8 @@ abstract class _CompanyModel implements CompanyModel {
   String? get code;
   @override
   String? get email;
+  @override
+  String? get pdf;
   @override
   String? get image;
   @override

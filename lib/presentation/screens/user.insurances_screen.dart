@@ -1,16 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/orders/user.orders.model.dart';
-import 'package:bolisati/presentation/widgets/vertical_insurance_type_container.dart';
-import 'package:bolisati/router/app_route.gr.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -114,10 +108,7 @@ class UserInsuranceListScreen extends HookConsumerWidget {
                                                     .toString(),
                                                 containercolor: carcontainer,
                                                 function: () {},
-                                                icon: Icon(
-                                                  FontAwesomeIcons.car,
-                                                  color: carcolor,
-                                                ),
+                                                icon: "assets/car.svg",
                                               )
                                             : Text("noinsurance",
                                                     style: const TextStyle(
@@ -174,10 +165,7 @@ class UserInsuranceListScreen extends HookConsumerWidget {
                                                     .toString(),
                                                 containercolor: carcontainer,
                                                 function: () {},
-                                                icon: Icon(
-                                                  FontAwesomeIcons.briefcase,
-                                                  color: carcolor,
-                                                ),
+                                                icon: "assets/car.svg",
                                               )
                                             : Text("noinsurance",
                                                     style: const TextStyle(
@@ -231,10 +219,7 @@ class UserInsuranceListScreen extends HookConsumerWidget {
                                                     .toString(),
                                                 containercolor: carcontainer,
                                                 function: () {},
-                                                icon: Icon(
-                                                  FontAwesomeIcons.cat,
-                                                  color: carcolor,
-                                                ),
+                                                icon: "assets/car.svg",
                                               )
                                             : Text("noinsurance",
                                                     style: const TextStyle(
@@ -297,10 +282,7 @@ class UserInsuranceListScreen extends HookConsumerWidget {
                                                     .toString(),
                                                 containercolor: carcontainer,
                                                 function: () {},
-                                                icon: Icon(
-                                                  FontAwesomeIcons.cat,
-                                                  color: carcolor,
-                                                ),
+                                                icon: "assets/car.svg",
                                               )
                                             : Text("hellooo",
                                                     style: const TextStyle(
@@ -352,10 +334,7 @@ class UserInsuranceListScreen extends HookConsumerWidget {
                                                     .toString(),
                                                 containercolor: carcontainer,
                                                 function: () {},
-                                                icon: Icon(
-                                                  FontAwesomeIcons.cat,
-                                                  color: carcolor,
-                                                ),
+                                                icon: "assets/car.svg",
                                               )
                                             : Text("hellooo",
                                                     style: const TextStyle(

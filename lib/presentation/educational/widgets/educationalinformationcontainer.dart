@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,8 +11,9 @@ class EducationalInformationContainer extends HookWidget {
   final TextEditingController? namecontroller;
   final TextEditingController? yearcontroller;
   final TextEditingController? startdatecontroller;
+  final TextEditingController? insurancecontroller;
+
   final TextEditingController? enddatecontroller;
-  final TextEditingController? carbrandcontroller;
   final TextEditingController? carmodelcontroller;
   final TextEditingController? valuecontroller;
   final TextEditingController? monthlyconotroller;
@@ -18,7 +21,7 @@ class EducationalInformationContainer extends HookWidget {
 
   final TextEditingController? prevcontroller;
 
-  final ValueChanged<String?>? insurance;
+  final VoidCallback? insurance;
   final ValueChanged<String?>? monthly;
   final ValueChanged<String?>? yearly;
 
@@ -36,7 +39,6 @@ class EducationalInformationContainer extends HookWidget {
       this.yearly,
       this.yearcontroller,
       this.fullfeecontroller,
-      this.carbrandcontroller,
       this.carmodelcontroller,
       this.valuecontroller,
       this.monthlyconotroller,
@@ -44,6 +46,7 @@ class EducationalInformationContainer extends HookWidget {
       this.startdatecontroller,
       this.prevcontroller,
       this.namecontroller,
+      this.insurancecontroller,
       this.insurance,
       this.value,
       this.perviosaccidents});
@@ -62,29 +65,22 @@ class EducationalInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "guardianname".tr(),
                 width: double.infinity,
               ),
               YearPicker(
                 controller: yearcontroller,
               ),
-              Row(
-                children: [
-                  CustomField(
-                    initial: "inursancet".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2,
-                  ),
-                  Expanded(
-                    child: Insurance(
-                      width: 100,
-                      onchanged: insurance,
-                    ),
-                  ),
-                ],
+              CustomField(
+                controller: insurancecontroller,
+                function: insurance,
+                label: "inursancet".tr(),
+                readonly: true,
+                width: double.infinity,
               ),
               educational.get("type") == 1
                   ? CustomField(
+                      formatter: [ThousandsSeparatorInputFormatter()],
                       controller: monthlyconotroller,
                       type: TextInputType.number,
                       readonly: false,
@@ -96,6 +92,7 @@ class EducationalInformationContainer extends HookWidget {
                   : const SizedBox.shrink(),
               educational.get("type") == 2
                   ? CustomField(
+                      formatter: [ThousandsSeparatorInputFormatter()],
                       controller: fullfeecontroller,
                       type: TextInputType.number,
                       readonly: false,
@@ -152,7 +149,7 @@ class CustomField extends StatelessWidget {
   final String? Function(String?)? validator;
   final VoidCallback? function;
   final TextEditingController? controller;
-
+  final List<TextInputFormatter>? formatter;
   final String? label;
   final double? width;
   final bool? readonly;
@@ -161,6 +158,7 @@ class CustomField extends StatelessWidget {
   const CustomField(
       {super.key,
       this.width,
+      this.formatter,
       this.type,
       this.function,
       this.readonly,
@@ -186,6 +184,7 @@ class CustomField extends StatelessWidget {
         height: 80,
         width: width,
         child: TextFormField(
+          inputFormatters: formatter,
           controller: controller,
           onTap: function,
           initialValue: initial,
@@ -199,7 +198,7 @@ class CustomField extends StatelessWidget {
             errorBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.red)),
             contentPadding:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             filled: true,
             fillColor: Colors.blue[350],
             labelText: label,
@@ -245,34 +244,68 @@ class YearPicker extends HookWidget {
             readOnly: true,
             onTap: () async {
               FocusScope.of(context).unfocus();
-              final pickedYear = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now().add(const Duration(days: 356)),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme:
-                          const ColorScheme.light(primary: Colors.blue),
-                      buttonTheme: const ButtonThemeData(
-                        textTheme: ButtonTextTheme.primary,
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (pickedYear != null) {
-                String picked = DateFormat.y().format(pickedYear);
-                String now = DateFormat.y().format(DateTime.now());
-                int result = int.parse(now) - int.parse(picked);
-                selectedYear.value =
-                    DateFormat("yyyy-MM-dd").format(pickedYear);
-                educational.put("birthdate", selectedYear.value);
-                educational.put("age", result);
-                controller!.text = selectedYear.value.toString();
-              }
+              await showCupertinoModalPopup(
+                  context: context,
+                  builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoDatePicker(
+                                  dateOrder: DatePickerDateOrder.dmy,
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: DateTime.now(),
+                                  minimumDate: DateTime(1900),
+                                  maximumDate: DateTime.now(),
+                                  onDateTimeChanged: (val) {
+                                    String picked = DateFormat.y().format(val);
+                                    String now =
+                                        DateFormat.y().format(DateTime.now());
+                                    int result =
+                                        int.parse(now) - int.parse(picked);
+                                    selectedYear.value =
+                                        DateFormat("yyyy-MM-dd").format(val);
+                                    educational.put(
+                                        "birthdate", selectedYear.value);
+                                    educational.put("age", result);
+                                    controller!.text =
+                                        selectedYear.value.toString();
+                                  }),
+                            ),
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (controller!.text == "") {
+                                      String picked =
+                                          DateFormat.y().format(DateTime.now());
+                                      String now =
+                                          DateFormat.y().format(DateTime.now());
+                                      int result =
+                                          int.parse(now) - int.parse(picked);
+                                      selectedYear.value =
+                                          DateFormat("yyyy-MM-dd")
+                                              .format(DateTime.now());
+                                      educational.put(
+                                          "birthdate", selectedYear.value);
+                                      educational.put("age", result);
+                                      controller!.text =
+                                          selectedYear.value.toString();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
             },
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -280,8 +313,8 @@ class YearPicker extends HookWidget {
                   borderSide: BorderSide(color: Colors.red)),
               errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
-              contentPadding:
-                  const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
               filled: true,
               fillColor: Colors.blue[350],
               labelText: "birthdate".tr(),
@@ -297,3 +330,49 @@ class YearPicker extends HookWidget {
   }
 }
 
+class ThousandsSeparatorInputFormatter extends TextInputFormatter {
+  static const separator = ','; // Change this to '.' for other locales
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Short-circuit if the new value is empty
+    if (newValue.text.isEmpty) {
+      return newValue.copyWith(text: '');
+    }
+
+    // Handle "deletion" of separator character
+    String oldValueText = oldValue.text.replaceAll(separator, '');
+    String newValueText = newValue.text.replaceAll(separator, '');
+
+    if (oldValue.text.endsWith(separator) &&
+        oldValue.text.length == newValue.text.length + 1) {
+      newValueText = newValueText.substring(0, newValueText.length - 1);
+    }
+
+    // Only process if the old value and new value are different
+    if (oldValueText != newValueText) {
+      int selectionIndex =
+          newValue.text.length - newValue.selection.extentOffset;
+      final chars = newValueText.split('');
+
+      String newString = '';
+      for (int i = chars.length - 1; i >= 0; i--) {
+        if ((chars.length - 1 - i) % 3 == 0 && i != chars.length - 1) {
+          newString = separator + newString;
+        }
+        newString = chars[i] + newString;
+      }
+
+      return TextEditingValue(
+        text: newString.toString(),
+        selection: TextSelection.collapsed(
+          offset: newString.length - selectionIndex,
+        ),
+      );
+    }
+
+    // If the new value and old value are the same, just return as-is
+    return newValue;
+  }
+}
