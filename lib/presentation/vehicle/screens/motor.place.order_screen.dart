@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -144,7 +143,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                       .format(DateTime.now()
                                           .add(const Duration(days: 365)));
                                 }
-                                Navigator.of(context).pop();
+                                context.router.pop();
                               },
                             ),
                           ),
@@ -360,7 +359,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               frontimage.value = image.path;
                             }
-                            Navigator.of(context).pop();
+                            context.router.pop();
                           },
                         ),
                         IconButton(
@@ -371,7 +370,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               frontimage.value = image.path;
                             }
-                            Navigator.of(context).pop();
+                            context.router.pop();
                           },
                         ),
                       ]),
@@ -899,7 +898,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                                                               width: 10,
                                                                                             ),
                                                                                             const Text(
-                                                                                              'crashdesc',
+                                                                                              'orderdes',
                                                                                             ).tr(),
                                                                                           ],
                                                                                         ),

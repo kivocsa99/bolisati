@@ -204,7 +204,7 @@ class DomesticOrderOffersContainer extends HookConsumerWidget {
                                     child: GestureDetector(
                                       onTap: () async {
                                         final hello = await PDFDocument.fromURL(
-                                            e.company!.pdf!);
+                                            "https://bolisati.bitsblend.org/storage/${e.company!.pdf}");
 
                                         context.router
                                             .push(PdfScreen(url: hello));

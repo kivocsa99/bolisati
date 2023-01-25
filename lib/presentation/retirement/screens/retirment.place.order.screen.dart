@@ -11,6 +11,7 @@ import 'package:bolisati/domain/api/orders/retirementorders/retirementordermodel
 import 'package:bolisati/domain/api/retirment/model/retirmentdonemodel.dart';
 import 'package:bolisati/presentation/retirement/widgets/retirmentuploadpage.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -33,6 +34,7 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
     final nameController = useTextEditingController();
     final yearcontroller = useTextEditingController();
     final retiremenrController = useTextEditingController();
+    final insurancecontroller = useTextEditingController();
 
     final monthly = useTextEditingController();
     final fullfee = useTextEditingController();
@@ -41,7 +43,8 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
     final retirementkey = useState(GlobalKey<FormState>());
     final Box setting = Hive.box("setting");
     final Box retirement = Hive.box("retirement");
-
+    final insurancescrollcontroller =
+        FixedExtentScrollController(initialItem: 0);
     final passportback = useState("");
     final passportfront = useState("");
     List<String> images = [
@@ -63,11 +66,172 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
             order.value = order.value.copyWith(monthly_fee: int.parse(value!)),
         monthlycontroller: monthly,
         formkey: retirementkey.value,
-        insurance: (value) async {
-          order.value = order.value
-              .copyWith(retirement_type_id: value == "Monthly Fee" ? 1 : 2);
-          await retirement.put("type", value == "Monthly Fee" ? 1 : 2);
+        insurance: () async {
+          FocusScope.of(context).unfocus();
+          await showCupertinoModalPopup(
+              context: context,
+              builder: (_) => Container(
+                    height: 250,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          child: CupertinoPicker(
+                            scrollController: insurancescrollcontroller,
+                            looping: false,
+                            itemExtent: 46,
+                            onSelectedItemChanged: (value) async {
+                              order.value = order.value.copyWith(
+                                  retirement_type_id: value == 0 ? 1 : 2);
+                              insurancecontroller.text =
+                                  value == 0 ? "monthly".tr() : "fullfee".tr();
+                              await retirement.put("type", value == 0 ? 1 : 2);
+                            },
+                            children: [
+                              const Text("monthly").tr(),
+                              const Text("fullfee").tr(),
+                            ],
+                          ),
+                        ),
+
+                        // Close the modal
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            height: 70,
+                            child: CupertinoButton(
+                              child: const Text('confirm').tr(),
+                              onPressed: () async {
+                                if (insurancescrollcontroller.selectedItem ==
+                                    0) {
+                                  order.value = order.value
+                                      .copyWith(retirement_type_id: 1);
+                                  insurancecontroller.text = "monthly".tr();
+                                }
+                                await retirement.put("type", 1);
+                                if (insurancecontroller.text ==
+                                    "monthly".tr()) {
+                                  await context.router.pop();
+                                  return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return SimpleDialog(
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Image.asset(
+                                                "assets/logo.png",
+                                                scale: 1.5,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              const Text(
+                                                'typedes',
+                                              ).tr(),
+                                            ],
+                                          ),
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 40.0, right: 40.0),
+                                              child: const Text("mfee").tr(),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 40.0, right: 40.0),
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  context.router.pop();
+                                                },
+                                                child: Container(
+                                                  color: Colors.black,
+                                                  width: 100,
+                                                  height: 60,
+                                                  child: Center(
+                                                      child: const Text(
+                                                    "confirm",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ).tr()),
+                                                ),
+                                              ),
+                                            )
+                                          ]);
+                                    },
+                                  );
+                                } else {
+                                  if (insurancecontroller.text ==
+                                      "fullfee".tr()) {
+                                    await context.router.pop();
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return SimpleDialog(
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Image.asset(
+                                                  "assets/logo.png",
+                                                  scale: 1.5,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                const Text(
+                                                  'typedes',
+                                                ).tr(),
+                                              ],
+                                            ),
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40.0, right: 40.0),
+                                                child: const Text("ffee").tr(),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40.0, right: 40.0),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    context.router.pop();
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.black,
+                                                    width: 100,
+                                                    height: 60,
+                                                    child: Center(
+                                                        child: const Text(
+                                                      "confirm",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ).tr()),
+                                                  ),
+                                                ),
+                                              )
+                                            ]);
+                                      },
+                                    );
+                                  }
+                                }
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
+
+          // order.value = order.value
+          //     .copyWith(retirement_type_id: value == "Monthly Fee" ? 1 : 2);
+          // await retirement.put("type", value == "Monthly Fee" ? 1 : 2);
         },
+        insurancecontroller: insurancecontroller,
         fullfee: fullfee,
       ),
       RetirementUploadPage(

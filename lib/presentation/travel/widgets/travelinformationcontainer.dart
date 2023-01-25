@@ -9,6 +9,9 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../application/provider/pet.repository.provider.dart';
+import '../../../domain/api/pet/model/petcountrymodel.dart';
+
 class TravelInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
   final TextEditingController? namecontroller;
@@ -18,6 +21,7 @@ class TravelInformationContainer extends HookWidget {
   final TextEditingController? regioncontroller;
   final TextEditingController? valuecontroller;
   final TextEditingController? periodcontroller;
+  final TextEditingController? countrycontroller;
 
   final ValueChanged<String?>? period;
   final ValueChanged<String?>? genderid;
@@ -36,6 +40,7 @@ class TravelInformationContainer extends HookWidget {
       this.name,
       this.yearcontroller,
       this.regioncontroller,
+      this.countrycontroller,
       this.valuecontroller,
       this.enddatecontroller,
       this.startdatecontroller,
@@ -61,6 +66,10 @@ class TravelInformationContainer extends HookWidget {
               ),
               Regions(
                 regioncontroller: regioncontroller,
+                width: double.infinity,
+              ),
+              PetCountry(
+                controller: countrycontroller,
                 width: double.infinity,
               ),
               YearPicker(
@@ -107,6 +116,101 @@ class TravelInformationContainer extends HookWidget {
             ],
           )),
     );
+  }
+}
+
+class PetCountry extends HookConsumerWidget {
+  final double? width;
+
+  final TextEditingController? controller;
+
+  const PetCountry({
+    super.key,
+    this.width,
+    this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final travel = Hive.box("travel");
+
+    final selectedcountry = useState("");
+    final Box setting = Hive.box("setting");
+
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey,
+                width: 2,
+              ),
+            ),
+          ),
+          height: 80,
+          width: width,
+          child: ValueListenableBuilder(
+            valueListenable: setting.listenable(),
+            builder: (context, Box box, child) {
+              final apitoken = box.get("apitoken");
+              return TextFormField(
+                readOnly: true,
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                onTap: () async {
+                  final value =
+                      await ref.read(getcountryProvider(apitoken).future);
+
+                  value.fold(
+                      (l) => ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("contact".tr()))), (r) {
+                    List<PetCountryModel> cars = r;
+
+                    FocusScope.of(context).unfocus();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SimpleDialog(
+                          title: const Text("petcountrydes").tr(),
+                          children: cars.map((e) {
+                            return SimpleDialogOption(
+                              onPressed: () async {
+                                selectedcountry.value = e.name.toString();
+                                controller!.text =
+                                    selectedcountry.value.toString();
+                                travel.put("country", e.name);
+                                await context.router.pop();
+                              },
+                              child: Text(e.name!),
+                            );
+                          }).toList(),
+                        );
+                      },
+                    );
+                  });
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedErrorBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red)),
+                  errorBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red)),
+                  contentPadding: const EdgeInsets.only(
+                      left: 10, top: 10, bottom: 10, right: 10),
+                  filled: true,
+                  fillColor: Colors.blue[350],
+                  labelText: "country".tr(),
+                  hintStyle: const TextStyle(
+                    color: Colors.black26,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                controller: controller,
+              );
+            },
+          ),
+        ));
   }
 }
 
@@ -264,7 +368,7 @@ class YearPicker extends HookWidget {
                                       controller!.text =
                                           selectedYear.value.toString();
                                     }
-                                    Navigator.of(context).pop();
+                                    context.router.pop();
                                   },
                                 ),
                               ),
@@ -404,7 +508,7 @@ class StartEndDate extends HookWidget {
                                       startcontroller!.text =
                                           selecteddate.value.toString();
                                     }
-                                    Navigator.of(context).pop();
+                                    context.router.pop();
                                   },
                                 ),
                               ),
@@ -505,7 +609,7 @@ class EndDate extends HookWidget {
                                       endcontroller!.text =
                                           selecteddate.value.toString();
                                     }
-                                    Navigator.of(context).pop();
+                                    context.router.pop();
                                   },
                                 ),
                               ),
@@ -602,7 +706,6 @@ class Regions extends HookConsumerWidget {
                                     regioncontroller!.text =
                                         selectedtravel.value.toString();
                                     travel.put("region", e.id);
-                                    travel.put("regionname", e.name);
 
                                     await context.router.pop();
                                   },

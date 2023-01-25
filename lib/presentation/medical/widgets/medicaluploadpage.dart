@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -22,6 +23,18 @@ class MedicalUploadPage extends HookConsumerWidget {
       child: Stack(
         children: [
           Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              top: 0,
+              child: GestureDetector(
+                onTap: function0,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: const Text("cerreg").tr(),
+                ),
+              )),
+          Positioned(
             child: Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
               height: MediaQuery.of(context).size.height / 2,
@@ -43,7 +56,7 @@ class MedicalUploadPage extends HookConsumerWidget {
                     ? Container(
                         alignment: Alignment.center,
                         child: Image.asset(
-                          "assets/id.png",
+                          "assets/family.png",
                           width: 150,
                           height: 150,
                           fit: BoxFit.fill,

@@ -324,7 +324,7 @@ class YearPicker extends HookWidget {
                                       controller!.text =
                                           selectedYear.value.toString();
                                     }
-                                    Navigator.of(context).pop();
+                                    context.router.pop();
                                   },
                                 ),
                               ),

@@ -120,7 +120,7 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                       .format(DateTime.now()
                                           .add(const Duration(days: 365)));
                                 }
-                                Navigator.of(context).pop();
+                                context.router.pop();
                               },
                             ),
                           ),
@@ -268,7 +268,7 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
         key: const Key("4"),
       ),
     ];
-
+    //pet 2 pic max
     return SafeArea(
         child: Padding(
             padding: EdgeInsets.only(
@@ -494,7 +494,7 @@ class PetPlaceOrderScreen extends HookConsumerWidget {
                                                                                               width: 10,
                                                                                             ),
                                                                                             const Text(
-                                                                                              'crashdesc',
+                                                                                              'orderdes',
                                                                                             ).tr(),
                                                                                           ],
                                                                                         ),

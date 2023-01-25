@@ -11,9 +11,11 @@ class ReitirementInformationContainer extends HookWidget {
   final TextEditingController? monthlycontroller;
   final TextEditingController? fullfee;
   final TextEditingController? retirementcontroller;
+  final TextEditingController? insurancecontroller;
+
   final ValueChanged<String?>? monthly;
   final ValueChanged<String?>? retirement;
-  final ValueChanged<String?>? insurance;
+  final VoidCallback? insurance;
 
   final GlobalKey<FormState>? formkey;
   const ReitirementInformationContainer({
@@ -23,6 +25,7 @@ class ReitirementInformationContainer extends HookWidget {
     this.fullfee,
     this.insurance,
     this.retirementcontroller,
+    this.insurancecontroller,
     this.formkey,
     this.name,
     this.yearcontroller,
@@ -44,27 +47,18 @@ class ReitirementInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "insname".tr(),
                 width: double.infinity,
               ),
               YearPicker(
                 controller: yearcontroller,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomField(
-                    initial: "inursancet".tr(),
-                    readonly: true,
-                    width: MediaQuery.of(context).size.width / 2,
-                  ),
-                  Expanded(
-                    child: Insurance(
-                      width: 100,
-                      onchanged: insurance,
-                    ),
-                  ),
-                ],
+              CustomField(
+                controller: insurancecontroller,
+                function: insurance,
+                label: "inursancet".tr(),
+                readonly: true,
+                width: double.infinity,
               ),
               retirement1.get("type") == 1
                   ? CustomField(

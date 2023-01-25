@@ -6,18 +6,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class TravelUploadPage extends HookConsumerWidget {
   final VoidCallback? function0;
   final VoidCallback? function1;
-  final File? image0;
-  final File? image1;
-  final File? image2;
-  final File? image3;
+
+  final List<String>? images;
+  final List<String>? images1;
+
   const TravelUploadPage(
-      {super.key,
-      this.function0,
-      this.function1,
-      this.image0,
-      this.image1,
-      this.image2,
-      this.image3});
+      {super.key, this.function0, this.function1, this.images, this.images1});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,7 +36,7 @@ class TravelUploadPage extends HookConsumerWidget {
               onTap: function0,
               child: SizedBox(
                 height: MediaQuery.of(context).size.height / 2,
-                child: image1 == null || image1!.path == ""
+                child: images!.isEmpty
                     ? Container(
                         alignment: Alignment.center,
                         child: Image.asset(
@@ -55,20 +49,16 @@ class TravelUploadPage extends HookConsumerWidget {
                     : SizedBox(
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.file(
-                                image0!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              ),
-                              Image.file(
-                                image1!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              )
-                            ]),
+                            children: images!
+                                .map(
+                                  (e) => Image.file(
+                                    File(e),
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
+                                .toList()),
                       ),
               ),
             ),
@@ -81,7 +71,7 @@ class TravelUploadPage extends HookConsumerWidget {
               onTap: function1,
               child: SizedBox(
                 height: MediaQuery.of(context).size.height / 2,
-                child: image3 == null || image3!.path == ""
+                child: images1!.isEmpty
                     ? Container(
                         alignment: Alignment.center,
                         child: Image.asset(
@@ -94,20 +84,16 @@ class TravelUploadPage extends HookConsumerWidget {
                     : SizedBox(
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.file(
-                                image2!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              ),
-                              Image.file(
-                                image3!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.fill,
-                              )
-                            ]),
+                            children: images!
+                                .map(
+                                  (e) => Image.file(
+                                    File(e),
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
+                                .toList()),
                       ),
               ),
             ),

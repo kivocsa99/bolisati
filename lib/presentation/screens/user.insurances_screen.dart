@@ -1,14 +1,23 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/orders/user.orders.model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../application/provider/user.repository.provider.dart';
+import '../../domain/api/orders/domesticworkerorders/domesticworkersmodel.dart';
+import '../../domain/api/orders/educationalorders/educationalordermodel.dart';
+import '../../domain/api/orders/medicalorders/medicalordermodel.dart';
+import '../../domain/api/orders/motororders/motorordermodel.dart';
+import '../../domain/api/orders/personalaccidentorders/personalaccidentordermodel.dart';
+import '../../domain/api/orders/petorders/petordermodel.dart';
+import '../../domain/api/orders/travelorders/travelordermodel.dart';
 import '../widgets/horizantal_user_insurance_container.dart';
 
 class UserInsuranceListScreen extends HookConsumerWidget {
@@ -28,21 +37,31 @@ class UserInsuranceListScreen extends HookConsumerWidget {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
+              context.locale.languageCode == "en"
+                  ? Positioned(
+                      left: 20,
+                      top: 30,
+                      child: IconButton(
+                          onPressed: () {
+                            context.router.pop();
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new)))
+                  : Positioned(
+                      right: 20,
+                      top: 30,
+                      child: IconButton(
+                          onPressed: () {
+                            context.router.pop();
+                          },
+                          icon: const Icon(FontAwesomeIcons.arrowRight))),
               Positioned(
-                left: MediaQuery.of(context).size.width / 2 - 130,
-                top: 30,
-                child: Image.asset(
-                  "assets/bolisati.png",
-                  color: Colors.black,
-                ),
-              ),
-              Positioned(
-                left: 52,
-                top: 30,
-                child: Image.asset(
-                  "assets/logo.png",
-                ),
-              ),
+                  left: context.locale.languageCode == "ar" ? 0 : 80,
+                  right: context.locale.languageCode == "ar" ? 80 : 0,
+                  top: 40,
+                  child: Text(
+                    "allins".tr(),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
               Positioned(
                 top: 80,
                 left: 0,
@@ -57,294 +76,96 @@ class UserInsuranceListScreen extends HookConsumerWidget {
                           ).tr(),
                           (r) {
                             UserOrdersModel orders = r;
+                            List<dynamic> firstElements = [];
 
-                            return SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Align(
-                                      alignment:
-                                          context.locale.languageCode == "ar"
-                                              ? Alignment.topRight
-                                              : Alignment.topLeft,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 40, right: 40),
-                                          child: Text("vehicle",
-                                                  style: const TextStyle(
-                                                      fontSize: 36))
-                                              .tr())),
-                                  Divider(
-                                    height: 10,
+                            if (orders.DomesticWorkerOrders!.isNotEmpty) {
+                              firstElements
+                                  .add(orders.DomesticWorkerOrders![0]);
+                            }
+                            if (orders.EducationalOrders!.isNotEmpty) {
+                              firstElements.add(orders.EducationalOrders![0]);
+                            }
+                            if (orders.MedicalOrders!.isNotEmpty) {
+                              firstElements.add(orders.MedicalOrders![0]);
+                            }
+                            if (orders.MotorOrders!.isNotEmpty) {
+                              firstElements.add(orders.MotorOrders![0]);
+                            }
+                            if (orders.PetOrders!.isNotEmpty) {
+                              firstElements.add(orders.PetOrders![0]);
+                            }
+                            if (orders.PersonalAccidentOrders!.isNotEmpty) {
+                              firstElements
+                                  .add(orders.PersonalAccidentOrders![0]);
+                            }
+                            if (orders.RetirementOrders!.isNotEmpty) {
+                              firstElements.add(orders.RetirementOrders![0]);
+                            }
+                            if (orders.TravelOrders!.isNotEmpty) {
+                              firstElements.add(orders.TravelOrders![0]);
+                            }
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: ListView.separated(
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(
+                                        height: 10,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return firstElements.isNotEmpty
+                                          ? HorizantalUesrInsuranceContainer(
+                                              insuranceName:
+                                                  firstElements[index].name,
+                                              insuranceDescreption: firstElements[
+                                                              index]
+                                                          .end_date !=
+                                                      null
+                                                  ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(firstElements[index].end_date!))}"
+                                                  : "",
+                                              price: firstElements[index]
+                                                  .status!
+                                                  .name
+                                                  .toString(),
+                                              containercolor: carcontainer,
+                                              function: () {
+                                                // context.router.push();
+                                              },
+                                              icon: firstElements[index]
+                                                      is MotorOrderModel
+                                                  ? "assets/car.svg"
+                                                  : firstElements[index]
+                                                          is EducationalOrderModel
+                                                      ? "assets/educational.svg"
+                                                      : firstElements[index]
+                                                              is DomesticWorkersOrderModel
+                                                          ? "assets/domestic.svg"
+                                                          : firstElements[index]
+                                                                  is TravelOrderModel
+                                                              ? "assets/travel.svg"
+                                                              : firstElements[
+                                                                          index]
+                                                                      is PersonalAccidentOrderModel
+                                                                  ? "assets/personal.svg"
+                                                                  : firstElements[
+                                                                              index]
+                                                                          is MedicalOrderModel
+                                                                      ? "assets/medical.svg"
+                                                                      : firstElements[index]
+                                                                              is PetOrderModel
+                                                                          ? "assets/pet.svg"
+                                                                          : "assets/ret.svg",
+                                            )
+                                          : const SizedBox.shrink();
+                                    },
+                                    itemCount: firstElements.isNotEmpty
+                                        ? firstElements.length
+                                        : 0,
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 200,
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                      itemCount: orders.MotorOrders!.isEmpty
-                                          ? 1
-                                          : orders.MotorOrders!.length,
-                                      itemBuilder: (context, index) {
-                                        return orders.MotorOrders!.isNotEmpty
-                                            ? HorizantalUesrInsuranceContainer(
-                                                insuranceName: orders
-                                                    .MotorOrders![index].name,
-                                                insuranceDescreption: orders
-                                                            .MotorOrders![index]
-                                                            .end_date !=
-                                                        null
-                                                    ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MotorOrders![index].end_date!))}"
-                                                    : "",
-                                                price: orders
-                                                    .MotorOrders![index]
-                                                    .status!
-                                                    .name
-                                                    .toString(),
-                                                containercolor: carcontainer,
-                                                function: () {},
-                                                icon: "assets/car.svg",
-                                              )
-                                            : Text("noinsurance",
-                                                    style: const TextStyle(
-                                                        fontSize: 36))
-                                                .tr();
-                                      },
-                                    ),
-                                  ),
-                                  Align(
-                                      alignment:
-                                          context.locale.languageCode == "ar"
-                                              ? Alignment.topRight
-                                              : Alignment.topLeft,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 40, right: 40),
-                                          child: Text("medical",
-                                                  style: const TextStyle(
-                                                      fontSize: 36))
-                                              .tr())),
-                                  Divider(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 200,
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                      itemCount: orders.MedicalOrders!.isEmpty
-                                          ? 1
-                                          : orders.MedicalOrders!.length,
-                                      itemBuilder: (context, index) {
-                                        return orders.MedicalOrders!.isNotEmpty
-                                            ? HorizantalUesrInsuranceContainer(
-                                                insuranceName: orders
-                                                    .MedicalOrders![index].name,
-                                                insuranceDescreption: orders
-                                                            .MedicalOrders![
-                                                                index]
-                                                            .end_date !=
-                                                        null
-                                                    ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.MedicalOrders![index].end_date!))}"
-                                                    : "",
-                                                price: orders
-                                                    .MedicalOrders![index]
-                                                    .status!
-                                                    .name
-                                                    .toString(),
-                                                containercolor: carcontainer,
-                                                function: () {},
-                                                icon: "assets/car.svg",
-                                              )
-                                            : Text("noinsurance",
-                                                    style: const TextStyle(
-                                                        fontSize: 36))
-                                                .tr();
-                                      },
-                                    ),
-                                  ),
-                                  Align(
-                                      alignment:
-                                          context.locale.languageCode == "ar"
-                                              ? Alignment.topRight
-                                              : Alignment.topLeft,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 40, right: 40),
-                                          child: Text("pet",
-                                                  style: const TextStyle(
-                                                      fontSize: 36))
-                                              .tr())),
-                                  Divider(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 200,
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                      itemCount: orders.PetOrders!.isEmpty
-                                          ? 1
-                                          : orders.PetOrders!.length,
-                                      itemBuilder: (context, index) {
-                                        return orders.PetOrders!.isNotEmpty
-                                            ? HorizantalUesrInsuranceContainer(
-                                                insuranceName: orders
-                                                    .PetOrders![index].name,
-                                                insuranceDescreption: orders
-                                                            .PetOrders![index]
-                                                            .end_date !=
-                                                        null
-                                                    ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.PetOrders![index].end_date!))}"
-                                                    : "",
-                                                price: orders.PetOrders![index]
-                                                    .status!.name
-                                                    .toString(),
-                                                containercolor: carcontainer,
-                                                function: () {},
-                                                icon: "assets/car.svg",
-                                              )
-                                            : Text("noinsurance",
-                                                    style: const TextStyle(
-                                                        fontSize: 36))
-                                                .tr();
-                                      },
-                                    ),
-                                  ),
-                                  Align(
-                                      alignment:
-                                          context.locale.languageCode == "ar"
-                                              ? Alignment.topRight
-                                              : Alignment.topLeft,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 40, right: 40),
-                                          child: Text("pet",
-                                                  style: const TextStyle(
-                                                      fontSize: 36))
-                                              .tr())),
-                                  Divider(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 200,
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                      itemCount:
-                                          orders.PersonalAccidentOrders!.isEmpty
-                                              ? 1
-                                              : orders.PersonalAccidentOrders!
-                                                  .length,
-                                      itemBuilder: (context, index) {
-                                        return orders.PersonalAccidentOrders!
-                                                .isNotEmpty
-                                            ? HorizantalUesrInsuranceContainer(
-                                                insuranceName: orders
-                                                    .PersonalAccidentOrders![
-                                                        index]
-                                                    .name,
-                                                insuranceDescreption: orders
-                                                            .PersonalAccidentOrders![
-                                                                index]
-                                                            .end_date !=
-                                                        null
-                                                    ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.PersonalAccidentOrders![index].end_date!))}"
-                                                    : "",
-                                                price: orders
-                                                    .PersonalAccidentOrders![
-                                                        index]
-                                                    .status!
-                                                    .name
-                                                    .toString(),
-                                                containercolor: carcontainer,
-                                                function: () {},
-                                                icon: "assets/car.svg",
-                                              )
-                                            : Text("hellooo",
-                                                    style: const TextStyle(
-                                                        fontSize: 36))
-                                                .tr();
-                                      },
-                                    ),
-                                  ),
-                                  Align(
-                                      alignment:
-                                          context.locale.languageCode == "ar"
-                                              ? Alignment.topRight
-                                              : Alignment.topLeft,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 40, right: 40),
-                                          child: Text("pet",
-                                                  style: const TextStyle(
-                                                      fontSize: 36))
-                                              .tr())),
-                                  Divider(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 200,
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                      itemCount: orders.PetOrders!.length,
-                                      itemBuilder: (context, index) {
-                                        return orders.PetOrders!.isNotEmpty
-                                            ? HorizantalUesrInsuranceContainer(
-                                                insuranceName: orders
-                                                    .PetOrders![index].name,
-                                                insuranceDescreption: orders
-                                                            .PetOrders![index]
-                                                            .end_date !=
-                                                        null
-                                                    ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(orders.PetOrders![index].end_date!))}"
-                                                    : "",
-                                                price: orders.PetOrders![index]
-                                                    .status!.name
-                                                    .toString(),
-                                                containercolor: carcontainer,
-                                                function: () {},
-                                                icon: "assets/car.svg",
-                                              )
-                                            : Text("hellooo",
-                                                    style: const TextStyle(
-                                                        fontSize: 36))
-                                                .tr();
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             );
                           },
                         );

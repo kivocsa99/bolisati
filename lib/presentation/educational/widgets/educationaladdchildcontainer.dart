@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class EducationalAddChildInformationContainer extends HookWidget {
                 readonly: false,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onchanged: name,
-                label: "name".tr(),
+                label: "childname".tr(),
                 width: double.infinity,
               ),
               YearPicker(
@@ -245,7 +246,7 @@ class YearPicker extends HookWidget {
                                       controller!.text =
                                           selectedYear.value.toString();
                                     }
-                                    Navigator.of(context).pop();
+                                    context.router.pop();
                                   },
                                 ),
                               ),

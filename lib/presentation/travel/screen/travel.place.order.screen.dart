@@ -18,6 +18,7 @@ import 'package:bolisati/presentation/travel/widgets/traveluploadpage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -50,13 +51,10 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
     final passportfront = useState("");
     final startselecteddate = useState("");
     final endselecteddate = useState("");
-
-    List<String> images = [
-      idback.value,
-      idfront.value,
-      passportback.value,
-      passportfront.value,
-    ];
+    final imageCount = useState(0);
+    final imageCount1 = useState(0);
+    final _images = useState<List<String>>([]);
+    final _images1 = useState<List<String>>([]);
     List<Widget> cases = [
       TravelInformationContainer(
         startchanged: (val) {
@@ -99,23 +97,129 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
         offers: offer.value,
       ),
       TravelUploadPage(
-        image0: File(passportfront.value),
-        image1: File(passportback.value),
-        image2: File(idfront.value),
-        image3: File(idback.value),
         function0: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            passportback.value = pictures[0].path;
-            passportfront.value = pictures[1].path;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+
+                                  print(pickedFile.path);
+                                  _images.value.add(pickedFile.path);
+                                  print(_images);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("picupload").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+                                  _images.value.add(pickedFile.path);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("picupload").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
         },
         function1: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            idfront.value = pictures[0].path;
-            idback.value = pictures[1].path;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount1.value < 2) {
+                              for (int i = imageCount1.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (pickedFile != null) {
+                                  imageCount1.value++;
+
+                                  print(pickedFile.path);
+                                  _images1.value.add(pickedFile.path);
+                                  print(_images1);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount1.value < 2) {
+                              for (int i = imageCount1.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (pickedFile != null) {
+                                  imageCount1.value++;
+                                  print(pickedFile.path);
+                                  _images1.value.add(pickedFile.path);
+                                  print(_images1);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
         },
       )
     ];
@@ -236,10 +340,8 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                     Text("offersdes".tr())));
                                       }
                                     } else if (index.value == 2) {
-                                      if (passportback.value != "" &&
-                                          passportfront.value != "" &&
-                                          idback.value != "" &&
-                                          idfront.value != "") {
+                                      if (_images.value.length == 2 &&
+                                          _images1.value.length == 2) {
                                         await Future.delayed(
                                             const Duration(seconds: 1), (() {
                                           order.value = order.value.copyWith(
@@ -253,7 +355,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                               end_date: travel.get("enddate"));
                                           order.value = order.value.copyWith(
                                               destination:
-                                                  travel.get("regionname"));
+                                                  travel.get("country"));
                                           order.value = order.value.copyWith(
                                               birthdate:
                                                   travel.get("birthdate"));
@@ -287,13 +389,19 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                 (l) => ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
-                                                                        SnackBar(content: const Text("contact").tr())),
+                                                                        SnackBar(
+                                                                            content:
+                                                                                const Text("contact").tr())),
                                                                 (r) async {
                                                               TravelOrderDoneModel
                                                                   orderdone = r;
-
+                                                              final List<String>
+                                                                  hello =
+                                                                  _images.value +
+                                                                      _images1
+                                                                          .value;
                                                               for (var element
-                                                                  in images) {
+                                                                  in hello) {
                                                                 ref
                                                                     .read(
                                                                         travelattachfileProvider)
@@ -311,12 +419,56 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                             (r) async {
                                                                           if (element ==
-                                                                              images.last) {
-                                                                            context.router.pop();
-                                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                            await context.router.replaceAll([
-                                                                              const HomeScreen()
-                                                                            ]);
+                                                                              hello.last) {
+                                                                            await context.router.pop();
+                                                                            showDialog(
+                                                                              barrierDismissible: false,
+                                                                              context: context,
+                                                                              builder: (context) {
+                                                                                return SimpleDialog(
+                                                                                    title: Row(
+                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                      children: [
+                                                                                        Image.asset(
+                                                                                          "assets/logo.png",
+                                                                                          scale: 1.5,
+                                                                                        ),
+                                                                                        const SizedBox(
+                                                                                          width: 10,
+                                                                                        ),
+                                                                                        const Text(
+                                                                                          'orderdes',
+                                                                                        ).tr(),
+                                                                                      ],
+                                                                                    ),
+                                                                                    children: [
+                                                                                      Padding(
+                                                                                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                        child: const Text("orderconfirm").tr(),
+                                                                                      ),
+                                                                                      Padding(
+                                                                                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                        child: GestureDetector(
+                                                                                          onTap: () async {
+                                                                                            await context.router.replaceAll([
+                                                                                              const HomeScreen()
+                                                                                            ]);
+                                                                                          },
+                                                                                          child: Container(
+                                                                                            color: Colors.black,
+                                                                                            width: 100,
+                                                                                            height: 60,
+                                                                                            child: Center(
+                                                                                                child: const Text(
+                                                                                              "confirm",
+                                                                                              style: TextStyle(color: Colors.white),
+                                                                                            ).tr()),
+                                                                                          ),
+                                                                                        ),
+                                                                                      )
+                                                                                    ]);
+                                                                              },
+                                                                            );
                                                                           }
                                                                         }));
                                                               }

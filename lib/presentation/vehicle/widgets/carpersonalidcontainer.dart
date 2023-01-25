@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -28,6 +29,18 @@ class CarIdContainer extends HookConsumerWidget {
               ),
             ),
           ),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              top: 0,
+              child: GestureDetector(
+                onTap: function0,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: const Text("cerreg").tr(),
+                ),
+              )),
           Positioned(
             left: 0,
             right: 0,

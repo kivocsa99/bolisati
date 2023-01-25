@@ -19,6 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,16 +47,12 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
     final nationalidcontroller = useTextEditingController();
     final selecteddate = useState("");
 
-    final idback = useState("");
-    final idfront = useState("");
-    final registerback = useState("");
-    final registerfront = useState("");
-    List<String> images = [
-      idback.value,
-      idfront.value,
-      registerback.value,
-      registerfront.value,
-    ];
+    final imageCount = useState(0);
+    final imageCount1 = useState(0);
+
+    final _images = useState<List<String>>([]);
+    final _images1 = useState<List<String>>([]);
+
     List<Widget> cases = [
       DomesticInformationContainer(
         ontap: () async {
@@ -122,7 +119,7 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                       .format(DateTime.now()
                                           .add(const Duration(days: 365)));
                                 }
-                                Navigator.of(context).pop();
+                                context.router.pop();
                               },
                             ),
                           ),
@@ -151,23 +148,128 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
         key: Key("2"),
       ),
       DomesticIdContainer(
-        image0: File(registerfront.value),
-        image1: File(registerback.value),
-        image2: File(idfront.value),
-        image3: File(idback.value),
         function0: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            registerback.value = pictures[0].path;
-            registerfront.value = pictures[1].path;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+
+                                  print(pickedFile.path);
+                                  _images.value.add(pickedFile.path);
+                                  print(_images);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+                                  print(pickedFile.path);
+                                  _images.value.add(pickedFile.path);
+                                  print(_images);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
         },
         function1: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            idfront.value = pictures[0].path;
-            idback.value = pictures[1].path;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount1.value < 2) {
+                              for (int i = imageCount1.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (pickedFile != null) {
+                                  imageCount1.value++;
+
+                                  _images1.value.add(pickedFile.path);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount1.value < 2) {
+                              for (int i = imageCount1.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (pickedFile != null) {
+                                  imageCount1.value++;
+                                  print(pickedFile.path);
+                                  _images1.value.add(pickedFile.path);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
         },
         key: const Key("4"),
       ),
@@ -311,10 +413,8 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                             "offersdes".tr())));
                                               }
                                             } else if (index.value == 2) {
-                                              if (registerfront.value != "" &&
-                                                  registerback.value != "" &&
-                                                  idback.value != "" &&
-                                                  idfront.value != "") {
+                                              if (_images.value.length == 2 &&
+                                                  _images1.value.length == 2) {
                                                 await Future.delayed(
                                                     const Duration(seconds: 1),
                                                     (() {
@@ -365,24 +465,72 @@ class DomesticPlaceOrderScreen extends HookConsumerWidget {
                                                                             ""))
                                                                 .then((value) =>
                                                                     value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                            content:
-                                                                                Text("contact").tr())),
+                                                                        (l) =>
+                                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("contact").tr())),
                                                                         (r) async {
                                                                       DomesticDoneModel
                                                                           orderdone =
                                                                           r;
+                                                                      final List<
+                                                                              String>
+                                                                          hello =
+                                                                          _images.value +
+                                                                              _images1.value;
                                                                       for (var element
-                                                                          in images) {
+                                                                          in hello) {
                                                                         ref.read(domesticattachplaceOrderProvider).execute(DomesticAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
                                                                             value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
                                                                                 (r) async {
-                                                                              if (element == images.last) {
-                                                                                context.router.pop();
-                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("orderconfirm".tr())));
-                                                                                await context.router.replaceAll([
-                                                                                  const HomeScreen()
-                                                                                ]);
+                                                                              if (element == hello.last) {
+                                                                                await context.router.pop();
+                                                                                showDialog(
+                                                                                  barrierDismissible: false,
+                                                                                  context: context,
+                                                                                  builder: (context) {
+                                                                                    return SimpleDialog(
+                                                                                        title: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                          children: [
+                                                                                            Image.asset(
+                                                                                              "assets/logo.png",
+                                                                                              scale: 1.5,
+                                                                                            ),
+                                                                                            const SizedBox(
+                                                                                              width: 10,
+                                                                                            ),
+                                                                                            const Text(
+                                                                                              'orderdes',
+                                                                                            ).tr(),
+                                                                                          ],
+                                                                                        ),
+                                                                                        children: [
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                            child: const Text("orderconfirm").tr(),
+                                                                                          ),
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                            child: GestureDetector(
+                                                                                              onTap: () async {
+                                                                                                await context.router.replaceAll([
+                                                                                                  const HomeScreen()
+                                                                                                ]);
+                                                                                              },
+                                                                                              child: Container(
+                                                                                                color: Colors.black,
+                                                                                                width: 100,
+                                                                                                height: 60,
+                                                                                                child: Center(
+                                                                                                    child: const Text(
+                                                                                                  "confirm",
+                                                                                                  style: TextStyle(color: Colors.white),
+                                                                                                ).tr()),
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ]);
+                                                                                  },
+                                                                                );
                                                                               }
                                                                             }));
                                                                       }

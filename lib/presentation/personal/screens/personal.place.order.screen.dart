@@ -122,7 +122,7 @@ class PersonalPlaceOrderScreen extends HookConsumerWidget {
                                       .format(DateTime.now()
                                           .add(const Duration(days: 365)));
                                 }
-                                Navigator.of(context).pop();
+                                context.router.pop();
                               },
                             ),
                           ),

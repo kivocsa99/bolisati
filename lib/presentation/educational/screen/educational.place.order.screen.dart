@@ -19,6 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,13 +55,13 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
     final childyearController = useTextEditingController();
     final insurancescrollcontroller =
         FixedExtentScrollController(initialItem: 0);
-    final registerback = useState("");
-    final registerfront = useState("");
+
     final Box educational = Hive.box("educational");
-    List<String> images = [
-      registerback.value,
-      registerfront.value,
-    ];
+    final imageCount = useState(0);
+    final imageCount1 = useState(0);
+
+    final _images = useState<List<String>>([]);
+    final _images1 = useState<List<String>>([]);
     List<Widget> cases = [
       EducationalInformationContainer(
         insurancecontroller: insurancecontroller,
@@ -108,6 +109,114 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                   insurancecontroller.text = "monthly".tr();
                                 }
                                 await educational.put("type", 1);
+                                if (insurancecontroller.text ==
+                                    "monthly".tr()) {
+                                  await context.router.pop();
+                                  return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return SimpleDialog(
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Image.asset(
+                                                "assets/logo.png",
+                                                scale: 1.5,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              const Text(
+                                                'typedes',
+                                              ).tr(),
+                                            ],
+                                          ),
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 40.0, right: 40.0),
+                                              child: const Text("mfee").tr(),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 40.0, right: 40.0),
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  context.router.pop();
+                                                },
+                                                child: Container(
+                                                  color: Colors.black,
+                                                  width: 100,
+                                                  height: 60,
+                                                  child: Center(
+                                                      child: const Text(
+                                                    "confirm",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ).tr()),
+                                                ),
+                                              ),
+                                            )
+                                          ]);
+                                    },
+                                  );
+                                } else {
+                                  if (insurancecontroller.text ==
+                                      "fullfee".tr()) {
+                                    await context.router.pop();
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return SimpleDialog(
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Image.asset(
+                                                  "assets/logo.png",
+                                                  scale: 1.5,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                const Text(
+                                                  'typedes',
+                                                ).tr(),
+                                              ],
+                                            ),
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40.0, right: 40.0),
+                                                child: const Text("ffee").tr(),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40.0, right: 40.0),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    context.router.pop();
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.black,
+                                                    width: 100,
+                                                    height: 60,
+                                                    child: Center(
+                                                        child: const Text(
+                                                      "confirm",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ).tr()),
+                                                  ),
+                                                ),
+                                              )
+                                            ]);
+                                      },
+                                    );
+                                  }
+                                }
 
                                 context.router.pop();
                               },
@@ -203,14 +312,133 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
         namecontroller: childnameController,
       ),
       EducationalIdContainer(
-        image0: File(registerfront.value),
-        image1: File(registerback.value),
+        images: _images.value,
+        images1: _images1.value,
         function0: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            registerback.value = pictures[0].path;
-            registerfront.value = pictures[1].path;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+
+                                  print(pickedFile.path);
+                                  _images.value.add(pickedFile.path);
+                                  print(_images);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              for (int i = imageCount.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (pickedFile != null) {
+                                  imageCount.value++;
+                                  print(pickedFile.path);
+                                  _images.value.add(pickedFile.path);
+                                  print(_images);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
+        },
+        function1: () async {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount1.value < 2) {
+                              for (int i = imageCount1.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (pickedFile != null) {
+                                  imageCount1.value++;
+
+                                  print(pickedFile.path);
+                                  _images1.value.add(pickedFile.path);
+                                  print(_images1);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount1.value < 2) {
+                              for (int i = imageCount1.value; i < 2; i++) {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (pickedFile != null) {
+                                  imageCount1.value++;
+                                  print(pickedFile.path);
+                                  _images1.value.add(pickedFile.path);
+                                  print(_images1);
+                                }
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text("contact").tr()));
+                            }
+                            context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
         },
         key: const Key("4"),
       ),
@@ -465,9 +693,12 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                             }));
                                               }
                                             } else if (index.value == 2) {
-                                              if (registerfront.value != "" &&
-                                                  registerback.value != "") {
-                                                for (var element in images) {
+                                              if (_images.value.length == 2 &&
+                                                  _images1.value.isNotEmpty) {
+                                                final List<String> hello =
+                                                    _images.value +
+                                                        _images1.value;
+                                                for (var element in hello) {
                                                   ref
                                                       .read(
                                                           educationalattachplaceOrderProvider)

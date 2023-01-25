@@ -58,8 +58,6 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
 
     final _images = useState<List<String>>([]);
 
-    final idback = useState("");
-    final idfront = useState("");
     final selecteddate = useState("");
 
     List<Widget> cases = [
@@ -131,7 +129,7 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                       .format(DateTime.now()
                                           .add(const Duration(days: 365)));
                                 }
-                                Navigator.of(context).pop();
+                                context.router.pop();
                               },
                             ),
                           ),
@@ -347,10 +345,7 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                     .pickImage(source: ImageSource.gallery);
                                 if (pickedFile != null) {
                                   imageCount.value++;
-
-                                  print(pickedFile.path);
                                   _images.value.add(pickedFile.path);
-                                  print(_images);
                                 }
                               }
                             } else {
@@ -627,7 +622,7 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                                               width: 10,
                                                                                             ),
                                                                                             const Text(
-                                                                                              'crashdesc',
+                                                                                              'orderdes',
                                                                                             ).tr(),
                                                                                           ],
                                                                                         ),

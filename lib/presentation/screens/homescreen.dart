@@ -185,38 +185,6 @@ class HomeScreen extends HookConsumerWidget {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 30.0, right: 30.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "insuranceall".tr(),
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        context.router
-                                            .push(UserInsuranceListScreen());
-                                      },
-                                      child: Text(
-                                        "view".tr(),
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xFF1E90FF),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
                               userOrderProvider.when(
                                   data: (orders) {
                                     return orders.fold(
@@ -263,63 +231,103 @@ class HomeScreen extends HookConsumerWidget {
                                           firstElements
                                               .add(orders.TravelOrders![0]);
                                         }
-                                        return ListView.separated(
-                                          separatorBuilder: (context, index) {
-                                            return const SizedBox(
-                                              height: 10,
-                                            );
-                                          },
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            return firstElements.isNotEmpty
-                                                ? HorizantalUesrInsuranceContainer(
-                                                    insuranceName:
-                                                        firstElements[index]
-                                                            .name,
-                                                    insuranceDescreption:
-                                                        firstElements[index]
-                                                                    .end_date !=
-                                                                null
-                                                            ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(firstElements[index].end_date!))}"
-                                                            : "",
-                                                    price: firstElements[index]
-                                                        .status!
-                                                        .name
-                                                        .toString(),
-                                                    containercolor:
-                                                        carcontainer,
-                                                    function: () {},
-                                                    icon: firstElements[index]
-                                                            is MotorOrderModel
-                                                        ? "assets/car.svg"
-                                                        : firstElements[index]
-                                                                is EducationalOrderModel
-                                                            ? "assets/educational.svg"
-                                                            : firstElements[
-                                                                        index]
-                                                                    is DomesticWorkersOrderModel
-                                                                ? "assets/domestic.svg"
-                                                                : firstElements[
-                                                                            index]
-                                                                        is TravelOrderModel
-                                                                    ? "assets/travel.svg"
-                                                                    : firstElements[index]
-                                                                            is PersonalAccidentOrderModel
-                                                                        ? "assets/personal.svg"
-                                                                        : firstElements[index]
-                                                                                is MedicalOrderModel
-                                                                            ? "assets/medical.svg"
-                                                                            : firstElements[index] is PetOrderModel
-                                                                                ? "assets/pet.svg"
-                                                                                : "assets/ret.svg",
-                                                  )
-                                                : const SizedBox.shrink();
-                                          },
-                                          itemCount: firstElements.isNotEmpty
-                                              ? firstElements.length
-                                              : 0,
+                                        return Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 30.0, right: 30.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "insuranceall".tr(),
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      context.router.push(
+                                                          UserInsuranceListScreen());
+                                                    },
+                                                    child: Text(
+                                                      "view".tr(),
+                                                      style: const TextStyle(
+                                                        fontSize: 12,
+                                                        color:
+                                                            Color(0xFF1E90FF),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 400,
+                                              child: ListView.separated(
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return const SizedBox(
+                                                    height: 10,
+                                                  );
+                                                },
+                                                itemBuilder: (context, index) {
+                                                  return firstElements
+                                                          .isNotEmpty
+                                                      ? HorizantalUesrInsuranceContainer(
+                                                          insuranceName:
+                                                              firstElements[
+                                                                      index]
+                                                                  .name,
+                                                          insuranceDescreption:
+                                                              firstElements[index]
+                                                                          .end_date !=
+                                                                      null
+                                                                  ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(firstElements[index].end_date!))}"
+                                                                  : "",
+                                                          price: firstElements[
+                                                                  index]
+                                                              .status!
+                                                              .name
+                                                              .toString(),
+                                                          containercolor:
+                                                              carcontainer,
+                                                          function: () {},
+                                                          icon: firstElements[
+                                                                      index]
+                                                                  is MotorOrderModel
+                                                              ? "assets/car.svg"
+                                                              : firstElements[
+                                                                          index]
+                                                                      is EducationalOrderModel
+                                                                  ? "assets/educational.svg"
+                                                                  : firstElements[
+                                                                              index]
+                                                                          is DomesticWorkersOrderModel
+                                                                      ? "assets/domestic.svg"
+                                                                      : firstElements[index]
+                                                                              is TravelOrderModel
+                                                                          ? "assets/travel.svg"
+                                                                          : firstElements[index] is PersonalAccidentOrderModel
+                                                                              ? "assets/personal.svg"
+                                                                              : firstElements[index] is MedicalOrderModel
+                                                                                  ? "assets/medical.svg"
+                                                                                  : firstElements[index] is PetOrderModel
+                                                                                      ? "assets/pet.svg"
+                                                                                      : "assets/ret.svg",
+                                                        )
+                                                      : const SizedBox.shrink();
+                                                },
+                                                itemCount:
+                                                    firstElements.isNotEmpty
+                                                        ? firstElements.length
+                                                        : 0,
+                                              ),
+                                            )
+                                          ],
                                         );
                                       },
                                     );
