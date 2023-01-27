@@ -101,3 +101,81 @@ class GetreregionsFamily
   @override
   String? get name => r'getreregionsProvider';
 }
+
+String _$getcityHash() => r'41f9c6e2eb8654cdf19708b637decdcfe557322f';
+
+/// See also [getcity].
+class GetcityProvider
+    extends AutoDisposeFutureProvider<Either<ApiFailures, dynamic>> {
+  GetcityProvider(
+    this.token,
+    this.id,
+  ) : super(
+          (ref) => getcity(
+            ref,
+            token,
+            id,
+          ),
+          from: getcityProvider,
+          name: r'getcityProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getcityHash,
+        );
+
+  final String token;
+  final String id;
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetcityProvider && other.token == token && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, token.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+typedef GetcityRef = AutoDisposeFutureProviderRef<Either<ApiFailures, dynamic>>;
+
+/// See also [getcity].
+final getcityProvider = GetcityFamily();
+
+class GetcityFamily extends Family<AsyncValue<Either<ApiFailures, dynamic>>> {
+  GetcityFamily();
+
+  GetcityProvider call(
+    String token,
+    String id,
+  ) {
+    return GetcityProvider(
+      token,
+      id,
+    );
+  }
+
+  @override
+  AutoDisposeFutureProvider<Either<ApiFailures, dynamic>> getProviderOverride(
+    covariant GetcityProvider provider,
+  ) {
+    return call(
+      provider.token,
+      provider.id,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'getcityProvider';
+}

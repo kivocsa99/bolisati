@@ -477,7 +477,6 @@ class CarBrand extends HookConsumerWidget {
     final modelscrollcontroller = FixedExtentScrollController(initialItem: 0);
     final models = useState<List<CarsModel>>([]);
     final Box setting = Hive.box("setting");
-
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -640,7 +639,8 @@ class CarBrand extends HookConsumerWidget {
                                                                           .name
                                                                           .toString();
                                                                 }
-                                                               await context.router
+                                                                await context
+                                                                    .router
                                                                     .pop();
                                                               },
                                                             ),

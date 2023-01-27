@@ -14,3 +14,10 @@ Future<Either<ApiFailures, dynamic>> getreregions(
   final userprovider = ref.watch(travelrepoprovider);
   return userprovider.getregions(apitoken: token);
 }
+
+@riverpod
+Future<Either<ApiFailures, dynamic>> getcity(
+    GetcityRef ref, String token, String id) async {
+  final userprovider = ref.watch(travelrepoprovider);
+  return userprovider.getcity(apitoken: token, id: id);
+}

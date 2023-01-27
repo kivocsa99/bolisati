@@ -200,6 +200,7 @@ class ApiAuthFacade implements IApiAuthFacade {
     });
     return result.map((r) => r).run();
   }
+
   @override
   Future<Either<ApiFailures, dynamic>> deleteaccount({
     required String token,
@@ -207,7 +208,7 @@ class ApiAuthFacade implements IApiAuthFacade {
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          "https://bolisati.bitsblend.org/api/V1/Users/SendNewPassword?email=$email&phone=$phone");
+          "https://bolisati.bitsblend.org/api/V1/Users/Deleteaccount?api_token=$token");
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data;
       } else {

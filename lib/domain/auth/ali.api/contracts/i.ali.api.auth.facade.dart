@@ -28,7 +28,7 @@ abstract class IApiAuthFacade {
   Future<Either<ApiFailures, Unit>> otpVerfication({
     required String phone,
   });
-  Future<Either<ApiFailures, Unit>> deleteaccount({
+  Future<Either<ApiFailures, dynamic>> deleteaccount({
     required String token,
   });
 }
