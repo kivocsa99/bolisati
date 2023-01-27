@@ -50,7 +50,6 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
     final startController = useTextEditingController();
     final endController = useTextEditingController();
     final prevcontroller = useTextEditingController();
-
     final scrollcontroller = FixedExtentScrollController(initialItem: 0);
     final prevscrollcontroller = FixedExtentScrollController(initialItem: 0);
     final isordering = useState(false);
@@ -359,7 +358,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               frontimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
@@ -370,7 +369,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               frontimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -400,7 +399,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               rightimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
@@ -411,7 +410,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               rightimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -441,7 +440,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               leftimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
@@ -452,7 +451,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               leftimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -482,7 +481,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               backimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
@@ -493,7 +492,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             if (image != null) {
                               backimage.value = image.path;
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -523,45 +522,35 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                           icon: const Icon(FontAwesomeIcons.image),
                           onPressed: () async {
                             if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                imageCount.value++;
 
-                                  print(pickedFile.path);
-                                  _images.value.add(pickedFile.path);
-                                  print(_images);
-                                }
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.camera),
                           onPressed: () async {
+                            context.router.pop();
                             if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
-                                  print(pickedFile.path);
-                                  _images.value.add(pickedFile.path);
-                                  print(_images);
-                                }
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (pickedFile != null) {
+                                imageCount.value++;
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
                           },
                         ),
                       ]),
@@ -586,45 +575,35 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                           icon: const Icon(FontAwesomeIcons.image),
                           onPressed: () async {
                             if (imageCount1.value < 2) {
-                              for (int i = imageCount1.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  imageCount1.value++;
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                imageCount1.value++;
 
-                                  print(pickedFile.path);
-                                  _images1.value.add(pickedFile.path);
-                                  print(_images1);
-                                }
+                                _images1.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.camera),
                           onPressed: () async {
                             if (imageCount1.value < 2) {
-                              for (int i = imageCount1.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedFile != null) {
-                                  imageCount1.value++;
-                                  print(pickedFile.path);
-                                  _images1.value.add(pickedFile.path);
-                                  print(_images1);
-                                }
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (pickedFile != null) {
+                                imageCount1.value++;
+                                _images1.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -833,115 +812,117 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                                                         .firstWhere((element) =>
                                                             element.id ==
                                                             car.get("motorid"));
-
-                                                showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  isDismissible: true,
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return StatefulBuilder(
-                                                      builder:
-                                                          (context, setState) {
-                                                        return MyWidget(
-                                                          ordering:
-                                                              isordering.value,
-                                                          function: () {
-                                                            isordering.value =
-                                                                true;
-                                                            ref
-                                                                .read(
-                                                                    motorplaceOrderProvider)
-                                                                .execute(MotorPlaceOrderUseCaseInput(
-                                                                    motorOrder:
-                                                                        order
-                                                                            .value,
-                                                                    token:
-                                                                        token,
-                                                                    addons:
-                                                                        car.get("addon") ??
-                                                                            ""))
-                                                                .then((value) =>
-                                                                    value.fold(
-                                                                        (l) =>
-                                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
-                                                                        (r) async {
-                                                                      MotorOrderDoneModel
-                                                                          orderdone =
-                                                                          r;
-                                                                      final List<
-                                                                              String>
-                                                                          hello =
-                                                                          images +
-                                                                              _images1.value +
-                                                                              _images.value;
-                                                                      for (var element
-                                                                          in hello) {
-                                                                        ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
-                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
-                                                                                (r) async {
-                                                                              if (element == images.last) {
-                                                                                await context.router.pop();
-                                                                                showDialog(
-                                                                                  barrierDismissible: false,
-                                                                                  context: context,
-                                                                                  builder: (context) {
-                                                                                    return SimpleDialog(
-                                                                                        title: Row(
-                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                          children: [
-                                                                                            Image.asset(
-                                                                                              "assets/logo.png",
-                                                                                              scale: 1.5,
+                                                if (context.mounted) {
+                                                  await showModalBottomSheet(
+                                                    isScrollControlled: true,
+                                                    isDismissible: true,
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return StatefulBuilder(
+                                                        builder: (context,
+                                                            setState) {
+                                                          return MyWidget(
+                                                            ordering: isordering
+                                                                .value,
+                                                            function: () {
+                                                              ref
+                                                                  .read(
+                                                                      motorplaceOrderProvider)
+                                                                  .execute(MotorPlaceOrderUseCaseInput(
+                                                                      motorOrder:
+                                                                          order
+                                                                              .value,
+                                                                      token:
+                                                                          token,
+                                                                      addons:
+                                                                          car.get("addon") ??
+                                                                              ""))
+                                                                  .then((value) =>
+                                                                      value.fold(
+                                                                          (l) =>
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
+                                                                          (r) async {
+                                                                        MotorOrderDoneModel
+                                                                            orderdone =
+                                                                            r;
+                                                                        final List<String>
+                                                                            hello =
+                                                                            images +
+                                                                                _images1.value +
+                                                                                _images.value;
+                                                                        for (var element
+                                                                            in hello) {
+                                                                          ref.read(motorattachfileProvider).execute(MotorAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                              value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())), (r) async {
+                                                                                if (element == images.last) {
+                                                                                  await context.router.pop();
+                                                                                  if (context.mounted) {
+                                                                                    await showDialog(
+                                                                                      barrierDismissible: false,
+                                                                                      context: context,
+                                                                                      builder: (context) {
+                                                                                        return SimpleDialog(
+                                                                                            title: Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                              children: [
+                                                                                                Image.asset(
+                                                                                                  "assets/logo.png",
+                                                                                                  scale: 1.5,
+                                                                                                ),
+                                                                                                const SizedBox(
+                                                                                                  width: 10,
+                                                                                                ),
+                                                                                                const Text(
+                                                                                                  'orderdes',
+                                                                                                ).tr(),
+                                                                                              ],
                                                                                             ),
-                                                                                            const SizedBox(
-                                                                                              width: 10,
-                                                                                            ),
-                                                                                            const Text(
-                                                                                              'orderdes',
-                                                                                            ).tr(),
-                                                                                          ],
-                                                                                        ),
-                                                                                        children: [
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                                                                                            child: const Text("orderconfirm").tr(),
-                                                                                          ),
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                                                                                            child: GestureDetector(
-                                                                                              onTap: () async {
-                                                                                                await context.router.replaceAll([
-                                                                                                  const HomeScreen()
-                                                                                                ]);
-                                                                                              },
-                                                                                              child: Container(
-                                                                                                color: Colors.black,
-                                                                                                width: 100,
-                                                                                                height: 60,
-                                                                                                child: Center(
-                                                                                                    child: const Text(
-                                                                                                  "confirm",
-                                                                                                  style: TextStyle(color: Colors.white),
-                                                                                                ).tr()),
+                                                                                            children: [
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                                child: const Text("orderconfirm").tr(),
                                                                                               ),
-                                                                                            ),
-                                                                                          )
-                                                                                        ]);
-                                                                                  },
-                                                                                );
-                                                                              }
-                                                                            }));
-                                                                      }
-                                                                    }));
-                                                          },
-                                                          offerModel:
-                                                              offersModel,
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                );
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                                child: GestureDetector(
+                                                                                                  onTap: () async {
+                                                                                                    await context.router.replaceAll([const HomeScreen()]);
+                                                                                                  },
+                                                                                                  child: Container(
+                                                                                                    color: Colors.black,
+                                                                                                    width: 100,
+                                                                                                    height: 60,
+                                                                                                    child: Center(
+                                                                                                        child: const Text(
+                                                                                                      "confirm",
+                                                                                                      style: TextStyle(color: Colors.white),
+                                                                                                    ).tr()),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              )
+                                                                                            ]);
+                                                                                      },
+                                                                                    );
+                                                                                  }
+                                                                                }
+                                                                              }));
+                                                                        }
+                                                                      }));
+                                                            },
+                                                            offerModel:
+                                                                offersModel,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  );
+                                                }
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "picupload".tr())));
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)

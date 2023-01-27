@@ -43,7 +43,10 @@
     "monthly": "Monthly Fee",
     "guardianname":"Guardian name",
     "country":"Country",
-    "cerreg":"Please Upload Car Registeration card and ID",
+    "picdes":"The Maximmum number of pictures has been reached",
+    "cerreg":"Please Upload Car Registeration card and ID (Both Sides)",
+    "medicalreg":"please upload family book pictures (4 pictures Maximmum)",
+    "insuranceinfo":"Insurance Info",
 
     "typedes":"Alert",
     "mfee":"By selecting Monthly Fee your fixed insuarance price amount will be calculated",

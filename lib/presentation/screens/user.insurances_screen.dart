@@ -5,6 +5,7 @@ import 'package:bolisati/constants.dart';
 import 'package:bolisati/domain/api/orders/user.orders.model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,6 +19,7 @@ import '../../domain/api/orders/motororders/motorordermodel.dart';
 import '../../domain/api/orders/personalaccidentorders/personalaccidentordermodel.dart';
 import '../../domain/api/orders/petorders/petordermodel.dart';
 import '../../domain/api/orders/travelorders/travelordermodel.dart';
+import '../../router/app_route.gr.dart';
 import '../widgets/horizantal_user_insurance_container.dart';
 
 class UserInsuranceListScreen extends HookConsumerWidget {
@@ -29,7 +31,7 @@ class UserInsuranceListScreen extends HookConsumerWidget {
     final Box setting = Hive.box("setting");
     final apitoken = setting.get('apitoken');
     final userOrderProvider = ref.watch(GetorderProvider(apitoken));
-
+    final allinsurances = useState<List<dynamic>>([]);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -131,7 +133,10 @@ class UserInsuranceListScreen extends HookConsumerWidget {
                                                   .toString(),
                                               containercolor: carcontainer,
                                               function: () {
-                                                // context.router.push();
+                                                context.router.push(
+                                                    InsuranceScreen(
+                                                        model: firstElements[
+                                                            index]));
                                               },
                                               icon: firstElements[index]
                                                       is MotorOrderModel

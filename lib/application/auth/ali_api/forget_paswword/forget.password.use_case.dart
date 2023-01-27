@@ -6,15 +6,19 @@ import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../core/use_cases/i.use_case.dart';
+import '../../../provider/auth.facade.provider.dart';
+
+final forgetPasswordUseCaseprovider = Provider((ref) =>
+    ForgetPasswordUseCase(authFacade: ref.watch(apiauthFacadeProvider)));
 
 class ForgetPasswordUseCase
     implements IUseCase<ForgetPasswordUseCaseInput, dynamic> {
-  Ref? _read;
-  IApiAuthFacade? _authFacade;
-  ForgetPasswordUseCase({IApiAuthFacade? apiAuthFacade})
-      : _authFacade = apiAuthFacade;
+  final IApiAuthFacade? _authFacade;
+  ForgetPasswordUseCase({IApiAuthFacade? authFacade})
+      : _authFacade = authFacade;
   @override
   Future<Either<ApiFailures, dynamic>> execute(input) {
-    return _authFacade!.forgetpassword(email: input.email!);
+    return _authFacade!
+        .forgetpassword(email: input.email!, phone: input.phone!);
   }
 }

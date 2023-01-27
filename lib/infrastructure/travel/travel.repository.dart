@@ -139,34 +139,63 @@ class TravelRepository implements ITravelRepository {
 
 //done
   @override
-  Future<Either<ApiFailures, dynamic>> getregions({String? apitoken}) {
-    {
-      var dio = Dio();
-      final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
-        final result = await dio.get(
-            "https://bolisati.bitsblend.org/api/V1/Travel/GetRegions?api_token=$apitoken");
-        Map<String, dynamic> map = result.data;
-        List<dynamic> data = map["Regions"];
-        List<RegionModel> cars =
-            data.map((e) => RegionModel.fromJson(e)).toList();
-        return cars;
-      }, (error, stackTrace) {
-        print(error);
-        if (error is DioError) {
-          switch (error.type) {
-            case DioErrorType.connectTimeout:
-              return const ApiFailures.connnectionTimeOut();
-            case DioErrorType.cancel:
-              return const ApiFailures.cancel();
-            case DioErrorType.response:
-              return const ApiFailures.noResponse();
-            default:
-              return const ApiFailures.noResponse();
-          }
+  Future<Either<ApiFailures, dynamic>> getregions({String? apitoken}) async {
+    var dio = Dio();
+    final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      final result = await dio.get(
+          "https://bolisati.bitsblend.org/api/V1/Travel/GetRegions?api_token=$apitoken");
+      Map<String, dynamic> map = result.data;
+      List<dynamic> data = map["Regions"];
+      List<RegionModel> cars =
+          data.map((e) => RegionModel.fromJson(e)).toList();
+      return cars;
+    }, (error, stackTrace) {
+      print(error);
+      if (error is DioError) {
+        switch (error.type) {
+          case DioErrorType.connectTimeout:
+            return const ApiFailures.connnectionTimeOut();
+          case DioErrorType.cancel:
+            return const ApiFailures.cancel();
+          case DioErrorType.response:
+            return const ApiFailures.noResponse();
+          default:
+            return const ApiFailures.noResponse();
         }
-        return const ApiFailures.internalError();
-      });
-      return result.map((r) => r).run();
-    }
+      }
+      return const ApiFailures.internalError();
+    });
+    return result.map((r) => r).run();
+  }
+
+  @override
+  Future<Either<ApiFailures, dynamic>> getcity(
+      {String? apitoken, String? id}) async {
+    var dio = Dio();
+    final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      final result = await dio.get(
+          "https://bolisati.bitsblend.org/api/V1/Travel/GetCities?country_id=$id&api_token=$apitoken");
+      Map<String, dynamic> map = result.data;
+      List<dynamic> data = map["Cities"];
+      List<RegionModel> cars =
+          data.map((e) => RegionModel.fromJson(e)).toList();
+      return cars;
+    }, (error, stackTrace) {
+      print(error);
+      if (error is DioError) {
+        switch (error.type) {
+          case DioErrorType.connectTimeout:
+            return const ApiFailures.connnectionTimeOut();
+          case DioErrorType.cancel:
+            return const ApiFailures.cancel();
+          case DioErrorType.response:
+            return const ApiFailures.noResponse();
+          default:
+            return const ApiFailures.noResponse();
+        }
+      }
+      return const ApiFailures.internalError();
+    });
+    return result.map((r) => r).run();
   }
 }

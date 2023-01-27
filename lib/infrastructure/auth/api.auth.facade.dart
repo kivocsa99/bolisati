@@ -170,8 +170,64 @@ class ApiAuthFacade implements IApiAuthFacade {
   }
 
   @override
-  Future<Either<ApiFailures, dynamic>> forgetpassword({required String email}) {
-    // TODO: implement forgetpassword
-    throw UnimplementedError();
+  Future<Either<ApiFailures, dynamic>> forgetpassword({
+    required String email,
+    required String phone,
+  }) async {
+    var dio = Dio();
+    final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      final result = await dio.get(
+          "https://bolisati.bitsblend.org/api/V1/Users/SendNewPassword?email=$email&phone=$phone");
+      if (result.data["AZSVR"] == "SUCCESS") {
+        return result.data;
+      } else {
+        return const ApiFailures.authFailed();
+      }
+    }, (error, stackTrace) {
+      if (error is DioError) {
+        switch (error.type) {
+          case DioErrorType.connectTimeout:
+            return const ApiFailures.connnectionTimeOut();
+          case DioErrorType.cancel:
+            return const ApiFailures.cancel();
+          case DioErrorType.response:
+            return const ApiFailures.noResponse();
+          default:
+            return const ApiFailures.noResponse();
+        }
+      }
+      return const ApiFailures.internalError();
+    });
+    return result.map((r) => r).run();
+  }
+  @override
+  Future<Either<ApiFailures, dynamic>> deleteaccount({
+    required String token,
+  }) async {
+    var dio = Dio();
+    final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      final result = await dio.get(
+          "https://bolisati.bitsblend.org/api/V1/Users/SendNewPassword?email=$email&phone=$phone");
+      if (result.data["AZSVR"] == "SUCCESS") {
+        return result.data;
+      } else {
+        return const ApiFailures.authFailed();
+      }
+    }, (error, stackTrace) {
+      if (error is DioError) {
+        switch (error.type) {
+          case DioErrorType.connectTimeout:
+            return const ApiFailures.connnectionTimeOut();
+          case DioErrorType.cancel:
+            return const ApiFailures.cancel();
+          case DioErrorType.response:
+            return const ApiFailures.noResponse();
+          default:
+            return const ApiFailures.noResponse();
+        }
+      }
+      return const ApiFailures.internalError();
+    });
+    return result.map((r) => r).run();
   }
 }

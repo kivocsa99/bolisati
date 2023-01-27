@@ -217,7 +217,10 @@ class MainScreen extends HookConsumerWidget {
                                         .name
                                         .toString(),
                                     containercolor: carcontainer,
-                                    function: () {},
+                                    function: () {
+                                      context.router.push(InsuranceScreen(
+                                          model: firstElements[index]));
+                                    },
                                     icon: firstElements[index]
                                             is MotorOrderModel
                                         ? "assets/car.svg"

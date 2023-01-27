@@ -60,6 +60,7 @@ class MotorRepository implements IMotorRepository {
       final result = await dio.get(
         "https://bolisati.bitsblend.org/api/V1/Motor/GetOffers?vehicle_model_id=$vehiclemodelid&estimated_car_price=$estimatedcarprice&api_token=$token",
       );
+      print(result.realUri);
 
       Map<String, dynamic> map = result.data;
 

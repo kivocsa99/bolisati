@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/motor.repository.provider.dart';
 import 'package:bolisati/domain/api/orders/motororders/cars/carmodel.dart';
+import 'package:bolisati/domain/api/orders/motororders/cars/carsmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -473,9 +474,8 @@ class CarBrand extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final car = Hive.box("car");
     final scrollcontroller = FixedExtentScrollController(initialItem: 0);
-
-    final selectedcar = useState("");
-    final selectedmodel = useState("");
+    final modelscrollcontroller = FixedExtentScrollController(initialItem: 0);
+    final models = useState<List<CarsModel>>([]);
     final Box setting = Hive.box("setting");
 
     return Padding(
@@ -526,7 +526,9 @@ class CarBrand extends HookConsumerWidget {
                                     onSelectedItemChanged: (value) {
                                       car.put("carbrand", cars[value].id);
                                       brandcontroller!.text =
-                                          cars[value].toString();
+                                          cars[value].name.toString();
+                                      models.value =
+                                          cars[value].models!.cast<CarsModel>();
                                     },
                                     children: List<Widget>.generate(cars.length,
                                         (int index) {
@@ -547,90 +549,107 @@ class CarBrand extends HookConsumerWidget {
                                     child: CupertinoButton(
                                       child: const Text('confirm').tr(),
                                       onPressed: () async {
+                                        await context.router.pop();
+
                                         if (scrollcontroller.selectedItem ==
                                             0) {
                                           car.put("carbrand", cars[0].id);
                                           brandcontroller!.text =
                                               cars[0].name.toString();
+                                          models.value =
+                                              cars[0].models!.cast<CarsModel>();
                                         }
-                                        await context.router.pop();
-                                        await showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (_) => Container(
-                                                  height: 250,
-                                                  color: const Color.fromARGB(
-                                                      255, 255, 255, 255),
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 180,
-                                                        child: CupertinoPicker(
-                                                          scrollController:
-                                                              scrollcontroller,
-                                                          looping: false,
-                                                          itemExtent: 46,
-                                                          onSelectedItemChanged:
-                                                              (value) {
-                                                            car.put(
-                                                                "carbrand",
-                                                                cars[value]
-                                                                    .name);
-                                                            brandcontroller!
-                                                                    .text =
-                                                                cars[value]
-                                                                    .toString();
-                                                          },
-                                                          children: List<
-                                                                  Widget>.generate(
-                                                              cars.length,
-                                                              (int index) {
-                                                            return Text(
-                                                              cars[index].name!,
-                                                              style: const TextStyle(
-                                                                  color:
-                                                                      CupertinoColors
-                                                                          .black),
-                                                            );
-                                                          }),
-                                                        ),
-                                                      ),
-
-                                                      // Close the modal
-                                                      Align(
-                                                        alignment: Alignment
-                                                            .bottomCenter,
-                                                        child: SizedBox(
-                                                          height: 70,
+                                        if (context.mounted) {
+                                          return await showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (_) => Container(
+                                                    height: 250,
+                                                    color: const Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 180,
                                                           child:
-                                                              CupertinoButton(
-                                                            child: const Text(
-                                                                    'confirm')
-                                                                .tr(),
-                                                            onPressed:
-                                                                () async {
-                                                              if (scrollcontroller
-                                                                      .selectedItem ==
-                                                                  0) {
-                                                                car.put(
-                                                                    "carbrand",
-                                                                    cars[0]
-                                                                        .name);
-                                                                brandcontroller!
-                                                                    .text = cars[
-                                                                        0]
-                                                                    .name
-                                                                    .toString();
-                                                              }
-                                                              await context
-                                                                  .router
-                                                                  .pop();
+                                                              CupertinoPicker(
+                                                            scrollController:
+                                                                modelscrollcontroller,
+                                                            looping: false,
+                                                            itemExtent: 46,
+                                                            onSelectedItemChanged:
+                                                                (value) {
+                                                              car.put(
+                                                                  "carbrand",
+                                                                  models
+                                                                      .value[
+                                                                          value]
+                                                                      .id);
+                                                              modelcontroller!
+                                                                      .text =
+                                                                  models
+                                                                      .value[
+                                                                          value]
+                                                                      .name
+                                                                      .toString();
                                                             },
+                                                            children: List<
+                                                                    Widget>.generate(
+                                                                models.value
+                                                                    .length,
+                                                                (int index) {
+                                                              return Text(
+                                                                models
+                                                                    .value[
+                                                                        index]
+                                                                    .name!,
+                                                                style: const TextStyle(
+                                                                    color: CupertinoColors
+                                                                        .black),
+                                                              );
+                                                            }),
                                                           ),
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ));
+
+                                                        // Close the modal
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .bottomCenter,
+                                                          child: SizedBox(
+                                                            height: 70,
+                                                            child:
+                                                                CupertinoButton(
+                                                              child: const Text(
+                                                                      'confirm')
+                                                                  .tr(),
+                                                              onPressed:
+                                                                  () async {
+                                                                if (modelscrollcontroller
+                                                                        .selectedItem ==
+                                                                    0) {
+                                                                  car.put(
+                                                                      "carmodel",
+                                                                      models
+                                                                          .value[
+                                                                              0]
+                                                                          .id);
+                                                                  modelcontroller!
+                                                                          .text =
+                                                                      models
+                                                                          .value[
+                                                                              0]
+                                                                          .name
+                                                                          .toString();
+                                                                }
+                                                               await context.router
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ));
+                                        }
                                       },
                                     ),
                                   ),
@@ -638,48 +657,6 @@ class CarBrand extends HookConsumerWidget {
                               ],
                             ),
                           ),
-                        );
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SimpleDialog(
-                              title: const Text("selectbrand").tr(),
-                              children: cars.map((e) {
-                                return SimpleDialogOption(
-                                  onPressed: () async {
-                                    selectedcar.value = e.name.toString();
-                                    brandcontroller!.text =
-                                        selectedcar.value.toString();
-                                    car.put("carbrand", e.id);
-                                    await context.router.pop();
-                                    return showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SimpleDialog(
-                                          title: const Text("selectmodel").tr(),
-                                          children: e.models!
-                                              .map((e) => SimpleDialogOption(
-                                                    onPressed: () {
-                                                      selectedmodel.value =
-                                                          e.name!;
-                                                      modelcontroller!.text =
-                                                          selectedmodel.value
-                                                              .toString();
-                                                      car.put("carmodel", e.id);
-                                                      context.router.pop();
-                                                    },
-                                                    child: Text(e!.name!),
-                                                  ))
-                                              .toList(),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Text(e.name!),
-                                );
-                              }).toList(),
-                            );
-                          },
                         );
                       });
                     },

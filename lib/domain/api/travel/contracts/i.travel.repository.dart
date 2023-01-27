@@ -15,4 +15,5 @@ abstract class ITravelRepository {
   Future<Either<ApiFailures, dynamic>> attachFile(
       {required File file, required int orderid, required String apitoken});
   Future<Either<ApiFailures, dynamic>> getregions({String? apitoken});
+  Future<Either<ApiFailures, dynamic>> getcity({String? apitoken, String? id});
 }

@@ -16,7 +16,9 @@ _$_CompanyModel _$$_CompanyModelFromJson(Map<String, dynamic> json) =>
       description_ar: json['description_ar'] as String?,
       code: json['code'] as String?,
       email: json['email'] as String?,
-      pdf: json['pdf'] as String?,
+      p_d_f_s: (json['p_d_f_s'] as List<dynamic>?)
+          ?.map((e) => PdfModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       image: json['image'] as String?,
       active: json['active'] as int?,
       created_at: json['created_at'] as String?,
@@ -34,7 +36,7 @@ Map<String, dynamic> _$$_CompanyModelToJson(_$_CompanyModel instance) =>
       'description_ar': instance.description_ar,
       'code': instance.code,
       'email': instance.email,
-      'pdf': instance.pdf,
+      'p_d_f_s': instance.p_d_f_s,
       'image': instance.image,
       'active': instance.active,
       'created_at': instance.created_at,

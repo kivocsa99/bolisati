@@ -181,28 +181,36 @@ class _MyWidgetState extends State<MyWidget> {
             const SizedBox(
               height: 5,
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: const Text("total").tr(),
-            ),
-            TextField(
-              controller: controller,
-              textAlign: TextAlign.left,
-              readOnly: true,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedErrorBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red)),
-                errorBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red)),
-                contentPadding: const EdgeInsets.all(0),
-                hintText: "total".tr(),
-                hintStyle: const TextStyle(
-                  color: Colors.black26,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: const Text("total").tr(),
                 ),
-              ),
+                SizedBox(
+                  width: 200,
+                  child: TextField(
+                    controller: controller,
+                    textAlign: TextAlign.left,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedErrorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red)),
+                      errorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red)),
+                      contentPadding: const EdgeInsets.all(0),
+                      hintText: "total".tr(),
+                      hintStyle: const TextStyle(
+                        color: Colors.black26,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Align(

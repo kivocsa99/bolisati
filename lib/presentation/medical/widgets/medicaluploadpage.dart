@@ -31,7 +31,7 @@ class MedicalUploadPage extends HookConsumerWidget {
                 onTap: function0,
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height / 2,
-                  child: const Text("cerreg").tr(),
+                  child: const Text("medicalreg").tr(),
                 ),
               )),
           Positioned(
@@ -69,8 +69,8 @@ class MedicalUploadPage extends HookConsumerWidget {
                                 .map(
                                   (e) => Image.file(
                                     File(e),
-                                    height: 150,
-                                    width: 150,
+                                    height: 100,
+                                    width: 100,
                                     fit: BoxFit.fill,
                                   ),
                                 )

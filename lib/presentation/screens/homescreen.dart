@@ -295,7 +295,12 @@ class HomeScreen extends HookConsumerWidget {
                                                               .toString(),
                                                           containercolor:
                                                               carcontainer,
-                                                          function: () {},
+                                                          function: () {
+                                                            context.router.push(
+                                                                InsuranceScreen(
+                                                                    model: firstElements[
+                                                                        index]));
+                                                          },
                                                           icon: firstElements[
                                                                       index]
                                                                   is MotorOrderModel

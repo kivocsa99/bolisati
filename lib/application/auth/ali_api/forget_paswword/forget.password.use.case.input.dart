@@ -1,6 +1,6 @@
-class ForgetPasswordUseCaseInput{
+class ForgetPasswordUseCaseInput {
   final String? email;
+  final String? phone;
 
-  ForgetPasswordUseCaseInput({this.email});
-  
+  ForgetPasswordUseCaseInput({this.email, this.phone});
 }

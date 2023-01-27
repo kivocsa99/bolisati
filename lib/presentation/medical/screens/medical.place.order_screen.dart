@@ -339,43 +339,35 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.image),
                           onPressed: () async {
-                            if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
-                                  _images.value.add(pickedFile.path);
-                                }
+                            if (imageCount.value < 4) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                imageCount.value++;
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.camera),
                           onPressed: () async {
-                            if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
-                                  print(pickedFile.path);
-                                  _images.value.add(pickedFile.path);
-                                  print(_images);
-                                }
+                            if (imageCount.value < 4) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (pickedFile != null) {
+                                imageCount.value++;
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -533,7 +525,7 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                             "offersdes".tr())));
                                               }
                                             } else if (index.value == 2) {
-                                              if (_images.value.length == 2) {
+                                              if (_images.value.length >= 2) {
                                                 await Future.delayed(
                                                     const Duration(seconds: 1),
                                                     (() {
@@ -563,109 +555,161 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                             element.id ==
                                                             medical.get(
                                                                 "medicalid"));
+                                                print(order.value);
 
-                                                showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  isDismissible: true,
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return StatefulBuilder(
-                                                      builder:
-                                                          (context, setState) {
-                                                        return MedicalBottomSheet(
-                                                          function: () {
-                                                            ref
-                                                                .read(
-                                                                    medicalplaceOrderProvider)
-                                                                .execute(
-                                                                    MedicalPlaceOrderUseCaseInput(
-                                                                  addons: medical
-                                                                          .get(
-                                                                              "addon") ??
-                                                                      "",
-                                                                  medicalOrderModel:
-                                                                      order
-                                                                          .value,
-                                                                  token: token,
-                                                                ))
-                                                                .then((value) =>
-                                                                    value.fold(
-                                                                        (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                            content:
-                                                                                const Text("contact").tr())),
-                                                                        (r) async {
-                                                                      MedicalOrderDoneModel
-                                                                          orderdone =
-                                                                          r;
-                                                                      for (var element
-                                                                          in _images
-                                                                              .value) {
-                                                                        ref.read(medicalattachplaceOrderProvider).execute(MedicalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
-                                                                            value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
-                                                                                (r) async {
-                                                                              if (element == _images.value.last) {
-                                                                                await context.router.pop();
-                                                                                showDialog(
-                                                                                  barrierDismissible: false,
-                                                                                  context: context,
-                                                                                  builder: (context) {
-                                                                                    return SimpleDialog(
-                                                                                        title: Row(
-                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                          children: [
-                                                                                            Image.asset(
-                                                                                              "assets/logo.png",
-                                                                                              scale: 1.5,
+                                                if (context.mounted) {
+                                                  showModalBottomSheet(
+                                                    isScrollControlled: true,
+                                                    isDismissible: true,
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return StatefulBuilder(
+                                                        builder: (context,
+                                                            setState) {
+                                                          return MedicalBottomSheet(
+                                                            function: () async {
+                                                              print(medical.get(
+                                                                  "addon"));
+                                                              return await ref
+                                                                  .read(
+                                                                      medicalplaceOrderProvider)
+                                                                  .execute(
+                                                                      MedicalPlaceOrderUseCaseInput(
+                                                                    addons:
+                                                                        medical.get("addon") ??
+                                                                            "",
+                                                                    medicalOrderModel:
+                                                                        order
+                                                                            .value,
+                                                                    token:
+                                                                        token,
+                                                                  ))
+                                                                  .then((value) =>
+                                                                      value.fold(
+                                                                          (l) {
+                                                                        print(
+                                                                            l);
+                                                                        showDialog(
+                                                                          barrierDismissible:
+                                                                              false,
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (context) {
+                                                                            return SimpleDialog(
+                                                                                title: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    Image.asset(
+                                                                                      "assets/logo.png",
+                                                                                      scale: 1.5,
+                                                                                    ),
+                                                                                    const SizedBox(
+                                                                                      width: 10,
+                                                                                    ),
+                                                                                    const Text(
+                                                                                      'orderdes',
+                                                                                    ).tr(),
+                                                                                  ],
+                                                                                ),
+                                                                                children: [
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                    child: const Text("contact").tr(),
+                                                                                  ),
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                    child: GestureDetector(
+                                                                                      onTap: () async {
+                                                                                        await context.router.pop();
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        color: Colors.black,
+                                                                                        width: 100,
+                                                                                        height: 60,
+                                                                                        child: Center(
+                                                                                            child: const Text(
+                                                                                          "confirm",
+                                                                                          style: TextStyle(color: Colors.white),
+                                                                                        ).tr()),
+                                                                                      ),
+                                                                                    ),
+                                                                                  )
+                                                                                ]);
+                                                                          },
+                                                                        );
+                                                                      }, (r) async {
+                                                                        MedicalOrderDoneModel
+                                                                            orderdone =
+                                                                            r;
+                                                                        for (var element
+                                                                            in _images.value) {
+                                                                          ref.read(medicalattachplaceOrderProvider).execute(MedicalAttachFileUseCaseInput(token: token, orderid: orderdone.id, file: File(element))).then((value) =>
+                                                                              value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())), (r) async {
+                                                                                if (element == _images.value.last) {
+                                                                                  await context.router.pop();
+                                                                                  if (context.mounted) {
+                                                                                    showDialog(
+                                                                                      barrierDismissible: false,
+                                                                                      context: context,
+                                                                                      builder: (context) {
+                                                                                        return SimpleDialog(
+                                                                                            title: Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                              children: [
+                                                                                                Image.asset(
+                                                                                                  "assets/logo.png",
+                                                                                                  scale: 1.5,
+                                                                                                ),
+                                                                                                const SizedBox(
+                                                                                                  width: 10,
+                                                                                                ),
+                                                                                                const Text(
+                                                                                                  'orderdes',
+                                                                                                ).tr(),
+                                                                                              ],
                                                                                             ),
-                                                                                            const SizedBox(
-                                                                                              width: 10,
-                                                                                            ),
-                                                                                            const Text(
-                                                                                              'orderdes',
-                                                                                            ).tr(),
-                                                                                          ],
-                                                                                        ),
-                                                                                        children: [
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                                                                                            child: const Text("orderconfirm").tr(),
-                                                                                          ),
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                                                                                            child: GestureDetector(
-                                                                                              onTap: () async {
-                                                                                                await context.router.replaceAll([
-                                                                                                  const HomeScreen()
-                                                                                                ]);
-                                                                                              },
-                                                                                              child: Container(
-                                                                                                color: Colors.black,
-                                                                                                width: 100,
-                                                                                                height: 60,
-                                                                                                child: Center(
-                                                                                                    child: const Text(
-                                                                                                  "confirm",
-                                                                                                  style: TextStyle(color: Colors.white),
-                                                                                                ).tr()),
+                                                                                            children: [
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                                child: const Text("orderconfirm").tr(),
                                                                                               ),
-                                                                                            ),
-                                                                                          )
-                                                                                        ]);
-                                                                                  },
-                                                                                );
-                                                                              }
-                                                                            }));
-                                                                      }
-                                                                    }));
-                                                          },
-                                                          medicalorder:
-                                                              offersModel,
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                );
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                                child: GestureDetector(
+                                                                                                  onTap: () async {
+                                                                                                    await context.router.replaceAll([const HomeScreen()]);
+                                                                                                  },
+                                                                                                  child: Container(
+                                                                                                    color: Colors.black,
+                                                                                                    width: 100,
+                                                                                                    height: 60,
+                                                                                                    child: Center(
+                                                                                                        child: const Text(
+                                                                                                      "confirm",
+                                                                                                      style: TextStyle(color: Colors.white),
+                                                                                                    ).tr()),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              )
+                                                                                            ]);
+                                                                                      },
+                                                                                    );
+                                                                                  }
+                                                                                }
+                                                                              }));
+                                                                        }
+                                                                      }));
+                                                            },
+                                                            medicalorder:
+                                                                offersModel,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  );
+                                                }
                                               } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(

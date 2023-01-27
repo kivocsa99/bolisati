@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $getcarsHash() => r'3206c3ef694306a3460bf9d808ab543fce2f8f39';
+String _$getcarsHash() => r'3206c3ef694306a3460bf9d808ab543fce2f8f39';
 
 /// See also [getcars].
 class GetcarsProvider
@@ -46,7 +46,7 @@ class GetcarsProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $getcarsHash,
+                  : _$getcarsHash,
         );
 
   final String token;

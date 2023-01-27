@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $getreregionsHash() => r'1a8775c5bc1cc44b41276e616ce7537285ffe382';
+String _$getreregionsHash() => r'1a8775c5bc1cc44b41276e616ce7537285ffe382';
 
 /// See also [getreregions].
 class GetreregionsProvider
@@ -46,7 +46,7 @@ class GetreregionsProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $getreregionsHash,
+                  : _$getreregionsHash,
         );
 
   final String token;

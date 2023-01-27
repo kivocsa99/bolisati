@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $getoccupationHash() => r'36154f17b72708ed6c1a46a74ef4a0997a28fb96';
+String _$getoccupationHash() => r'36154f17b72708ed6c1a46a74ef4a0997a28fb96';
 
 /// See also [getoccupation].
 class GetoccupationProvider
@@ -46,7 +46,7 @@ class GetoccupationProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $getoccupationHash,
+                  : _$getoccupationHash,
         );
 
   final String token;

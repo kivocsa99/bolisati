@@ -54,6 +54,7 @@ class MedicalRepository implements IMedicalRepository {
       final result = await dio.get(
         "https://bolisati.bitsblend.org/api/V1/Medical/GetOffers?age=$age&gender_id=$genderid&medical_insurance_type_id=$insuranceType&api_token=$token",
       );
+      print(result.realUri);
 
       if (result.data["AZSVR"] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
@@ -94,6 +95,7 @@ class MedicalRepository implements IMedicalRepository {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/Medical/PlaceOrder?medical_insurance_id=${medicalOrderModel!.medical_insurance_id}&marital_status_id=${medicalOrderModel.marital_status_id}&name=${medicalOrderModel.name}&birthdate=${medicalOrderModel.birthdate}&start_date=${medicalOrderModel.start_date}&end_date=${medicalOrderModel.end_date}$addons&api_token=$token");
+      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         MedicalOrderDoneModel model =
             MedicalOrderDoneModel.fromJson(result.data["OrderDetails"]);
@@ -103,6 +105,7 @@ class MedicalRepository implements IMedicalRepository {
       }
     }, (error, stackTrace) {
       if (error is DioError) {
+        print(error);
         switch (error.type) {
           case DioErrorType.connectTimeout:
             return const ApiFailures.connnectionTimeOut();

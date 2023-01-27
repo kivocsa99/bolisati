@@ -14,6 +14,7 @@ abstract class IApiAuthFacade {
   });
   Future<Either<ApiFailures, dynamic>> forgetpassword({
     required String email,
+    required String phone,
   });
 
   Future<void> signOut(BuildContext context);
@@ -26,5 +27,8 @@ abstract class IApiAuthFacade {
 
   Future<Either<ApiFailures, Unit>> otpVerfication({
     required String phone,
+  });
+  Future<Either<ApiFailures, Unit>> deleteaccount({
+    required String token,
   });
 }

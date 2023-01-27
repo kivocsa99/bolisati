@@ -28,7 +28,7 @@ mixin _$CompanyModel {
   String? get description_ar => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  String? get pdf => throw _privateConstructorUsedError;
+  List<PdfModel>? get p_d_f_s => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   int? get active => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
@@ -56,7 +56,7 @@ abstract class $CompanyModelCopyWith<$Res> {
       String? description_ar,
       String? code,
       String? email,
-      String? pdf,
+      List<PdfModel>? p_d_f_s,
       String? image,
       int? active,
       String? created_at,
@@ -85,7 +85,7 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
     Object? description_ar = freezed,
     Object? code = freezed,
     Object? email = freezed,
-    Object? pdf = freezed,
+    Object? p_d_f_s = freezed,
     Object? image = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
@@ -125,10 +125,10 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      pdf: freezed == pdf
-          ? _value.pdf
-          : pdf // ignore: cast_nullable_to_non_nullable
-              as String?,
+      p_d_f_s: freezed == p_d_f_s
+          ? _value.p_d_f_s
+          : p_d_f_s // ignore: cast_nullable_to_non_nullable
+              as List<PdfModel>?,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -170,7 +170,7 @@ abstract class _$$_CompanyModelCopyWith<$Res>
       String? description_ar,
       String? code,
       String? email,
-      String? pdf,
+      List<PdfModel>? p_d_f_s,
       String? image,
       int? active,
       String? created_at,
@@ -197,7 +197,7 @@ class __$$_CompanyModelCopyWithImpl<$Res>
     Object? description_ar = freezed,
     Object? code = freezed,
     Object? email = freezed,
-    Object? pdf = freezed,
+    Object? p_d_f_s = freezed,
     Object? image = freezed,
     Object? active = freezed,
     Object? created_at = freezed,
@@ -237,10 +237,10 @@ class __$$_CompanyModelCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      pdf: freezed == pdf
-          ? _value.pdf
-          : pdf // ignore: cast_nullable_to_non_nullable
-              as String?,
+      p_d_f_s: freezed == p_d_f_s
+          ? _value._p_d_f_s
+          : p_d_f_s // ignore: cast_nullable_to_non_nullable
+              as List<PdfModel>?,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -277,12 +277,13 @@ class _$_CompanyModel implements _CompanyModel {
       this.description_ar,
       this.code,
       this.email,
-      this.pdf,
+      final List<PdfModel>? p_d_f_s,
       this.image,
       this.active,
       this.created_at,
       this.updated_at,
-      this.deleted_at});
+      this.deleted_at})
+      : _p_d_f_s = p_d_f_s;
 
   factory _$_CompanyModel.fromJson(Map<String, dynamic> json) =>
       _$$_CompanyModelFromJson(json);
@@ -303,8 +304,16 @@ class _$_CompanyModel implements _CompanyModel {
   final String? code;
   @override
   final String? email;
+  final List<PdfModel>? _p_d_f_s;
   @override
-  final String? pdf;
+  List<PdfModel>? get p_d_f_s {
+    final value = _p_d_f_s;
+    if (value == null) return null;
+    if (_p_d_f_s is EqualUnmodifiableListView) return _p_d_f_s;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? image;
   @override
@@ -318,7 +327,7 @@ class _$_CompanyModel implements _CompanyModel {
 
   @override
   String toString() {
-    return 'CompanyModel(id: $id, parent_company_id: $parent_company_id, name: $name, name_ar: $name_ar, description: $description, description_ar: $description_ar, code: $code, email: $email, pdf: $pdf, image: $image, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'CompanyModel(id: $id, parent_company_id: $parent_company_id, name: $name, name_ar: $name_ar, description: $description, description_ar: $description_ar, code: $code, email: $email, p_d_f_s: $p_d_f_s, image: $image, active: $active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -337,7 +346,7 @@ class _$_CompanyModel implements _CompanyModel {
                 other.description_ar == description_ar) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.pdf, pdf) || other.pdf == pdf) &&
+            const DeepCollectionEquality().equals(other._p_d_f_s, _p_d_f_s) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.active, active) || other.active == active) &&
             (identical(other.created_at, created_at) ||
@@ -360,7 +369,7 @@ class _$_CompanyModel implements _CompanyModel {
       description_ar,
       code,
       email,
-      pdf,
+      const DeepCollectionEquality().hash(_p_d_f_s),
       image,
       active,
       created_at,
@@ -391,7 +400,7 @@ abstract class _CompanyModel implements CompanyModel {
       final String? description_ar,
       final String? code,
       final String? email,
-      final String? pdf,
+      final List<PdfModel>? p_d_f_s,
       final String? image,
       final int? active,
       final String? created_at,
@@ -418,7 +427,7 @@ abstract class _CompanyModel implements CompanyModel {
   @override
   String? get email;
   @override
-  String? get pdf;
+  List<PdfModel>? get p_d_f_s;
   @override
   String? get image;
   @override

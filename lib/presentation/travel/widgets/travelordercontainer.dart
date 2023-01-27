@@ -202,11 +202,17 @@ class TravelOrderOffersContainer extends HookConsumerWidget {
                                     bottom: 0,
                                     child: GestureDetector(
                                       onTap: () async {
+                                      final pdf = e.company!.p_d_f_s!
+                                            .firstWhere((element) =>
+                                                element.insurance_type_id == 2);
+                                        print(pdf);
                                         final hello = await PDFDocument.fromURL(
-                                            "https://bolisati.bitsblend.org/storage/${e.company!.pdf}");
+                                            "https://bolisati.bitsblend.org/storage/${pdf.file}");
 
-                                        context.router
-                                            .push(PdfScreen(url: hello));
+                                        if (context.mounted) {
+                                          context.router
+                                              .push(PdfScreen(url: hello));
+                                        }
                                       },
                                       child: Row(
                                         children: [

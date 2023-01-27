@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $getoffersHash() => r'eb2f75fae4cdfbb28475008b07d0343c9a97db02';
+String _$getoffersHash() => r'eb2f75fae4cdfbb28475008b07d0343c9a97db02';
 
 /// See also [getoffers].
 class GetoffersProvider
@@ -46,7 +46,7 @@ class GetoffersProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $getoffersHash,
+                  : _$getoffersHash,
         );
 
   final String token;
@@ -101,7 +101,7 @@ class GetoffersFamily extends Family<AsyncValue<Either<ApiFailures, dynamic>>> {
   String? get name => r'getoffersProvider';
 }
 
-String $getcountryHash() => r'f0820552bcc912fc55d32774d3f502b2588275c1';
+String _$getcountryHash() => r'f0820552bcc912fc55d32774d3f502b2588275c1';
 
 /// See also [getcountry].
 class GetcountryProvider
@@ -118,7 +118,7 @@ class GetcountryProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $getcountryHash,
+                  : _$getcountryHash,
         );
 
   final String token;

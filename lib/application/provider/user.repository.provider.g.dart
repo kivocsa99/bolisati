@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $getorderHash() => r'd66a9f440bdadb1142772dc7dcf03dc3e75043c7';
+String _$getorderHash() => r'd66a9f440bdadb1142772dc7dcf03dc3e75043c7';
 
 /// See also [getorder].
 class GetorderProvider
@@ -46,7 +46,7 @@ class GetorderProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $getorderHash,
+                  : _$getorderHash,
         );
 
   final String token;

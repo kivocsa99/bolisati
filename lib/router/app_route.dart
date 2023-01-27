@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/main.dart';
+import 'package:bolisati/presentation/auth/screens/forgetpassword_screen.dart';
 import 'package:bolisati/presentation/auth/screens/login.dart';
 import 'package:bolisati/presentation/domestic/screens/domestic.place.order.screen.dart';
 import 'package:bolisati/presentation/educational/screen/educational.place.order.screen.dart';
@@ -16,6 +17,7 @@ import 'package:bolisati/presentation/vehicle/screens/motor.place.order_screen.d
 import 'package:bolisati/router/guard.dart';
 
 import '../presentation/screens/homescreen.dart';
+import '../presentation/screens/insurance_screen.dart';
 import '../presentation/screens/insuranceslist_screen.dart';
 import '../presentation/screens/user.insurances_screen.dart';
 
@@ -54,6 +56,14 @@ import '../presentation/screens/user.insurances_screen.dart';
       durationInMilliseconds: 500),
   CustomRoute(
       page: PdfScreen,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
+      durationInMilliseconds: 500),
+  CustomRoute(
+      page: ForgetPasswordScreen,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
+      durationInMilliseconds: 500),
+  CustomRoute(
+      page: InsuranceScreen,
       transitionsBuilder: TransitionsBuilders.slideBottom,
       durationInMilliseconds: 500),
   CustomRoute(

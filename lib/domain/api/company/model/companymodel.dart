@@ -2,6 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../pdf/pdfmodel.dart';
+
 part 'companymodel.freezed.dart';
 part 'companymodel.g.dart';
 
@@ -16,7 +18,7 @@ class CompanyModel with _$CompanyModel {
     String? description_ar,
     String? code,
     String? email,
-    String? pdf,
+    List<PdfModel>? p_d_f_s,
     String? image,
     int? active,
     String? created_at,

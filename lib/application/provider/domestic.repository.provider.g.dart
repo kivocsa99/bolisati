@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String $getoffersHash() => r'699693acf3ccbe60b8448a385e7c7133e315f3b9';
+String _$getoffersHash() => r'699693acf3ccbe60b8448a385e7c7133e315f3b9';
 
 /// See also [getoffers].
 class GetoffersProvider
@@ -46,7 +46,7 @@ class GetoffersProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $getoffersHash,
+                  : _$getoffersHash,
         );
 
   final String token;
