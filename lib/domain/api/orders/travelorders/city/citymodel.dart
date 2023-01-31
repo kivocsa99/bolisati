@@ -6,8 +6,8 @@ part 'citymodel.freezed.dart';
 part 'citymodel.g.dart';
 
 @freezed
-class RegionModel with _$RegionModel {
-  const factory RegionModel({
+class CityModel with _$CityModel {
+  const factory CityModel({
     int? id,
     String? name,
     int? state_id,
@@ -21,7 +21,7 @@ class RegionModel with _$RegionModel {
     String? created_at,
     String? updated_at,
     String? deleted_at,
-  }) = _RegionModel;
-  factory RegionModel.fromJson(Map<String, dynamic> json) =>
-      _$RegionModelFromJson(json);
+  }) = _CityModel;
+  factory CityModel.fromJson(Map<String, dynamic> json) =>
+      _$CityModelFromJson(json);
 }

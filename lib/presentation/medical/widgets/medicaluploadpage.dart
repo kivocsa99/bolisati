@@ -69,8 +69,8 @@ class MedicalUploadPage extends HookConsumerWidget {
                                 .map(
                                   (e) => Image.file(
                                     File(e),
-                                    height: 100,
-                                    width: 100,
+                                    height: 80,
+                                    width: 80,
                                     fit: BoxFit.fill,
                                   ),
                                 )

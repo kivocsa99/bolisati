@@ -52,8 +52,9 @@ class EducationalRepository implements IEducationalRepository {
     dio.options.headers = {'Content-Type': "application/json"};
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-        "https://bolisati.bitsblend.org/api/V1/Educational/AddChild?educational_order_id=${int.parse(model.educational_order_id!)}&name=${model.name}&birthdate=${model.birthdate}&national_id_number=${int.parse(model.educational_order_id!)}&gender_id=${model.gender_id}&api_token=$token",
+        "https://bolisati.bitsblend.org/api/V1/Educational/AddChild?educational_order_id=${int.parse(model.educational_order_id!)}&name=${model.name}&birthdate=${model.birthdate}&national_id_number=${int.parse(model.national_id_number!)}&gender_id=${model.gender_id}&api_token=$token",
       );
+      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         EducationalChildDoneModel model =
             EducationalChildDoneModel.fromJson(result.data["ChildDetails"]);

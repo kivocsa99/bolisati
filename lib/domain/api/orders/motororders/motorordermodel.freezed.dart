@@ -26,6 +26,7 @@ mixin _$MotorOrderModel {
   int? get motor_insurance_id => throw _privateConstructorUsedError;
   int? get vehicle_make_id => throw _privateConstructorUsedError;
   int? get vehicle_model_id => throw _privateConstructorUsedError;
+  num? get price => throw _privateConstructorUsedError;
   num? get price_from => throw _privateConstructorUsedError;
   num? get price_to => throw _privateConstructorUsedError;
   int? get fixed => throw _privateConstructorUsedError;
@@ -72,6 +73,7 @@ abstract class $MotorOrderModelCopyWith<$Res> {
       int? motor_insurance_id,
       int? vehicle_make_id,
       int? vehicle_model_id,
+      num? price,
       num? price_from,
       num? price_to,
       int? fixed,
@@ -125,6 +127,7 @@ class _$MotorOrderModelCopyWithImpl<$Res, $Val extends MotorOrderModel>
     Object? motor_insurance_id = freezed,
     Object? vehicle_make_id = freezed,
     Object? vehicle_model_id = freezed,
+    Object? price = freezed,
     Object? price_from = freezed,
     Object? price_to = freezed,
     Object? fixed = freezed,
@@ -176,6 +179,10 @@ class _$MotorOrderModelCopyWithImpl<$Res, $Val extends MotorOrderModel>
           ? _value.vehicle_model_id
           : vehicle_model_id // ignore: cast_nullable_to_non_nullable
               as int?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as num?,
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
@@ -368,6 +375,7 @@ abstract class _$$_MotorOrderModelCopyWith<$Res>
       int? motor_insurance_id,
       int? vehicle_make_id,
       int? vehicle_model_id,
+      num? price,
       num? price_from,
       num? price_to,
       int? fixed,
@@ -425,6 +433,7 @@ class __$$_MotorOrderModelCopyWithImpl<$Res>
     Object? motor_insurance_id = freezed,
     Object? vehicle_make_id = freezed,
     Object? vehicle_model_id = freezed,
+    Object? price = freezed,
     Object? price_from = freezed,
     Object? price_to = freezed,
     Object? fixed = freezed,
@@ -476,6 +485,10 @@ class __$$_MotorOrderModelCopyWithImpl<$Res>
           ? _value.vehicle_model_id
           : vehicle_model_id // ignore: cast_nullable_to_non_nullable
               as int?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as num?,
       price_from: freezed == price_from
           ? _value.price_from
           : price_from // ignore: cast_nullable_to_non_nullable
@@ -590,6 +603,7 @@ class _$_MotorOrderModel implements _MotorOrderModel {
       this.motor_insurance_id,
       this.vehicle_make_id,
       this.vehicle_model_id,
+      this.price,
       this.price_from,
       this.price_to,
       this.fixed,
@@ -633,6 +647,8 @@ class _$_MotorOrderModel implements _MotorOrderModel {
   final int? vehicle_make_id;
   @override
   final int? vehicle_model_id;
+  @override
+  final num? price;
   @override
   final num? price_from;
   @override
@@ -702,7 +718,7 @@ class _$_MotorOrderModel implements _MotorOrderModel {
 
   @override
   String toString() {
-    return 'MotorOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, motor_insurance_id: $motor_insurance_id, vehicle_make_id: $vehicle_make_id, vehicle_model_id: $vehicle_model_id, price_from: $price_from, price_to: $price_to, fixed: $fixed, percentage: $percentage, vehicle_make: $vehicle_make, vehicle_model: $vehicle_model, name: $name, car_make: $car_make, car_model: $car_model, estimated_car_price: $estimated_car_price, previous_accidents: $previous_accidents, start_date: $start_date, end_date: $end_date, fuel_type: $fuel_type, car_year: $car_year, total: $total, customer: $customer, company: $company, insurance_offer: $insurance_offer, status: $status, addons: $addons, files: $files, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'MotorOrderModel(id: $id, customer_user_id: $customer_user_id, company_id: $company_id, motor_insurance_id: $motor_insurance_id, vehicle_make_id: $vehicle_make_id, vehicle_model_id: $vehicle_model_id, price: $price, price_from: $price_from, price_to: $price_to, fixed: $fixed, percentage: $percentage, vehicle_make: $vehicle_make, vehicle_model: $vehicle_model, name: $name, car_make: $car_make, car_model: $car_model, estimated_car_price: $estimated_car_price, previous_accidents: $previous_accidents, start_date: $start_date, end_date: $end_date, fuel_type: $fuel_type, car_year: $car_year, total: $total, customer: $customer, company: $company, insurance_offer: $insurance_offer, status: $status, addons: $addons, files: $files, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -721,6 +737,7 @@ class _$_MotorOrderModel implements _MotorOrderModel {
                 other.vehicle_make_id == vehicle_make_id) &&
             (identical(other.vehicle_model_id, vehicle_model_id) ||
                 other.vehicle_model_id == vehicle_model_id) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.price_from, price_from) ||
                 other.price_from == price_from) &&
             (identical(other.price_to, price_to) ||
@@ -776,6 +793,7 @@ class _$_MotorOrderModel implements _MotorOrderModel {
         motor_insurance_id,
         vehicle_make_id,
         vehicle_model_id,
+        price,
         price_from,
         price_to,
         fixed,
@@ -825,6 +843,7 @@ abstract class _MotorOrderModel implements MotorOrderModel {
       final int? motor_insurance_id,
       final int? vehicle_make_id,
       final int? vehicle_model_id,
+      final num? price,
       final num? price_from,
       final num? price_to,
       final int? fixed,
@@ -866,6 +885,8 @@ abstract class _MotorOrderModel implements MotorOrderModel {
   int? get vehicle_make_id;
   @override
   int? get vehicle_model_id;
+  @override
+  num? get price;
   @override
   num? get price_from;
   @override

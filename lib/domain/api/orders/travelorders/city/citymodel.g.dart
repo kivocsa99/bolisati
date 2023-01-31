@@ -6,8 +6,7 @@ part of 'citymodel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_RegionModel _$$_RegionModelFromJson(Map<String, dynamic> json) =>
-    _$_RegionModel(
+_$_CityModel _$$_CityModelFromJson(Map<String, dynamic> json) => _$_CityModel(
       id: json['id'] as int?,
       name: json['name'] as String?,
       state_id: json['state_id'] as int?,
@@ -23,7 +22,7 @@ _$_RegionModel _$$_RegionModelFromJson(Map<String, dynamic> json) =>
       deleted_at: json['deleted_at'] as String?,
     );
 
-Map<String, dynamic> _$$_RegionModelToJson(_$_RegionModel instance) =>
+Map<String, dynamic> _$$_CityModelToJson(_$_CityModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
+import 'package:bolisati/domain/api/orders/travelorders/city/citymodel.dart';
 
 import 'package:bolisati/domain/api/orders/travelorders/region/regionmodel.dart';
 import 'package:bolisati/domain/api/travel/model/travelmodel.dart';
@@ -177,8 +178,7 @@ class TravelRepository implements ITravelRepository {
           "https://bolisati.bitsblend.org/api/V1/Travel/GetCities?country_id=$id&api_token=$apitoken");
       Map<String, dynamic> map = result.data;
       List<dynamic> data = map["Cities"];
-      List<RegionModel> cars =
-          data.map((e) => RegionModel.fromJson(e)).toList();
+      List<CityModel> cars = data.map((e) => CityModel.fromJson(e)).toList();
       return cars;
     }, (error, stackTrace) {
       print(error);

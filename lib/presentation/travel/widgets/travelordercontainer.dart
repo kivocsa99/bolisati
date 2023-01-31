@@ -37,8 +37,8 @@ class TravelOrderOffersContainer extends HookConsumerWidget {
                 height: MediaQuery.of(context).size.height / 2,
                 child: ListView.builder(
                   itemBuilder: (context, index) {
+                    offers!.sort((a, b) => a.price!.compareTo(b.price!));
                     TravelOffersModel e = offers![index];
-
                     return Padding(
                       padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
                       child: Column(
@@ -79,11 +79,19 @@ class TravelOrderOffersContainer extends HookConsumerWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              e.company!.name!,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                            FittedBox(
+                                              fit: BoxFit.cover,
+                                              child: SizedBox(
+                                                width: 300,
+                                                height: 20,
+                                                child: Text(
+                                                  e.company!.name!,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),
@@ -102,11 +110,19 @@ class TravelOrderOffersContainer extends HookConsumerWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              e.company!.name_ar!,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                            FittedBox(
+                                              fit: BoxFit.cover,
+                                              child: SizedBox(
+                                                width: 300,
+                                                height: 20,
+                                                child: Text(
+                                                  e.company!.name_ar!,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),
@@ -202,10 +218,9 @@ class TravelOrderOffersContainer extends HookConsumerWidget {
                                     bottom: 0,
                                     child: GestureDetector(
                                       onTap: () async {
-                                      final pdf = e.company!.p_d_f_s!
+                                        final pdf = e.company!.p_d_f_s!
                                             .firstWhere((element) =>
                                                 element.insurance_type_id == 2);
-                                        print(pdf);
                                         final hello = await PDFDocument.fromURL(
                                             "https://bolisati.bitsblend.org/storage/${pdf.file}");
 

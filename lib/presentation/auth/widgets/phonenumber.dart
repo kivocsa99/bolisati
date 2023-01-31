@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:bolisati/router/app_route.gr.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -6,7 +8,7 @@ class PhoneNumberField extends HookWidget {
   final TextEditingController? controller;
   final ValueChanged<String?>? onchanged;
   final ValueChanged<String?>? onsubmit;
-
+  final bool? forget;
   final GlobalKey<FormState>? formkey;
   final String? Function(String?)? validator;
 
@@ -15,6 +17,7 @@ class PhoneNumberField extends HookWidget {
       this.controller,
       this.onchanged,
       this.onsubmit,
+      this.forget,
       this.formkey,
       this.validator});
 
@@ -39,6 +42,24 @@ class PhoneNumberField extends HookWidget {
               const SizedBox(
                 height: 5,
               ),
+              forget == true
+                  ? Row(
+                      children: [
+                        const Text("forget").tr(),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              context.router.push(const ForgetPasswordScreen());
+                            },
+                            child: const Text(
+                              "press",
+                              style: TextStyle(color: Colors.blue),
+                            ).tr()),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
               const SizedBox(height: 10),
               Container(
                 width: 130,

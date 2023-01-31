@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -28,6 +29,17 @@ class EducationalIdContainer extends HookConsumerWidget {
             ),
           ),
           Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              top: 0,
+              child: GestureDetector(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: const Text("famupload").tr(),
+                ),
+              )),
+          Positioned(
             left: 0,
             right: 0,
             bottom: 100,
@@ -52,8 +64,8 @@ class EducationalIdContainer extends HookConsumerWidget {
                                 .map(
                                   (e) => Image.file(
                                     File(e),
-                                    height: 150,
-                                    width: 150,
+                                    height: 100,
+                                    width: 100,
                                     fit: BoxFit.fill,
                                   ),
                                 )

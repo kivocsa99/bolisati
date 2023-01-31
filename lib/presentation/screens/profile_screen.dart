@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bolisati/application/auth/ali_api/delete_acc/delete_account.use_case.input.dart';
+import 'package:bolisati/infrastructure/auth/api.auth.facade.dart';
 import 'package:bolisati/presentation/domestic/widgets/domesticinformationcontainer.dart';
+import 'package:bolisati/router/app_route.gr.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -8,6 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../application/auth/ali_api/delete_acc/delete_account.use_case.dart';
 import '../../application/auth/ali_api/use_cases/update/update_use_case.dart';
 import '../../application/auth/ali_api/use_cases/update/update_use_case.input.dart';
 
@@ -130,8 +134,10 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (r) async {
                                                       await user.put("name",
                                                           namecontroller.text);
-                                                      await context.router
-                                                          .pop();
+                                                      if (context.mounted) {
+                                                        await context.router
+                                                            .pop();
+                                                      }
                                                     }));
                                           }
                                         },
@@ -218,8 +224,10 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (r) async {
                                                       await user.put("email",
                                                           namecontroller.text);
-                                                      await context.router
-                                                          .pop();
+                                                      if (context.mounted) {
+                                                        await context.router
+                                                            .pop();
+                                                      }
                                                     }));
                                           }
                                         },
@@ -306,8 +314,10 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (r) async {
                                                       await user.put("name",
                                                           namecontroller.text);
-                                                      await context.router
-                                                          .pop();
+                                                      if (context.mounted) {
+                                                        await context.router
+                                                            .pop();
+                                                      }
                                                     }));
                                           }
                                         },
@@ -394,8 +404,9 @@ class ProfileScreen extends HookConsumerWidget {
                                                         (r) async {
                                                       await user.put("name",
                                                           namecontroller.text);
-                                                      await context.router
-                                                          .pop();
+                                                      if (context.mounted) {
+                                                        context.router.pop();
+                                                      }
                                                     }));
                                           }
                                         },
@@ -501,7 +512,177 @@ class ProfileScreen extends HookConsumerWidget {
                           );
                         },
                         icon: FontAwesomeIcons.language,
-                      )
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ProfileContainer(
+                        title: "logout".tr(),
+                        ontap: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SimpleDialog(
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image.asset(
+                                        "assets/logo.png",
+                                        scale: 1.5,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Text(
+                                        'logoutdes',
+                                      ).tr(),
+                                    ],
+                                  ),
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 40.0, right: 40.0),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          await ApiAuthFacade()
+                                              .signOut(context)
+                                              .then((value) async {
+                                            await context.router
+                                                .replaceAll([MyApp()]);
+                                          });
+                                        },
+                                        child: Container(
+                                          color: Colors.black,
+                                          width: 10,
+                                          height: 60,
+                                          child: Center(
+                                              child: const Text(
+                                            "globalsyes",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ).tr()),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 40.0, right: 40.0),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          context.router.pop();
+                                        },
+                                        child: Container(
+                                          color: Colors.black,
+                                          width: 10,
+                                          height: 60,
+                                          child: Center(
+                                              child: const Text(
+                                            "globalsno",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ).tr()),
+                                        ),
+                                      ),
+                                    )
+                                  ]);
+                            },
+                          );
+                        },
+                        icon: FontAwesomeIcons.rightFromBracket,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ProfileContainer(
+                        title: "deleteacc".tr(),
+                        ontap: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SimpleDialog(
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image.asset(
+                                        "assets/logo.png",
+                                        scale: 1.5,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Text(
+                                        'deleteaccdes',
+                                      ).tr(),
+                                    ],
+                                  ),
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 40.0, right: 40.0),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          ref
+                                              .read(
+                                                  deleteaccountUseCaseprovider)
+                                              .execute(DeleteAccountUseCaseInput(
+                                                  token: user.get("apitoken")))
+                                              .then((value) => value.fold(
+                                                  (l) => ScaffoldMessenger.of(
+                                                          context)
+                                                      .showSnackBar(SnackBar(
+                                                          content: const Text(
+                                                                  "contact")
+                                                              .tr())),
+                                                  (r) => context.router
+                                                      .replaceAll([MyApp()])));
+                                        },
+                                        child: Container(
+                                          color: Colors.black,
+                                          width: 10,
+                                          height: 60,
+                                          child: Center(
+                                              child: const Text(
+                                            "globalsyes",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ).tr()),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 40.0, right: 40.0),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          context.router.pop();
+                                        },
+                                        child: Container(
+                                          color: Colors.black,
+                                          width: 10,
+                                          height: 60,
+                                          child: Center(
+                                              child: const Text(
+                                            "globalsno",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ).tr()),
+                                        ),
+                                      ),
+                                    )
+                                  ]);
+                            },
+                          );
+                        },
+                        icon: FontAwesomeIcons.xmark,
+                      ),
                     ],
                   ),
                 ),
@@ -543,7 +724,7 @@ class ProfileContainer extends HookWidget {
           padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
           child: Icon(
             icon,
-            size: 40,
+            size: 30,
           ),
         ),
         title: Text(
@@ -552,7 +733,7 @@ class ProfileContainer extends HookWidget {
               const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          subtitle!,
+          subtitle ?? "",
           style:
               const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),

@@ -103,7 +103,8 @@ class MotorRepository implements IMotorRepository {
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Motor/PlaceOrder?motor_insurance_id=${motororder.motor_insurance_id}&vehicle_model_id=${motororder.vehicle_model_id}&name=${motororder.name}&estimated_car_price=${motororder.estimated_car_price}&start_date=${motororder.start_date}&end_date=${motororder.end_date}&fuel_type=fuel&car_year=${motororder.car_year}&previous_accidents=${motororder.previous_accidents}$addons&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/Motor/PlaceOrder?motor_insurance_id=${motororder.motor_insurance_id}&vehicle_model_id=${motororder.vehicle_model_id}&name=${motororder.name}&estimated_car_price=${motororder.estimated_car_price}&start_date=${motororder.start_date}&end_date=${motororder.end_date}&fuel_type=${motororder.fuel_type}&car_year=${motororder.car_year}&previous_accidents=${motororder.previous_accidents}$addons&api_token=$token""");
+      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         MotorOrderDoneModel model =
             MotorOrderDoneModel.fromJson(result.data["OrderDetails"]);
@@ -112,7 +113,9 @@ class MotorRepository implements IMotorRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
+      print(error);
       if (error is DioError) {
+        print(error.requestOptions.uri);
         switch (error.type) {
           case DioErrorType.connectTimeout:
             return const ApiFailures.connnectionTimeOut();
@@ -132,33 +135,58 @@ class MotorRepository implements IMotorRepository {
 //done
   @override
   Future<Either<ApiFailures, dynamic>> getcars({String? apitoken}) {
-    {
-      var dio = Dio();
-      final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
-        final result = await dio.get(
-            "https://bolisati.bitsblend.org/api/V1/Motor/GetCars?api_token=$apitoken");
-        // print(result.data["Cars"] as List<CarModel>);
-        Map<String, dynamic> map = result.data;
-        List<dynamic> data = map["Cars"];
-        List<CarModel> cars = data.map((e) => CarModel.fromJson(e)).toList();
-        // List<CarModel> cars = result.data["Cars"];
-        return cars;
-      }, (error, stackTrace) {
-        if (error is DioError) {
-          switch (error.type) {
-            case DioErrorType.connectTimeout:
-              return const ApiFailures.connnectionTimeOut();
-            case DioErrorType.cancel:
-              return const ApiFailures.cancel();
-            case DioErrorType.response:
-              return const ApiFailures.noResponse();
-            default:
-              return const ApiFailures.noResponse();
-          }
+    var dio = Dio();
+    final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      final result = await dio.get(
+          "https://bolisati.bitsblend.org/api/V1/Motor/GetCars?api_token=$apitoken");
+      // print(result.data["Cars"] as List<CarModel>);
+      Map<String, dynamic> map = result.data;
+      List<dynamic> data = map["Cars"];
+      List<CarModel> cars = data.map((e) => CarModel.fromJson(e)).toList();
+      // List<CarModel> cars = result.data["Cars"];
+      return cars;
+    }, (error, stackTrace) {
+      if (error is DioError) {
+        switch (error.type) {
+          case DioErrorType.connectTimeout:
+            return const ApiFailures.connnectionTimeOut();
+          case DioErrorType.cancel:
+            return const ApiFailures.cancel();
+          case DioErrorType.response:
+            return const ApiFailures.noResponse();
+          default:
+            return const ApiFailures.noResponse();
         }
-        return const ApiFailures.internalError();
-      });
-      return result.map((r) => r).run();
-    }
+      }
+      return const ApiFailures.internalError();
+    });
+    return result.map((r) => r).run();
+  }
+
+  @override
+  Future<Either<ApiFailures, dynamic>> setstatus(
+      {String? token, String? status, String? orderid}) {
+    var dio = Dio();
+    final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      final result = await dio.get(
+          "https://bolisati.bitsblend.org/api/V1/Motor/SetStatus?order_id=$orderid&status=$status&api_token=$token");
+
+      return result.data;
+    }, (error, stackTrace) {
+      if (error is DioError) {
+        switch (error.type) {
+          case DioErrorType.connectTimeout:
+            return const ApiFailures.connnectionTimeOut();
+          case DioErrorType.cancel:
+            return const ApiFailures.cancel();
+          case DioErrorType.response:
+            return const ApiFailures.noResponse();
+          default:
+            return const ApiFailures.noResponse();
+        }
+      }
+      return const ApiFailures.internalError();
+    });
+    return result.map((r) => r).run();
   }
 }

@@ -20,8 +20,6 @@ class AnimatedButtons extends HookWidget {
           child: Row(
             children: [
               IconButton(
-                  onPressed: () {}, icon: const Icon(FontAwesomeIcons.bell)),
-              IconButton(
                   onPressed: () => context.router.push(const ProfileScreen()),
                   icon: const Icon(FontAwesomeIcons.user)),
             ],

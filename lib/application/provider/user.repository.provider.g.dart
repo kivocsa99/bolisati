@@ -100,3 +100,91 @@ class GetorderFamily extends Family<AsyncValue<Either<ApiFailures, dynamic>>> {
   @override
   String? get name => r'getorderProvider';
 }
+
+String _$getnewHash() => r'551befc22d973d3301f8315a2e07e5f520f1e659';
+
+/// See also [getnew].
+class GetnewProvider
+    extends AutoDisposeFutureProvider<Either<ApiFailures, dynamic>> {
+  GetnewProvider(
+    this.token,
+    this.id,
+    this.model,
+  ) : super(
+          (ref) => getnew(
+            ref,
+            token,
+            id,
+            model,
+          ),
+          from: getnewProvider,
+          name: r'getnewProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getnewHash,
+        );
+
+  final String token;
+  final String id;
+  final String model;
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetnewProvider &&
+        other.token == token &&
+        other.id == id &&
+        other.model == model;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, token.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+    hash = _SystemHash.combine(hash, model.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+typedef GetnewRef = AutoDisposeFutureProviderRef<Either<ApiFailures, dynamic>>;
+
+/// See also [getnew].
+final getnewProvider = GetnewFamily();
+
+class GetnewFamily extends Family<AsyncValue<Either<ApiFailures, dynamic>>> {
+  GetnewFamily();
+
+  GetnewProvider call(
+    String token,
+    String id,
+    String model,
+  ) {
+    return GetnewProvider(
+      token,
+      id,
+      model,
+    );
+  }
+
+  @override
+  AutoDisposeFutureProvider<Either<ApiFailures, dynamic>> getProviderOverride(
+    covariant GetnewProvider provider,
+  ) {
+    return call(
+      provider.token,
+      provider.id,
+      provider.model,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'getnewProvider';
+}

@@ -40,23 +40,21 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
     final startController = useTextEditingController();
     final endController = useTextEditingController();
     final periodcontroller = useTextEditingController();
+    final countrycontroller = useTextEditingController();
 
     final offer = useState<List<TravelOffersModel>>([]);
     final travelkey = useState(GlobalKey<FormState>());
     final Box setting = Hive.box("setting");
     final Box travel = Hive.box("travel");
-    final idback = useState("");
-    final idfront = useState("");
-    final passportback = useState("");
-    final passportfront = useState("");
+
     final startselecteddate = useState("");
     final endselecteddate = useState("");
     final imageCount = useState(0);
     final imageCount1 = useState(0);
     final _images = useState<List<String>>([]);
-    final _images1 = useState<List<String>>([]);
     List<Widget> cases = [
       TravelInformationContainer(
+        countrycontroller: countrycontroller,
         startchanged: (val) {
           startselecteddate.value = val!.toString();
           travel.put(
@@ -80,6 +78,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                 .difference(DateTime.parse(startselecteddate.value))
                 .inDays
                 .toString();
+            print(periodcontroller.text);
           }
         },
         namecontroller: nameController,
@@ -97,6 +96,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
         offers: offer.value,
       ),
       TravelUploadPage(
+        images: _images.value,
         function0: () async {
           showDialog(
             context: context,
@@ -112,107 +112,38 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.image),
                           onPressed: () async {
-                            if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
+                            if (imageCount.value < 4) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                imageCount.value++;
 
-                                  print(pickedFile.path);
-                                  _images.value.add(pickedFile.path);
-                                  print(_images);
-                                }
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: const Text("picupload").tr()));
+                                      content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.camera),
                           onPressed: () async {
-                            if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
-                                  _images.value.add(pickedFile.path);
-                                }
+                            if (imageCount.value < 4) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (pickedFile != null) {
+                                imageCount.value++;
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: const Text("picupload").tr()));
+                                      content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
-                          },
-                        ),
-                      ]),
-                ],
-              );
-            },
-          );
-        },
-        function1: () async {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("imageselect").tr(),
-                content: const Text("imageselectdes").tr(),
-                actions: <Widget>[
-                  ButtonBar(
-                      alignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          icon: const Icon(FontAwesomeIcons.image),
-                          onPressed: () async {
-                            if (imageCount1.value < 2) {
-                              for (int i = imageCount1.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  imageCount1.value++;
-
-                                  print(pickedFile.path);
-                                  _images1.value.add(pickedFile.path);
-                                  print(_images1);
-                                }
-                              }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
-                            }
-                            context.router.pop();
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(FontAwesomeIcons.camera),
-                          onPressed: () async {
-                            if (imageCount1.value < 2) {
-                              for (int i = imageCount1.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedFile != null) {
-                                  imageCount1.value++;
-                                  print(pickedFile.path);
-                                  _images1.value.add(pickedFile.path);
-                                  print(_images1);
-                                }
-                              }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
-                            }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -340,8 +271,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                     Text("offersdes".tr())));
                                       }
                                     } else if (index.value == 2) {
-                                      if (_images.value.length == 2 &&
-                                          _images1.value.length == 2) {
+                                      if (_images.value.length >= 2) {
                                         await Future.delayed(
                                             const Duration(seconds: 1), (() {
                                           order.value = order.value.copyWith(
@@ -354,8 +284,7 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                           order.value = order.value.copyWith(
                                               end_date: travel.get("enddate"));
                                           order.value = order.value.copyWith(
-                                              destination:
-                                                  travel.get("country"));
+                                              destination: travel.get("city"));
                                           order.value = order.value.copyWith(
                                               birthdate:
                                                   travel.get("birthdate"));
@@ -365,121 +294,115 @@ class TravelPlaceOrderScreen extends HookConsumerWidget {
                                                 element.id ==
                                                 travel.get("travelid"));
 
-                                        showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          isDismissible: true,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                              builder: (context, setState) {
-                                                return TravelBottomSheet(
-                                                  function: () {
-                                                    ref
-                                                        .read(
-                                                            travelplaceorderProvider)
-                                                        .execute(TravelPlaceOrderUseCaseInput(
-                                                            travelOrder:
-                                                                order.value,
-                                                            token: token,
-                                                            addons: travel.get(
-                                                                    "addon") ??
-                                                                ""))
-                                                        .then((value) =>
-                                                            value.fold(
-                                                                (l) => ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                        SnackBar(
-                                                                            content:
-                                                                                const Text("contact").tr())),
-                                                                (r) async {
-                                                              TravelOrderDoneModel
-                                                                  orderdone = r;
-                                                              final List<String>
-                                                                  hello =
-                                                                  _images.value +
-                                                                      _images1
-                                                                          .value;
-                                                              for (var element
-                                                                  in hello) {
-                                                                ref
-                                                                    .read(
-                                                                        travelattachfileProvider)
-                                                                    .execute(TravelAttachFileUseCaseInput(
-                                                                        token:
-                                                                            token,
-                                                                        orderid:
-                                                                            orderdone
-                                                                                .id,
-                                                                        file: File(
-                                                                            element)))
-                                                                    .then((value) =>
-                                                                        value.fold(
-                                                                            (l) =>
-                                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())),
-                                                                            (r) async {
-                                                                          if (element ==
-                                                                              hello.last) {
-                                                                            await context.router.pop();
-                                                                            showDialog(
-                                                                              barrierDismissible: false,
-                                                                              context: context,
-                                                                              builder: (context) {
-                                                                                return SimpleDialog(
-                                                                                    title: Row(
-                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                      children: [
-                                                                                        Image.asset(
-                                                                                          "assets/logo.png",
-                                                                                          scale: 1.5,
-                                                                                        ),
-                                                                                        const SizedBox(
-                                                                                          width: 10,
-                                                                                        ),
-                                                                                        const Text(
-                                                                                          'orderdes',
-                                                                                        ).tr(),
-                                                                                      ],
-                                                                                    ),
-                                                                                    children: [
-                                                                                      Padding(
-                                                                                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                                                                                        child: const Text("orderconfirm").tr(),
-                                                                                      ),
-                                                                                      Padding(
-                                                                                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                                                                                        child: GestureDetector(
-                                                                                          onTap: () async {
-                                                                                            await context.router.replaceAll([
-                                                                                              const HomeScreen()
+                                        if (context.mounted) {
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            isDismissible: true,
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return StatefulBuilder(
+                                                builder: (context, setState) {
+                                                  return TravelBottomSheet(
+                                                    function: () {
+                                                      ref
+                                                          .read(
+                                                              travelplaceorderProvider)
+                                                          .execute(TravelPlaceOrderUseCaseInput(
+                                                              travelOrder:
+                                                                  order.value,
+                                                              token: token,
+                                                              addons: travel.get(
+                                                                      "addon") ??
+                                                                  ""))
+                                                          .then(
+                                                              (value) =>
+                                                                  value.fold(
+                                                                      (l) => ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                              SnackBar(content: const Text("contact").tr())),
+                                                                      (r) async {
+                                                                    TravelOrderDoneModel
+                                                                        orderdone =
+                                                                        r;
+                                                                    final List<
+                                                                            String>
+                                                                        hello =
+                                                                        _images
+                                                                            .value;
+
+                                                                    for (var element
+                                                                        in hello) {
+                                                                      ref
+                                                                          .read(
+                                                                              travelattachfileProvider)
+                                                                          .execute(TravelAttachFileUseCaseInput(
+                                                                              token: token,
+                                                                              orderid: orderdone.id,
+                                                                              file: File(element)))
+                                                                          .then((value) => value.fold((l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("contact").tr())), (r) async {
+                                                                                if (element == hello.last) {
+                                                                                  await context.router.pop();
+                                                                                  if (context.mounted) {
+                                                                                    showDialog(
+                                                                                      barrierDismissible: false,
+                                                                                      context: context,
+                                                                                      builder: (context) {
+                                                                                        return SimpleDialog(
+                                                                                            title: Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                              children: [
+                                                                                                Image.asset(
+                                                                                                  "assets/logo.png",
+                                                                                                  scale: 1.5,
+                                                                                                ),
+                                                                                                const SizedBox(
+                                                                                                  width: 10,
+                                                                                                ),
+                                                                                                const Text(
+                                                                                                  'orderdes',
+                                                                                                ).tr(),
+                                                                                              ],
+                                                                                            ),
+                                                                                            children: [
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                                child: const Text("orderconfirm").tr(),
+                                                                                              ),
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                                child: GestureDetector(
+                                                                                                  onTap: () async {
+                                                                                                    await context.router.replaceAll([const HomeScreen()]);
+                                                                                                  },
+                                                                                                  child: Container(
+                                                                                                    color: Colors.black,
+                                                                                                    width: 100,
+                                                                                                    height: 60,
+                                                                                                    child: Center(
+                                                                                                        child: const Text(
+                                                                                                      "confirm",
+                                                                                                      style: TextStyle(color: Colors.white),
+                                                                                                    ).tr()),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              )
                                                                                             ]);
-                                                                                          },
-                                                                                          child: Container(
-                                                                                            color: Colors.black,
-                                                                                            width: 100,
-                                                                                            height: 60,
-                                                                                            child: Center(
-                                                                                                child: const Text(
-                                                                                              "confirm",
-                                                                                              style: TextStyle(color: Colors.white),
-                                                                                            ).tr()),
-                                                                                          ),
-                                                                                        ),
-                                                                                      )
-                                                                                    ]);
-                                                                              },
-                                                                            );
-                                                                          }
-                                                                        }));
-                                                              }
-                                                            }));
-                                                  },
-                                                  offerModel: offersModel,
-                                                );
-                                              },
-                                            );
-                                          },
-                                        );
+                                                                                      },
+                                                                                    );
+                                                                                  }
+                                                                                }
+                                                                              }));
+                                                                    }
+                                                                  }));
+                                                    },
+                                                    offerModel: offersModel,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                        }
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(

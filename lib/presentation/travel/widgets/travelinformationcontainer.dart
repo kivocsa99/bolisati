@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/application/provider/travel.repository.provider.dart';
+import 'package:bolisati/domain/api/orders/travelorders/city/citymodel.dart';
 import 'package:bolisati/domain/api/orders/travelorders/region/regionmodel.dart';
+import 'package:bolisati/domain/api/pet/model/petcountrymodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../application/provider/pet.repository.provider.dart';
-import '../../../domain/api/pet/model/petcountrymodel.dart';
 
 class TravelInformationContainer extends HookWidget {
   final ValueChanged<String?>? name;
@@ -109,7 +110,6 @@ class TravelInformationContainer extends HookWidget {
                 type: TextInputType.number,
                 readonly: true,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
-                onchanged: period,
                 label: "period".tr(),
                 width: double.infinity,
               )
@@ -134,7 +134,9 @@ class PetCountry extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final travel = Hive.box("travel");
 
-    final selectedcountry = useState("");
+    final scrollcontroller = FixedExtentScrollController(initialItem: 0);
+    final modelscrollcontroller = FixedExtentScrollController(initialItem: 0);
+
     final Box setting = Hive.box("setting");
 
     return Padding(
@@ -158,34 +160,154 @@ class PetCountry extends HookConsumerWidget {
                 readOnly: true,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onTap: () async {
-                  final value =
+                  final country =
                       await ref.read(getcountryProvider(apitoken).future);
 
-                  value.fold(
+                  country.fold(
                       (l) => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("contact".tr()))), (r) {
+                          SnackBar(content: Text("contact".tr()))), (r) async {
                     List<PetCountryModel> cars = r;
 
                     FocusScope.of(context).unfocus();
-                    showDialog(
+                    await showCupertinoModalPopup(
                       context: context,
-                      builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: const Text("petcountrydes").tr(),
-                          children: cars.map((e) {
-                            return SimpleDialogOption(
-                              onPressed: () async {
-                                selectedcountry.value = e.name.toString();
-                                controller!.text =
-                                    selectedcountry.value.toString();
-                                travel.put("country", e.name);
-                                await context.router.pop();
-                              },
-                              child: Text(e.name!),
-                            );
-                          }).toList(),
-                        );
-                      },
+                      builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoPicker(
+                                scrollController: scrollcontroller,
+                                looping: false,
+                                itemExtent: 46,
+                                onSelectedItemChanged: (value) {
+                                  travel.put("country", cars[value].id);
+                                },
+                                children: List<Widget>.generate(cars.length,
+                                    (int index) {
+                                  return Text(
+                                    cars[index].name!,
+                                    style: const TextStyle(
+                                        color: CupertinoColors.black),
+                                  );
+                                }),
+                              ),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (scrollcontroller.selectedItem == 0) {
+                                      travel.put("country", cars[0].id);
+                                    }
+                                    await context.router.pop();
+
+                                    final city = await ref.read(getcityProvider(
+                                            apitoken,
+                                            "${travel.get("country")}")
+                                        .future);
+
+                                    if (context.mounted) {
+                                      city.fold(
+                                          (l) => ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content:
+                                                      Text("contact".tr()))),
+                                          (r) async {
+                                        List<CityModel> city = r;
+                                        await showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (_) => Container(
+                                                  height: 250,
+                                                  color: const Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 180,
+                                                        child: CupertinoPicker(
+                                                          scrollController:
+                                                              modelscrollcontroller,
+                                                          looping: false,
+                                                          itemExtent: 46,
+                                                          onSelectedItemChanged:
+                                                              (value) {
+                                                            travel.put(
+                                                                "city",
+                                                                city[value]
+                                                                    .name);
+                                                            controller!.text =
+                                                                city[value]
+                                                                    .name
+                                                                    .toString();
+                                                          },
+                                                          children: List<
+                                                                  Widget>.generate(
+                                                              city.length,
+                                                              (int index) {
+                                                            return Text(
+                                                              city[index].name!,
+                                                              style: const TextStyle(
+                                                                  color:
+                                                                      CupertinoColors
+                                                                          .black),
+                                                            );
+                                                          }),
+                                                        ),
+                                                      ),
+
+                                                      // Close the modal
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .bottomCenter,
+                                                        child: SizedBox(
+                                                          height: 70,
+                                                          child:
+                                                              CupertinoButton(
+                                                            child: const Text(
+                                                                    'confirm')
+                                                                .tr(),
+                                                            onPressed:
+                                                                () async {
+                                                              if (modelscrollcontroller
+                                                                      .selectedItem ==
+                                                                  0) {
+                                                                travel.put(
+                                                                    "city",
+                                                                    city[0]
+                                                                        .name);
+                                                                controller!
+                                                                    .text = city[
+                                                                        0]
+                                                                    .name
+                                                                    .toString();
+                                                              }
+                                                              await context
+                                                                  .router
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ));
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   });
                 },
@@ -655,6 +777,7 @@ class Regions extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final travel = Hive.box("travel");
+    final scrollcontroller = FixedExtentScrollController(initialItem: 0);
 
     final selectedtravel = useState("");
     final Box setting = Hive.box("setting");
@@ -687,35 +810,72 @@ class Regions extends HookConsumerWidget {
                           await ref.read(getreregionsProvider(apitoken).future);
                       value.fold(
                           (l) => ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("contact".tr()))), (r) {
+                              SnackBar(content: Text("contact".tr()))),
+                          (r) async {
                         List<RegionModel> regions = r;
 
                         FocusScope.of(context).unfocus();
-                        showDialog(
+                        await showCupertinoModalPopup(
                           context: context,
-                          builder: (BuildContext context) {
-                            return SimpleDialog(
-                              title: const Text("selectregion").tr(),
-                              children: regions.map((e) {
-                                return SimpleDialogOption(
-                                  onPressed: () async {
-                                    selectedtravel.value =
+                          builder: (_) => Container(
+                            height: 250,
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 180,
+                                  child: CupertinoPicker(
+                                    scrollController: scrollcontroller,
+                                    looping: false,
+                                    itemExtent: 46,
+                                    onSelectedItemChanged: (value) {
+                                      travel.put("region", regions[value].id);
+                                      regioncontroller!.text =
+                                          context.locale.languageCode == "en"
+                                              ? regions[value].name!
+                                              : regions[value].name_ar!;
+                                      print(travel.get("region"));
+                                    },
+                                    children: List<Widget>.generate(
+                                        regions.length, (int index) {
+                                      return Text(
                                         context.locale.languageCode == "en"
-                                            ? e.name.toString()
-                                            : e.name_ar.toString();
-                                    regioncontroller!.text =
-                                        selectedtravel.value.toString();
-                                    travel.put("region", e.id);
+                                            ? regions[index].name!
+                                            : regions[index].name_ar!,
+                                        style: const TextStyle(
+                                            color: CupertinoColors.black),
+                                      );
+                                    }),
+                                  ),
+                                ),
 
-                                    await context.router.pop();
-                                  },
-                                  child: context.locale.languageCode == "ar"
-                                      ? Text(e.name_ar!)
-                                      : Text(e.name!),
-                                );
-                              }).toList(),
-                            );
-                          },
+                                // Close the modal
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizedBox(
+                                    height: 70,
+                                    child: CupertinoButton(
+                                      child: const Text('confirm').tr(),
+                                      onPressed: () async {
+                                        if (scrollcontroller.selectedItem ==
+                                            0) {
+                                          travel.put("region", regions[0].id);
+                                          regioncontroller!.text =
+                                              context.locale.languageCode ==
+                                                      "en"
+                                                  ? regions[0].name!
+                                                  : regions[0].name_ar!;
+                                        }
+                                        print(travel.get("region"));
+
+                                        await context.router.pop();
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         );
                       });
                     },

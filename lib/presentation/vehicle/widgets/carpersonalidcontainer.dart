@@ -34,12 +34,9 @@ class CarIdContainer extends HookConsumerWidget {
               right: 0,
               bottom: 0,
               top: 0,
-              child: GestureDetector(
-                onTap: function0,
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: const Text("cerreg").tr(),
-                ),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                child: const Text("cerreg").tr(),
               )),
           Positioned(
             left: 0,

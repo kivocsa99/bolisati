@@ -68,7 +68,7 @@ class _MyWidgetState extends State<MyWidget> {
                     context.locale.languageCode == "en"
                         ? widget.offerModel!.company!.name!
                         : widget.offerModel!.company!.name_ar!,
-                    style: const TextStyle(fontSize: 30),
+                    style: const TextStyle(fontSize: 14),
                   )
                 ]),
                 Row(
@@ -151,11 +151,11 @@ class _MyWidgetState extends State<MyWidget> {
                                 context.locale.languageCode == "en"
                                     ? Text(
                                         addonsModel.addon!.name!,
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     : Text(
                                         addonsModel.addon!.name_ar!,
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(fontSize: 14),
                                       ),
                               ],
                             ),
@@ -192,7 +192,9 @@ class _MyWidgetState extends State<MyWidget> {
                   width: 200,
                   child: TextField(
                     controller: controller,
-                    textAlign: TextAlign.left,
+                    textAlign: context.locale.languageCode == "ar"
+                        ? TextAlign.left
+                        : TextAlign.right,
                     readOnly: true,
                     decoration: InputDecoration(
                       border: InputBorder.none,

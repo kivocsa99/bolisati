@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,12 +46,9 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
     final Box retirement = Hive.box("retirement");
     final insurancescrollcontroller =
         FixedExtentScrollController(initialItem: 0);
-    final passportback = useState("");
-    final passportfront = useState("");
-    List<String> images = [
-      passportback.value,
-      passportfront.value,
-    ];
+    final imageCount = useState(0);
+
+    final _images = useState<List<String>>([]);
     List<Widget> cases = [
       ReitirementInformationContainer(
         retirementcontroller: retiremenrController,
@@ -62,8 +60,11 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
         namecontroller: nameController,
         name: (value) => order.value = order.value.copyWith(name: value),
         yearcontroller: yearcontroller,
-        monthly: (value) =>
-            order.value = order.value.copyWith(monthly_fee: int.parse(value!)),
+        monthly: (value) {
+          var myInt = int.parse(value!.replaceAll(",", ""));
+
+          order.value = order.value.copyWith(monthly_fee: myInt);
+        },
         monthlycontroller: monthly,
         formkey: retirementkey.value,
         insurance: () async {
@@ -103,70 +104,19 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                             child: CupertinoButton(
                               child: const Text('confirm').tr(),
                               onPressed: () async {
+                                await context.router.pop();
+
                                 if (insurancescrollcontroller.selectedItem ==
                                     0) {
                                   order.value = order.value
                                       .copyWith(retirement_type_id: 1);
                                   insurancecontroller.text = "monthly".tr();
+                                  await retirement.put("type", 1);
                                 }
-                                await retirement.put("type", 1);
                                 if (insurancecontroller.text ==
                                     "monthly".tr()) {
-                                  await context.router.pop();
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return SimpleDialog(
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Image.asset(
-                                                "assets/logo.png",
-                                                scale: 1.5,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              const Text(
-                                                'typedes',
-                                              ).tr(),
-                                            ],
-                                          ),
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40.0, right: 40.0),
-                                              child: const Text("mfee").tr(),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40.0, right: 40.0),
-                                              child: GestureDetector(
-                                                onTap: () async {
-                                                  context.router.pop();
-                                                },
-                                                child: Container(
-                                                  color: Colors.black,
-                                                  width: 100,
-                                                  height: 60,
-                                                  child: Center(
-                                                      child: const Text(
-                                                    "confirm",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ).tr()),
-                                                ),
-                                              ),
-                                            )
-                                          ]);
-                                    },
-                                  );
-                                } else {
-                                  if (insurancecontroller.text ==
-                                      "fullfee".tr()) {
-                                    await context.router.pop();
-                                    return showDialog(
+                                  if (context.mounted) {
+                                    showDialog(
                                       context: context,
                                       builder: (context) {
                                         return SimpleDialog(
@@ -191,7 +141,7 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 40.0, right: 40.0),
-                                                child: const Text("ffee").tr(),
+                                                child: const Text("mfee").tr(),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
@@ -217,8 +167,69 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                       },
                                     );
                                   }
+                                } else {
+                                  if (insurancecontroller.text ==
+                                      "fullfee".tr()) {
+                                    if (context.mounted) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return SimpleDialog(
+                                              title: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/logo.png",
+                                                    scale: 1.5,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  const Text(
+                                                    'typedes',
+                                                  ).tr(),
+                                                ],
+                                              ),
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 40.0,
+                                                          right: 40.0),
+                                                  child:
+                                                      const Text("ffee").tr(),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 40.0,
+                                                          right: 40.0),
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      context.router.pop();
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.black,
+                                                      width: 100,
+                                                      height: 60,
+                                                      child: Center(
+                                                          child: const Text(
+                                                        "confirm",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ).tr()),
+                                                    ),
+                                                  ),
+                                                )
+                                              ]);
+                                        },
+                                      );
+                                    }
+                                  }
                                 }
-                                context.router.pop();
                               },
                             ),
                           ),
@@ -226,23 +237,63 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                       ],
                     ),
                   ));
-
-          // order.value = order.value
-          //     .copyWith(retirement_type_id: value == "Monthly Fee" ? 1 : 2);
-          // await retirement.put("type", value == "Monthly Fee" ? 1 : 2);
         },
         insurancecontroller: insurancecontroller,
         fullfee: fullfee,
       ),
       RetirementUploadPage(
-        image0: File(passportfront.value),
-        image1: File(passportback.value),
+        images: _images.value,
         function0: () async {
-          final pictures = await ImagePicker().pickMultiImage();
-          if (pictures.isNotEmpty && pictures.length == 2) {
-            passportback.value = pictures[0].path;
-            passportfront.value = pictures[1].path;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("imageselect").tr(),
+                content: const Text("imageselectdes").tr(),
+                actions: <Widget>[
+                  ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.image),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                imageCount.value++;
+                                _images.value.add(pickedFile.path);
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: const Text("picdes").tr()));
+                            }
+                            if (context.mounted) context.router.pop();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.camera),
+                          onPressed: () async {
+                            if (imageCount.value < 2) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (pickedFile != null) {
+                                imageCount.value++;
+                                _images.value.add(pickedFile.path);
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: const Text("picdes").tr()));
+                            }
+                            if (context.mounted) context.router.pop();
+                          },
+                        ),
+                      ]),
+                ],
+              );
+            },
+          );
         },
       )
     ];
@@ -348,8 +399,7 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                   ? 0
                                                   : index.value + 1;
                                             } else if (index.value == 1 &&
-                                                passportback.value != "" &&
-                                                passportfront.value != "") {
+                                                _images.value.length == 2) {
                                               await Future.delayed(
                                                   const Duration(seconds: 1),
                                                   (() {
@@ -370,14 +420,14 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                           (l) => ScaffoldMessenger
                                                                   .of(context)
                                                               .showSnackBar(SnackBar(
-                                                                  content:
-                                                                      const Text("contact")
-                                                                          .tr())),
+                                                                  content: const Text(
+                                                                          "contact")
+                                                                      .tr())),
                                                           (r) async {
                                                         RetirmentDoneModel
                                                             orderdone = r;
                                                         for (var element
-                                                            in images) {
+                                                            in _images.value) {
                                                           ref
                                                               .read(
                                                                   retirmentattachplaceOrderProvider)
@@ -396,24 +446,69 @@ class RetirmentPlaceOrderScreen extends HookConsumerWidget {
                                                                               SnackBar(content: const Text("contact").tr())),
                                                                       (r) async {
                                                                     if (element ==
-                                                                        images
+                                                                        _images
+                                                                            .value
                                                                             .last) {
-                                                                      context
-                                                                          .router
-                                                                          .pop();
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                              SnackBar(content: Text("orderconfirm".tr())));
-                                                                      await context
-                                                                          .router
-                                                                          .replaceAll([
-                                                                        const HomeScreen()
-                                                                      ]);
+                                                                      showDialog(
+                                                                        barrierDismissible:
+                                                                            false,
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (context) {
+                                                                          return SimpleDialog(
+                                                                              title: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Image.asset(
+                                                                                    "assets/logo.png",
+                                                                                    scale: 1.5,
+                                                                                  ),
+                                                                                  const SizedBox(
+                                                                                    width: 10,
+                                                                                  ),
+                                                                                  const Text(
+                                                                                    'orderdes',
+                                                                                  ).tr(),
+                                                                                ],
+                                                                              ),
+                                                                              children: [
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                  child: const Text("orderconfirm").tr(),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () async {
+                                                                                      await context.router.replaceAll([
+                                                                                        const HomeScreen()
+                                                                                      ]);
+                                                                                    },
+                                                                                    child: Container(
+                                                                                      color: Colors.black,
+                                                                                      width: 100,
+                                                                                      height: 60,
+                                                                                      child: Center(
+                                                                                          child: const Text(
+                                                                                        "confirm",
+                                                                                        style: TextStyle(color: Colors.white),
+                                                                                      ).tr()),
+                                                                                    ),
+                                                                                  ),
+                                                                                )
+                                                                              ]);
+                                                                        },
+                                                                      );
                                                                     }
                                                                   }));
                                                         }
                                                       }));
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          "picupload".tr())));
                                             }
                                           },
                                           child: Container(

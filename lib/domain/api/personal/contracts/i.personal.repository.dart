@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
+import 'package:bolisati/domain/api/orders/personalaccidentorders/personalaccidentordermodel.dart';
 import 'package:bolisati/domain/api/personal/model/personalofferdonemodel.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -14,7 +15,7 @@ abstract class IPersonalRepository {
   //place order
   Future<Either<ApiFailures, dynamic>> placeOrder({
     required String? addons,
-    required PersonalOfferDoneModel model,
+    required PersonalAccidentOrderModel model,
     required String? token,
   });
   Future<Either<ApiFailures, dynamic>> attachFile(

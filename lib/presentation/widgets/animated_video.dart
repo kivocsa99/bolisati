@@ -15,7 +15,7 @@ class AnimatedVideo extends HookWidget {
       top: !isStarted! ? -MediaQuery.of(context).size.height : 0,
       duration: const Duration(seconds: 1),
       child: Image.asset(
-        "assets/video.png",
+        "assets/amman.gif",
         width: width,
         height: MediaQuery.of(context).size.height / 1.4,
         fit: BoxFit.fill,

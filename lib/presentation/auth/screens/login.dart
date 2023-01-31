@@ -27,12 +27,10 @@ class LoginScreen extends HookConsumerWidget {
     final passformkey = useState(GlobalKey<FormState>());
     List<Widget> cases = [
       PhoneNumberField(
+        forget: true,
         validator: MultiValidator([
           RequiredValidator(errorText: "reqfield".tr()),
-          LengthRangeValidator(
-              min: 10,
-              max: 10,
-              errorText: "phonereq".tr())
+          LengthRangeValidator(min: 10, max: 10, errorText: "phonereq".tr())
         ]),
         formkey: phoneformkey.value,
         onchanged: (value) => user.value = user.value.copyWith(phone: value),

@@ -1,8 +1,8 @@
-import 'package:bolisati/domain/api/personal/model/personalofferdonemodel.dart';
+import 'package:bolisati/domain/api/orders/personalaccidentorders/personalaccidentordermodel.dart';
 
 class PersonalPlaceOrderUseCaseInput {
   final String? token;
-  final PersonalOfferDoneModel? model;
+  final PersonalAccidentOrderModel? model;
   final String? addons;
 
   PersonalPlaceOrderUseCaseInput({this.model, this.token, this.addons});

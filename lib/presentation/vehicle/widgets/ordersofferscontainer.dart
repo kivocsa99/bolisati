@@ -36,6 +36,7 @@ class OrderOffersContainer extends HookConsumerWidget {
                 height: MediaQuery.of(context).size.height / 2,
                 child: ListView.builder(
                   itemBuilder: (context, index) {
+                    offers!.sort((a, b) => a.price!.compareTo(b.price!));
                     MotorOffersModel e = offers![index];
                     return Padding(
                       padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
@@ -77,11 +78,19 @@ class OrderOffersContainer extends HookConsumerWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              e.company!.name!,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                            FittedBox(
+                                              fit: BoxFit.cover,
+                                              child: SizedBox(
+                                                width: 300,
+                                                height: 20,
+                                                child: Text(
+                                                  e.company!.name!,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),
@@ -100,11 +109,19 @@ class OrderOffersContainer extends HookConsumerWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              e.company!.name_ar!,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                            FittedBox(
+                                              fit: BoxFit.cover,
+                                              child: SizedBox(
+                                                width: 300,
+                                                height: 20,
+                                                child: Text(
+                                                  e.company!.name_ar!,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),

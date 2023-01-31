@@ -34,7 +34,7 @@ class PasswordField extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "startpassword".tr(),
+                "password".tr(),
                 style: const TextStyle(fontSize: 36),
               ),
               const SizedBox(

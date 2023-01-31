@@ -21,6 +21,7 @@ class MotorOrderModel with _$MotorOrderModel {
     int? motor_insurance_id,
     int? vehicle_make_id,
     int? vehicle_model_id,
+    num? price,
     num? price_from,
     num? price_to,
     int? fixed,

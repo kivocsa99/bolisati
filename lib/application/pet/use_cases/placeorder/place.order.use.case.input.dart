@@ -1,8 +1,8 @@
-import 'package:bolisati/domain/api/pet/model/petorderdonemodel.dart';
+import 'package:bolisati/domain/api/orders/petorders/petordermodel.dart';
 
 class PetPlaceOrderUseCaseInput {
   final String? token;
-  final PetOrderDoneModel? model;
+  final PetOrderModel? model;
   final String? addons;
 
   PetPlaceOrderUseCaseInput({this.model, this.token, this.addons});

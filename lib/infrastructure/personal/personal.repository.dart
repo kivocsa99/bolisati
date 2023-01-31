@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
+import 'package:bolisati/domain/api/orders/personalaccidentorders/personalaccidentordermodel.dart';
 import 'package:bolisati/domain/api/personal/contracts/i.personal.repository.dart';
 import 'package:bolisati/domain/api/personal/model/personaloccupation.dart';
 import 'package:bolisati/domain/api/personal/model/personaloffermodel.dart';
@@ -102,7 +103,7 @@ class PersonalRepository implements IPersonalRepository {
 
   @override
   Future<Either<ApiFailures, dynamic>> placeOrder(
-      {required PersonalOfferDoneModel model,
+      {required PersonalAccidentOrderModel model,
       required String? token,
       required String? addons}) async {
     var dio = Dio();
@@ -110,7 +111,7 @@ class PersonalRepository implements IPersonalRepository {
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/PersonalAccident/PlaceOrder?personal_accident_insurance_id=${int.parse(model.personal_accident_insurance_id!)}&personal_accident_occupation_id=${int.parse(model.personal_accident_occupation_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&insurance_amount=${model.insurance_amount}$addons&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/PersonalAccident/PlaceOrder?personal_accident_insurance_id=${model.personal_accident_insurance_id!}&personal_accident_occupation_id=${model.personal_accident_occupation_id!}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&insurance_amount=${model.insurance_amount}$addons&api_token=$token""");
 
       if (result.data["AZSVR"] == "SUCCESS") {
         PersonalOfferDoneModel model =

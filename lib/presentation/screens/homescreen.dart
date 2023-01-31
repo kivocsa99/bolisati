@@ -1,4 +1,5 @@
-// ignore_for_file: body_might_complete_normally_nullable
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bolisati/domain/api/orders/domesticworkerorders/domesticworkersmodel.dart';
 import 'package:bolisati/domain/api/orders/educationalorders/educationalordermodel.dart';
@@ -21,7 +22,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../application/provider/user.repository.provider.dart';
 import '../../constants.dart';
 import '../../domain/api/orders/petorders/petordermodel.dart';
-import '../../main.dart';
 import '../../router/app_route.gr.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -42,15 +42,250 @@ class HomeScreen extends HookConsumerWidget {
     } else {
       message.value = 'evening';
     }
-    useEffect(
-      () {
-        FirebaseMessaging.onMessage.listen((event) {
-          showFlutterNotification(event);
-        });
 
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
-      },
-    );
+    useEffect(() {
+      FirebaseMessaging.instance.getInitialMessage().then((message) {
+        if (message?.notification == null) {
+          null;
+        } else {
+          Map<String, dynamic> parsedJson = jsonDecode(message?.data["Type"]);
+          String type = parsedJson["related_data"]["Type"]
+              .toString()
+              .replaceAll("App\\Models\\", "");
+          String id = parsedJson["related_data"]["ID"].toString();
+
+          if (type == "MedicalOrder") {
+            context.mounted
+                ? context.router.push(MedicalInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\MedicalOrder"))
+                : null;
+          } else if (type == "PetOrder") {
+            context.mounted
+                ? context.router.push(PetInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\PetOrder"))
+                : null;
+          } else if (type == "MotorOrder") {
+            context.mounted
+                ? context.router.push(MotorInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\MotorOrder"))
+                : null;
+          } else if (type == "PersonalAccidentOrder") {
+            context.mounted
+                ? context.router.push(PersonalInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\PersonalAccidentOrder"))
+                : null;
+          } else if (type == "TravelOrder") {
+            context.mounted
+                ? context.router.push(TravelInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\TravelOrder"))
+                : null;
+          } else if (type == "EducationalOrder") {
+            context.mounted
+                ? context.router.push(EducationalInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\EducationalOrder"))
+                : null;
+          } else if (type == "DomesticWorkerOrder") {
+            context.mounted
+                ? context.router.push(DomesticInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\DomesticWorkerOrder"))
+                : null;
+          } else if (type == "RetirementOrder") {
+            context.mounted
+                ? context.router.push(RetirementInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\RetirementOrder"))
+                : null;
+          }
+        }
+      });
+      FirebaseMessaging.onMessage.listen(
+        ((message) async {
+          if (context.mounted) {
+            await showDialog(
+              context: context,
+              builder: (context) {
+                return SimpleDialog(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Image.asset(
+                          "assets/logo.png",
+                          scale: 1.5,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Text(
+                          'orderchange',
+                          style: TextStyle(fontSize: 13),
+                        ).tr(),
+                      ],
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                        child: GestureDetector(
+                          onTap: () async {
+                            if (message.notification == null) {
+                              null;
+                            } else {
+                              Map<String, dynamic> parsedJson =
+                                  jsonDecode(message.data["Type"]);
+                              String type = parsedJson["related_data"]["Type"]
+                                  .toString()
+                                  .replaceAll("App\\Models\\", "");
+                              String id =
+                                  parsedJson["related_data"]["ID"].toString();
+
+                              if (type == "MedicalOrder") {
+                                context.mounted
+                                    ? context.router.push(MedicalInsuranceScreen(
+                                        id: id,
+                                        type: "App\\\\Models\\\\MedicalOrder"))
+                                    : null;
+                              } else if (type == "PetOrder") {
+                                context.mounted
+                                    ? context.router.push(PetInsuranceScreen(
+                                        id: id,
+                                        type: "App\\\\Models\\\\PetOrder"))
+                                    : null;
+                              } else if (type == "MotorOrder") {
+                                context.mounted
+                                    ? context.router.push(MotorInsuranceScreen(
+                                        id: id,
+                                        type: "App\\\\Models\\\\MotorOrder"))
+                                    : null;
+                              } else if (type == "PersonalAccidentOrder") {
+                                context.mounted
+                                    ? context.router.push(PersonalInsuranceScreen(
+                                        id: id,
+                                        type:
+                                            "App\\\\Models\\\\PersonalAccidentOrder"))
+                                    : null;
+                              } else if (type == "TravelOrder") {
+                                context.mounted
+                                    ? context.router.push(TravelInsuranceScreen(
+                                        id: id,
+                                        type: "App\\\\Models\\\\TravelOrder"))
+                                    : null;
+                              } else if (type == "EducationalOrder") {
+                                context.mounted
+                                    ? context.router.push(
+                                        EducationalInsuranceScreen(
+                                            id: id,
+                                            type:
+                                                "App\\\\Models\\\\EducationalOrder"))
+                                    : null;
+                              } else if (type == "DomesticWorkerOrder") {
+                                context.mounted
+                                    ? context.router.push(DomesticInsuranceScreen(
+                                        id: id,
+                                        type:
+                                            "App\\\\Models\\\\DomesticWorkerOrder"))
+                                    : null;
+                              } else if (type == "RetirementOrder") {
+                                context.mounted
+                                    ? context.router.push(RetirementInsuranceScreen(
+                                        id: id,
+                                        type:
+                                            "App\\\\Models\\\\RetirementOrder"))
+                                    : null;
+                              }
+                            }
+                          },
+                          child: Container(
+                            color: Colors.black,
+                            width: 10,
+                            height: 60,
+                            child: Center(
+                                child: const Text(
+                              "globalsyes",
+                              style: TextStyle(color: Colors.white),
+                            ).tr()),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                        child: GestureDetector(
+                          onTap: () async {
+                            context.router.pop();
+                          },
+                          child: Container(
+                            color: Colors.black,
+                            width: 10,
+                            height: 60,
+                            child: Center(
+                                child: const Text(
+                              "globalsno",
+                              style: TextStyle(color: Colors.white),
+                            ).tr()),
+                          ),
+                        ),
+                      )
+                    ]);
+              },
+            );
+          }
+        }),
+      );
+
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        if (message.notification == null) {
+          null;
+        } else {
+          Map<String, dynamic> parsedJson = jsonDecode(message.data["Type"]);
+          String type = parsedJson["related_data"]["Type"]
+              .toString()
+              .replaceAll("App\\Models\\", "");
+          String id = parsedJson["related_data"]["ID"].toString();
+
+          if (type == "MedicalOrder") {
+            context.mounted
+                ? context.router.push(MedicalInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\MedicalOrder"))
+                : null;
+          } else if (type == "PetOrder") {
+            context.mounted
+                ? context.router.push(PetInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\PetOrder"))
+                : null;
+          } else if (type == "MotorOrder") {
+            context.mounted
+                ? context.router.push(MotorInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\MotorOrder"))
+                : null;
+          } else if (type == "PersonalAccidentOrder") {
+            context.mounted
+                ? context.router.push(PersonalInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\PersonalAccidentOrder"))
+                : null;
+          } else if (type == "TravelOrder") {
+            context.mounted
+                ? context.router.push(TravelInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\TravelOrder"))
+                : null;
+          } else if (type == "EducationalOrder") {
+            context.mounted
+                ? context.router.push(EducationalInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\EducationalOrder"))
+                : null;
+          } else if (type == "DomesticWorkerOrder") {
+            context.mounted
+                ? context.router.push(DomesticInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\DomesticWorkerOrder"))
+                : null;
+          } else if (type == "RetirementOrder") {
+            context.mounted
+                ? context.router.push(RetirementInsuranceScreen(
+                    id: id, type: "App\\\\Models\\\\RetirementOrder"))
+                : null;
+          }
+        }
+      });
+    }, const []);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -60,7 +295,7 @@ class HomeScreen extends HookConsumerWidget {
             builder: (context, Box box, child) {
               final apitoken = box.get('apitoken');
               final name = box.get("name");
-
+              print(apitoken);
               final userOrderProvider = ref.watch(GetorderProvider(apitoken));
               return RefreshIndicator(
                 onRefresh: () => ref.refresh(GetorderProvider(apitoken).future),
@@ -74,9 +309,6 @@ class HomeScreen extends HookConsumerWidget {
                         top: 30,
                         child: Row(
                           children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: Image.asset('assets/bell.png')),
                             IconButton(
                                 onPressed: () =>
                                     context.router.push(const ProfileScreen()),
@@ -188,9 +420,12 @@ class HomeScreen extends HookConsumerWidget {
                               userOrderProvider.when(
                                   data: (orders) {
                                     return orders.fold(
-                                      (l) => const Text(
-                                        "contact",
-                                      ).tr(),
+                                      (l) {
+                                        print(l);
+                                        return const Text(
+                                          "contact",
+                                        ).tr();
+                                      },
                                       (r) {
                                         UserOrdersModel orders = r;
                                         List<dynamic> firstElements = [];
@@ -286,7 +521,7 @@ class HomeScreen extends HookConsumerWidget {
                                                               firstElements[index]
                                                                           .end_date !=
                                                                       null
-                                                                  ? "Exp ${DateFormat('mm/yyyy').format(DateTime.parse(firstElements[index].end_date!))}"
+                                                                  ? "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(firstElements[index].end_date!))}"
                                                                   : "",
                                                           price: firstElements[
                                                                   index]
@@ -295,11 +530,35 @@ class HomeScreen extends HookConsumerWidget {
                                                               .toString(),
                                                           containercolor:
                                                               carcontainer,
-                                                          function: () {
-                                                            context.router.push(
-                                                                InsuranceScreen(
-                                                                    model: firstElements[
-                                                                        index]));
+                                                          function: () async {
+                                                            firstElements[index]
+                                                                    is MotorOrderModel
+                                                                ? context.router.push(
+                                                                    MotorInsuranceScreen(
+                                                                        model: firstElements[
+                                                                            index]))
+                                                                : firstElements[
+                                                                            index]
+                                                                        is EducationalOrderModel
+                                                                    ? context
+                                                                        .router
+                                                                        .push(EducationalInsuranceScreen(
+                                                                            model: firstElements[
+                                                                                index]))
+                                                                    : firstElements[index]
+                                                                            is DomesticWorkersOrderModel
+                                                                        ? context
+                                                                            .router
+                                                                            .push(DomesticInsuranceScreen(model: firstElements[index]))
+                                                                        : firstElements[index] is TravelOrderModel
+                                                                            ? context.router.push(TravelInsuranceScreen(model: firstElements[index]))
+                                                                            : firstElements[index] is PersonalAccidentOrderModel
+                                                                                ? context.router.push(PersonalInsuranceScreen(model: firstElements[index]))
+                                                                                : firstElements[index] is MedicalOrderModel
+                                                                                    ? context.router.push(MedicalInsuranceScreen(model: firstElements[index]))
+                                                                                    : firstElements[index] is PetOrderModel
+                                                                                        ? context.router.push(PetInsuranceScreen(model: firstElements[index]))
+                                                                                        : context.router.push(RetirementInsuranceScreen(model: firstElements[index]));
                                                           },
                                                           icon: firstElements[
                                                                       index]

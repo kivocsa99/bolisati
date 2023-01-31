@@ -30,7 +30,9 @@ class _DomesticBottomSheetState extends State<DomesticBottomSheet> {
   Widget build(BuildContext context) {
     final Box domestic = Hive.box("domestic");
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 2,
+      height: widget.offerModel!.addons!.isNotEmpty
+          ? MediaQuery.of(context).size.height / 2
+          : MediaQuery.of(context).size.height / 3,
       child: Padding(
         padding:
             const EdgeInsets.only(left: 30.0, right: 30, top: 40, bottom: 10),
@@ -56,7 +58,7 @@ class _DomesticBottomSheetState extends State<DomesticBottomSheet> {
                     context.locale.languageCode == "en"
                         ? widget.offerModel!.company!.name!
                         : widget.offerModel!.company!.name_ar!,
-                    style: const TextStyle(fontSize: 30),
+                    style: const TextStyle(fontSize: 14),
                   )
                 ]),
                 Row(
@@ -76,111 +78,129 @@ class _DomesticBottomSheetState extends State<DomesticBottomSheet> {
             const SizedBox(
               height: 20,
             ),
-            Align(
-              alignment: context.locale.languageCode == "en"
-                  ? Alignment.topLeft
-                  : Alignment.topRight,
-              child: const Text(
-                "Addone",
-                style: TextStyle(fontSize: 20),
-              ).tr(),
-            ),
-            SizedBox(
-              height: 150,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  AddonsModel addonsModel = widget.offerModel!.addons![index];
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                              value: checked[index],
-                              onChanged: (value) {
-                                checked[index] = value;
-                                int x = checked
-                                    .where((element) => element == true)
-                                    .toList()
-                                    .length;
+            widget.offerModel!.addons!.isNotEmpty
+                ? Align(
+                    alignment: context.locale.languageCode == "en"
+                        ? Alignment.topLeft
+                        : Alignment.topRight,
+                    child: const Text(
+                      "Addone",
+                      style: TextStyle(fontSize: 20),
+                    ).tr(),
+                  )
+                : const SizedBox.shrink(),
+            widget.offerModel!.addons!.isNotEmpty
+                ? SizedBox(
+                    height: 150,
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        AddonsModel addonsModel =
+                            widget.offerModel!.addons![index];
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                    value: checked[index],
+                                    onChanged: (value) {
+                                      checked[index] = value;
+                                      int x = checked
+                                          .where((element) => element == true)
+                                          .toList()
+                                          .length;
 
-                                String loc = "";
-                                List<String> locs = widget.offerModel!.addons!
-                                    .map((element) =>
-                                        "&addons[]=${element.id.toString()}")
-                                    .toList();
-                                for (int q = 0; q < x; q++) {
-                                  loc = loc + locs[q];
-                                }
+                                      String loc = "";
+                                      List<String> locs = widget
+                                          .offerModel!.addons!
+                                          .map((element) =>
+                                              "&addons[]=${element.id.toString()}")
+                                          .toList();
+                                      for (int q = 0; q < x; q++) {
+                                        loc = loc + locs[q];
+                                      }
 
-                                domestic.put("addon", loc);
-                                checked[index] == true
-                                    ? prices.add(addonsModel.price!.toInt())
-                                    : prices.remove(addonsModel.price!.toInt());
+                                      domestic.put("addon", loc);
+                                      checked[index] == true
+                                          ? prices
+                                              .add(addonsModel.price!.toInt())
+                                          : prices.remove(
+                                              addonsModel.price!.toInt());
 
-                                prices.isNotEmpty
-                                    ? sum = prices.fold(
-                                        0, (prev, element) => prev! + element!)
-                                    : sum = 0;
-                                controller.text =
-                                    ("${sum! + (widget.offerModel!.price!.toInt())} ${"jod".tr()}");
+                                      prices.isNotEmpty
+                                          ? sum = prices.fold(
+                                              0,
+                                              (prev, element) =>
+                                                  prev! + element!)
+                                          : sum = 0;
+                                      controller.text =
+                                          ("${sum! + (widget.offerModel!.price!.toInt())} ${"jod".tr()}");
 
-                                setState(() {});
-                              }),
-                          context.locale.languageCode == "en"
-                              ? Text(
-                                  addonsModel.addon!.name!,
-                                  style: const TextStyle(fontSize: 20),
-                                )
-                              : Text(
-                                  addonsModel.addon!.name_ar!,
-                                  style: const TextStyle(fontSize: 20),
+                                      setState(() {});
+                                    }),
+                                context.locale.languageCode == "en"
+                                    ? Text(
+                                        addonsModel.addon!.name!,
+                                        style: const TextStyle(fontSize: 14),
+                                      )
+                                    : Text(
+                                        addonsModel.addon!.name_ar!,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "${addonsModel.price} ",
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "${addonsModel.price} ",
-                            style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const Text("jod").tr()
-                        ],
-                      )
-                    ],
-                  );
-                },
-                itemCount: widget.offerModel!.addons!.length,
-              ),
-            ),
+                                const Text("jod").tr()
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                      itemCount: widget.offerModel!.addons!.length,
+                    ),
+                  )
+                : const SizedBox.shrink(),
             const SizedBox(
               height: 5,
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: const Text("total").tr(),
-            ),
-            TextField(
-              controller: controller,
-              textAlign: TextAlign.center,
-              readOnly: true,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedErrorBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red)),
-                errorBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red)),
-                contentPadding: const EdgeInsets.all(0),
-                hintText: "total".tr(),
-                hintStyle: const TextStyle(
-                  color: Colors.black26,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: const Text("total").tr(),
                 ),
-              ),
+                SizedBox(
+                  width: 200,
+                  child: TextField(
+                    controller: controller,
+                    textAlign: TextAlign.left,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedErrorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red)),
+                      errorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red)),
+                      contentPadding: const EdgeInsets.all(0),
+                      hintText: "total".tr(),
+                      hintStyle: const TextStyle(
+                        color: Colors.black26,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Align(

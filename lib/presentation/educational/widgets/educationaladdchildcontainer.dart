@@ -216,8 +216,8 @@ class YearPicker extends HookWidget {
                                     selectedYear.value =
                                         DateFormat("yyyy-MM-dd").format(val);
                                     educational.put(
-                                        "birthdate", selectedYear.value);
-                                    educational.put("age", result);
+                                        "childbirthdate", selectedYear.value);
+                                    educational.put("childage", result);
                                     controller!.text =
                                         selectedYear.value.toString();
                                   }),

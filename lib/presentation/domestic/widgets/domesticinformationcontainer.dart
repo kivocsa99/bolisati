@@ -75,6 +75,18 @@ class DomesticInformationContainer extends HookWidget {
                 label: "workerid".tr(),
                 width: double.infinity,
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: const Text(
+                    "insuranceperiod",
+                    style: TextStyle(fontSize: 20),
+                  ).tr(),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

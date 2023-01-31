@@ -427,8 +427,8 @@ class PetCountry extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pet = Hive.box("pet");
-
-    final selectedcountry = useState("");
+    final scrollcontroller = FixedExtentScrollController(initialItem: 0);
+    
     final Box setting = Hive.box("setting");
 
     return Padding(
@@ -452,34 +452,63 @@ class PetCountry extends HookConsumerWidget {
                 readOnly: true,
                 validator: RequiredValidator(errorText: "reqfield".tr()),
                 onTap: () async {
-                  final value =
+                  final country =
                       await ref.read(getcountryProvider(apitoken).future);
 
-                  value.fold(
+                  country.fold(
                       (l) => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("contact".tr()))), (r) {
+                          SnackBar(content: Text("contact".tr()))), (r) async {
                     List<PetCountryModel> cars = r;
 
                     FocusScope.of(context).unfocus();
-                    showDialog(
+                    await showCupertinoModalPopup(
                       context: context,
-                      builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: const Text("petcountrydes").tr(),
-                          children: cars.map((e) {
-                            return SimpleDialogOption(
-                              onPressed: () async {
-                                selectedcountry.value = e.name.toString();
-                                controller!.text =
-                                    selectedcountry.value.toString();
-                                pet.put("country", e.id);
-                                await context.router.pop();
-                              },
-                              child: Text(e.name!),
-                            );
-                          }).toList(),
-                        );
-                      },
+                      builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoPicker(
+                                scrollController: scrollcontroller,
+                                looping: false,
+                                itemExtent: 46,
+                                onSelectedItemChanged: (value) {
+                                  pet.put("country", cars[value].id);
+                                  controller!.text = cars[0].name!;
+                                },
+                                children: List<Widget>.generate(cars.length,
+                                    (int index) {
+                                  return Text(
+                                    cars[index].name!,
+                                    style: const TextStyle(
+                                        color: CupertinoColors.black),
+                                  );
+                                }),
+                              ),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (scrollcontroller.selectedItem == 0) {
+                                      pet.put("country", cars[0].id);
+                                      controller!.text = cars[0].name!;
+                                    }
+                                    await context.router.pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   });
                 },

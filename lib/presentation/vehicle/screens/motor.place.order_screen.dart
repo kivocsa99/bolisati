@@ -100,12 +100,12 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
 
                                 car.put(
                                     "carsstartdate",
-                                    DateFormat("yyyy-MM-dd")
+                                    DateFormat("yyyy-MM-dd HH:mm:ss")
                                         .format(val)
                                         .toString());
                                 car.put(
                                     "carenddate",
-                                    DateFormat("yyyy-MM-dd").format(
+                                    DateFormat("yyyy-MM-dd HH:mm:ss").format(
                                         val.add(const Duration(days: 365))));
                                 startController.text =
                                     selecteddate.value.toString();
@@ -180,7 +180,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             onSelectedItemChanged: (value) {
                               order.value = order.value.copyWith(
                                   fuel_type: value == 0
-                                      ? "electrical"
+                                      ? "electric"
                                       : value == 1
                                           ? "fuel"
                                           : "hybrid");
@@ -208,7 +208,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                               onPressed: () async {
                                 if (scrollcontroller.selectedItem == 0) {
                                   order.value = order.value
-                                      .copyWith(fuel_type: "electrical");
+                                      .copyWith(fuel_type: "electric");
                                   fuelcontroller.text = "electric".tr();
                                 }
                                 context.router.pop();
@@ -242,7 +242,7 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                             itemExtent: 46,
                             onSelectedItemChanged: (value) {
                               order.value = order.value.copyWith(
-                                  previous_accidents: value == 0 ? 0 : 1);
+                                  previous_accidents: value == 0 ? 1 : 0);
                               prevcontroller.text = value == 0
                                   ? "globalsyes".tr()
                                   : "globalsno".tr();
@@ -264,63 +264,68 @@ class MotorPlaceOrderScreen extends HookConsumerWidget {
                               onPressed: () async {
                                 if (prevscrollcontroller.selectedItem == 0) {
                                   order.value = order.value
-                                      .copyWith(previous_accidents: 0);
+                                      .copyWith(previous_accidents: 1);
                                   prevcontroller.text = "globalsyes".tr();
+                                  print(order.value.previous_accidents);
                                 }
+                                print(order.value.previous_accidents);
+
                                 if (prevcontroller.text == "globalsyes".tr()) {
                                   await context.router.pop();
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return SimpleDialog(
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Image.asset(
-                                                "assets/logo.png",
-                                                scale: 1.5,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              const Text(
-                                                'crashdesc',
-                                              ).tr(),
-                                            ],
-                                          ),
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40.0, right: 40.0),
-                                              child: const Text("crash").tr(),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40.0, right: 40.0),
-                                              child: GestureDetector(
-                                                onTap: () async {
-                                                  context.router.pop();
-                                                },
-                                                child: Container(
-                                                  color: Colors.black,
-                                                  width: 100,
-                                                  height: 60,
-                                                  child: Center(
-                                                      child: const Text(
-                                                    "confirm",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ).tr()),
+                                  if (context.mounted) {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return SimpleDialog(
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Image.asset(
+                                                  "assets/logo.png",
+                                                  scale: 1.5,
                                                 ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                const Text(
+                                                  'crashdesc',
+                                                ).tr(),
+                                              ],
+                                            ),
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40.0, right: 40.0),
+                                                child: const Text("crash").tr(),
                                               ),
-                                            )
-                                          ]);
-                                    },
-                                  );
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40.0, right: 40.0),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    context.router.pop();
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.black,
+                                                    width: 100,
+                                                    height: 60,
+                                                    child: Center(
+                                                        child: const Text(
+                                                      "confirm",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ).tr()),
+                                                  ),
+                                                ),
+                                              )
+                                            ]);
+                                      },
+                                    );
+                                  }
                                 }
-
-                                context.router.pop();
+                                if (context.mounted) context.router.pop();
                               },
                             ),
                           ),

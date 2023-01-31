@@ -8,7 +8,8 @@ import 'package:fpdart/fpdart.dart';
 abstract class IMotorRepository {
   Future<Either<ApiFailures, dynamic>> getOffers(
       {String? token, int? vehiclemodelid, int? estimatedcarprice});
-  //place order
+  Future<Either<ApiFailures, dynamic>> setstatus(
+      {String? token, String? status, String? orderid});
   Future<Either<ApiFailures, dynamic>> placeOrder(
       {required MotorOrderModel motororder,
       required String? token,

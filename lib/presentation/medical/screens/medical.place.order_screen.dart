@@ -569,8 +569,6 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                             setState) {
                                                           return MedicalBottomSheet(
                                                             function: () async {
-                                                              print(medical.get(
-                                                                  "addon"));
                                                               return await ref
                                                                   .read(
                                                                       medicalplaceOrderProvider)
@@ -588,8 +586,6 @@ class MedicalPlaceOrderScreen extends HookConsumerWidget {
                                                                   .then((value) =>
                                                                       value.fold(
                                                                           (l) {
-                                                                        print(
-                                                                            l);
                                                                         showDialog(
                                                                           barrierDismissible:
                                                                               false,

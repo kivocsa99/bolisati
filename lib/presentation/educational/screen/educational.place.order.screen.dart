@@ -25,6 +25,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../application/educational/use_cases/attachfile/attach.file.use.case.dart';
+import '../../../router/app_route.gr.dart';
 
 class EducationalPlaceOrderScreen extends HookConsumerWidget {
   const EducationalPlaceOrderScreen({super.key});
@@ -102,69 +103,18 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                             child: CupertinoButton(
                               child: const Text('confirm').tr(),
                               onPressed: () async {
+                                await context.router.pop();
+
                                 if (insurancescrollcontroller.selectedItem ==
                                     0) {
                                   order.value = order.value
                                       .copyWith(educational_type_id: "1");
                                   insurancecontroller.text = "monthly".tr();
+                                  await educational.put("type", 1);
                                 }
-                                await educational.put("type", 1);
                                 if (insurancecontroller.text ==
                                     "monthly".tr()) {
-                                  await context.router.pop();
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return SimpleDialog(
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Image.asset(
-                                                "assets/logo.png",
-                                                scale: 1.5,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              const Text(
-                                                'typedes',
-                                              ).tr(),
-                                            ],
-                                          ),
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40.0, right: 40.0),
-                                              child: const Text("mfee").tr(),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40.0, right: 40.0),
-                                              child: GestureDetector(
-                                                onTap: () async {
-                                                  context.router.pop();
-                                                },
-                                                child: Container(
-                                                  color: Colors.black,
-                                                  width: 100,
-                                                  height: 60,
-                                                  child: Center(
-                                                      child: const Text(
-                                                    "confirm",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ).tr()),
-                                                ),
-                                              ),
-                                            )
-                                          ]);
-                                    },
-                                  );
-                                } else {
-                                  if (insurancecontroller.text ==
-                                      "fullfee".tr()) {
-                                    await context.router.pop();
+                                  if (context.mounted) {
                                     return showDialog(
                                       context: context,
                                       builder: (context) {
@@ -190,7 +140,7 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 40.0, right: 40.0),
-                                                child: const Text("ffee").tr(),
+                                                child: const Text("mfee").tr(),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
@@ -216,9 +166,69 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                       },
                                     );
                                   }
+                                } else {
+                                  if (insurancecontroller.text ==
+                                      "fullfee".tr()) {
+                                    if (context.mounted) {
+                                      return showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return SimpleDialog(
+                                              title: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/logo.png",
+                                                    scale: 1.5,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  const Text(
+                                                    'typedes',
+                                                  ).tr(),
+                                                ],
+                                              ),
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 40.0,
+                                                          right: 40.0),
+                                                  child:
+                                                      const Text("ffee").tr(),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 40.0,
+                                                          right: 40.0),
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      context.router.pop();
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.black,
+                                                      width: 100,
+                                                      height: 60,
+                                                      child: Center(
+                                                          child: const Text(
+                                                        "confirm",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ).tr()),
+                                                    ),
+                                                  ),
+                                                )
+                                              ]);
+                                        },
+                                      );
+                                    }
+                                  }
                                 }
-
-                                context.router.pop();
                               },
                             ),
                           ),
@@ -303,7 +313,7 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                   ));
         },
         gendercontroller: genderController,
-        national: (value) =>
+        national: (value) => childorder.value =
             childorder.value.copyWith(national_id_number: value),
         nationalController: nationalController,
         yearcontroller: childyearController,
@@ -329,46 +339,36 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.image),
                           onPressed: () async {
-                            if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
+                            if (imageCount.value < 4) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                imageCount.value++;
 
-                                  print(pickedFile.path);
-                                  _images.value.add(pickedFile.path);
-                                  print(_images);
-                                }
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.camera),
                           onPressed: () async {
-                            if (imageCount.value < 2) {
-                              for (int i = imageCount.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedFile != null) {
-                                  imageCount.value++;
-                                  print(pickedFile.path);
-                                  _images.value.add(pickedFile.path);
-                                  print(_images);
-                                }
+                            if (imageCount.value < 4) {
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (pickedFile != null) {
+                                imageCount.value++;
+                                _images.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -393,45 +393,35 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                           icon: const Icon(FontAwesomeIcons.image),
                           onPressed: () async {
                             if (imageCount1.value < 2) {
-                              for (int i = imageCount1.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  imageCount1.value++;
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                imageCount1.value++;
 
-                                  print(pickedFile.path);
-                                  _images1.value.add(pickedFile.path);
-                                  print(_images1);
-                                }
+                                _images1.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                         IconButton(
                           icon: const Icon(FontAwesomeIcons.camera),
                           onPressed: () async {
                             if (imageCount1.value < 2) {
-                              for (int i = imageCount1.value; i < 2; i++) {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedFile != null) {
-                                  imageCount1.value++;
-                                  print(pickedFile.path);
-                                  _images1.value.add(pickedFile.path);
-                                  print(_images1);
-                                }
+                              final pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (pickedFile != null) {
+                                imageCount1.value++;
+                                _images1.value.add(pickedFile.path);
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: const Text("contact").tr()));
+                                  SnackBar(content: const Text("picdes").tr()));
                             }
-                            context.router.pop();
+                            if (context.mounted) context.router.pop();
                           },
                         ),
                       ]),
@@ -583,15 +573,21 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                               if (childformkey
                                                   .value.currentState!
                                                   .validate()) {
-                                                childorder.value =
-                                                    childorder.value.copyWith(
-                                                        educational_order_id:
-                                                            order.value.id
-                                                                .toString());
-                                                childorder.value =
-                                                    childorder.value.copyWith(
-                                                        birthdate: educational
-                                                            .get("birthdate"));
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 500),
+                                                    (() {
+                                                  childorder.value =
+                                                      childorder.value.copyWith(
+                                                          educational_order_id:
+                                                              order.value.id
+                                                                  .toString());
+                                                  childorder.value =
+                                                      childorder.value.copyWith(
+                                                          birthdate:
+                                                              educational.get(
+                                                                  "childbirthdate"));
+                                                }));
                                                 ref
                                                     .read(
                                                         educationaladdchildOrderProvider)
@@ -693,7 +689,7 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                             }));
                                               }
                                             } else if (index.value == 2) {
-                                              if (_images.value.length == 2 &&
+                                              if (_images.value.length >= 2 &&
                                                   _images1.value.isNotEmpty) {
                                                 final List<String> hello =
                                                     _images.value +
@@ -718,22 +714,78 @@ class EducationalPlaceOrderScreen extends HookConsumerWidget {
                                                                           content:
                                                                               const Text("contact").tr())),
                                                               (r) async {
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(SnackBar(
-                                                                    content: const Text(
-                                                                            "orderconfirm")
-                                                                        .tr()));
-                                                            context.router
-                                                                .pop();
+                                                            if (element ==
+                                                                _images.value
+                                                                    .last) {
+                                                              if (context
+                                                                  .mounted) {
+                                                                showDialog(
+                                                                  barrierDismissible:
+                                                                      false,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return SimpleDialog(
+                                                                        title:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Image.asset(
+                                                                              "assets/logo.png",
+                                                                              scale: 1.5,
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              width: 10,
+                                                                            ),
+                                                                            const Text(
+                                                                              'orderdes',
+                                                                            ).tr(),
+                                                                          ],
+                                                                        ),
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                            child:
+                                                                                const Text("orderconfirm").tr(),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(left: 40.0, right: 40.0),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                              onTap: () async {
+                                                                                await context.router.replaceAll([
+                                                                                  const HomeScreen()
+                                                                                ]);
+                                                                              },
+                                                                              child: Container(
+                                                                                color: Colors.black,
+                                                                                width: 100,
+                                                                                height: 60,
+                                                                                child: Center(
+                                                                                    child: const Text(
+                                                                                  "confirm",
+                                                                                  style: TextStyle(color: Colors.white),
+                                                                                ).tr()),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        ]);
+                                                                  },
+                                                                );
+                                                              }
+                                                            }
                                                           }));
                                                 }
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "picupload".tr())));
                                               }
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                          "picupload".tr())));
                                             }
                                           },
                                           child: Container(

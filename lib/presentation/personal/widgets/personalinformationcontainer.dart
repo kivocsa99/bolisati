@@ -65,7 +65,7 @@ class PersonalInformationContainer extends HookWidget {
                 width: double.infinity,
               ),
               Ocuupation(
-                brandcontroller: ocuupationcontroller,
+                controller: ocuupationcontroller,
                 width: double.infinity,
               ),
               YearPicker(
@@ -80,6 +80,18 @@ class PersonalInformationContainer extends HookWidget {
                 onchanged: value,
                 label: "insuranceamount".tr(),
                 width: double.infinity,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: context.locale.languageCode == "ar"
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: const Text(
+                    "insuranceperiod",
+                    style: TextStyle(fontSize: 20),
+                  ).tr(),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -215,11 +227,10 @@ class YearPicker extends HookWidget {
                               child: CupertinoDatePicker(
                                   dateOrder: DatePickerDateOrder.dmy,
                                   mode: CupertinoDatePickerMode.date,
-                                  initialDateTime: DateTime.now()
-                                      .add(const Duration(hours: 1)),
+                                  initialDateTime: DateTime.now(),
                                   minimumDate: DateTime(1990),
                                   maximumDate: DateTime.now()
-                                      .add(const Duration(days: 356)),
+                                      .add(const Duration(hours: 1)),
                                   onDateTimeChanged: (val) {
                                     String picked = DateFormat.y().format(val);
                                     String now =
@@ -409,17 +420,18 @@ class EndDate extends HookWidget {
 class Ocuupation extends HookConsumerWidget {
   final double? width;
 
-  final TextEditingController? brandcontroller;
+  final TextEditingController? controller;
 
   const Ocuupation({
     super.key,
     this.width,
-    this.brandcontroller,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final personal = Hive.box("personal");
+    final scrollcontroller = FixedExtentScrollController(initialItem: 0);
 
     final selectedcountry = useState("");
     final Box setting = Hive.box("setting");
@@ -449,34 +461,67 @@ class Ocuupation extends HookConsumerWidget {
                       await ref.read(getoccupationProvider(apitoken).future);
                   value.fold(
                       (l) => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("contact".tr()))), (r) {
+                          SnackBar(content: Text("contact".tr()))), (r) async {
                     List<PersonalOccupationModel> cars = r;
 
                     FocusScope.of(context).unfocus();
-                    showDialog(
+                    await showCupertinoModalPopup(
                       context: context,
-                      builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: const Text('selectocc').tr(),
-                          children: cars.map((e) {
-                            return SimpleDialogOption(
-                              onPressed: () async {
-                                selectedcountry.value =
+                      builder: (_) => Container(
+                        height: 250,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 180,
+                              child: CupertinoPicker(
+                                scrollController: scrollcontroller,
+                                looping: false,
+                                itemExtent: 46,
+                                onSelectedItemChanged: (value) {
+                                  personal.put("typeid", cars[value].id);
+                                  controller!.text =
+                                      context.locale.languageCode == "ar"
+                                          ? cars[value].name_ar.toString()
+                                          : cars[value].name.toString();
+                                  ;
+                                },
+                                children: List<Widget>.generate(cars.length,
+                                    (int index) {
+                                  return Text(
                                     context.locale.languageCode == "ar"
-                                        ? e.name_ar.toString()
-                                        : e.name.toString();
-                                brandcontroller!.text =
-                                    selectedcountry.value.toString();
-                                personal.put("typeid", e.id);
-                                await context.router.pop();
-                              },
-                              child: context.locale.languageCode == "ar"
-                                  ? Text(e.name_ar!)
-                                  : Text(e.name!),
-                            );
-                          }).toList(),
-                        );
-                      },
+                                        ? cars[index].name_ar.toString()
+                                        : cars[index].name.toString(),
+                                    style: const TextStyle(
+                                        color: CupertinoColors.black),
+                                  );
+                                }),
+                              ),
+                            ),
+
+                            // Close the modal
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 70,
+                                child: CupertinoButton(
+                                  child: const Text('confirm').tr(),
+                                  onPressed: () async {
+                                    if (scrollcontroller.selectedItem == 0) {
+                                      personal.put("typeid", cars[0].id);
+                                      controller!.text =
+                                          context.locale.languageCode == "ar"
+                                              ? cars[0].name_ar.toString()
+                                              : cars[0].name.toString();
+                                    }
+                                    await context.router.pop();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   });
                 },
@@ -497,7 +542,7 @@ class Ocuupation extends HookConsumerWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                controller: brandcontroller,
+                controller: controller,
               );
             },
           ),

@@ -12,7 +12,6 @@ import 'package:bolisati/presentation/widgets/animated_landing_container.dart';
 import 'package:bolisati/presentation/widgets/animated_logo.dart';
 import 'package:bolisati/presentation/widgets/animated_video.dart';
 import 'package:bolisati/router/app_route.gr.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +60,7 @@ class LandingScreen extends HookConsumerWidget {
     useFuture(myfuture);
     List<Widget> registercases = [
       PhoneNumberField(
+        forget: true,
         validator: MultiValidator([
           // PatternValidator((r'^(?!0)\d+$'),
           //     errorText: "Please Provide a correct phonenumber"),
@@ -72,6 +72,21 @@ class LandingScreen extends HookConsumerWidget {
         key: const Key("0"),
       ),
       OtpVerfication(
+        function: () async {
+          await FirebaseAuth.instance.verifyPhoneNumber(
+              phoneNumber: "+962${user.value.phone!.substring(1)}",
+              verificationCompleted: (verificationCompleted) {},
+              verificationFailed: (verificationFailed) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: const Text("contact").tr()));
+              },
+              codeSent: (value, codeSent) async {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: const Text("contact").tr()));
+                await setting.put("firebase", value);
+              },
+              codeAutoRetrievalTimeout: (codeAutoRetrievalTimeout) {});
+        },
         validator: MultiValidator([
           RequiredValidator(errorText: "reqfield".tr()),
           LengthRangeValidator(
@@ -176,13 +191,13 @@ class LandingScreen extends HookConsumerWidget {
                       verificationId: setting.get("firebase"),
                       smsCode: otpcontroller.text);
                   try {
-                    await FirebaseAuth.instance.signInWithCredential(phone);
-                    await FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(user.value.phone!)
-                        .set({"phone": user.value.phone!});
-                    final isLaseIndex = index.value == registercases.length - 1;
-                    index.value = isLaseIndex ? 0 : index.value + 1;
+                    await FirebaseAuth.instance
+                        .signInWithCredential(phone)
+                        .then((value) {
+                      final isLaseIndex =
+                          index.value == registercases.length - 1;
+                      index.value = isLaseIndex ? 0 : index.value + 1;
+                    });
                   } catch (error) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: const Text("contact").tr()));

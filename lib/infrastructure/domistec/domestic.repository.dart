@@ -4,6 +4,7 @@ import 'package:bolisati/domain/api/domestic/contracts/i.domestic.repository.dar
 import 'package:bolisati/domain/api/domestic/model/domesticdonemodel.dart';
 import 'package:bolisati/domain/api/domestic/model/domesticoffermodel.dart';
 import 'package:bolisati/domain/api/failures/api.failures.dart';
+import 'package:bolisati/domain/api/orders/domesticworkerorders/domesticworkersmodel.dart';
 
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
@@ -88,11 +89,13 @@ class DomesticRepository implements IDomesticRepository {
   Future<Either<ApiFailures, dynamic>> placeOrder(
       {required String token,
       required String? addons,
-      required DomesticDoneModel model}) async {
+      required DomesticWorkersOrderModel model}) async {
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
+      print("ff");
       final result = await dio.get(
-          "https://bolisati.bitsblend.org/api/V1/DomesticWorker/PlaceOrder?domestic_worker_insurance_id=${model.total}&name=${model.name}&start_date=${model.start_date}&end_date=${model.end_date}&national_id_number=${int.parse(model.national_id_number!)}&worker_name=${model.worker_name}$addons&api_token=$token");
+          "https://bolisati.bitsblend.org/api/V1/DomesticWorker/PlaceOrder?domestic_worker_insurance_id=${model.total}&name=${model.name}&start_date=${model.start_date}&end_date=${model.end_date}&national_id_number=${model.national_id_number!}&worker_name=${model.worker_name}$addons&api_token=$token");
+      print(result.realUri);
       if (result.data["AZSVR"] == "SUCCESS") {
         DomesticDoneModel model =
             DomesticDoneModel.fromJson(result.data["OrderDetails"]);
@@ -101,6 +104,8 @@ class DomesticRepository implements IDomesticRepository {
         return const ApiFailures.internalError();
       }
     }, (error, stackTrace) {
+      print(error);
+
       if (error is DioError) {
         switch (error.type) {
           case DioErrorType.connectTimeout:

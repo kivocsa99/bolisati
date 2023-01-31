@@ -13,3 +13,10 @@ Future<Either<ApiFailures, dynamic>> getorder(
   final userprovider = ref.watch(userProvider);
   return userprovider.getorders(token: token);
 }
+
+@riverpod
+Future<Either<ApiFailures, dynamic>> getnew(
+    GetnewRef ref, String token, String id, String model) async {
+  final userprovider = ref.watch(userProvider);
+  return userprovider.neworder(token: token, id: id, model: model);
+}

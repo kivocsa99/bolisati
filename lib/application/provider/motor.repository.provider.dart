@@ -14,5 +14,3 @@ Future<Either<ApiFailures, dynamic>> getcars(
   final userprovider = ref.watch(motorrepoprovider);
   return userprovider.getcars(apitoken: token);
 }
-
-

@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
+import 'package:bolisati/domain/api/orders/petorders/petordermodel.dart';
 import 'package:bolisati/domain/api/pet/contracts/i.pet.repository.dart';
 import 'package:bolisati/domain/api/pet/model/petcountrymodel.dart';
 import 'package:bolisati/domain/api/pet/model/petoffermodel.dart';
@@ -96,7 +97,7 @@ class PetRepository implements IPetRepository {
 
   @override
   Future<Either<ApiFailures, dynamic>> placeOrder(
-      {required PetOrderDoneModel model,
+      {required PetOrderModel model,
       required String? token,
       required String? addons}) async {
     var dio = Dio();
@@ -104,7 +105,7 @@ class PetRepository implements IPetRepository {
 
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          """https://bolisati.bitsblend.org/api/V1/Pet/PlaceOrder?pet_insurance_id=${int.parse(model.pet_insurance_id!)}&pet_type_id=${int.parse(model.pet_type_id!)}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&gender_id=${int.parse(model.gender_id!)}&country_id=${int.parse(model.country_id!)}$addons&api_token=$token""");
+          """https://bolisati.bitsblend.org/api/V1/Pet/PlaceOrder?pet_insurance_id=${model.pet_insurance_id!}&pet_type_id=${model.pet_type_id!}&name=${model.name}&birthdate=${model.birthdate}&start_date=${model.start_date}&end_date=${model.end_date}&gender_id=${model.gender_id!}&country_id=${model.country_id!}$addons&api_token=$token""");
 
       if (result.data["AZSVR"] == "SUCCESS") {
         PetOrderDoneModel model =

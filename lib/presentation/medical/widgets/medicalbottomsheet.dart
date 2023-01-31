@@ -118,9 +118,8 @@ class _MedicalBottomSheetState extends State<MedicalBottomSheet> {
                                       for (int q = 0; q < x; q++) {
                                         loc = loc + locs[q];
                                       }
-
+                                      print(loc);
                                       medical.put("addon", loc);
-                                      print(medical.get("addon"));
                                       checked[index] == true
                                           ? prices
                                               .add(addonsModel.price!.toInt())

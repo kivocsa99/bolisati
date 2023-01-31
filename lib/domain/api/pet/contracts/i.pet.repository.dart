@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bolisati/domain/api/failures/api.failures.dart';
+import 'package:bolisati/domain/api/orders/petorders/petordermodel.dart';
 import 'package:bolisati/domain/api/pet/model/petorderdonemodel.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -10,7 +11,7 @@ abstract class IPetRepository {
   //place order
   Future<Either<ApiFailures, dynamic>> placeOrder({
     required String? addons,
-    required PetOrderDoneModel model,
+    required PetOrderModel model,
     required String? token,
   });
   Future<Either<ApiFailures, dynamic>> attachFile(

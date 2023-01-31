@@ -8,13 +8,10 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../application/auth/ali_api/forget_paswword/forget.password.use_case.dart';
-import '../../../application/auth/ali_api/use_cases/sign_in_with_email_and_password/sign_in_with_email_and_password.input.dart';
-import '../../../application/auth/ali_api/use_cases/sign_in_with_email_and_password/sign_in_with_email_and_password.use_case.dart';
 import '../../../domain/api/failures/api.failures.dart';
 import '../../../domain/api/user/model/usermodel.dart';
 import '../../../router/app_route.gr.dart';
 import '../widgets/PhoneNumber.dart';
-import '../widgets/password.dart';
 
 class ForgetPasswordScreen extends HookConsumerWidget {
   const ForgetPasswordScreen({super.key});
@@ -23,13 +20,12 @@ class ForgetPasswordScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = useState(const UserModel());
 
-    final passswordController = useTextEditingController();
     final phoneformkey = useState(GlobalKey<FormState>());
-    final passformkey = useState(GlobalKey<FormState>());
     final emailformkey = useState(GlobalKey<FormState>());
 
     List<Widget> cases = [
       PhoneNumberField(
+        forget: false,
         validator: MultiValidator([
           RequiredValidator(errorText: "reqfield".tr()),
           LengthRangeValidator(min: 10, max: 10, errorText: "phonereq".tr())
@@ -111,12 +107,11 @@ class ForgetPasswordScreen extends HookConsumerWidget {
                             index.value = isLaseIndex ? 0 : index.value + 1;
                           }
                         } else if (index.value == 1) {
-                          if (passformkey.value.currentState!.validate()) {
-                            print(user.value.phone);
+                          if (emailformkey.value.currentState!.validate()) {
                             ref
                                 .read(forgetPasswordUseCaseprovider)
                                 .execute(ForgetPasswordUseCaseInput(
-                                    email: user.value.phone,
+                                    email: user.value.email,
                                     phone: user.value.phone))
                                 .then((value) => value.fold(
                                         (l) => ScaffoldMessenger.of(context)
@@ -125,14 +120,21 @@ class ForgetPasswordScreen extends HookConsumerWidget {
                                                     .tr())), (r) {
                                       print(r);
                                       if (r == const ApiFailures.authFailed()) {
+                                        print(r);
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                                 content:
                                                     const Text("logincheck")
                                                         .tr()));
                                       } else {
-                                        context.router
-                                            .replaceAll([const LoginScreen()]);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    const Text("pass").tr()));
+                                        if (context.mounted) {
+                                          context.router.replaceAll(
+                                              [const LoginScreen()]);
+                                        }
                                       }
                                     }));
                           }

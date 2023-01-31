@@ -16,11 +16,12 @@ class ApiAuthFacade implements IApiAuthFacade {
   static const String inValidEmail = "user-not-found";
   static const String inUse = "email-already-in-use";
   static const String servererror = "server-error";
+  late Box setting;
+
   //sign in return
   @override
   Future<Either<ApiFailures, dynamic>> signInWithEmailAndPassword(
       {required String email, required String password}) {
-    late Box setting;
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
@@ -61,13 +62,16 @@ class ApiAuthFacade implements IApiAuthFacade {
 
   @override
   Future<void> signOut(BuildContext context) async {
-    return await _auth.signOut();
+    setting = Hive.box('setting');
+
+    return await Future.delayed(const Duration(milliseconds: 500), (() async {
+      await setting.clear();
+    }));
   }
 
   @override
   Future<Either<ApiFailures, dynamic>> signUpWithCredintials(
       {required UserModel user, required String password}) async {
-    late Box setting;
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
@@ -134,7 +138,6 @@ class ApiAuthFacade implements IApiAuthFacade {
     required String value,
     required String token,
   }) async {
-    late Box setting;
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
@@ -178,6 +181,7 @@ class ApiAuthFacade implements IApiAuthFacade {
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
           "https://bolisati.bitsblend.org/api/V1/Users/SendNewPassword?email=$email&phone=$phone");
+      print(result.data);
       if (result.data["AZSVR"] == "SUCCESS") {
         return result.data;
       } else {
@@ -208,9 +212,12 @@ class ApiAuthFacade implements IApiAuthFacade {
     var dio = Dio();
     final result = TaskEither<ApiFailures, dynamic>.tryCatch(() async {
       final result = await dio.get(
-          "https://bolisati.bitsblend.org/api/V1/Users/Deleteaccount?api_token=$token");
+          "https://bolisati.bitsblend.org/api/V1/Users/DeleteMyAccount?api_token=$token");
       if (result.data["AZSVR"] == "SUCCESS") {
-        return result.data;
+        return await Future.delayed(const Duration(milliseconds: 500),
+            (() async {
+          await setting.clear();
+        }));
       } else {
         return const ApiFailures.authFailed();
       }
