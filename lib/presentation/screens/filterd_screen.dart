@@ -81,209 +81,272 @@ class FilteredScreen extends HookWidget {
                   height: MediaQuery.of(context).size.height,
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        ExpansionTile(
-                          title: const Text("vehicle").tr(),
-                          children: [
-                            SizedBox(
-                              height: 300,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: motor!.isEmpty ? 1 : motor!.length,
-                                itemBuilder: (context, index) {
-                                  MotorOrderModel? e =
-                                      motor!.isEmpty ? null : motor![index];
+                    child: motor!.isEmpty &&
+                            medical!.isEmpty &&
+                            pet!.isEmpty &&
+                            domestic!.isEmpty &&
+                            travel!.isEmpty &&
+                            personal!.isEmpty
+                        ? Column(
+                            children: [
+                              Center(
+                                child: const Text("noorder").tr(),
+                              )
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              motor!.isEmpty
+                                  ? ExpansionTile(
+                                      title: const Text("vehicle").tr(),
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: motor!.isEmpty
+                                                ? 1
+                                                : motor!.length,
+                                            itemBuilder: (context, index) {
+                                              MotorOrderModel? e =
+                                                  motor!.isEmpty
+                                                      ? null
+                                                      : motor![index];
 
-                                  return motor!.isEmpty
-                                      ? Center(
-                                          child: const Text("noorder").tr())
-                                      : HorizantalUesrInsuranceContainer(
-                                          insuranceName: e!.name,
-                                          insuranceDescreption:
-                                              "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
-                                          price: e.status!.name!,
-                                          containercolor: carcontainer,
-                                          function: () {
-                                            context.router.push(
-                                                MotorInsuranceScreen(model: e));
-                                          },
-                                          icon: "assets/car.svg",
-                                        );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: const Text("medical").tr(),
-                          children: [
-                            SizedBox(
-                              height: 300,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount:
-                                    medical!.isEmpty ? 1 : medical!.length,
-                                itemBuilder: (context, index) {
-                                  MedicalOrderModel? e =
-                                      medical!.isEmpty ? null : medical![index];
+                                              return motor!.isEmpty
+                                                  ? Center(
+                                                      child:
+                                                          const Text("noorder")
+                                                              .tr())
+                                                  : HorizantalUesrInsuranceContainer(
+                                                      insuranceName: e!.name,
+                                                      insuranceDescreption:
+                                                          "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
+                                                      price: e.status!.name!,
+                                                      containercolor:
+                                                          carcontainer,
+                                                      function: () {
+                                                        context.router.push(
+                                                            MotorInsuranceScreen(
+                                                                model: e));
+                                                      },
+                                                      icon: "assets/car.svg",
+                                                    );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox.shrink(),
+                              medical!.isEmpty
+                                  ? ExpansionTile(
+                                      title: const Text("medical").tr(),
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: medical!.isEmpty
+                                                ? 1
+                                                : medical!.length,
+                                            itemBuilder: (context, index) {
+                                              MedicalOrderModel? e =
+                                                  medical!.isEmpty
+                                                      ? null
+                                                      : medical![index];
 
-                                  return medical!.isEmpty
-                                      ? Center(
-                                          child: const Text("noorder").tr())
-                                      : HorizantalUesrInsuranceContainer(
-                                          insuranceName: e!.name,
-                                          insuranceDescreption:
-                                              "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
-                                          price: e.status!.name!,
-                                          containercolor: carcontainer,
-                                          function: () {
-                                            context.router.push(
-                                                MedicalInsuranceScreen(
-                                                    model: e));
-                                          },
-                                          icon: "assets/medical.svg",
-                                        );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: const Text("travel").tr(),
-                          children: [
-                            SizedBox(
-                              height: 300,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: travel!.isEmpty ? 1 : travel!.length,
-                                itemBuilder: (context, index) {
-                                  TravelOrderModel? e =
-                                      travel!.isEmpty ? null : travel![index];
-                                  return travel!.isEmpty
-                                      ? Center(
-                                          child: const Text("noorder").tr())
-                                      : HorizantalUesrInsuranceContainer(
-                                          insuranceName: e!.name,
-                                          insuranceDescreption:
-                                              "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
-                                          price: e.status!.name!,
-                                          containercolor: carcontainer,
-                                          function: () {
-                                            context.router.push(
-                                                TravelInsuranceScreen(
-                                                    model: e));
-                                          },
-                                          icon: "assets/travel.svg",
-                                        );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: const Text("pet").tr(),
-                          children: [
-                            SizedBox(
-                              height: 300,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: pet!.isEmpty ? 1 : pet!.length,
-                                itemBuilder: (context, index) {
-                                  PetOrderModel? e =
-                                      pet!.isEmpty ? null : pet![index];
-                                  return pet!.isEmpty
-                                      ? Center(
-                                          child: const Text("noorder").tr())
-                                      : HorizantalUesrInsuranceContainer(
-                                          insuranceName: e!.name,
-                                          insuranceDescreption:
-                                              "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
-                                          price: e.status!.name,
-                                          containercolor: carcontainer,
-                                          function: () {
-                                            context.router.push(
-                                                PetInsuranceScreen(model: e));
-                                          },
-                                          icon: "assets/pet.svg",
-                                        );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: const Text("domestic").tr(),
-                          children: [
-                            SizedBox(
-                              height: 300,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount:
-                                    domestic!.isEmpty ? 1 : domestic!.length,
-                                itemBuilder: (context, index) {
-                                  DomesticWorkersOrderModel? e =
-                                      domestic!.isEmpty
-                                          ? null
-                                          : domestic![index];
-                                  return domestic!.isEmpty
-                                      ? Center(
-                                          child: const Text("noorder").tr())
-                                      : HorizantalUesrInsuranceContainer(
-                                          insuranceName: e!.name,
-                                          insuranceDescreption:
-                                              "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
-                                          price: e.status!.name,
-                                          containercolor: carcontainer,
-                                          function: () {
-                                            context.router.push(
-                                                DomesticInsuranceScreen(
-                                                    model: e));
-                                          },
-                                          icon: "assets/domestic.svg",
-                                        );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: const Text("personal").tr(),
-                          children: [
-                            SizedBox(
-                              height: 300,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount:
-                                    personal!.isEmpty ? 1 : personal!.length,
-                                itemBuilder: (context, index) {
-                                  PersonalAccidentOrderModel? e =
-                                      personal!.isEmpty
-                                          ? null
-                                          : personal![index];
-                                  return personal!.isEmpty
-                                      ? Center(
-                                          child: const Text("noorder").tr())
-                                      : HorizantalUesrInsuranceContainer(
-                                          insuranceName: e!.name,
-                                          insuranceDescreption:
-                                              "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
-                                          price: e.status!.name,
-                                          containercolor: carcontainer,
-                                          function: () {
-                                            context.router.push(
-                                                PersonalInsuranceScreen(
-                                                    model: e));
-                                          },
-                                          icon: "assets/personal.svg",
-                                        );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                                              return medical!.isEmpty
+                                                  ? Center(
+                                                      child:
+                                                          const Text("noorder")
+                                                              .tr())
+                                                  : HorizantalUesrInsuranceContainer(
+                                                      insuranceName: e!.name,
+                                                      insuranceDescreption:
+                                                          "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
+                                                      price: e.status!.name!,
+                                                      containercolor:
+                                                          carcontainer,
+                                                      function: () {
+                                                        context.router.push(
+                                                            MedicalInsuranceScreen(
+                                                                model: e));
+                                                      },
+                                                      icon:
+                                                          "assets/medical.svg",
+                                                    );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox.shrink(),
+                              travel!.isEmpty
+                                  ? ExpansionTile(
+                                      title: const Text("travel").tr(),
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: travel!.isEmpty
+                                                ? 1
+                                                : travel!.length,
+                                            itemBuilder: (context, index) {
+                                              TravelOrderModel? e =
+                                                  travel!.isEmpty
+                                                      ? null
+                                                      : travel![index];
+                                              return travel!.isEmpty
+                                                  ? Center(
+                                                      child:
+                                                          const Text("noorder")
+                                                              .tr())
+                                                  : HorizantalUesrInsuranceContainer(
+                                                      insuranceName: e!.name,
+                                                      insuranceDescreption:
+                                                          "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
+                                                      price: e.status!.name!,
+                                                      containercolor:
+                                                          carcontainer,
+                                                      function: () {
+                                                        context.router.push(
+                                                            TravelInsuranceScreen(
+                                                                model: e));
+                                                      },
+                                                      icon: "assets/travel.svg",
+                                                    );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox.shrink(),
+                              pet!.isEmpty
+                                  ? ExpansionTile(
+                                      title: const Text("pet").tr(),
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount:
+                                                pet!.isEmpty ? 1 : pet!.length,
+                                            itemBuilder: (context, index) {
+                                              PetOrderModel? e = pet!.isEmpty
+                                                  ? null
+                                                  : pet![index];
+                                              return pet!.isEmpty
+                                                  ? Center(
+                                                      child:
+                                                          const Text("noorder")
+                                                              .tr())
+                                                  : HorizantalUesrInsuranceContainer(
+                                                      insuranceName: e!.name,
+                                                      insuranceDescreption:
+                                                          "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
+                                                      price: e.status!.name,
+                                                      containercolor:
+                                                          carcontainer,
+                                                      function: () {
+                                                        context.router.push(
+                                                            PetInsuranceScreen(
+                                                                model: e));
+                                                      },
+                                                      icon: "assets/pet.svg",
+                                                    );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox.shrink(),
+                              domestic!.isEmpty
+                                  ? ExpansionTile(
+                                      title: const Text("domestic").tr(),
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: domestic!.isEmpty
+                                                ? 1
+                                                : domestic!.length,
+                                            itemBuilder: (context, index) {
+                                              DomesticWorkersOrderModel? e =
+                                                  domestic!.isEmpty
+                                                      ? null
+                                                      : domestic![index];
+                                              return domestic!.isEmpty
+                                                  ? Center(
+                                                      child:
+                                                          const Text("noorder")
+                                                              .tr())
+                                                  : HorizantalUesrInsuranceContainer(
+                                                      insuranceName: e!.name,
+                                                      insuranceDescreption:
+                                                          "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
+                                                      price: e.status!.name,
+                                                      containercolor:
+                                                          carcontainer,
+                                                      function: () {
+                                                        context.router.push(
+                                                            DomesticInsuranceScreen(
+                                                                model: e));
+                                                      },
+                                                      icon:
+                                                          "assets/domestic.svg",
+                                                    );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox.shrink(),
+                              personal!.isEmpty
+                                  ? ExpansionTile(
+                                      title: const Text("personal").tr(),
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: personal!.isEmpty
+                                                ? 1
+                                                : personal!.length,
+                                            itemBuilder: (context, index) {
+                                              PersonalAccidentOrderModel? e =
+                                                  personal!.isEmpty
+                                                      ? null
+                                                      : personal![index];
+                                              return personal!.isEmpty
+                                                  ? Center(
+                                                      child:
+                                                          const Text("noorder")
+                                                              .tr())
+                                                  : HorizantalUesrInsuranceContainer(
+                                                      insuranceName: e!.name,
+                                                      insuranceDescreption:
+                                                          "Exp ${DateFormat('MM/yyyy').format(DateTime.parse(e.end_date!))}",
+                                                      price: e.status!.name,
+                                                      containercolor:
+                                                          carcontainer,
+                                                      function: () {
+                                                        context.router.push(
+                                                            PersonalInsuranceScreen(
+                                                                model: e));
+                                                      },
+                                                      icon:
+                                                          "assets/personal.svg",
+                                                    );
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox.shrink(),
+                            ],
+                          ),
                   ),
                 ),
               ),
